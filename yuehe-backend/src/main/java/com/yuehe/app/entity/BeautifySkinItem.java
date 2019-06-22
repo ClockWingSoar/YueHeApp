@@ -1,9 +1,16 @@
 package com.yuehe.app.entity;
 import java.io.Serializable;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
 /**
  * BeautifySkinItem entity. @author Soveran Zhong
  */
+@Entity
+@Table(name = "beautifyskinitem")
 public class BeautifySkinItem implements Serializable{
 	
 
@@ -13,6 +20,8 @@ public class BeautifySkinItem implements Serializable{
 	 * 
 	 */
 	private static final long serialVersionUID = -6638046999127630014L;
+	 @Id
+//	 @GeneratedValue(strategy = GenerationType.AUTO)
 	private String id;
 	private String name;
 	private int price;
@@ -54,6 +63,11 @@ public class BeautifySkinItem implements Serializable{
 	}
 	public void setDescription(String description) {
 		this.description = description;
+	}
+	@Override
+	public String toString() {
+		return "BeautifySkinItem [id=" + id + ", name=" + name + ", price=" + price + ", description=" + description
+				+ "]";
 	}
 
 
