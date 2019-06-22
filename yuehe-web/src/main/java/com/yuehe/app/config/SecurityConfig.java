@@ -45,29 +45,29 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity httpSecurity) throws Exception {
 		// 关闭X-Frame-Options
-//		httpSecurity.formLogin()
-//           .and()
-//           .logout()
-//           .permitAll()
-//           .and()
-//           .authorizeRequests()
-//               .antMatchers("/**").hasRole("ADMIN");
+		httpSecurity.formLogin()
+           .and()
+           .logout()
+           .permitAll()
+           .and()
+           .authorizeRequests()
+               .antMatchers("/**").hasRole("ADMIN");
                //.antMatchers("/user/**").hasRole("USER");
 //		httpSecurity.authorizeRequests().antMatchers("/", "/home").permitAll().anyRequest().authenticated().and()
 //				.formLogin().loginPage("/login").defaultSuccessUrl("/").failureUrl("/login?error").permitAll().and()
 //				.logout().permitAll();
-		  httpSecurity.authorizeRequests()
-          .antMatchers("/","/home", "/css/**", "/js/**", "/images/**").permitAll()
-          .antMatchers("/user/**").hasAnyRole("USER", "ADMIN")
-          .antMatchers("/admin/**").hasRole("ADMIN")
-          .anyRequest()
-          .authenticated()
-          .and()
-          .formLogin()
-          .loginPage("/")
-          .loginProcessingUrl("/login")
-          .failureUrl("/?login_error")
-          .successHandler(authenticationSuccessHandler);
+//		  httpSecurity.authorizeRequests()
+//          .antMatchers("/","/home", "/css/**", "/js/**", "/images/**").permitAll()
+//          .antMatchers("/user/**").hasAnyRole("USER", "ADMIN")
+//          .antMatchers("/admin/**").hasRole("ADMIN")
+//          .anyRequest()
+//          .authenticated()
+//          .and()
+//          .formLogin()
+//          .loginPage("/")
+//          .loginProcessingUrl("/login")
+//          .failureUrl("/?login_error")
+//          .successHandler(authenticationSuccessHandler);
 	}
 	
 
