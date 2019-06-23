@@ -26,7 +26,7 @@ public class UserController {
 	    String module() {
 	        return "user";
 	    }
-//    @RequestMapping
+//    @RequestMapping  adding this will cause frontend-not picking up js files, not sure why
 //    public String viewUserProfile() {
 //        return "user/profile";
 //    }

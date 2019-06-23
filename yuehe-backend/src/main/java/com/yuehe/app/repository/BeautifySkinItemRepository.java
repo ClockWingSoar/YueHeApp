@@ -13,7 +13,7 @@ public interface BeautifySkinItemRepository extends JpaRepository<BeautifySkinIt
 	List<BeautifySkinItem> findAll();
 	BeautifySkinItem findById(String id);
 	BeautifySkinItem findByName(String name);
-	BeautifySkinItem save(BeautifySkinItem beautifySkinItem);
+	//BeautifySkinItem save(BeautifySkinItem beautifySkinItem);
 //	void delete(String id);
 
 }

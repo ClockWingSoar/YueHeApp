@@ -13,6 +13,14 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
             </button>
             <a class="navbar-brand" href="#">悦和国际</a>
         </div>
@@ -29,6 +37,30 @@
                 </li>
                 <li th:classappend="${module == 'client' ? 'active' : ''}">
                     <a href="#" th:href="@{/getClientList}">客户</a>
+                </li>
+                <li th:classappend="${module == 'cosmeticShop' ? 'active' : ''}">
+                    <a href="#" th:href="@{/getCosmeticShopList}">美容院</a>
+                </li>
+                <li th:classappend="${module == 'employee' ? 'active' : ''}">
+                    <a href="#" th:href="@{/getEmployee}">员工</a>
+                </li>
+                <li th:classappend="${module == 'operation' ? 'active' : ''}">
+                    <a href="#" th:href="@{/getOperation}">操作</a>
+                </li>
+                <li th:classappend="${module == 'organization' ? 'active' : ''}">
+                    <a href="#" th:href="@{/getOrganization}">组织</a>
+                </li>
+                <li th:classappend="${module == 'profile' ? 'active' : ''}">
+                    <a href="#" th:href="@{/getProfile}">档案</a>
+                </li>
+                <li th:classappend="${module == 'role' ? 'active' : ''}">
+                    <a href="#" th:href="@{/getRole}">角色</a>
+                </li>
+                <li th:classappend="${module == 'sale' ? 'active' : ''}">
+                    <a href="#" th:href="@{/getSale}">销售</a>
+                </li>
+                <li th:classappend="${module == 'tool' ? 'active' : ''}">
+                    <a href="#" th:href="@{/getTool}">工具</a>
                 </li>
             </ul>
             <!-- ul class="nav navbar-nav navbar-right">
