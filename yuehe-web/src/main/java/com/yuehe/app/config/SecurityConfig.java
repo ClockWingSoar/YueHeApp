@@ -1,3 +1,4 @@
+
 package com.yuehe.app.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -69,7 +70,4 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 //          .failureUrl("/?login_error")
 //          .successHandler(authenticationSuccessHandler);
 	}
-	
-
-	  
 }
