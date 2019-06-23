@@ -1,0 +1,108 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>美容院表</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+       <link rel="stylesheet" th:href="@{/css/core.css}">
+       <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+        <script type="text/javascript"  th:src="@{/js/jquery.min.js}"></script>
+           <script type="text/javascript"  th:src="@{/js/bootstrap.min.js}"></script>
+    <meta http-equiv="refresh" content="600; URL=/"> <!-- this will redirect to / after 600s-->
+
+</head>
+
+<body>
+<div th:replace="~{fragments/header :: header}">Header</div>
+
+<main role="main" class="container">
+
+    <div class="starter-template">
+        <h3>以下为现有的美容院:</h3>
+       
+    </div>
+
+    <div class="container">
+    <table  class="table table-striped">
+    	<thead>
+   			 <tr class="info">
+   			    <th>ID</th>
+				<th>美容院名</th>
+				<th>老板</th>
+				<th>联系方式</th>
+				<th>地址</th>
+				<th>大小</th>
+				<th>折扣</th>
+				<th>简介</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr data-th-each="cosmeticShop : ${cosmeticShopList}">
+			<td data-th-text="${cosmeticShop.id}">...</td>
+			<td data-th-text="${cosmeticShop.name}">...</td>
+			<td data-th-text="${cosmeticShop.owner}">...</td>
+			<td data-th-text="${cosmeticShop.contactMethod}">...</td>
+			<td data-th-text="${cosmeticShop.location}">...</td>
+			<td data-th-text="${cosmeticShop.size}">...</td>
+			<td data-th-text="${cosmeticShop.discount}">...</td>
+			<td data-th-text="${cosmeticShop.description}">...</td>
+			</tr>
+		</tbody>
+		</table>
+	</div>
+</main>
+
+<main role="main" class="container">
+<!-- div class="container">
+    <nav class="navbar navbar-inverse">
+        <div class="container-fluid">
+          
+        </div>
+    </nav> -->
+      <div class="starter-template">
+                <h3>创建新的美容院</h3>
+            </div>
+            <div>
+			    <form th:action="@{/createCosmeticShop}"  method="POST">
+			        <div class="row form-row">
+			            <div class="col-xs-2"><i class="fa fa-plus"></i> 美容院名称
+			                <input id="name" name="name" type=text class="form-control input-sm" style="min-width: 10%"></input>
+			            </div>
+			               <div class="col-xs-2"><i class="fa fa-plus"></i> 老板
+			                <input id="owner" name="owner" type=text class="form-control input-sm" style="min-width: 10%"></input>
+			            </div>
+			            <div class="col-xs-2"><i class="fa fa-asterisk"></i> 联系方式
+			                <input id="contactMethod" name="contactMethod" type=text class="form-control input-sm" style="min-width: 10%"></input>
+			            </div>
+			            <div class="col-xs-2"><i class="fa fa-asterisk"></i> 地址
+			                <input id="location" name="location" type=text class="form-control input-sm" style="min-width: 10%"></input>
+			            </div>
+			            <div class="col-xs-2"><i class="fa fa-asterisk"></i> 规模
+			                <input id="size" name="size" type=text class="form-control input-sm" style="min-width: 10%"></input>
+			            </div>
+			            <div class="col-xs-2"><i class="fa fa-asterisk"></i> 折扣
+			                <input id="discount" name="discount" type=text class="form-control input-sm" style="min-width: 10%"></input>
+			            </div>
+			            <div class="col-xs-2"><i class="fa fa-asterisk"></i> 简介
+			                <input id="description" name="description" type=text class="form-control input-sm" style="min-width: 10%"></input>
+			            </div>
+			        </div>
+			        <br>
+			        <div class="row form-row">
+			            <div class="col-md-4">
+			                <input type="submit" class="btn btn-success btn-lg" value="提交"/>
+			            </div>
+			        </div>
+			    </form>
+			    </div>
+			    
+</main>
+    <footer class="fixed-bottom" style="position: fixed; bottom: 0">
+        <div class="container">
+            <span class="text-muted">Developed by Yi Xiang Zhong.</span>
+        </div>
+    </footer>
+<!-- /.container -->
+
+</body>
+</html>

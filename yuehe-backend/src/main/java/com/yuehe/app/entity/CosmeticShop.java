@@ -1,9 +1,16 @@
 package com.yuehe.app.entity;
 import java.io.Serializable;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
 /**
  * Client entity. @author Soveran Zhong
  */
+@Entity
+@Table(name = "cosmeticshop")
 public class CosmeticShop implements Serializable{
 	
 	//Fields
@@ -12,9 +19,11 @@ public class CosmeticShop implements Serializable{
 	 * 
 	 */
 	private static final long serialVersionUID = 807865871214235889L;
+	@Id
 	private String id;
 	private String name;
 	private String owner;
+	@Column(name="contact_method")
 	private String contactMethod;
 	private String location;
 	private int size;
@@ -84,7 +93,7 @@ public class CosmeticShop implements Serializable{
 	public void setDiscount(float discount) {
 		this.discount = discount;
 	}
-	public String getdescription() {
+	public String getDescription() {
 		return description;
 	}
 	public void setDescription(String description) {
