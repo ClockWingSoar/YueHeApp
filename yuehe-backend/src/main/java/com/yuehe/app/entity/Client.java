@@ -1,9 +1,22 @@
 package com.yuehe.app.entity;
 import java.io.Serializable;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+
 /**
  * Client entity. @author Soveran Zhong
  */
+@Entity
+@Table(name = "client")
 public class Client implements Serializable{
 	//Fields
 	
@@ -11,8 +24,20 @@ public class Client implements Serializable{
 	 * 
 	 */
 	private static final long serialVersionUID = -6357133516380999542L;
+	@Id
 	private String id;
+	@ManyToOne(fetch = FetchType.LAZY) 
+	@JoinColumn(name = "shop_id",insertable = false, updatable = false)
+	@Fetch(FetchMode.JOIN)
+	private CosmeticShop cosmeticShop;
+	@Column(name="shop_id")
 	private String shopId;
+	public String getShopId() {
+		return shopId;
+	}
+	public void setShopId(String shopId) {
+		this.shopId = shopId;
+	}
 	private String name;
 	private int age;
 	private String gender;
@@ -20,14 +45,19 @@ public class Client implements Serializable{
 	
 	// Constructors
 
+	@Override
+	public String toString() {
+		return "Client [id=" + id + ", cosmeticShop=" + cosmeticShop + ", shopId=" + shopId + ", name=" + name
+				+ ", age=" + age + ", gender=" + gender + ", symptom=" + symptom + "]";
+	}
 	/** default constructor */
 	public Client() {
 		
 	}
 	/** full constructor */
-	public Client(String id, String shopId, String name, int age, String gender, String symptom) {
+	public Client(String id, CosmeticShop cosmeticShop, String name, int age, String gender, String symptom) {
 		this.id = id;
-		this.shopId = shopId;
+		this.cosmeticShop = cosmeticShop;
 		this.name = name;
 		this.age = age;
 		this.gender = gender;
@@ -41,11 +71,11 @@ public class Client implements Serializable{
 	public void setId(String id) {
 		this.id = id;
 	}
-	public String getShopId() {
-		return shopId;
+	public CosmeticShop getCosmeticShop() {
+		return cosmeticShop;
 	}
-	public void setShopId(String shopId) {
-		this.shopId = shopId;
+	public void setCosmeticShop(CosmeticShop cosmeticShop) {
+		this.cosmeticShop = cosmeticShop;
 	}
 	public String getName() {
 		return name;

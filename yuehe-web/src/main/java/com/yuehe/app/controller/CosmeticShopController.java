@@ -52,7 +52,6 @@ public class CosmeticShopController{
                                        @RequestParam(name = "description", required = false) String description
                                        ) 
 	{
-        List<CosmeticShop> cosmeticShopList = new ArrayList<>();
         int idNums = cosmeticShopService.getAllCosmeticShop().size();
         String id = YueHeUtil.getId(2,idNums);
         CosmeticShop cosmeticShop =new CosmeticShop();
@@ -64,11 +63,10 @@ public class CosmeticShopController{
         cosmeticShop.setSize(Integer.parseInt(size));
         cosmeticShop.setDiscount(Float.parseFloat(discount));
         cosmeticShop.setDescription(description);
-        cosmeticShopList.add(cosmeticShop);
         LOGGER.debug("cosmeticShop:",cosmeticShop);
 
-        if (!cosmeticShopList.isEmpty()) {
-            LOGGER.info("Saved {}", cosmeticShopService.saveAll(cosmeticShopList));
+        if (cosmeticShop != null) {
+            LOGGER.info("Saved {}", cosmeticShopService.create(cosmeticShop));
         }
 
         return "redirect:/getCosmeticShopList";

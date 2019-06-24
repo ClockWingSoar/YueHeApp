@@ -19,14 +19,19 @@ package com.yuehe.app.repository;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 
-import com.yuehe.app.entity.CosmeticShop;
+import com.yuehe.app.dto.ClientShopDto;
+import com.yuehe.app.entity.Client;
 
 /**
  * @author Soveran Zhong
  */
-public interface CosmeticShopRepository extends JpaRepository<CosmeticShop, Long> {
+public interface ClientRepository extends JpaRepository<Client, Long> {
 
-    List<CosmeticShop> findByName(String name);
-    CosmeticShop findById(String id);
+    List<Client> findByName(String name);
+	@Query("SELECT new com.yuehe.app.dto.ClientShopDto(c.id,c.name, s.name, c.age, c.gender,c.symptom) "
+			+ "FROM CosmeticShop s INNER JOIN s.clients c")
+    List<ClientShopDto> fetchClientShopDataInnerJoin();
+    Client findById(String id);
 }

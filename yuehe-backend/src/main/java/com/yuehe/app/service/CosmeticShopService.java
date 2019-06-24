@@ -47,6 +47,12 @@ public class CosmeticShopService {
     public List<CosmeticShop> getAllCosmeticShop() {
         return cosmeticShopRepository.findAll();
     }
+    public CosmeticShop getCosmeticShopById(String id) {
+    	return cosmeticShopRepository.findById(id);
+    }
+    public List<CosmeticShop> getCosmeticShopByName(String name) {
+    	return cosmeticShopRepository.findByName(name);
+    }
     @Transactional(rollbackFor = Exception.class)
     public List<CosmeticShop> saveAll(List<CosmeticShop> cosmeticShop) {
         LOGGER.info("Saving {}", cosmeticShop);

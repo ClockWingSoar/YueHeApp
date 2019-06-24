@@ -1,0 +1,98 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>客户表</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+       <link rel="stylesheet" th:href="@{/css/core.css}">
+       <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+        <script type="text/javascript"  th:src="@{/js/jquery.min.js}"></script>
+           <script type="text/javascript"  th:src="@{/js/bootstrap.min.js}"></script>
+    <meta http-equiv="refresh" content="600; URL=/"> <!-- this will redirect to / after 600s-->
+
+</head>
+
+<body>
+<div th:replace="~{fragments/header :: header}">Header</div>
+
+<main role="main" class="container">
+
+    <div class="starter-template">
+        <h3>以下为现有的客户:</h3>
+       
+    </div>
+
+    <div class="container">
+    <table  class="table table-striped">
+    	<thead>
+   			 <tr class="info">
+   			    <th>ID</th>
+				<th>姓名</th>
+				<th>美容院</th>
+				<th>年龄</th>
+				<th>性别</th>
+				<th>症状</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr data-th-each="client : ${clientList}">
+			<td data-th-text="${client.clientId}">...</td>
+			<td data-th-text="${client.clientName}">...</td>
+			<td data-th-text="${client.cosmeticShopName}">...</td>
+			<td data-th-text="${client.clientAge}">...</td>
+			<td data-th-text="${client.clientGender}">...</td>
+			<td data-th-text="${client.clientSymptom}">...</td>
+			</tr>
+		</tbody>
+		</table>
+	</div>
+</main>
+
+<main role="main" class="container">
+<!-- div class="container">
+    <nav class="navbar navbar-inverse">
+        <div class="container-fluid">
+          
+        </div>
+    </nav> -->
+      <div class="starter-template">
+                <h3>创建新的客户</h3>
+            </div>
+            <div>
+			    <form th:action="@{/createClient}"  method="POST">
+			        <div class="row form-row">
+			            <div class="col-xs-2"><i class="fa fa-plus"></i> 客户名称
+			                <input id="name" name="name" type=text class="form-control input-sm" style="min-width: 10%"></input>
+			            </div>
+			               <div class="col-xs-2"><i class="fa fa-plus"></i> 所属美容院
+			                <input id="cosmeticShopName" name="cosmeticShopName" type=text class="form-control input-sm" style="min-width: 10%"></input>
+			            </div>
+			            <div class="col-xs-2"><i class="fa fa-asterisk"></i> 年龄
+			                <input id="age" name="age" type=text class="form-control input-sm" style="min-width: 10%"></input>
+			            </div>
+			            <div class="col-xs-2"><i class="fa fa-asterisk"></i> 性别
+			                <input id="gender" name="gender" type=text class="form-control input-sm" style="min-width: 10%"></input>
+			            </div>
+			            <div class="col-xs-2"><i class="fa fa-asterisk"></i> 症状
+			                <input id="symptom" name="symptom" type=text class="form-control input-sm" style="min-width: 10%"></input>
+			            </div>
+			        </div>
+			        <br>
+			        <div class="row form-row">
+			            <div class="col-md-4">
+			                <input type="submit" class="btn btn-success btn-lg" value="提交"/>
+			            </div>
+			        </div>
+			    </form>
+			    </div>
+			    
+</main>
+    <footer class="fixed-bottom" style="position: fixed; bottom: 0">
+        <div class="container">
+            <span class="text-muted">Developed by Yi Xiang Zhong.</span>
+        </div>
+    </footer>
+<!-- /.container -->
+
+</body>
+</html>

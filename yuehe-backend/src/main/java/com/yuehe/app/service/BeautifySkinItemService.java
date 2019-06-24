@@ -33,5 +33,8 @@ public class BeautifySkinItemService {
     public List<BeautifySkinItem> getAllBeautifySkinItem() {
         return beautifySkinItemRepository.findAll();
     }
+    public long getEntityNumber() {
+    	return beautifySkinItemRepository.count();
+    }
 }
 
