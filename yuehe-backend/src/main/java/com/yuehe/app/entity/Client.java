@@ -1,5 +1,6 @@
 package com.yuehe.app.entity;
 import java.io.Serializable;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -7,6 +8,7 @@ import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.Fetch;
@@ -30,19 +32,17 @@ public class Client implements Serializable{
 	@JoinColumn(name = "shop_id",insertable = false, updatable = false)
 	@Fetch(FetchMode.JOIN)
 	private CosmeticShop cosmeticShop;
+
 	@Column(name="shop_id")
 	private String shopId;
-	public String getShopId() {
-		return shopId;
-	}
-	public void setShopId(String shopId) {
-		this.shopId = shopId;
-	}
+	
 	private String name;
 	private int age;
 	private String gender;
 	private String symptom;
-	
+
+	@OneToMany(targetEntity = Sale.class, mappedBy = "clientId", orphanRemoval = false, fetch = FetchType.LAZY)
+	private Set<Sale> sales;
 	// Constructors
 
 	@Override
@@ -101,7 +101,20 @@ public class Client implements Serializable{
 	public void setSymptom(String symptom) {
 		this.symptom = symptom;
 	}
-	
-	
+	public String getShopId() {
+		return shopId;
+	}
+	public void setShopId(String shopId) {
+		this.shopId = shopId;
+	}
+	public Set<Sale> getSales() {
+		return sales;
+	}
+	public void setSales(Set<Sale> sales) {
+		this.sales = sales;
+	}
+	public void setAge(int age) {
+		this.age = age;
+	}
 	
 }

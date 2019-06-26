@@ -2,9 +2,15 @@ package com.yuehe.app.entity;
 import java.io.Serializable;
 import java.util.Date;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
 /**
  * Tool entity. @author Soveran Zhong
  */
+@Entity
+@Table(name="tool")
 public class Tool implements Serializable{
 	
 	//Fields
@@ -33,7 +39,7 @@ public class Tool implements Serializable{
 	/**
 	 * 
 	 */
-
+	@Id
 	private String id;
 	private String name;
 	private String major;
@@ -114,5 +120,9 @@ public class Tool implements Serializable{
 		this.description = description;
 	}
 
-	
+	@Override
+	public String toString() {
+		return "Tool [id=" + id + ", name=" + name + ", major=" + major + ", price=" + price + ", buyDate=" + buyDate
+				+ ", buyFrom=" + buyFrom + ", operateExpense=" + operateExpense + ", description=" + description + "]";
+	}
 }

@@ -23,7 +23,7 @@ public class CosmeticShop implements Serializable{
 	public String toString() {
 		return "CosmeticShop [id=" + id + ", name=" + name + ", owner=" + owner + ", contactMethod=" + contactMethod
 				+ ", location=" + location + ", size=" + size + ", discount=" + discount + ", description="
-				+ description + ", clients=" + clients + "]";
+				+ description+ "]"; //+ ", clients=" + clients + "]";
 	}
 	/**
 	 * 

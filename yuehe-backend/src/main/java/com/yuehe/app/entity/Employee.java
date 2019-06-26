@@ -1,12 +1,27 @@
 package com.yuehe.app.entity;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.Set;
+
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
 /**
  * Employee entity. @author Soveran Zhong
  */
+@Entity
+@Table(name = "employee")
 public class Employee implements Serializable{
 	
+	@Override
+	public String toString() {
+		return "Employee [id=" + id + ", name=" + name + ", salary=" + salary + ", birthday=" + birthday
+				+ ", description=" + description + ", resigned=" + resigned + "]";
+	}
+
 	/**
 	 * 
 	 */
@@ -27,8 +42,14 @@ public class Employee implements Serializable{
 	/**
 	 * 
 	 */
-
+	@Id
 	private String id;
+	
+	@OneToMany(targetEntity = Sale.class, mappedBy = "sellerId", orphanRemoval = false, fetch = FetchType.LAZY)
+	private Set<Sale> sales;
+	
+	
+	
 	private String name;
 	private int salary;
 	private Date birthday;
@@ -76,7 +97,7 @@ public class Employee implements Serializable{
 
 	public String getDescription() {
 		return description;
-	}
+	} 
 
 	public void setDescription(String description) {
 		this.description = description;

@@ -1,0 +1,129 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>销售表</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+       <link rel="stylesheet" th:href="@{/css/core.css}">
+       <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+        <script type="text/javascript"  th:src="@{/js/jquery.min.js}"></script>
+           <script type="text/javascript"  th:src="@{/js/bootstrap.min.js}"></script>
+    <meta http-equiv="refresh" content="600; URL=/"> <!-- this will redirect to / after 600s-->
+
+</head>
+
+<body>
+<div th:replace="~{fragments/header :: header}">Header</div>
+
+<main role="main" class="container">
+
+    <div class="starter-template">
+        <h3>以下为现有的销售记录:</h3>
+       
+    </div>
+
+    <div class="container">
+    <table  class="table table-striped">
+    	<thead>
+   			 <tr class="info">
+   			    <th>ID</th>
+				<th>客户姓名</th>
+				<th>美肤项目</th>
+				<th>美容院</th>
+				<th>销售专家</th>
+				<th>开卡次数</th>
+				<th>折扣</th>
+				<th>员工回扣</th>
+				<th>店家回扣</th>
+				<th>已收回款</th>
+				<th>开卡日期</th>
+				<th>备注</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr data-th-each="sale : ${saleList}">
+			<td data-th-text="${sale.saleId}">...</td>
+			<td data-th-text="${sale.clientName}">...</td>
+			<td data-th-text="${sale.beautifySkinItemName}">...</td>
+			<td data-th-text="${sale.cosmeticShopName}">...</td>
+			<td data-th-text="${sale.sellerName}">...</td>
+			<td data-th-text="${sale.itemNumber}">...</td>
+			<td data-th-text="${sale.discount}">...</td>
+			<td data-th-text="${sale.employeePremium}">...</td>
+			<td data-th-text="${sale.shopPremium}">...</td>
+			<td data-th-text="${sale.receivedAmount}">...</td>
+			<td data-th-text="${sale.createCardDate}">...</td>
+			<td data-th-text="${sale.description}">...</td>
+			</tr>
+		</tbody>
+		</table>
+	</div>
+</main>
+
+<main role="main" class="container">
+<!-- div class="container">
+    <nav class="navbar navbar-inverse">
+        <div class="container-fluid">
+          
+        </div>
+    </nav> -->
+      <div class="starter-template">
+                <h3>创建新的销售卡</h3>
+            </div>
+            <div>
+			    <form th:action="@{/createClient}"  method="POST">
+			        <div class="row form-row">
+			           
+			            <div class="col-xs-2"><i class="fa fa-plus"></i> 客户姓名
+			                <input id="clientName" name="clientName" type=text class="form-control input-sm" style="min-width: 10%"></input>
+			            </div>
+			             <div class="col-xs-2"><i class="fa fa-plus"></i> 美肤项目
+			                <input id="beautifySkinItemName" name="beautifySkinItemName" type=text class="form-control input-sm" style="min-width: 10%"></input>
+			            </div>
+			               <div class="col-xs-2"><i class="fa fa-plus"></i> 所属美容院
+			                <input id="cosmeticShopName" name="cosmeticShopName" type=text class="form-control input-sm" style="min-width: 10%"></input>
+			            </div>
+			            <div class="col-xs-2"><i class="fa fa-asterisk"></i> 销售专家
+			                <input id="sellerName" name="sellerName" type=text class="form-control input-sm" style="min-width: 10%"></input>
+			            </div>
+			            <div class="col-xs-2"><i class="fa fa-asterisk"></i> 开卡次数
+			                <input id="itemNumber" name="itemNumber" type=text class="form-control input-sm" style="min-width: 10%"></input>
+			            </div>
+			            <div class="col-xs-2"><i class="fa fa-asterisk"></i> 折扣
+			                <input id="discount" name="discount" type=text class="form-control input-sm" style="min-width: 10%"></input>
+			            </div>
+			            <div class="col-xs-2"><i class="fa fa-asterisk"></i> 员工回扣
+			                <input id="employeePremium" name=employeePremium type=text class="form-control input-sm" style="min-width: 10%"></input>
+			            </div>
+			            <div class="col-xs-2"><i class="fa fa-asterisk"></i> 店家回扣
+			                <input id="shopPremium" name="shopPremium" type=text class="form-control input-sm" style="min-width: 10%"></input>
+			            </div>
+			            <div class="col-xs-2"><i class="fa fa-asterisk"></i> 已收回款
+			                <input id="receivedAmount" name="receivedAmount" type=text class="form-control input-sm" style="min-width: 10%"></input>
+			            </div>
+			            <div class="col-xs-2"><i class="fa fa-asterisk"></i> 开卡日期
+			                <input id="createCardDate" name="createCardDate" type=text class="form-control input-sm" style="min-width: 10%"></input>
+			            </div>
+			            <div class="col-xs-2"><i class="fa fa-asterisk"></i> 备注
+			                <input id="description" name="description" type=text class="form-control input-sm" style="min-width: 10%"></input>
+			            </div>
+			        </div>
+			        <br>
+			        <div class="row form-row">
+			            <div class="col-md-4">
+			                <input type="submit" class="btn btn-success btn-lg" value="提交"/>
+			            </div>
+			        </div>
+			    </form>
+			    </div>
+			    
+</main>
+    <footer class="fixed-bottom" style="position: fixed; bottom: 0">
+        <div class="container">
+            <span class="text-muted">Developed by Yi Xiang Zhong.</span>
+        </div>
+    </footer>
+<!-- /.container -->
+
+</body>
+</html>

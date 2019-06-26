@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import com.yuehe.app.entity.BeautifySkinItem;
+import com.yuehe.app.entity.Client;
 import com.yuehe.app.repository.BeautifySkinItemRepository;
 
 import java.util.List;
@@ -32,6 +33,9 @@ public class BeautifySkinItemService {
 
     public List<BeautifySkinItem> getAllBeautifySkinItem() {
         return beautifySkinItemRepository.findAll();
+    }
+    public List<BeautifySkinItem> getBeautifySkinItemByName(String name) {
+    	return beautifySkinItemRepository.findByName(name);
     }
     public long getEntityNumber() {
     	return beautifySkinItemRepository.count();

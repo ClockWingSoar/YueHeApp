@@ -2,9 +2,22 @@ package com.yuehe.app.entity;
 import java.io.Serializable;
 import java.util.Date;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+
 /**
  * Sale entity. @author Soveran Zhong
  */
+@Entity
+@Table(name="sale")
 public class Sale implements Serializable{
 	
 	//Fields
@@ -14,39 +27,53 @@ public class Sale implements Serializable{
 	 */
 	private static final long serialVersionUID = -496619121626313549L;
 
-	public Sale(String id, String clientId, String itemId, String sellerId, String itemNumber, float discount,
-			float employeePremium, float shopPremium, int receivedAmount, Date createCardDate, String description) {
-		super();
-		this.id = id;
-		this.clientId = clientId;
-		this.itemId = itemId;
-		this.sellerId = sellerId;
-		this.itemNumber = itemNumber;
-		this.discount = discount;
-		this.employeePremium = employeePremium;
-		this.shopPremium = shopPremium;
-		this.receivedAmount = receivedAmount;
-		this.createCardDate = createCardDate;
-		this.description = description;
-	}
-
 	/**
 	 * 
 	 */
-	/**
-	 * 
-	 */
-
-	private String id;
+	@Id	private String id;
+	
+	@ManyToOne(fetch = FetchType.LAZY) 
+	@JoinColumn(name = "client_id",insertable = false, updatable = false)
+	@Fetch(FetchMode.JOIN)
+	private Client client;
+	
+	@Column(name="client_id")
 	private String clientId;
+	
+	@ManyToOne(fetch = FetchType.LAZY) 
+	@JoinColumn(name = "item_id",insertable = false, updatable = false)
+	@Fetch(FetchMode.JOIN)
+	private BeautifySkinItem beautifySkinItem;
+	
+	@Column(name="item_id")
 	private String itemId;
+	
+	@ManyToOne(fetch = FetchType.LAZY) 
+	@JoinColumn(name = "seller_id",insertable = false, updatable = false)
+	@Fetch(FetchMode.JOIN)
+	private Employee employee;
+	
+
+	@Column(name="seller_id")
 	private String sellerId;
-	private String itemNumber;
+	
+	@Column(name="item_number")
+	private int itemNumber;
+	
 	private float discount;
+	
+	@Column(name="employee_premium")
 	private float employeePremium;
+	
+	@Column(name="shop_premium")
 	private float shopPremium;
+	
+	@Column(name="received_amount")
 	private int receivedAmount;
-	private Date createCardDate;
+	
+	@Column(name="create_card_date")
+	private Date createCardDate; 
+	
 	private String description;
 	
 	// Constructors
@@ -88,11 +115,11 @@ public class Sale implements Serializable{
 		this.sellerId = sellerId;
 	}
 
-	public String getItemNumber() {
+	public int getItemNumber() {
 		return itemNumber;
 	}
 
-	public void setItemNumber(String itemNumber) {
+	public void setItemNumber(int itemNumber) {
 		this.itemNumber = itemNumber;
 	}
 
@@ -144,5 +171,45 @@ public class Sale implements Serializable{
 		this.description = description;
 	}
 
-	
+
+	public Client getClient() {
+		return client;
+	}
+
+	public void setClient(Client client) {
+		this.client = client;
+	}
+
+	public BeautifySkinItem getBeautifySkinItem() {
+		return beautifySkinItem;
+	}
+
+	public void setBeautifySkinItem(BeautifySkinItem beautifySkinItem) {
+		this.beautifySkinItem = beautifySkinItem;
+	}
+
+	public Employee getEmployee() {
+		return employee;
+	}
+
+	public void setEmployee(Employee employee) {
+		this.employee = employee;
+	}
+
+	public Sale(String id, String clientId, String itemId, String sellerId, int itemNumber, float discount,
+			float employeePremium, float shopPremium, int receivedAmount, Date createCardDate, String description) {
+		super();
+		this.id = id;
+		this.clientId = clientId;
+		this.itemId = itemId;
+		this.sellerId = sellerId;
+		this.itemNumber = itemNumber;
+		this.discount = discount;
+		this.employeePremium = employeePremium;
+		this.shopPremium = shopPremium;
+		this.receivedAmount = receivedAmount;
+		this.createCardDate = createCardDate;
+		this.description = description;
+	}
+
 }

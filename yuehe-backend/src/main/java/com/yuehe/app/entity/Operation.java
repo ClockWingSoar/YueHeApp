@@ -2,9 +2,15 @@ package com.yuehe.app.entity;
 import java.io.Serializable;
 import java.util.Date;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
 /**
  * Operation entity. @author Soveran Zhong
  */
+//@Entity
+//@Table(name = "operation")
 public class Operation implements Serializable{
 	
 	/**
@@ -17,6 +23,7 @@ public class Operation implements Serializable{
 	public Operation(String id, String saleId, String operatorId, String toolId, Date operationDate,
 			String description) {
 		super();
+		
 		this.id = id;
 		this.saleId = saleId;
 		this.operatorId = operatorId;
@@ -31,7 +38,7 @@ public class Operation implements Serializable{
 	/**
 	 * 
 	 */
-
+	@Id
 	private String id;
 	private String saleId;
 	private String operatorId;
@@ -93,6 +100,10 @@ public class Operation implements Serializable{
 	public void setDescription(String description) {
 		this.description = description;
 	}
-
+	@Override
+	public String toString() {
+		return "Operation [id=" + id + ", saleId=" + saleId + ", operatorId=" + operatorId + ", toolId=" + toolId
+				+ ", operationDate=" + operationDate + ", description=" + description + "]";
+	}
 	
 }

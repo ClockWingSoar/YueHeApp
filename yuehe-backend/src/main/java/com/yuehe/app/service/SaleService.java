@@ -23,50 +23,48 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.yuehe.app.dto.ClientShopDto;
-import com.yuehe.app.entity.Client;
-import com.yuehe.app.repository.ClientRepository;
+import com.yuehe.app.dto.SaleClientItemSellerDto;
+import com.yuehe.app.entity.Sale;
+import com.yuehe.app.repository.SaleRepository;
 
 /**
  * @author Shazin Sadakath
  */
 @Service
 @Transactional(readOnly = true)
-public class ClientService {
+public class SaleService {
     private static final Logger LOGGER = LoggerFactory.getLogger(SaleService.class);
-    private final ClientRepository clientRepository;
+    private final SaleRepository saleRepository;
 
-    public ClientService(ClientRepository clientRepository) {
-        this.clientRepository = clientRepository;
+    public SaleService(SaleRepository saleRepository) {
+        this.saleRepository = saleRepository;
     }
 
 
     @Transactional(rollbackFor = Exception.class)
-    public Client create(Client client) {
-        return clientRepository.save(client);
+    public Sale create(Sale sale) {
+        return saleRepository.save(sale);
     }
-    public List<Client> getAllClient() {
-//    	List<Client> clientList = new ArrayList<Client>();
-//    	clientList = clientRepository.findAll();
-        return clientRepository.findAll();
+    public List<Sale> getAllSale() {
+        return saleRepository.findAll();
     }
-    public Client getClientById(String id) {
-    	return clientRepository.findById(id);
+    public Sale getSaleById(String id) {
+    	return saleRepository.findById(id);
     }
-    public List<Client> getClientByName(String name) {
-    	return clientRepository.findByName(name);
-    }
+//    public List<Sale> getSaleByName(String name) {
+//    	return saleRepository.findByName(name);
+//    }
     @Transactional(rollbackFor = Exception.class)
-    public List<Client> saveAll(List<Client> client) {
-        LOGGER.info("Saving {}", client);
-        return clientRepository.saveAll(client);
+    public List<Sale> saveAll(List<Sale> sale) {
+        LOGGER.info("Saving {}", sale);
+        return saleRepository.saveAll(sale);
     }
-	public List<ClientShopDto> getClientsDetailList() {
-		List<ClientShopDto> list = clientRepository.fetchClientShopDataInnerJoin();
+	public List<SaleClientItemSellerDto> getSalesDetailList() {
+		List<SaleClientItemSellerDto> list = saleRepository.fetchSaleClientItemSellerDataInnerJoin();
 		list.forEach(l -> System.out.println(l));
 		return list;
 	}
 	 public long getEntityNumber() {
-	    	return clientRepository.count();
+	    	return saleRepository.count();
 	    }
 }
