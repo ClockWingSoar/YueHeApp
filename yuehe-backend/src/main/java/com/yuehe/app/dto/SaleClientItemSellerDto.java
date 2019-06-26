@@ -18,13 +18,19 @@ public class SaleClientItemSellerDto {
 	private String clientName;
 	private String beautifySkinItemName;
 	private String cosmeticShopName;
-	private String sellerName;
 	private int itemNumber;
+	private long createCardTotalAmount;
 	private float discount;
+	private long receivedAmount;
+	private long unpaidAmount;
+	private long earnedAmount;
+	
+	private long receivedEarnedAmount;
+	private long unpaidEarnedAmount;
 	private float employeePremium;
 	private float shopPremium;
-	private int receivedAmount;
-	private Date createCardDate;
+	private String createCardDate;
+	private String sellerName;
 	private String description;
 	public String getSaleId() {
 		return saleId;
@@ -80,16 +86,16 @@ public class SaleClientItemSellerDto {
 	public void setShopPremium(float shopPremium) {
 		this.shopPremium = shopPremium;
 	}
-	public float getReceivedAmount() {
+	public long getReceivedAmount() {
 		return receivedAmount;
 	}
-	public void setReceivedAmount(int receivedAmount) {
+	public void setReceivedAmount(long receivedAmount) {
 		this.receivedAmount = receivedAmount;
 	}
-	public Date getCreateCardDate() {
+	public String getCreateCardDate() {
 		return createCardDate;
 	}
-	public void setCreateCardDate(Date createCardDate) {
+	public void setCreateCardDate(String createCardDate) {
 		this.createCardDate = createCardDate;
 	}
 	public String getDescription() {
@@ -98,31 +104,70 @@ public class SaleClientItemSellerDto {
 	public void setDescription(String description) {
 		this.description = description;
 	}
-	public SaleClientItemSellerDto(String saleId, String clientName, String beautifySkinItemName, String cosmeticShopName,
-			String sellerName, int itemNumber, float discount, float employeePremium, float shopPremium,
-			int receivedAmount, Date createCardDate, String description) {
+	public long getCreateCardTotalAmount() {
+		return createCardTotalAmount;
+	}
+	public void setCreateCardTotalAmount(long createCardTotalAmount) {
+		this.createCardTotalAmount = createCardTotalAmount;
+	}
+	public long getUnpaidAmount() {
+		return unpaidAmount;
+	}
+	public void setUnpaidAmount(long unpaidAmount) {
+		this.unpaidAmount = unpaidAmount;
+	}
+	public long getEarnedAmount() {
+		return earnedAmount;
+	}
+	public void setEarnedAmount(long earnedAmount) {
+		this.earnedAmount = earnedAmount;
+	}
+	public long getReceivedEarnedAmount() {
+		return receivedEarnedAmount;
+	}
+	public void setReceivedEarnedAmount(long receivedEarnedAmount) {
+		this.receivedEarnedAmount = receivedEarnedAmount;
+	}
+	public long getUnpaidEarnedAmount() {
+		return unpaidEarnedAmount;
+	}
+	public void setUnpaidEarnedAmount(long unpaidEarnedAmount) {
+		this.unpaidEarnedAmount = unpaidEarnedAmount;
+	}
+	public SaleClientItemSellerDto(String saleId, String clientName, String beautifySkinItemName,
+			String cosmeticShopName, int itemNumber, long createCardTotalAmount, float discount, long receivedAmount,
+			long unpaidAmount, long earnedAmount, long receivedEarnedAmount, long unpaidEarnedAmount, float employeePremium,
+			float shopPremium, String createCardDate, String sellerName, String description) {
 		super();
 		this.saleId = saleId;
 		this.clientName = clientName;
 		this.beautifySkinItemName = beautifySkinItemName;
 		this.cosmeticShopName = cosmeticShopName;
-		this.sellerName = sellerName;
 		this.itemNumber = itemNumber;
+		this.createCardTotalAmount = createCardTotalAmount;
 		this.discount = discount;
+		this.receivedAmount = receivedAmount;
+		this.unpaidAmount = unpaidAmount;
+		this.earnedAmount = earnedAmount;
+		this.receivedEarnedAmount = receivedEarnedAmount;
+		this.unpaidEarnedAmount = unpaidEarnedAmount;
 		this.employeePremium = employeePremium;
 		this.shopPremium = shopPremium;
-		this.receivedAmount = receivedAmount;
 		this.createCardDate = createCardDate;
+		this.sellerName = sellerName;
 		this.description = description;
 	}
 	@Override
 	public String toString() {
 		return "SaleClientItemSellerDto [saleId=" + saleId + ", clientName=" + clientName + ", beautifySkinItemName="
-				+ beautifySkinItemName + ", cosmeticShopName=" + cosmeticShopName + ", sellerName=" + sellerName
-				+ ", itemNumber=" + itemNumber + ", discount=" + discount + ", employeePremium=" + employeePremium
-				+ ", shopPremium=" + shopPremium + ", receivedAmount=" + receivedAmount + ", createCardDate="
-				+ createCardDate + ", description=" + description + "]";
+				+ beautifySkinItemName + ", cosmeticShopName=" + cosmeticShopName + ", itemNumber=" + itemNumber
+				+ ", createCardTotalAmount=" + createCardTotalAmount + ", discount=" + discount + ", receivedAmount="
+				+ receivedAmount + ", unpaidAmount=" + unpaidAmount + ", earnedAmount=" + earnedAmount
+				+ ", receivedEarnedAmount=" + receivedEarnedAmount + ", unpaidEarnedAmount=" + unpaidEarnedAmount
+				+ ", employeePremium=" + employeePremium + ", shopPremium=" + shopPremium + ", createCardDate="
+				+ createCardDate + ", sellerName=" + sellerName + ", description=" + description + "]";
 	}
+
 	
 	
 }

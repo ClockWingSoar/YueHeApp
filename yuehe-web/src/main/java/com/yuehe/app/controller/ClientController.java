@@ -29,7 +29,7 @@ public class ClientController{
 	    }
 	 private final static Logger LOGGER = LoggerFactory.getLogger(ClientController.class);
 	
-	 private CosmeticShop cosmeticshop;
+	 private CosmeticShop cosmeticShop;
 	@Autowired
 	private final ClientService clientService;
 	@Autowired
@@ -64,11 +64,11 @@ public class ClientController{
         client.setName(name);
         List<CosmeticShop> cosmeticShopList = cosmeticShopService.getCosmeticShopByName(cosmeticShopName);
         for(CosmeticShop cosmeticShop : cosmeticShopList) {
-        	this.cosmeticshop = cosmeticShop;
-        	   LOGGER.debug("cosmeticshop:",cosmeticshop);
+        	this.cosmeticShop = cosmeticShop;
+        	   LOGGER.debug("cosmeticshop:",cosmeticShop);
         }
-        if(cosmeticshop != null)
-        	client.setShopId(cosmeticshop.getId());
+        if(cosmeticShop != null)
+        	client.setShopId(cosmeticShop.getId());
         //client.setCosmeticShop(cosmeticshop);
         client.setAge(age);
         client.setGender(gender);

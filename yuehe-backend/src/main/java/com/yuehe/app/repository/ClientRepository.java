@@ -31,7 +31,7 @@ public interface ClientRepository extends JpaRepository<Client, Long> {
 
     List<Client> findByName(String name);
 	@Query("SELECT new com.yuehe.app.dto.ClientShopDto(c.id,c.name, s.name, c.age, c.gender,c.symptom) "
-			+ "FROM CosmeticShop s INNER JOIN s.clients c")
+			+ "FROM Client c INNER JOIN c.cosmeticShop s")
     List<ClientShopDto> fetchClientShopDataInnerJoin();
     Client findById(String id);
 }

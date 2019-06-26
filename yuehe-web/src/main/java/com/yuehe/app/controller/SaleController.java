@@ -17,10 +17,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.yuehe.app.dto.SaleClientItemSellerDto;
 import com.yuehe.app.entity.BeautifySkinItem;
 import com.yuehe.app.entity.Client;
+import com.yuehe.app.entity.CosmeticShop;
 import com.yuehe.app.entity.Employee;
 import com.yuehe.app.entity.Sale;
 import com.yuehe.app.service.BeautifySkinItemService;
 import com.yuehe.app.service.ClientService;
+import com.yuehe.app.service.CosmeticShopService;
 import com.yuehe.app.service.EmployeeService;
 import com.yuehe.app.service.SaleService;
 import com.yuehe.app.util.YueHeUtil;
@@ -36,8 +38,11 @@ public class SaleController{
 	
 	@Autowired
 	private final SaleService saleService;
+	 private CosmeticShop cosmeticShop;
 	@Autowired
 	private final ClientService clientService;
+	@Autowired
+	private final CosmeticShopService cosmeticShopService;
 	@Autowired
 	private final EmployeeService employeeService;
 	private  Client client;
@@ -46,11 +51,13 @@ public class SaleController{
 	@Autowired
 	private final BeautifySkinItemService beautifySkinItemService;
 	public SaleController(SaleService saleService, ClientService clientService,
-			EmployeeService employeeService,BeautifySkinItemService beautifySkinItemService) {
+			EmployeeService employeeService,BeautifySkinItemService beautifySkinItemService,
+			CosmeticShopService cosmeticShopService) {
 		this.saleService = saleService;
 		this.clientService = clientService;
 		this.employeeService = employeeService;
 		this.beautifySkinItemService = beautifySkinItemService;
+		this.cosmeticShopService = cosmeticShopService;
 	}
 
 	@GetMapping("/getSaleList")
@@ -67,13 +74,13 @@ public class SaleController{
     public String createsale( @RequestParam(name = "clientName", required = false) String clientName,
     								@RequestParam(name = "beautifySkinItemName", required = false) String beautifySkinItemName,
                                        @RequestParam(name = "cosmeticShopName", required = false) String cosmeticShopName,
-                                       @RequestParam(name = "sellerName", required = false) String sellerName,
                                        @RequestParam(name = "itemNumber", required = false) int itemNumber,
-                                       @RequestParam(name = "discount", required = false) float discount,
+                                       @RequestParam(name = "createCardTotalAmount", required = false) long createCardTotalAmount,
+                                       @RequestParam(name = "receivedAmount", required = false) int receivedAmount,
                                        @RequestParam(name = "employeePremium", required = false) float employeePremium,
                                        @RequestParam(name = "shopPremium", required = false) float shopPremium,
-                                       @RequestParam(name = "receivedAmount", required = false) int receivedAmount,
                                        @RequestParam(name = "createCardDate", required = false) Date createCardDate,
+                                       @RequestParam(name = "sellerName", required = false) String sellerName,
                                        @RequestParam(name = "description", required = false) String description
                                        ) 
 	{
@@ -81,9 +88,15 @@ public class SaleController{
         String id = YueHeUtil.getId(6,Math.toIntExact(idNums));
         Sale sale =new Sale();
         sale.setId(id);
+        List<CosmeticShop> cosmeticShopList = cosmeticShopService.getCosmeticShopByName(cosmeticShopName);
+        for(CosmeticShop cosmeticShop : cosmeticShopList) {
+        	this.cosmeticShop = cosmeticShop;
+        	   LOGGER.debug("cosmeticshop:",cosmeticShop);
+        }
         List<Client> clientList = clientService.getClientByName(clientName);
         for(Client client : clientList) {
-        	this.client = client;
+        	if(client.getShopId().equals(this.cosmeticShop.getId()))
+        		this.client = client;
         	   LOGGER.debug("client:",client);
         }
         if(client != null)
@@ -101,12 +114,12 @@ public class SaleController{
         	LOGGER.debug("beautifySkinItem:",beautifySkinItem);
         }
         if(beautifySkinItem != null)
-        	sale.setClientId(beautifySkinItem.getId());
+        	sale.setBeautifySkinItemId(beautifySkinItem.getId());
         sale.setItemNumber(itemNumber);
-        sale.setDiscount(discount);
+        sale.setCreateCardTotalAmount(createCardTotalAmount);
+        sale.setReceivedAmount(receivedAmount);
         sale.setEmployeePremium(employeePremium);
         sale.setShopPremium(shopPremium);
-        sale.setReceivedAmount(receivedAmount);
         sale.setCreateCardDate(createCardDate);
         sale.setDescription(description);
         LOGGER.debug("sale:",sale);

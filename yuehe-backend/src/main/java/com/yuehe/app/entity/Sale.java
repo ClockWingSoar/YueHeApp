@@ -41,12 +41,12 @@ public class Sale implements Serializable{
 	private String clientId;
 	
 	@ManyToOne(fetch = FetchType.LAZY) 
-	@JoinColumn(name = "item_id",insertable = false, updatable = false)
+	@JoinColumn(name = "beautify_skin_item_id",insertable = false, updatable = false)
 	@Fetch(FetchMode.JOIN)
 	private BeautifySkinItem beautifySkinItem;
 	
-	@Column(name="item_id")
-	private String itemId;
+	@Column(name="beautify_skin_item_id")
+	private String beautifySkinItemId;
 	
 	@ManyToOne(fetch = FetchType.LAZY) 
 	@JoinColumn(name = "seller_id",insertable = false, updatable = false)
@@ -60,7 +60,11 @@ public class Sale implements Serializable{
 	@Column(name="item_number")
 	private int itemNumber;
 	
-	private float discount;
+	@Column(name="create_card_total_amount")
+	private long createCardTotalAmount;
+	
+	@Column(name="received_amount")
+	private long receivedAmount;
 	
 	@Column(name="employee_premium")
 	private float employeePremium;
@@ -68,8 +72,6 @@ public class Sale implements Serializable{
 	@Column(name="shop_premium")
 	private float shopPremium;
 	
-	@Column(name="received_amount")
-	private int receivedAmount;
 	
 	@Column(name="create_card_date")
 	private Date createCardDate; 
@@ -99,12 +101,12 @@ public class Sale implements Serializable{
 		this.clientId = clientId;
 	}
 
-	public String getItemId() {
-		return itemId;
+	public String getBeautifySkinItemId() {
+		return beautifySkinItemId;
 	}
 
-	public void setItemId(String itemId) {
-		this.itemId = itemId;
+	public void setBeautifySkinItemId(String beautifySkinItemId) {
+		this.beautifySkinItemId = beautifySkinItemId;
 	}
 
 	public String getSellerId() {
@@ -123,12 +125,12 @@ public class Sale implements Serializable{
 		this.itemNumber = itemNumber;
 	}
 
-	public float getDiscount() {
-		return discount;
+	public float getCreateCardTotalAmount() {
+		return createCardTotalAmount;
 	}
 
-	public void setDiscount(float discount) {
-		this.discount = discount;
+	public void setCreateCardTotalAmount(long createCardTotalAmount) {
+		this.createCardTotalAmount = createCardTotalAmount;
 	}
 
 	public float getEmployeePremium() {
@@ -147,7 +149,7 @@ public class Sale implements Serializable{
 		this.shopPremium = shopPremium;
 	}
 
-	public int getReceivedAmount() {
+	public long getReceivedAmount() {
 		return receivedAmount;
 	}
 
@@ -196,15 +198,15 @@ public class Sale implements Serializable{
 		this.employee = employee;
 	}
 
-	public Sale(String id, String clientId, String itemId, String sellerId, int itemNumber, float discount,
+	public Sale(String id, String clientId, String beautifySkinItemId, String sellerId, int itemNumber, long createCardTotalAmount,
 			float employeePremium, float shopPremium, int receivedAmount, Date createCardDate, String description) {
 		super();
 		this.id = id;
 		this.clientId = clientId;
-		this.itemId = itemId;
+		this.beautifySkinItemId = beautifySkinItemId;
 		this.sellerId = sellerId;
 		this.itemNumber = itemNumber;
-		this.discount = discount;
+		this.createCardTotalAmount = createCardTotalAmount;
 		this.employeePremium = employeePremium;
 		this.shopPremium = shopPremium;
 		this.receivedAmount = receivedAmount;

@@ -16,6 +16,8 @@
  */
 package com.yuehe.app.service;
 
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -24,6 +26,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.yuehe.app.dto.SaleClientItemSellerDto;
+import com.yuehe.app.dto.SaleClientItemSellerForDBDto;
 import com.yuehe.app.entity.Sale;
 import com.yuehe.app.repository.SaleRepository;
 
@@ -35,6 +38,7 @@ import com.yuehe.app.repository.SaleRepository;
 public class SaleService {
     private static final Logger LOGGER = LoggerFactory.getLogger(SaleService.class);
     private final SaleRepository saleRepository;
+    private SimpleDateFormat simpleDateFormat =  new SimpleDateFormat("yyyy-MM-dd");
 
     public SaleService(SaleRepository saleRepository) {
         this.saleRepository = saleRepository;
@@ -60,9 +64,42 @@ public class SaleService {
         return saleRepository.saveAll(sale);
     }
 	public List<SaleClientItemSellerDto> getSalesDetailList() {
-		List<SaleClientItemSellerDto> list = saleRepository.fetchSaleClientItemSellerDataInnerJoin();
-		list.forEach(l -> System.out.println(l));
-		return list;
+		List<SaleClientItemSellerForDBDto> saleClientItemSellerForDBDtoList = saleRepository.fetchSaleClientItemSellerData();
+		List<SaleClientItemSellerDto> saleClientItemSellerDtoList = new ArrayList<SaleClientItemSellerDto>();
+		for(SaleClientItemSellerForDBDto saleClientItemSellerForDBDto : saleClientItemSellerForDBDtoList) {
+			long beautifySkinItemPrice = saleClientItemSellerForDBDto.getBeautifySkinItemPrice();
+			float cosmeticShopDiscount = saleClientItemSellerForDBDto.getCosmeticShopDiscount();
+			long createCardTotalAmount =  saleClientItemSellerForDBDto.getCreateCardTotalAmount();
+			long receivedAmount = saleClientItemSellerForDBDto.getReceivedAmount();
+			int itemNumber = saleClientItemSellerForDBDto.getItemNumber();
+			long receivedEarnedAmount = new Double(receivedAmount*cosmeticShopDiscount).longValue();
+			long earnedAmount = new Double(createCardTotalAmount*cosmeticShopDiscount).longValue();
+			Double discount = new Double(createCardTotalAmount)/new Double(beautifySkinItemPrice * itemNumber);
+			
+			SaleClientItemSellerDto saleClientItemSellerDto = new SaleClientItemSellerDto();
+			saleClientItemSellerDto.setBeautifySkinItemName(saleClientItemSellerForDBDto.getBeautifySkinItemName());
+			saleClientItemSellerDto.setClientName(saleClientItemSellerForDBDto.getClientName());
+			saleClientItemSellerDto.setCosmeticShopName(saleClientItemSellerForDBDto.getCosmeticShopName());
+			saleClientItemSellerDto.setCreateCardDate(simpleDateFormat.format(saleClientItemSellerForDBDto.getCreateCardDate()));
+			saleClientItemSellerDto.setCreateCardTotalAmount(createCardTotalAmount);
+			saleClientItemSellerDto.setDescription(saleClientItemSellerForDBDto.getDescription());
+			saleClientItemSellerDto.setDiscount((float)(Math.round(discount*100.0)/100.0));
+			saleClientItemSellerDto.setEarnedAmount(earnedAmount);
+			saleClientItemSellerDto.setEmployeePremium(saleClientItemSellerForDBDto.getEmployeePremium());
+			saleClientItemSellerDto.setItemNumber(itemNumber);
+			saleClientItemSellerDto.setReceivedAmount(receivedAmount);
+			saleClientItemSellerDto.setReceivedEarnedAmount(receivedEarnedAmount);
+			saleClientItemSellerDto.setSaleId(saleClientItemSellerForDBDto.getSaleId());
+			saleClientItemSellerDto.setSellerName(saleClientItemSellerForDBDto.getSellerName());
+			saleClientItemSellerDto.setShopPremium(saleClientItemSellerForDBDto.getShopPremium());
+			saleClientItemSellerDto.setUnpaidAmount(createCardTotalAmount - receivedAmount);
+			saleClientItemSellerDto.setUnpaidEarnedAmount(earnedAmount - receivedEarnedAmount);
+			
+			saleClientItemSellerDtoList.add(saleClientItemSellerDto);
+		}
+		saleClientItemSellerForDBDtoList.forEach(l -> System.out.println(l));
+		saleClientItemSellerDtoList.forEach(l -> System.out.println(l));
+		return saleClientItemSellerDtoList;
 	}
 	 public long getEntityNumber() {
 	    	return saleRepository.count();
