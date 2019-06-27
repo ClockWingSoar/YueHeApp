@@ -199,30 +199,32 @@ UNLOCK TABLES;
 --
 -- Table structure for table `organization`
 --
-
-DROP TABLE IF EXISTS `organization`;
+DROP TABLE IF EXISTS `duty`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
  SET character_set_client = utf8mb4 ;
-CREATE TABLE `organization` (
+CREATE TABLE `duty` (
+	`id` varchar(5) NOT NULL,
   `employee_id` varchar(5) NOT NULL,
   `role_id` varchar(5) NOT NULL,
+  `welfare` int(11) NOT NULL,
   `description` varchar(100) DEFAULT NULL,
-  PRIMARY KEY (`employee_id`,`role_id`),
+  PRIMARY KEY (`id`),
   KEY `employee-role_idx` (`role_id`),
   CONSTRAINT `employee-role` FOREIGN KEY (`role_id`) REFERENCES `role` (`id`),
   CONSTRAINT `role-employee` FOREIGN KEY (`employee_id`) REFERENCES `employee` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='组织表';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='职责分工表';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `organization`
 --
 
-LOCK TABLES `organization` WRITE;
+LOCK TABLES `duty` WRITE;
 /*!40000 ALTER TABLE `organization` DISABLE KEYS */;
-INSERT INTO `organization` VALUES ('yg001','js001','悦总为公司创始人'),('yg001','js003','悦总同时也是公司销售专家'),('yg002','js002','陈康健为公司合伙人'),('yg002','js003','陈康健为公司销售专家'),('yg002','js007','陈康健为公司司机'),('yg003','js002','石小兰为公司合伙人'),('yg003','js004','石小兰为公司医生，操作人'),('yg004','js002','李明亚为公司合伙人'),('yg004','js004','李明亚为公司医生，操作人'),('yg005','js005','钟翼翔为公司财务'),('yg005','js006','钟翼翔为公司技术');
+INSERT INTO `duty` VALUES ('zz001','yg001','js001','','悦总为公司创始人'),('zz002','yg001','js003','','悦总同时也是公司销售专家'),('zz003','yg002','js002','','陈康健为公司合伙人'),('zz004','yg002','js003','','陈康健为公司销售专家'),('zz005','yg002','js007','','陈康健为公司司机'),('zz006','yg003','js002','','石小兰为公司合伙人'),('zz007','yg003','js004','','石小兰为公司医生，操作人'),('zz008','yg004','js002','','李明亚为公司合伙人'),('zz009','yg004','js004','','李明亚为公司医生，操作人'),('zz010','yg005','js005','','钟翼翔为公司财务'),('zz011','yg005','js006','','钟翼翔为公司技术');
 /*!40000 ALTER TABLE `organization` ENABLE KEYS */;
 UNLOCK TABLES;
+
 
 --
 -- Table structure for table `profile`

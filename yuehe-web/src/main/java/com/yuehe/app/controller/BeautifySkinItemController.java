@@ -1,19 +1,13 @@
 package com.yuehe.app.controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.servlet.ModelAndView;
 
-import com.yuehe.app.entity.Account;
 import com.yuehe.app.entity.BeautifySkinItem;
-import com.yuehe.app.repository.BeautifySkinItemRepository;
 import com.yuehe.app.service.BeautifySkinItemService;
 import com.yuehe.app.util.YueHeUtil;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.stereotype.Controller;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 
 import java.util.ArrayList;
@@ -25,9 +19,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java.text.SimpleDateFormat;
-import java.util.Map;
-import java.util.stream.Collectors;
 
 
 @Controller
@@ -70,7 +61,6 @@ public class BeautifySkinItemController{
         beautifySkinItem.setName(name);
         beautifySkinItem.setPrice(Integer.parseInt(price));
         beautifySkinItem.setDescription(description);
-       // if (StringUtils.isNotEmpty(plusComment)) {
         beautifySkinItemList.add(beautifySkinItem);
         LOGGER.debug("beautifySkinItem:",beautifySkinItem);
        // }

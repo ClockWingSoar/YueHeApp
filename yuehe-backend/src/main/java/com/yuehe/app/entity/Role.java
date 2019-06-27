@@ -1,10 +1,22 @@
 package com.yuehe.app.entity;
 
 import java.io.Serializable;
+import java.util.Set;
 
+import javax.persistence.AttributeOverride;
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinColumns;
+import javax.persistence.ManyToOne;
+import javax.persistence.MapsId;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 /**
  * Role entity. @author Soveran Zhong
@@ -31,11 +43,20 @@ public class Role implements Serializable {
 	/**
 	 * 
 	 */
-	/**
-	 * 
-	 */
 	@Id
 	private String id;
+
+	@OneToMany(targetEntity = Duty.class, mappedBy = "roleId", orphanRemoval = false, fetch = FetchType.LAZY)
+	private Set<Duty> duties;
+
+	public Set<Duty> getDuties() {
+		return duties;
+	}
+
+	public void setDuties(Set<Duty> duties) {
+		this.duties = duties;
+	}
+
 	private String name;
 	private String responsibility;
 	private String description;

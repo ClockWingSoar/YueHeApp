@@ -3,9 +3,15 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.Set;
 
+import javax.persistence.AttributeOverride;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinColumns;
+import javax.persistence.ManyToOne;
+import javax.persistence.MapsId;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -47,9 +53,17 @@ public class Employee implements Serializable{
 	
 	@OneToMany(targetEntity = Sale.class, mappedBy = "sellerId", orphanRemoval = false, fetch = FetchType.LAZY)
 	private Set<Sale> sales;
-	
-	
-	
+
+	@OneToMany(targetEntity = Duty.class, mappedBy = "employeeId", orphanRemoval = false, fetch = FetchType.LAZY)
+	private Set<Duty> duties;
+	public Set<Duty> getDuties() {
+		return duties;
+	}
+
+	public void setDuties(Set<Duty> duties) {
+		this.duties = duties;
+	}
+
 	private String name;
 	private int salary;
 	private Date birthday;
@@ -110,6 +124,14 @@ public class Employee implements Serializable{
 	public void setResigned(String resigned) {
 		this.resigned = resigned;
 	}
+	public Set<Sale> getSales() {
+		return sales;
+	}
+
+	public void setSales(Set<Sale> sales) {
+		this.sales = sales;
+	}
+
 
 	
 }

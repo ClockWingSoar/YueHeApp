@@ -2,6 +2,7 @@ package com.yuehe.app.entity;
 import java.io.Serializable;
 import java.util.Date;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
@@ -9,8 +10,8 @@ import javax.persistence.Table;
 /**
  * Operation entity. @author Soveran Zhong
  */
-//@Entity
-//@Table(name = "operation")
+@Entity
+@Table(name = "operation")
 public class Operation implements Serializable{
 	
 	/**
@@ -35,13 +36,13 @@ public class Operation implements Serializable{
 	/**
 	 * 
 	 */
-	/**
-	 * 
-	 */
 	@Id
 	private String id;
+	@Column(name="sale_id")
 	private String saleId;
+	@Column(name="operator_id")
 	private String operatorId;
+	@Column(name="tool_id")
 	private String toolId;
 	private Date operationDate;
 	private String description;
