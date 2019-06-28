@@ -16,7 +16,6 @@
  */
 package com.yuehe.app.repository;
 
-import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
@@ -27,6 +26,6 @@ import com.yuehe.app.entity.Role;
  */
 public interface RoleRepository extends JpaRepository<Role, Long> {
 
-    List<Role> findByName(String name);
+    Role findByName(String name);
     Role findById(String id);
 }

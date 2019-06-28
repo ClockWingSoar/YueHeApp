@@ -27,6 +27,6 @@ import com.yuehe.app.entity.Tool;
  */
 public interface ToolRepository extends JpaRepository<Tool, Long> {
 
-    List<Tool> findByName(String name);
+    Tool findByName(String name);
     Tool findById(String id);
 }

@@ -1,6 +1,4 @@
 package com.yuehe.app.controller;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -46,7 +44,7 @@ public class RoleController{
 		return "user/role";
 	}
 	@PostMapping("/createRole")
-    public String createrole( @RequestParam(name = "name", required = false) String name,
+    public String createRole( @RequestParam(name = "name", required = false) String name,
                                        @RequestParam(name = "responsibility", required = false) String responsibility,
                                        @RequestParam(name = "description", required = false) String description
                                        ) 

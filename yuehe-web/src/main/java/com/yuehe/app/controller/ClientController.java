@@ -50,7 +50,7 @@ public class ClientController{
 		return "user/client";
 	}
 	@PostMapping("/createClient")
-    public String createclient( @RequestParam(name = "name", required = false) String name,
+    public String createClient( @RequestParam(name = "name", required = false) String name,
                                        @RequestParam(name = "cosmeticShopName", required = false) String cosmeticShopName,
                                        @RequestParam(name = "age", required = false) int age,
                                        @RequestParam(name = "gender", required = false) String gender,
@@ -62,14 +62,10 @@ public class ClientController{
         Client client =new Client();
         client.setId(id);
         client.setName(name);
-        List<CosmeticShop> cosmeticShopList = cosmeticShopService.getCosmeticShopByName(cosmeticShopName);
-        for(CosmeticShop cosmeticShop : cosmeticShopList) {
-        	this.cosmeticShop = cosmeticShop;
-        	   LOGGER.debug("cosmeticshop:",cosmeticShop);
-        }
+        cosmeticShop = cosmeticShopService.getCosmeticShopByName(cosmeticShopName);
+        LOGGER.debug("cosmeticshop:",cosmeticShop);
         if(cosmeticShop != null)
         	client.setShopId(cosmeticShop.getId());
-        //client.setCosmeticShop(cosmeticshop);
         client.setAge(age);
         client.setGender(gender);
         client.setSymptom(symptom);

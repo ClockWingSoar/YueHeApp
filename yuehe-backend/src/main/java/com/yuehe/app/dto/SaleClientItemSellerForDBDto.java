@@ -26,7 +26,7 @@ public class SaleClientItemSellerForDBDto {
 	public SaleClientItemSellerForDBDto(String saleId, String clientName, String beautifySkinItemName,
 			String cosmeticShopName, int itemNumber, long createCardTotalAmount, int beautifySkinItemPrice,
 			long receivedAmount, float cosmeticShopDiscount, float employeePremium, float shopPremium,
-			Date createCardDate, String sellerName, String description) {
+			String createCardDate, String sellerName, String description) {
 		super();
 		this.saleId = saleId;
 		this.clientName = clientName;
@@ -45,7 +45,7 @@ public class SaleClientItemSellerForDBDto {
 	}
 	private float employeePremium;
 	private float shopPremium;
-	private Date createCardDate;
+	private String createCardDate;
 	private String sellerName;
 	private String description;
 	public String getSaleId() {
@@ -102,10 +102,10 @@ public class SaleClientItemSellerForDBDto {
 	public void setReceivedAmount(long receivedAmount) {
 		this.receivedAmount = receivedAmount;
 	}
-	public Date getCreateCardDate() {
+	public String getCreateCardDate() {
 		return createCardDate;
 	}
-	public void setCreateCardDate(Date createCardDate) {
+	public void setCreateCardDate(String createCardDate) {
 		this.createCardDate = createCardDate;
 	}
 	public String getDescription() {

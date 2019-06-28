@@ -43,7 +43,7 @@ public class CosmeticShopController{
 		return "user/cosmeticShop";
 	}
 	@PostMapping("/createCosmeticShop")
-    public String createcosmeticShop( @RequestParam(name = "name", required = false) String name,
+    public String createCosmeticShop( @RequestParam(name = "name", required = false) String name,
                                        @RequestParam(name = "owner", required = false) String owner,
                                        @RequestParam(name = "contactMethod", required = false) String contactMethod,
                                        @RequestParam(name = "location", required = false) String location,
@@ -52,8 +52,8 @@ public class CosmeticShopController{
                                        @RequestParam(name = "description", required = false) String description
                                        ) 
 	{
-        int idNums = cosmeticShopService.getAllCosmeticShop().size();
-        String id = YueHeUtil.getId(2,idNums);
+		long idNums = cosmeticShopService.getEntityNumber();
+        String id = YueHeUtil.getId(2,Math.toIntExact(idNums));
         CosmeticShop cosmeticShop =new CosmeticShop();
         cosmeticShop.setId(id);
         cosmeticShop.setName(name);

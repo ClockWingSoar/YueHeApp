@@ -16,6 +16,7 @@
  */
 package com.yuehe.app.repository;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -54,4 +55,6 @@ public interface SaleRepository extends JpaRepository<Sale, Long> {
 //			+ "INNER JOIN c.cosmeticShop p")
     List<SaleClientItemSellerForDBDto> fetchSaleClientItemSellerData();
     Sale findById(String id);
+    @Query("select s from Sale s where s.clientId = ?1 AND s.beautifySkinItemId = ?2 AND s.createCardDate = ?3")
+    Sale findByClientIdAndItemIdAndCreateCardDate(String clientId, String beautifySkinItemId, String createCardDate);
 }

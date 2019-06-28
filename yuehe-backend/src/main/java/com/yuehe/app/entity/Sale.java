@@ -1,6 +1,7 @@
 package com.yuehe.app.entity;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -8,6 +9,7 @@ import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.Fetch;
@@ -53,6 +55,10 @@ public class Sale implements Serializable{
 	@Fetch(FetchMode.JOIN)
 	private Employee employee;
 	
+	@OneToMany(targetEntity = Operation.class, mappedBy = "saleId", orphanRemoval = false, fetch = FetchType.LAZY)
+	private Set<Operation> operations;
+	
+	
 
 	@Column(name="seller_id")
 	private String sellerId;
@@ -74,7 +80,7 @@ public class Sale implements Serializable{
 	
 	
 	@Column(name="create_card_date")
-	private Date createCardDate; 
+	private String createCardDate; 
 	
 	private String description;
 	
@@ -157,11 +163,11 @@ public class Sale implements Serializable{
 		this.receivedAmount = receivedAmount;
 	}
 
-	public Date getCreateCardDate() {
+	public String getCreateCardDate() {
 		return createCardDate;
 	}
 
-	public void setCreateCardDate(Date createCardDate) {
+	public void setCreateCardDate(String createCardDate) {
 		this.createCardDate = createCardDate;
 	}
 
@@ -197,9 +203,20 @@ public class Sale implements Serializable{
 	public void setEmployee(Employee employee) {
 		this.employee = employee;
 	}
+	public Set<Operation> getOperations() {
+		return operations;
+	}
+
+	public void setOperations(Set<Operation> operations) {
+		this.operations = operations;
+	}
+
+	public void setReceivedAmount(long receivedAmount) {
+		this.receivedAmount = receivedAmount;
+	}
 
 	public Sale(String id, String clientId, String beautifySkinItemId, String sellerId, int itemNumber, long createCardTotalAmount,
-			float employeePremium, float shopPremium, int receivedAmount, Date createCardDate, String description) {
+			float employeePremium, float shopPremium, int receivedAmount, String createCardDate, String description) {
 		super();
 		this.id = id;
 		this.clientId = clientId;

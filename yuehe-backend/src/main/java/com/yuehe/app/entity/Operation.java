@@ -4,8 +4,14 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 /**
  * Operation entity. @author Soveran Zhong
@@ -40,10 +46,57 @@ public class Operation implements Serializable{
 	private String id;
 	@Column(name="sale_id")
 	private String saleId;
+	@ManyToOne(fetch = FetchType.LAZY) 
+	@JoinColumn(name = "sale_id",insertable = false, updatable = false)
+	@Fetch(FetchMode.JOIN)
+	private Sale sale;
+	
+	
+	
+	
 	@Column(name="operator_id")
 	private String operatorId;
+	
+	@ManyToOne(fetch = FetchType.LAZY) 
+	@JoinColumn(name = "operator_id",insertable = false, updatable = false)
+	@Fetch(FetchMode.JOIN)
+	private Employee employee;
+	
+	
 	@Column(name="tool_id")
 	private String toolId;
+	@ManyToOne(fetch = FetchType.LAZY) 
+	@JoinColumn(name = "tool_id",insertable = false, updatable = false)
+	@Fetch(FetchMode.JOIN)
+	private Tool tool;
+	
+	
+	
+	public Sale getSale() {
+		return sale;
+	}
+
+	public void setSale(Sale sale) {
+		this.sale = sale;
+	}
+
+	public Employee getEmployee() {
+		return employee;
+	}
+
+	public void setEmployee(Employee employee) {
+		this.employee = employee;
+	}
+
+	public Tool getTool() {
+		return tool;
+	}
+
+	public void setTool(Tool tool) {
+		this.tool = tool;
+	}
+
+	@Column(name="operation_date")
 	private Date operationDate;
 	private String description;
 	

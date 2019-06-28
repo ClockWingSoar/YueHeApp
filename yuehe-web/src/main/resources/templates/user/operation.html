@@ -1,0 +1,140 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>操作表</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+       <link rel="stylesheet" th:href="@{/css/core.css}">
+       <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+        <script type="text/javascript"  th:src="@{/js/jquery.min.js}"></script>
+           <script type="text/javascript"  th:src="@{/js/bootstrap.min.js}"></script>
+    <meta http-equiv="refresh" content="600; URL=/"> <!-- this will redirect to / after 600s-->
+
+</head>
+
+<body>
+<div th:replace="~{fragments/header :: header}">Header</div>
+
+<div role="main" class="container">
+   
+     <div class="panel panel-default">
+      <div class="panel-heading"><h3>以下为现有的操作记录:</h3></div>
+ 
+	<hr/>
+    <div class="panel-body table-wrapper-scroll-y my-custom-scrollbar">
+    <table  id="operationRecordList" class="table table-striped  table-sm  " cellspacing="0"
+  width="100%">
+    	<thead>
+    	
+   			 <tr class="info">
+   			    <th>操作ID</th>
+   			    <th>销售卡ID</th>
+				<th>开卡日期</th>
+				<th>操作日期</th>
+				<th>客户姓名</th>
+				<th>美容院</th>
+				<th>美肤项目</th>
+				<th>开卡总金额</th>
+				<th>回款金额</th>
+				<th>疗程总次数</th>
+				<th>剩余次数</th>
+				<th>已消耗总数</th>
+				<th>已消耗回款</th>
+				<th>预付款总数</th>
+				<th>操作人</th>
+				<th>仪器</th>
+				<th>操作费用</th>
+				<th>备注</th>
+			</tr>
+		</thead>
+		
+		<tbody>
+			<tr data-th-each="operation : ${operationList}">
+			<td data-th-text="${operation.operationId}">...</td>
+			<td data-th-text="${operation.saleId}">...</td>
+			<td data-th-text="${operation.createCardDate}">...</td>
+			<td data-th-text="${operation.operationDate}">...</td>
+			<td data-th-text="${operation.clientName}">...</td>
+			<td data-th-text="${operation.cosmeticShopName}">...</td>
+			<td data-th-text="${operation.beautifySkinItemName}">...</td>
+			<td data-th-text="${operation.createCardTotalAmount}">...</td>
+			<td data-th-text="${operation.earnedTotalAmount}">...</td>
+			<td data-th-text="${operation.totalItemNumber}">...</td>
+			<td data-th-text="${operation.restItemNumber}">...</td>
+			<td data-th-text="${operation.consumedTotalAmount}">...</td>
+			<td data-th-text="${operation.consumedEarnedTotalAmount}">...</td>
+			<td data-th-text="${operation.advancedEarnedTotalAmount}">...</td>
+			<td data-th-text="${operation.operatorName}">...</td>
+			<td data-th-text="${operation.toolName}">...</td>
+			<td data-th-text="${operation.operateExpense}">...</td>
+			<td data-th-text="${operation.description}">...</td>
+			</tr>
+		</tbody>
+		</table>
+	</div>
+	 </div>
+
+     <div class="panel panel-default">
+              <div class="panel-heading">  <h3>创建新的操作卡</h3></div>
+           
+            <div class="form-group row">
+			    <form th:action="@{/createOperation}"  method="POST">
+		       		 <div class="input-group col-xs-4">
+			            <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i>客户名</span> 
+		                <input id="clientName" name="clientName" type=text class="form-control input-sm" ></input>
+		            </div>
+	                <span class="help-block">每个客户如果有不同的项目需分开写</span>
+		       		 <div class="input-group col-xs-4">
+			            <span class="input-group-addon"><i class="glyphicon glyphicon-star"></i>所属美容院</span> 
+		                <input id="cosmeticShopName" name="cosmeticShopName" type=text class="form-control input-sm" ></input>
+		            </div>
+	                <span class="help-block">一般来讲，通过客户名可以确定哪家美容院，但是不排除重名的情况</span>
+		       		 <div class="input-group col-xs-4">
+			            <span class="input-group-addon"><i class="glyphicon glyphicon-heart"></i>美肤项目</span> 
+		                <input id="beautifySkinItemName" name="beautifySkinItemName" type=text class="form-control input-sm" ></input>
+		            </div>
+	                <span class="help-block">一般包括有真皮斑，代谢，表皮斑，水光，扫黄等等</span>
+		       		 <div class="input-group col-xs-4">
+			            <span class="input-group-addon"><i class="glyphicon glyphicon-heart"></i>开卡日期</span> 
+		                <input id="createCardDate" name="createCardDate" type=text class="form-control input-sm" ></input>
+		            </div>
+	                <span class="help-block">通过开卡日期，所属美容院，美肤项目和客户名确定是哪一次销售卡,请按照yyyy-MM-dd格式填写</span>
+		       		 <div class="input-group col-xs-4">
+			            <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i>操作人</span> 
+		                <input id="operatorName" name="operatorName" type=text class="form-control input-sm" ></input>
+		            </div>
+	                <span class="help-block">操作医生，后期如果要计算操作费用的话，以此区分</span>
+		       		 <div class="input-group col-xs-4">
+			            <span class="input-group-addon"><i class="glyphicon glyphicon-glass"></i>操作仪器</span> 
+		                <input id="toolName" name="toolName" type=text class="form-control input-sm" ></input>
+		            </div>
+	                <span class="help-block">通过操作仪器可以确认操作医生的操作费用</span>
+		       		 <div class="input-group col-xs-4">
+			            <span class="input-group-addon"><i class="glyphicon glyphicon-music"></i>操作日期</span> 
+		                <input id="operationDate" name="operationDate" type=text class="form-control input-sm" ></input>
+		            </div>
+	                <span class="help-block">通过操作日期来计算一个销售卡的一次消耗</span>
+		       		 <div class="input-group col-xs-4">
+			            <span class="input-group-addon"><i class="glyphicon glyphicon-music"></i>备注</span> 
+		                <input id="description" name="description" type=text class="form-control input-sm" ></input>
+		            </div>
+	                <span class="help-block">此处填写额外的说明情况</span>
+			        </div>
+			        <hr>
+			        <div class="row form-row">
+			            <div class="col-md-4">
+			                <input type="submit" class="btn btn-success btn-lg" value="提交"/>
+			            </div>
+			        </div>
+			    </form>
+			  </div>   
+</div>
+    <footer class="fixed-bottom" style="position: fixed; bottom: 0">
+        <div class="container">
+            <span class="text-muted">Developed by Yi Xiang Zhong.</span>
+        </div>
+    </footer>
+<!-- /.container -->
+
+</body>
+</html>

@@ -50,7 +50,7 @@ public class EmployeeService {
     public Employee getEmployeeById(String id) {
     	return employeeRepository.findById(id);
     }
-    public List<Employee> getEmployeeByName(String name) {
+    public Employee getEmployeeByName(String name) {
     	return employeeRepository.findByName(name);
     }
     @Transactional(rollbackFor = Exception.class)

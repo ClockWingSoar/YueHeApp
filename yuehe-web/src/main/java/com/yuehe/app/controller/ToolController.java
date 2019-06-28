@@ -46,7 +46,7 @@ public class ToolController{
 		return "user/tool";
 	}
 	@PostMapping("/createTool")
-    public String createtool( @RequestParam(name = "name", required = false) String name,
+    public String createTool( @RequestParam(name = "name", required = false) String name,
                                        @RequestParam(name = "major", required = false) String major,
                                        @RequestParam(name = "price", required = false) int price,
                                        @RequestParam(name = "buyDate", required = false) String buyDate,

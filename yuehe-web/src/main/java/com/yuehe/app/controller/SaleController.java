@@ -38,13 +38,13 @@ public class SaleController{
 	
 	@Autowired
 	private final SaleService saleService;
-	 private CosmeticShop cosmeticShop;
 	@Autowired
 	private final ClientService clientService;
 	@Autowired
 	private final CosmeticShopService cosmeticShopService;
 	@Autowired
 	private final EmployeeService employeeService;
+	private CosmeticShop cosmeticShop;
 	private  Client client;
 	private  Employee employee;
 	private  BeautifySkinItem beautifySkinItem;
@@ -71,7 +71,7 @@ public class SaleController{
 		return "user/sale";
 	}
 	@PostMapping("/createSale")
-    public String createsale( @RequestParam(name = "clientName", required = false) String clientName,
+    public String createSale( @RequestParam(name = "clientName", required = false) String clientName,
     								@RequestParam(name = "beautifySkinItemName", required = false) String beautifySkinItemName,
                                        @RequestParam(name = "cosmeticShopName", required = false) String cosmeticShopName,
                                        @RequestParam(name = "itemNumber", required = false) int itemNumber,
@@ -79,7 +79,7 @@ public class SaleController{
                                        @RequestParam(name = "receivedAmount", required = false) int receivedAmount,
                                        @RequestParam(name = "employeePremium", required = false) float employeePremium,
                                        @RequestParam(name = "shopPremium", required = false) float shopPremium,
-                                       @RequestParam(name = "createCardDate", required = false) Date createCardDate,
+                                       @RequestParam(name = "createCardDate", required = false) String createCardDate,
                                        @RequestParam(name = "sellerName", required = false) String sellerName,
                                        @RequestParam(name = "description", required = false) String description
                                        ) 
@@ -88,31 +88,18 @@ public class SaleController{
         String id = YueHeUtil.getId(6,Math.toIntExact(idNums));
         Sale sale =new Sale();
         sale.setId(id);
-        List<CosmeticShop> cosmeticShopList = cosmeticShopService.getCosmeticShopByName(cosmeticShopName);
-        for(CosmeticShop cosmeticShop : cosmeticShopList) {
-        	this.cosmeticShop = cosmeticShop;
-        	   LOGGER.debug("cosmeticshop:",cosmeticShop);
-        }
-        List<Client> clientList = clientService.getClientByName(clientName);
-        for(Client client : clientList) {
-        	if(client.getShopId().equals(this.cosmeticShop.getId()))
-        		this.client = client;
-        	   LOGGER.debug("client:",client);
-        }
+        cosmeticShop = cosmeticShopService.getCosmeticShopByName(cosmeticShopName);
+        LOGGER.debug("cosmeticshop:",cosmeticShop);
+        client = clientService.getClientByClientNameAndShopName(clientName,cosmeticShopName);
+	    LOGGER.debug("client:",client);
         if(client != null)
         	sale.setClientId(client.getId());
-        List<Employee> employeeList = employeeService.getEmployeeByName(sellerName);
-        for(Employee employee : employeeList) {
-        	this.employee = employee;
-        	LOGGER.debug("employee:",employee);
-        }
+        employee = employeeService.getEmployeeByName(sellerName);
+    	LOGGER.debug("employee:",employee);
         if(employee != null)
         	sale.setSellerId(employee.getId());
-        List<BeautifySkinItem> beautifySkinItemList = beautifySkinItemService.getBeautifySkinItemByName(beautifySkinItemName);
-        for(BeautifySkinItem beautifySkinItem : beautifySkinItemList) {
-        	this.beautifySkinItem = beautifySkinItem;
-        	LOGGER.debug("beautifySkinItem:",beautifySkinItem);
-        }
+        beautifySkinItem = beautifySkinItemService.getBeautifySkinItemByName(beautifySkinItemName);
+    	LOGGER.debug("beautifySkinItem:",beautifySkinItem);
         if(beautifySkinItem != null)
         	sale.setBeautifySkinItemId(beautifySkinItem.getId());
         sale.setItemNumber(itemNumber);

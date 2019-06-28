@@ -1,9 +1,12 @@
 package com.yuehe.app.entity;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.Set;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 /**
@@ -41,6 +44,8 @@ public class Tool implements Serializable{
 	 */
 	@Id
 	private String id;
+	@OneToMany(targetEntity = Operation.class, mappedBy = "toolId", orphanRemoval = false, fetch = FetchType.LAZY)
+	private Set<Operation> operations;
 	private String name;
 	private String major;
 	private int price;
@@ -50,6 +55,14 @@ public class Tool implements Serializable{
 	private String description;
 	
 	// Constructors
+
+	public Set<Operation> getOperations() {
+		return operations;
+	}
+
+	public void setOperations(Set<Operation> operations) {
+		this.operations = operations;
+	}
 
 	/** default constructor */
 	public Tool() {

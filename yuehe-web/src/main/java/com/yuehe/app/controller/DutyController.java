@@ -33,8 +33,8 @@ public class DutyController{
 	    }
 	 private final static Logger LOGGER = LoggerFactory.getLogger(DutyController.class);
 	
-	 private Role role;
-	 private Employee employee;
+	private Role role;
+	private Employee employee;
 	@Autowired
 	private final DutyService dutyService;
 	@Autowired
@@ -59,7 +59,7 @@ public class DutyController{
 		return "user/duty";
 	}
 	@PostMapping("/createDuty")
-    public String createduty( @RequestParam(name = "employeeName", required = false) String employeeName,
+    public String createDuty( @RequestParam(name = "employeeName", required = false) String employeeName,
                                        @RequestParam(name = "roleName", required = false) String roleName,
                                        @RequestParam(name = "welfare", required = false) int welfare,
                                        @RequestParam(name = "description", required = false) String description
@@ -71,19 +71,13 @@ public class DutyController{
         duty.setId(id);
         duty.setWelfare(welfare);
         duty.setDescription(description);
-        List<Role> roleList = roleService.getRoleByName(roleName);
-        for(Role role : roleList) {
-        	this.role = role;
-        	   LOGGER.debug("role:",role);
-        }
+        role = roleService.getRoleByName(roleName);
+        LOGGER.debug("role:",role);
         if(role != null)
         	duty.setRoleId(role.getId());
         LOGGER.debug("duty:",duty);
-        List<Employee> employeeList = employeeService.getEmployeeByName(employeeName);
-        for(Employee employee : employeeList) {
-        	this.employee = employee;
-        	LOGGER.debug("employee:",employee);
-        }
+        employee = employeeService.getEmployeeByName(employeeName);
+    	LOGGER.debug("employee:",employee);
         if(employee != null)
         	duty.setEmployeeId(employee.getId());
         LOGGER.debug("duty:",duty);

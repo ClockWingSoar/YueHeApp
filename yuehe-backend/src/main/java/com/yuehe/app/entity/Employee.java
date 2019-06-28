@@ -56,6 +56,18 @@ public class Employee implements Serializable{
 
 	@OneToMany(targetEntity = Duty.class, mappedBy = "employeeId", orphanRemoval = false, fetch = FetchType.LAZY)
 	private Set<Duty> duties;
+	
+	@OneToMany(targetEntity = Operation.class, mappedBy = "operatorId", orphanRemoval = false, fetch = FetchType.LAZY)
+	private Set<Operation> operations;
+	
+	public Set<Operation> getOperations() {
+		return operations;
+	}
+
+	public void setOperations(Set<Operation> operations) {
+		this.operations = operations;
+	}
+
 	public Set<Duty> getDuties() {
 		return duties;
 	}

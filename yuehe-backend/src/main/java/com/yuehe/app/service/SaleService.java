@@ -18,15 +18,20 @@ package com.yuehe.app.service;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.yuehe.app.dto.SaleClientItemSellerDto;
 import com.yuehe.app.dto.SaleClientItemSellerForDBDto;
+import com.yuehe.app.entity.BeautifySkinItem;
+import com.yuehe.app.entity.Client;
+import com.yuehe.app.entity.Employee;
 import com.yuehe.app.entity.Sale;
 import com.yuehe.app.repository.SaleRepository;
 
@@ -39,9 +44,20 @@ public class SaleService {
     private static final Logger LOGGER = LoggerFactory.getLogger(SaleService.class);
     private final SaleRepository saleRepository;
     private SimpleDateFormat simpleDateFormat =  new SimpleDateFormat("yyyy-MM-dd");
+	@Autowired
+	private final ClientService clientService;
+//	@Autowired
+//	private final EmployeeService employeeService;
+	private  Client client;
+	private  BeautifySkinItem beautifySkinItem;
+	@Autowired
+	private final BeautifySkinItemService beautifySkinItemService;
 
-    public SaleService(SaleRepository saleRepository) {
+    public SaleService(SaleRepository saleRepository,ClientService clientService,
+    							BeautifySkinItemService beautifySkinItemService) {
         this.saleRepository = saleRepository;
+        this.beautifySkinItemService = beautifySkinItemService;
+        this.clientService = clientService;
     }
 
 
@@ -55,9 +71,12 @@ public class SaleService {
     public Sale getSaleById(String id) {
     	return saleRepository.findById(id);
     }
-//    public List<Sale> getSaleByName(String name) {
-//    	return saleRepository.findByName(name);
-//    }
+    public Sale getSaleByClientNameAndShopNameAndItemNameAndCreateCardDate(String clientName, String cosmeticShopName,
+    																		String beautifySkinItemName, String createCardDate) {
+    	client = clientService.getClientByClientNameAndShopName(clientName,cosmeticShopName);
+    	beautifySkinItem = beautifySkinItemService.getBeautifySkinItemByName(beautifySkinItemName);
+    	return saleRepository.findByClientIdAndItemIdAndCreateCardDate(client.getId(),beautifySkinItem.getId(),createCardDate);
+    }
     @Transactional(rollbackFor = Exception.class)
     public List<Sale> saveAll(List<Sale> sale) {
         LOGGER.info("Saving {}", sale);
@@ -80,7 +99,7 @@ public class SaleService {
 			saleClientItemSellerDto.setBeautifySkinItemName(saleClientItemSellerForDBDto.getBeautifySkinItemName());
 			saleClientItemSellerDto.setClientName(saleClientItemSellerForDBDto.getClientName());
 			saleClientItemSellerDto.setCosmeticShopName(saleClientItemSellerForDBDto.getCosmeticShopName());
-			saleClientItemSellerDto.setCreateCardDate(simpleDateFormat.format(saleClientItemSellerForDBDto.getCreateCardDate()));
+			saleClientItemSellerDto.setCreateCardDate(saleClientItemSellerForDBDto.getCreateCardDate());
 			saleClientItemSellerDto.setCreateCardTotalAmount(createCardTotalAmount);
 			saleClientItemSellerDto.setDescription(saleClientItemSellerForDBDto.getDescription());
 			saleClientItemSellerDto.setDiscount((float)(Math.round(discount*100.0)/100.0));

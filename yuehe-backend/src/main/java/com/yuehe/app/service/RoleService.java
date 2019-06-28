@@ -50,7 +50,7 @@ public class RoleService {
     public Role getRoleById(String id) {
     	return roleRepository.findById(id);
     }
-    public List<Role> getRoleByName(String name) {
+    public Role getRoleByName(String name) {
     	return roleRepository.findByName(name);
     }
     @Transactional(rollbackFor = Exception.class)

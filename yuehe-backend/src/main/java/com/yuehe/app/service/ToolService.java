@@ -50,7 +50,7 @@ public class ToolService {
     public Tool getToolById(String id) {
     	return toolRepository.findById(id);
     }
-    public List<Tool> getToolByName(String name) {
+    public Tool getToolByName(String name) {
     	return toolRepository.findByName(name);
     }
     @Transactional(rollbackFor = Exception.class)

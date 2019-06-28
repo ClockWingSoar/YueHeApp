@@ -20,7 +20,6 @@ import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
-
 import com.yuehe.app.dto.ClientShopDto;
 import com.yuehe.app.entity.Client;
 
@@ -34,4 +33,6 @@ public interface ClientRepository extends JpaRepository<Client, Long> {
 			+ "FROM Client c INNER JOIN c.cosmeticShop s")
     List<ClientShopDto> fetchClientShopDataInnerJoin();
     Client findById(String id);
+    @Query("select c from Client c where c.name = ?1 AND c.shopId =?2")
+    Client findByClientNameAndShopId(String clientName, String cosmeticShopName);
 }

@@ -47,10 +47,13 @@ public class CosmeticShopService {
     public List<CosmeticShop> getAllCosmeticShop() {
         return cosmeticShopRepository.findAll();
     }
+    public long getEntityNumber() {
+    	return cosmeticShopRepository.count();
+    }
     public CosmeticShop getCosmeticShopById(String id) {
     	return cosmeticShopRepository.findById(id);
     }
-    public List<CosmeticShop> getCosmeticShopByName(String name) {
+    public CosmeticShop getCosmeticShopByName(String name) {
     	return cosmeticShopRepository.findByName(name);
     }
     @Transactional(rollbackFor = Exception.class)

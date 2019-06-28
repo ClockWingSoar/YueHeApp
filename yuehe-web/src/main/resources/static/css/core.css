@@ -21,6 +21,8 @@ body {
 position: relative;
 height: 400px;
 overflow: auto;
+margin: 0 auto;
+white-space: nowrap;
 }
 .table-wrapper-scroll-y {
 display: block;
