@@ -16,14 +16,10 @@
 <div th:replace="~{fragments/header :: header}">Header</div>
 
 <div role="main" class="container">
-   
      <div class="panel panel-default">
-      <div class="panel-heading"><h3>以下为现有的销售记录:</h3></div>
- 
-	<hr/>
-    <div class="panel-body table-wrapper-scroll-y my-custom-scrollbar">
-    <table  id="saleRecordList" class="table table-striped  table-sm " cellspacing="0"
-  width="100%">
+     <div class="panel-heading"><h3>以下为现有的销售记录:</h3></div>
+     <div class="panel-body table-wrapper-scroll-y my-custom-scrollbar">
+     <table  id="saleRecordList" class="table table-striped  table-sm " >
     	<thead>
    			 <tr class="info">
    			    <th>ID</th>
@@ -77,76 +73,75 @@
             <div class="form-group row">
 			    <form th:action="@{/createSale}"  method="POST">
 		       		 <div class="input-group col-xs-4">
-			            <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i>客户姓名</span> 
+			            <span class="input-group-addon"><i class="glyphicon glyphicon-euro"></i>客户姓名</span> 
 		                <input id="clientName" name="clientName" type=text class="form-control input-sm" ></input>
 		            </div>
 	                <span class="help-block">每个客户如果有不同的项目需分开写</span>
 		       		 <div class="input-group col-xs-4">
-			            <span class="input-group-addon"><i class="glyphicon glyphicon-heart"></i>美肤项目</span> 
+			            <span class="input-group-addon"><i class="glyphicon glyphicon-euro"></i>美肤项目</span> 
 		                <input id="beautifySkinItemName" name="beautifySkinItemName" type=text class="form-control input-sm" ></input>
 		            </div>
 	                <span class="help-block">一般包括有真皮斑，代谢，表皮斑，水光，扫黄等等</span>
 		       		 <div class="input-group col-xs-4">
-			            <span class="input-group-addon"><i class="glyphicon glyphicon-star"></i>所属美容院</span> 
+			            <span class="input-group-addon"><i class="glyphicon glyphicon-euro"></i>所属美容院</span> 
 		                <input id="cosmeticShopName" name="cosmeticShopName" type=text class="form-control input-sm" ></input>
 		            </div>
 	                <span class="help-block">一般来讲，通过客户名可以确定哪家美容院，但是不排除重名的情况</span>
 		       		 <div class="input-group col-xs-4">
-			            <span class="input-group-addon"><i class="glyphicon glyphicon-glass"></i>开卡日期</span> 
+			            <span class="input-group-addon"><i class="glyphicon glyphicon-euro"></i>开卡日期</span> 
 		                <input id="createCardDate" name="createCardDate" type=text class="form-control input-sm" ></input>
 		            </div>
 	                <span class="help-block">通过开卡日期可以确定针对某个客户的单次某个项目的销售</span>
 		       		 <div class="input-group col-xs-4">
-			            <span class="input-group-addon"><i class="glyphicon glyphicon-music"></i>开卡次数</span> 
+			            <span class="input-group-addon"><i class="glyphicon glyphicon-euro"></i>开卡次数</span> 
 		                <input id="itemNumber" name="itemNumber" type=text class="form-control input-sm" ></input>
 		            </div>
 	                <span class="help-block">通过开卡次数和开卡金额可以计算某个项目给与客户的优惠力度，还可以计算消耗，一定要填写</span>
 		       		 <div class="input-group col-xs-4">
-			            <span class="input-group-addon"><i class="glyphicon glyphicon-music"></i>开卡总金额</span> 
+			            <span class="input-group-addon"><i class="glyphicon glyphicon-euro"></i>开卡总金额</span> 
 		                <input id="createCardTotalAmount" name="createCardTotalAmount" type=text class="form-control input-sm" ></input>
 		            </div>
 	                <span class="help-block">开卡总金额一般由销售专家根据客户情况拟定，需跟标准价格进行计算得出优惠力度</span>
 		       		 <div class="input-group col-xs-4">
-			            <span class="input-group-addon"><i class="glyphicon glyphicon-music"></i>实收金额</span> 
+			            <span class="input-group-addon"><i class="glyphicon glyphicon-euro"></i>实收金额</span> 
 		                <input id="receivedAmount" name="receivedAmount" type=text class="form-control input-sm" ></input>
 		            </div>
 	                <span class="help-block">这个是指客户给到店家的金额，也就是通常意义的业绩收入，需要按店折扣计算回款</span>
 		       		 <div class="input-group col-xs-4">
-			            <span class="input-group-addon"><i class="glyphicon glyphicon-music"></i>员工回扣</span> 
+			            <span class="input-group-addon"><i class="glyphicon glyphicon-euro"></i>员工回扣</span> 
 		                <input id="employeePremium" name="employeePremium" type=text class="form-control input-sm" ></input>
 		            </div>
 	                <span class="help-block">这个每个店可能都不一样，有些是开卡金额的百分之一，有些是满多少万给100或200</span>
 		       		 <div class="input-group col-xs-4">
-			            <span class="input-group-addon"><i class="glyphicon glyphicon-music"></i>店家回扣</span> 
+			            <span class="input-group-addon"><i class="glyphicon glyphicon-euro"></i>店家回扣</span> 
 		                <input id="shopPremium" name="shopPremium" type=text class="form-control input-sm" ></input>
 		            </div>
 	                <span class="help-block">这是针对柳叶或者肤语港，满足一定条件需要返还店家一定额度的业绩</span>
 		       		 <div class="input-group col-xs-4">
-			            <span class="input-group-addon"><i class="glyphicon glyphicon-music"></i>销售专家</span> 
+			            <span class="input-group-addon"><i class="glyphicon glyphicon-euro"></i>销售专家</span> 
 		                <input id="sellerName" name="sellerName" type=text class="form-control input-sm" ></input>
 		            </div>
 	                <span class="help-block">目前专家只有钟悦旻和陈康健，需要按格式填写销售记录表</span>
 		       		 <div class="input-group col-xs-4">
-			            <span class="input-group-addon"><i class="glyphicon glyphicon-music"></i>备注</span> 
+			            <span class="input-group-addon"><i class="glyphicon glyphicon-euro"></i>备注</span> 
 		                <input id="description" name="description" type=text class="form-control input-sm" ></input>
 		            </div>
 	                <span class="help-block">此处填写额外的说明情况</span>
-			        </div>
 			        <hr>
-			        <div class="row form-row">
-			            <div class="col-md-4">
-			                <input type="submit" class="btn btn-success btn-lg" value="提交"/>
+			        <div class="content">
+			            <div class="input-group col-xs-4">
+			                <input type="submit" class="btn  btn-lg" value="提交"/>
 			            </div>
 			        </div>
 			    </form>
 			  </div>   
-</div>
+		</div>
     <footer class="fixed-bottom" style="position: fixed; bottom: 0">
         <div class="container">
             <span class="text-muted">Developed by Yi Xiang Zhong.</span>
         </div>
     </footer>
 <!-- /.container -->
-
+</div>
 </body>
 </html>

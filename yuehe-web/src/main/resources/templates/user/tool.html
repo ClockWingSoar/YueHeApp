@@ -15,15 +15,11 @@
 <body>
 <div th:replace="~{fragments/header :: header}">Header</div>
 
-<main role="main" class="container">
-
-    <div class="starter-template">
-        <h3>以下为现有的工具:</h3>
-       
-    </div>
-
-    <div class="container">
-    <table  class="table table-striped">
+<div role="main" class="container">
+   <div class="panel panel-default">
+      <div class="panel-heading">   <h3>以下为现有的工具:</h3> </div>
+	<div class="panel-body table-wrapper-scroll-y my-custom-scrollbar">
+    <table  class="table table-striped  table-sm  " >	
     	<thead>
    			 <tr class="info">
    			    <th>ID</th>
@@ -42,7 +38,7 @@
 			<td data-th-text="${tool.Name}">...</td>
 			<td data-th-text="${tool.major}">...</td>
 			<td data-th-text="${tool.price}">...</td>
-			<td data-th-text="${tool.buyDate}">...</td>
+			<td data-th-text="${#dates.format(tool.buyDate,'yyyy-MM-dd')}">...</td>
 			<td data-th-text="${tool.buyFrom}">...</td>
 			<td data-th-text="${tool.operateExpense}">...</td>
 			<td data-th-text="${tool.description}">...</td>
@@ -50,59 +46,69 @@
 		</tbody>
 		</table>
 	</div>
-</main>
+	</div>
 
-<main role="main" class="container">
-<!-- div class="container">
-    <nav class="navbar navbar-inverse">
-        <div class="container-fluid">
-          
-        </div>
-    </nav> -->
-      <div class="starter-template">
-                <h3>创建新的工具</h3>
+	<div class="panel panel-default">
+               <div class="panel-heading"> <h3>创建新的工具</h3>
             </div>
-            <div>
+           <div class="form-group row">
 			    <form th:action="@{/createTool}"  method="POST">
-			        <div class="row form-row">
-			            <div class="col-xs-2"><i class="fa fa-plus"></i> 工具名称
-			                <input id="name" name="name" type=text class="form-control input-sm" style="min-width: 10%"></input>
-			            </div>
-			               <div class="col-xs-2"><i class="fa fa-plus"></i> 主治
-			                <input id="major" name="major" type=text class="form-control input-sm" style="min-width: 10%"></input>
-			            </div>
-			               <div class="col-xs-2"><i class="fa fa-plus"></i> 价格
-			                <input id="price" name="price" type=text class="form-control input-sm" style="min-width: 10%"></input>
-			            </div>
-			               <div class="col-xs-2"><i class="fa fa-plus"></i> 购买日期
-			                <input id="buyDate" name="buyDate" type=text class="form-control input-sm" style="min-width: 10%"></input>
-			            </div>
-			               <div class="col-xs-2"><i class="fa fa-plus"></i> 购买厂家
-			                <input id="buyFrom" name="buyFrom" type=text class="form-control input-sm" style="min-width: 10%"></input>
-			            </div>
-			               <div class="col-xs-2"><i class="fa fa-plus"></i> 操作费用
-			                <input id="operateExpense" name="operateExpense" type=text class="form-control input-sm" style="min-width: 10%"></input>
-			            </div>
-			            <div class="col-xs-2"><i class="fa fa-asterisk"></i> 简介
-			                <input id="description" name="description" type=text class="form-control input-sm" style="min-width: 10%"></input>
-			            </div>
-			        </div>
+			        <div class="input-group col-xs-4">
+			            <span class="input-group-addon"><i class="glyphicon glyphicon-plus"></i>工具名称</span> 
+		                <input id="name" name="name" type=text class="form-control input-sm" ></input>
+		            </div>
+	                <span class="help-block">可以指各种光美肤仪器，也可以指产品比如面膜，花青素等</span>
+			    
+			        <div class="input-group col-xs-4">
+			            <span class="input-group-addon"><i class="glyphicon glyphicon-plus"></i>主治</span> 
+		                <input id="major" name="major" type=text class="form-control input-sm" ></input>
+		            </div>
+	                <span class="help-block">可以治疗的皮肤问题及主治方向</span>
+			    
+			        <div class="input-group col-xs-4">
+			            <span class="input-group-addon"><i class="glyphicon glyphicon-plus"></i>价格</span> 
+		                <input id="price" name="price" type=text class="form-control input-sm" ></input>
+		            </div>
+	                <span class="help-block">仪器购买的价格留作参考或者用于计算每年的仪器耗损费用</span>
+	                
+			        <div class="input-group col-xs-4">
+			            <span class="input-group-addon"><i class="glyphicon glyphicon-plus"></i>购买日期</span> 
+		                <input id="buyDate" name="buyDate" type=text class="form-control input-sm" ></input>
+		            </div>
+	                <span class="help-block">购买的时间，方便计算折旧费</span>
+	                
+			        <div class="input-group col-xs-4">
+			            <span class="input-group-addon"><i class="glyphicon glyphicon-plus"></i> 购买厂家</span> 
+		                <input id="buyFrom" name="buyFrom" type=text class="form-control input-sm" ></input>
+		            </div>
+	                <span class="help-block">大部分仪器和产品都来自广州</span>
+	                
+			        <div class="input-group col-xs-4">
+			            <span class="input-group-addon"><i class="glyphicon glyphicon-plus"></i> 操作费用</span> 
+		                <input id="operateExpense" name="operateExpense" type=text class="form-control input-sm" ></input>
+		            </div>
+	                <span class="help-block">这个可以用来计算操作医生的操作费用，现在暂时不计算</span>
+	                
+			        <div class="input-group col-xs-4">
+			            <span class="input-group-addon"><i class="glyphicon glyphicon-plus"></i> 备注</span> 
+		                <input id="description" name="description" type=text class="form-control input-sm" ></input>
+		            </div>
+	                <span class="help-block">其他信息</span>
 			        <br>
-			        <div class="row form-row">
-			            <div class="col-md-4">
-			                <input type="submit" class="btn btn-success btn-lg" value="提交"/>
+			        <div class="content">
+			            <div class="input-group col-xs-4">
+			                <input type="submit" class="btn  btn-lg" value="提交"/>
 			            </div>
 			        </div>
 			    </form>
 			    </div>
-			    
-</main>
-    <footer class="fixed-bottom" style="position: fixed; bottom: 0">
+		    </div>
+   		 <footer class="fixed-bottom" style="position: fixed; bottom: 0">
         <div class="container">
             <span class="text-muted">Developed by Yi Xiang Zhong.</span>
         </div>
-    </footer>
+  	  </footer>
 <!-- /.container -->
-
+</div>
 </body>
 </html>

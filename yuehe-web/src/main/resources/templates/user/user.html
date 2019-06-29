@@ -1,0 +1,79 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>系統用戶表</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+       <link rel="stylesheet" th:href="@{/css/core.css}">
+       <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+        <script type="text/javascript"  th:src="@{/js/jquery.min.js}"></script>
+           <script type="text/javascript"  th:src="@{/js/bootstrap.min.js}"></script>
+    <meta http-equiv="refresh" content="600; URL=/"> <!-- this will redirect to / after 600s-->
+
+</head>
+
+<body>
+<div th:replace="~{fragments/header :: header}">Header</div>
+
+<div role="main" class="container">
+   <div class="panel panel-default">
+      <div class="panel-heading">  <h3>以下为现有的系統用戶:</h3>  </div>
+	  <div class="panel-body table-wrapper-scroll-y my-custom-scrollbar">
+  	  <table  class="table table-striped  table-sm  " >	<thead>
+   			 <tr class="info">
+   			    <th>ID</th>
+				<th>用戶名</th>
+				<th>密碼</th>
+				<th>角色</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr data-th-each="user : ${userList}">
+			<td data-th-text="${user.id}">...</td>
+			<td data-th-text="${user.username}">...</td>
+			<td data-th-text="${user.password}">...</td>
+			<td data-th-text="${user.role}">...</td>
+			</tr>
+		</tbody>
+		</table>
+	</div>
+</div>
+
+	<div class="panel panel-default">
+               <div class="panel-heading">  <h3>创建新的用戶</h3></div>
+             <div class="form-group row">
+			    <form th:action="@{/createUser}"  method="POST">
+			          <div class="input-group col-xs-4">
+			            <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i>用戶名称</span> 
+		                <input id="username" name="username" type=text class="form-control input-sm" ></input>
+		            </div>
+	                <span class="help-block">登陆系统的用户名</span>
+			    
+			          <div class="input-group col-xs-4">
+			            <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i>用戶密碼</span> 
+		                <input id="password" name="password" type=text class="form-control input-sm" ></input>
+		            </div>
+	                <span class="help-block">登陆系统的密码，经过加密后存于数据库</span>
+			    
+			          <div class="input-group col-xs-4">
+			            <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i>用戶角色</span> 
+		                <input id="role" name="role" type=text class="form-control input-sm" ></input>
+		            </div>
+	                <span class="help-block">需要按照admin和user两类角色分配,须填写(ROLE_ADMIN / ROLE_USER)</span>
+			        <br>
+			        <div class="content">
+			            <div class="input-group col-xs-4">
+			                <input type="submit" class="btn  btn-lg" value="提交"/>
+			            </div>
+			        </div>
+			    </form>
+			    </div>
+			    </div>
+    <footer class="fixed-bottom" style="position: fixed; bottom: 0">
+        <div class="container">
+            <span class="text-muted">Developed by Yi Xiang Zhong.</span>
+        </div>
+    </footer>
+</div>
+</body>
+</html>

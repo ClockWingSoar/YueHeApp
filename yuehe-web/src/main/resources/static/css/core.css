@@ -27,7 +27,11 @@ white-space: nowrap;
 .table-wrapper-scroll-y {
 display: block;
 }
-
+thead th {
+  font-size: 1.2em;
+  padding: 5px !important;
+  height: 25px;
+}
 .saleRecordList {
 max-width: 800px;
 margin: 0 auto;

@@ -9,22 +9,17 @@
         <script type="text/javascript"  th:src="@{/js/jquery.min.js}"></script>
            <script type="text/javascript"  th:src="@{/js/bootstrap.min.js}"></script>
     <meta http-equiv="refresh" content="600; URL=/"> <!-- this will redirect to / after 600s-->
-
 </head>
 
 <body>
 <div th:replace="~{fragments/header :: header}">Header</div>
 
-<main role="main" class="container">
-
-    <div class="starter-template">
-        <h3>以下为现有的客户:</h3>
-       
-    </div>
-
-    <div class="container">
-    <table  class="table table-striped">
-    	<thead>
+<div role="main" class="container">
+   <div class="panel panel-default">
+      <div class="panel-heading">  <h3>以下为现有的客户:</h3></div>
+	<div class="panel-body table-wrapper-scroll-y my-custom-scrollbar">
+    <table  class="table table-striped  table-sm  " >
+    	<thead class="thead-dark">
    			 <tr class="info">
    			    <th>ID</th>
 				<th>姓名</th>
@@ -46,53 +41,50 @@
 		</tbody>
 		</table>
 	</div>
-</main>
-
-<main role="main" class="container">
-<!-- div class="container">
-    <nav class="navbar navbar-inverse">
-        <div class="container-fluid">
-          
-        </div>
-    </nav> -->
-      <div class="starter-template">
-                <h3>创建新的客户</h3>
-            </div>
-            <div>
+	</div>
+	<div class="panel panel-default">
+               <div class="panel-heading"><h3>创建新的客户</h3></div>
+             <div class="form-group row">
 			    <form th:action="@{/createClient}"  method="POST">
-			        <div class="row form-row">
-			            <div class="col-xs-2"><i class="fa fa-plus"></i> 客户名称
-			                <input id="name" name="name" type=text class="form-control input-sm" style="min-width: 10%"></input>
-			            </div>
-			               <div class="col-xs-2"><i class="fa fa-plus"></i> 所属美容院
-			                <input id="cosmeticShopName" name="cosmeticShopName" type=text class="form-control input-sm" style="min-width: 10%"></input>
-			            </div>
-			            <div class="col-xs-2"><i class="fa fa-asterisk"></i> 年龄
-			                <input id="age" name="age" type=text class="form-control input-sm" style="min-width: 10%"></input>
-			            </div>
-			            <div class="col-xs-2"><i class="fa fa-asterisk"></i> 性别
-			                <input id="gender" name="gender" type=text class="form-control input-sm" style="min-width: 10%"></input>
-			            </div>
-			            <div class="col-xs-2"><i class="fa fa-asterisk"></i> 症状
-			                <input id="symptom" name="symptom" type=text class="form-control input-sm" style="min-width: 10%"></input>
-			            </div>
-			        </div>
+			     <div class="input-group col-xs-4">
+			            <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i>客户名称</span> 
+		                <input id="name" name="name" type=text class="form-control input-sm" ></input>
+		            </div>
+	                <span class="help-block">一般指各项美肤疗程和项目，如表皮斑，真皮斑，混合斑，代谢，也可以包括产品面膜等</span>
+			     <div class="input-group col-xs-4">
+			            <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i>所属美容院</span> 
+		                <input id="cosmeticShopName" name="cosmeticShopName" type=text class="form-control input-sm" ></input>
+		            </div>
+	                <span class="help-block">不同美容院可能存在客户同名的情况，所以需要填写清楚</span>
+			     <div class="input-group col-xs-4">
+			            <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i>年龄</span> 
+		                <input id="age" name="age" type=text class="form-control input-sm" ></input>
+		            </div>
+	                <span class="help-block">客户年龄，方便了解客户的皮肤情况</span>
+			     <div class="input-group col-xs-4">
+			            <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i>性别</span> 
+		                <input id="gender" name="gender" type=text class="form-control input-sm" ></input>
+		            </div>
+	                <span class="help-block">大部分情况下为女性，少数为男性</span>
+			     <div class="input-group col-xs-4">
+			            <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i>症状</span> 
+		                <input id="symptom" name="symptom" type=text class="form-control input-sm" ></input>
+		            </div>
+	                <span class="help-block">了解清楚客户之前的情况，用过什么产品，做过什么治疗，现在皮肤的问题</span>
 			        <br>
-			        <div class="row form-row">
-			            <div class="col-md-4">
-			                <input type="submit" class="btn btn-success btn-lg" value="提交"/>
-			            </div>
-			        </div>
+		            <div class="content">
+		             <div class="input-group col-xs-4">
+		                <input type="submit" class="btn  btn-lg pull-left" value="提交"/>
+		                </div>
+		            </div>
 			    </form>
 			    </div>
-			    
-</main>
-    <footer class="fixed-bottom" style="position: fixed; bottom: 0">
-        <div class="container">
-            <span class="text-muted">Developed by Yi Xiang Zhong.</span>
-        </div>
-    </footer>
-<!-- /.container -->
-
+			  </div>
+	    <footer class="fixed-bottom" style="position: fixed; bottom: 0">
+	        <div class="container">
+	            <span class="text-muted">Developed by Yi Xiang Zhong.</span>
+	        </div>
+	    </footer>
+	</div>
 </body>
 </html>
