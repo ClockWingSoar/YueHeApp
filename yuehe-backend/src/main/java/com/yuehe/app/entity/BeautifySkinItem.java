@@ -8,6 +8,8 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 /**
  * BeautifySkinItem entity. @author Soveran Zhong
  */
@@ -24,6 +26,7 @@ public class BeautifySkinItem implements Serializable{
 	private static final long serialVersionUID = -6638046999127630014L;
 	 @Id
 	private String id;
+	 @JsonBackReference
 	@OneToMany(targetEntity = Sale.class, mappedBy = "beautifySkinItemId", orphanRemoval = false, fetch = FetchType.LAZY)
 	private Set<Sale> sales;
 	private String name;

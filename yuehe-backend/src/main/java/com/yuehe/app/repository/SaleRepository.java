@@ -16,12 +16,12 @@
  */
 package com.yuehe.app.repository;
 
-import java.util.Date;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
+import com.yuehe.app.dto.SaleBeautifySkinItemForFilterDto;
 import com.yuehe.app.dto.SaleClientItemSellerForDBDto;
 import com.yuehe.app.entity.Sale;
 
@@ -57,4 +57,8 @@ public interface SaleRepository extends JpaRepository<Sale, Long> {
     Sale findById(String id);
     @Query("select s from Sale s where s.clientId = ?1 AND s.beautifySkinItemId = ?2 AND s.createCardDate = ?3")
     Sale findByClientIdAndItemIdAndCreateCardDate(String clientId, String beautifySkinItemId, String createCardDate);
+    
+    @Query("select new com.yuehe.app.dto.SaleBeautifySkinItemForFilterDto(s.id, b.name, s.createCardDate) from Sale s "
+    		+ "INNER JOIN s.beautifySkinItem b where s.clientId = ?1")
+    List<SaleBeautifySkinItemForFilterDto> findByClientId(String clientId);
 }

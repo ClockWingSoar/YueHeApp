@@ -54,7 +54,19 @@ public interface OperationRepository  extends JpaRepository<Operation, Long> {
 //	this.operationDate = operationDate;
 //	this.description = description;
 	@Query("select count(o) from Operation o where o.saleId = ?1")
-    int findBySaleId(String saleId);
+    int findOperationNumBySaleId(String saleId);
+	@Query("select new com.yuehe.app.dto.OperationOperatorToolForDBDto(o.id,s.id, s.createCardDate, o.operationDate, "
+			+ "c.name,p.name,p.discount,b.name,s.createCardTotalAmount,s.itemNumber,"
+			+ "e.name,t.name,t.operateExpense,"
+			+ "o.description) "
+			+ "FROM Operation o INNER JOIN o.sale s "
+			+ "INNER JOIN s.beautifySkinItem b "
+			+ "INNER JOIN o.employee e "
+			+ "INNER JOIN s.client c "
+			+ "INNER JOIN c.cosmeticShop p "
+			+ "INNER JOIN o.tool t"
+			+ " where o.saleId = ?1")
+	List<OperationOperatorToolForDBDto> findBySaleId(String saleId);
     @Query("SELECT new com.yuehe.app.dto.OperationOperatorToolForDBDto(o.id,s.id, s.createCardDate, o.operationDate, "
 			+ "c.name,p.name,p.discount,b.name,s.createCardTotalAmount,s.itemNumber,"
 			+ "e.name,t.name,t.operateExpense,"

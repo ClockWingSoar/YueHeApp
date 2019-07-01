@@ -1,6 +1,5 @@
 package com.yuehe.app.entity;
 import java.io.Serializable;
-import java.util.Date;
 import java.util.Set;
 
 import javax.persistence.Column;
@@ -14,6 +13,8 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 /**
  * Sale entity. @author Soveran Zhong
@@ -33,7 +34,7 @@ public class Sale implements Serializable{
 	 * 
 	 */
 	@Id	private String id;
-	
+	 @JsonBackReference
 	@ManyToOne(fetch = FetchType.LAZY) 
 	@JoinColumn(name = "client_id",insertable = false, updatable = false)
 	@Fetch(FetchMode.JOIN)
@@ -41,7 +42,7 @@ public class Sale implements Serializable{
 	
 	@Column(name="client_id")
 	private String clientId;
-	
+	 @JsonBackReference
 	@ManyToOne(fetch = FetchType.LAZY) 
 	@JoinColumn(name = "beautify_skin_item_id",insertable = false, updatable = false)
 	@Fetch(FetchMode.JOIN)
@@ -49,7 +50,7 @@ public class Sale implements Serializable{
 	
 	@Column(name="beautify_skin_item_id")
 	private String beautifySkinItemId;
-	
+	 @JsonBackReference
 	@ManyToOne(fetch = FetchType.LAZY) 
 	@JoinColumn(name = "seller_id",insertable = false, updatable = false)
 	@Fetch(FetchMode.JOIN)

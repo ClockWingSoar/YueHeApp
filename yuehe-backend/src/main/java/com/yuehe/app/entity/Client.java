@@ -14,6 +14,9 @@ import javax.persistence.Table;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 /**
  * Client entity. @author Soveran Zhong
  */
@@ -28,6 +31,7 @@ public class Client implements Serializable{
 	private static final long serialVersionUID = -6357133516380999542L;
 	@Id
 	private String id;
+	@JsonBackReference
 	@ManyToOne(fetch = FetchType.LAZY) 
 	@JoinColumn(name = "shop_id",insertable = false, updatable = false)
 	@Fetch(FetchMode.JOIN)
@@ -40,7 +44,7 @@ public class Client implements Serializable{
 	private int age;
 	private String gender;
 	private String symptom;
-
+	 @JsonManagedReference
 	@OneToMany(targetEntity = Sale.class, mappedBy = "clientId", orphanRemoval = false, fetch = FetchType.LAZY)
 	private Set<Sale> sales;
 	// Constructors
@@ -52,6 +56,12 @@ public class Client implements Serializable{
 	}
 	/** default constructor */
 	public Client() {
+		
+	}
+	/** use it for filtering to filter client for operationSummary.html*/
+	public Client(String id,String name) {
+		this.id = id;
+		this.name = name;
 		
 	}
 	/** full constructor */

@@ -13,6 +13,8 @@ import javax.persistence.Table;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 /**
  * Operation entity. @author Soveran Zhong
  */
@@ -46,6 +48,7 @@ public class Operation implements Serializable{
 	private String id;
 	@Column(name="sale_id")
 	private String saleId;
+	 @JsonBackReference
 	@ManyToOne(fetch = FetchType.LAZY) 
 	@JoinColumn(name = "sale_id",insertable = false, updatable = false)
 	@Fetch(FetchMode.JOIN)
@@ -56,7 +59,7 @@ public class Operation implements Serializable{
 	
 	@Column(name="operator_id")
 	private String operatorId;
-	
+	 @JsonBackReference
 	@ManyToOne(fetch = FetchType.LAZY) 
 	@JoinColumn(name = "operator_id",insertable = false, updatable = false)
 	@Fetch(FetchMode.JOIN)
@@ -65,6 +68,7 @@ public class Operation implements Serializable{
 	
 	@Column(name="tool_id")
 	private String toolId;
+	 @JsonBackReference
 	@ManyToOne(fetch = FetchType.LAZY) 
 	@JoinColumn(name = "tool_id",insertable = false, updatable = false)
 	@Fetch(FetchMode.JOIN)

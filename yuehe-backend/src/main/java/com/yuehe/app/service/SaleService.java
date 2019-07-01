@@ -18,7 +18,6 @@ package com.yuehe.app.service;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -27,11 +26,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.yuehe.app.dto.SaleBeautifySkinItemForFilterDto;
 import com.yuehe.app.dto.SaleClientItemSellerDto;
 import com.yuehe.app.dto.SaleClientItemSellerForDBDto;
 import com.yuehe.app.entity.BeautifySkinItem;
 import com.yuehe.app.entity.Client;
-import com.yuehe.app.entity.Employee;
 import com.yuehe.app.entity.Sale;
 import com.yuehe.app.repository.SaleRepository;
 
@@ -67,6 +66,9 @@ public class SaleService {
     }
     public List<Sale> getAllSale() {
         return saleRepository.findAll();
+    }
+    public List<SaleBeautifySkinItemForFilterDto> getSalesByClientId(String clientId) {
+    	return saleRepository.findByClientId(clientId);
     }
     public Sale getSaleById(String id) {
     	return saleRepository.findById(id);

@@ -1,22 +1,18 @@
 package com.yuehe.app.entity;
 import java.io.Serializable;
-import java.util.Set;
 
-import javax.persistence.AttributeOverride;
 import javax.persistence.Column;
-import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinColumns;
 import javax.persistence.ManyToOne;
-import javax.persistence.MapsId;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 /**
  * Organization entity. @author Soveran Zhong
@@ -39,10 +35,12 @@ public class Duty implements Serializable{
 	private String roleId;
 	private int welfare;
 	private String description;
+	@JsonBackReference
 	@ManyToOne(fetch = FetchType.LAZY) 
 	@JoinColumn(name = "employee_id",insertable = false, updatable = false)
 	@Fetch(FetchMode.JOIN)
 	private Employee employee;
+	@JsonBackReference
 	@ManyToOne(fetch = FetchType.LAZY) 
 	@JoinColumn(name = "role_id",insertable = false, updatable = false)
 	@Fetch(FetchMode.JOIN)

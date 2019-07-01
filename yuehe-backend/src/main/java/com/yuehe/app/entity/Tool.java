@@ -9,6 +9,8 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 /**
  * Tool entity. @author Soveran Zhong
  */
@@ -44,6 +46,7 @@ public class Tool implements Serializable{
 	 */
 	@Id
 	private String id;
+	 @JsonManagedReference
 	@OneToMany(targetEntity = Operation.class, mappedBy = "toolId", orphanRemoval = false, fetch = FetchType.LAZY)
 	private Set<Operation> operations;
 	private String name;

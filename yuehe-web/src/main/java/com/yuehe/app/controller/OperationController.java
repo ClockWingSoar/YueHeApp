@@ -3,7 +3,9 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 //import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -11,16 +13,24 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.yuehe.app.dto.OperationOperatorToolDto;
+import com.yuehe.app.dto.SaleBeautifySkinItemForFilterDto;
+import com.yuehe.app.entity.Client;
+import com.yuehe.app.entity.CosmeticShop;
 import com.yuehe.app.entity.Employee;
 import com.yuehe.app.entity.Operation;
 import com.yuehe.app.entity.Sale;
 import com.yuehe.app.entity.Tool;
+import com.yuehe.app.service.ClientService;
+import com.yuehe.app.service.CosmeticShopService;
 import com.yuehe.app.service.EmployeeService;
 import com.yuehe.app.service.OperationService;
 import com.yuehe.app.service.SaleService;
@@ -30,10 +40,10 @@ import com.yuehe.app.util.YueHeUtil;
 
 @Controller
 public class OperationController{
-	 @ModelAttribute("module")
-	    String module() {
-	        return "operation";
-	    }
+//	 @ModelAttribute("module")
+//	    String module() {
+//	        return "operation";
+//	    }
 	 private final static Logger LOGGER = LoggerFactory.getLogger(OperationController.class);
 	
 	@Autowired
@@ -43,14 +53,20 @@ public class OperationController{
 	@Autowired
 	private final ToolService toolService;
 	@Autowired
+	private final ClientService clientService;
+	@Autowired
+	private final CosmeticShopService cosmeticShopService;
+	@Autowired
 	private final EmployeeService employeeService;
 	private  Employee employee;
-	public OperationController(OperationService operationService, SaleService saleService,
-			EmployeeService employeeService,ToolService toolService) {
+	public OperationController(OperationService operationService, SaleService saleService,CosmeticShopService cosmeticShopService,
+			EmployeeService employeeService,ToolService toolService, ClientService clientService) {
 		this.operationService = operationService;
 		this.saleService = saleService;
 		this.employeeService = employeeService;
 		this.toolService = toolService;
+		this.clientService = clientService;
+		this.cosmeticShopService = cosmeticShopService;
 	}
 
 	@GetMapping("/getOperationList")
@@ -60,9 +76,27 @@ public class OperationController{
 		operationList = operationService.getOperationsDetailList();
 		 LOGGER.info("operationList {}", operationList);
 		model.addAttribute("operationList",operationList);
+		model.addAttribute("subModule", "operationList");
+		model.addAttribute("module", "operation");
 		
-		return "user/operation";
+		return "user/operationList";
 	}
+
+	@GetMapping("/getOperationNewItem")
+	public  String operationNewItemOverview(Model model){
+		model.addAttribute("subModule", "operationNewItem");
+		return "user/operationNewItem";
+	}
+	
+	@GetMapping("/getOperationSummary")
+	public  String operationSummary(Model model){
+		List<CosmeticShop> cosmeticShopList = cosmeticShopService.getAllCosmeticShopForFiltering();
+		model.addAttribute("subModule", "operationSummary");
+		model.addAttribute("cosmeticShopList", cosmeticShopList);
+		return "user/operationSummary";
+	}
+	
+	
 	@PostMapping("/createOperation")
     public String createOperation( @RequestParam(name = "clientName", required = false) String clientName,
 						            @RequestParam(name = "cosmeticShopName", required = false) String cosmeticShopName,
@@ -113,6 +147,42 @@ public class OperationController{
         return "redirect:/getOperationList";
     }
 	
+	
+	
+	@RequestMapping(value = "/getShopAllClients", method = RequestMethod.GET)
+	public @ResponseBody
+	List<Client> findAllClientsByShopId(
+	        @RequestParam(value = "cosmeticShopId", required = true) String cosmeticShopId) {
+		System.err.println("cosmeticShopId-"+cosmeticShopId);
+		List<Client> clientList = clientService.getClientsByShopId(cosmeticShopId);
+		clientList.forEach(l -> System.out.println(l));
+	    return clientList;
+	}
+	@RequestMapping(value = "/getClientAllSales", method = RequestMethod.GET)
+	public @ResponseBody
+	List<SaleBeautifySkinItemForFilterDto> findAllSalesByClientId(
+			@RequestParam(value = "clientId", required = true) String clientId) {
+		System.err.println("clientId-"+clientId);
+		List<SaleBeautifySkinItemForFilterDto> saleList = saleService.getSalesByClientId(clientId);
+		saleList.forEach(l -> System.out.println(l));
+		return saleList;
+	}
     
+	@RequestMapping(value = "/getSaleAllOperations", method = RequestMethod.GET)
+	public @ResponseBody
+	Map<String,Object> findAllOperationsBySaleId(ModelMap model,
+			@RequestParam(value = "saleId", required = true) String saleId) {
+		System.err.println("saleId-"+saleId);
+		HashMap<String, Object> operationMap = operationService.getOperationsBySaleId(saleId);
+		model.addAllAttributes(operationMap);
+//		List<OperationOperatorToolDto> operationList = (List<OperationOperatorToolDto>)operationMap.get("operationList");
+//		operationMap.forEach(new BiConsumer<k,v> -> System.out.println("k",v));
+		for(Map.Entry<String, Object> entry : operationMap.entrySet())
+		{
+			 System.out.println("Key = " + entry.getKey() + ", Value = " + entry.getValue());
+		}
+		return operationMap;
+	}
+	
 
 }

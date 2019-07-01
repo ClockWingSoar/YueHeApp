@@ -23,6 +23,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.yuehe.app.dto.SaleBeautifySkinItemForFilterDto;
 import com.yuehe.app.entity.CosmeticShop;
 import com.yuehe.app.repository.CosmeticShopRepository;
 
@@ -46,6 +47,9 @@ public class CosmeticShopService {
     }
     public List<CosmeticShop> getAllCosmeticShop() {
         return cosmeticShopRepository.findAll();
+    }
+    public List<CosmeticShop> getAllCosmeticShopForFiltering() {
+    	return cosmeticShopRepository.findAllForFiltering();
     }
     public long getEntityNumber() {
     	return cosmeticShopRepository.count();

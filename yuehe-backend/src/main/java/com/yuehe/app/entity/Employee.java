@@ -3,17 +3,13 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.Set;
 
-import javax.persistence.AttributeOverride;
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinColumns;
-import javax.persistence.ManyToOne;
-import javax.persistence.MapsId;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 /**
  * Employee entity. @author Soveran Zhong
@@ -50,13 +46,13 @@ public class Employee implements Serializable{
 	 */
 	@Id
 	private String id;
-	
+	 @JsonManagedReference
 	@OneToMany(targetEntity = Sale.class, mappedBy = "sellerId", orphanRemoval = false, fetch = FetchType.LAZY)
 	private Set<Sale> sales;
-
+	 @JsonManagedReference
 	@OneToMany(targetEntity = Duty.class, mappedBy = "employeeId", orphanRemoval = false, fetch = FetchType.LAZY)
 	private Set<Duty> duties;
-	
+	 @JsonManagedReference
 	@OneToMany(targetEntity = Operation.class, mappedBy = "operatorId", orphanRemoval = false, fetch = FetchType.LAZY)
 	private Set<Operation> operations;
 	

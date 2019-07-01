@@ -35,4 +35,7 @@ public interface ClientRepository extends JpaRepository<Client, Long> {
     Client findById(String id);
     @Query("select c from Client c where c.name = ?1 AND c.shopId =?2")
     Client findByClientNameAndShopId(String clientName, String cosmeticShopName);
+    
+    @Query("select new Client(c.id,c.name) from Client c where c.shopId = ?1")
+    List<Client> findByShopId(String cosmeticShopId);
 }

@@ -9,6 +9,8 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 
 /**
  * Client entity. @author Soveran Zhong
@@ -39,6 +41,7 @@ public class CosmeticShop implements Serializable{
 	private int size;
 	private float discount;
 	private String description;
+	@JsonManagedReference
 	@OneToMany(targetEntity = Client.class, mappedBy = "shopId", orphanRemoval = false, fetch = FetchType.LAZY)
 	private Set<Client> clients;
 	
@@ -46,6 +49,12 @@ public class CosmeticShop implements Serializable{
 
 	/** default constructor */
 	public CosmeticShop() {
+		
+	}
+	/** use it for filtering to filter client for operationSummary.html*/
+	public CosmeticShop(String id,String name) {
+		this.id = id;
+		this.name = name;
 		
 	}
 	/** full constructor */
