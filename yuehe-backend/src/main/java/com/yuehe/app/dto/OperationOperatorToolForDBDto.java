@@ -37,8 +37,10 @@ public class OperationOperatorToolForDBDto {
 	private String operationId;//操作ID
 	private String saleId;//销售卡ID
 	private String createCardDate;//开卡日期
-	private Date operationDate;//操作日期
+	private String operationDate;//操作日期
+	private String clientId;//客户ID
 	private String clientName;//客户名
+	private String cosmeticShopId;//美容院ID
 	private String cosmeticShopName;//美容院名
 	private float cosmeticShopDiscount;//美容院折扣
 
@@ -73,10 +75,10 @@ public class OperationOperatorToolForDBDto {
 	public void setCreateCardDate(String createCardDate) {
 		this.createCardDate = createCardDate;
 	}
-	public Date getOperationDate() {
+	public String getOperationDate() {
 		return operationDate;
 	}
-	public void setOperationDate(Date operationDate) {
+	public void setOperationDate(String operationDate) {
 		this.operationDate = operationDate;
 	}
 	public String getClientName() {
@@ -134,16 +136,30 @@ public class OperationOperatorToolForDBDto {
 	public void setCosmeticShopDiscount(float cosmeticShopDiscount) {
 		this.cosmeticShopDiscount = cosmeticShopDiscount;
 	}
-	public OperationOperatorToolForDBDto(String operationId, String saleId, String createCardDate, Date operationDate,
-			String clientName, String cosmeticShopName, float cosmeticShopDiscount, String beautifySkinItemName,
-			long createCardTotalAmount, int totalItemNumber, String operatorName, String toolName, int operateExpense,
-			String description) {
+	public String getClientId() {
+		return clientId;
+	}
+	public void setClientId(String clientId) {
+		this.clientId = clientId;
+	}
+	public String getCosmeticShopId() {
+		return cosmeticShopId;
+	}
+	public void setCosmeticShopId(String cosmeticShopId) {
+		this.cosmeticShopId = cosmeticShopId;
+	}
+	public OperationOperatorToolForDBDto(String operationId, String saleId, String createCardDate, String operationDate,
+			String clientId, String clientName, String cosmeticShopId, String cosmeticShopName,
+			float cosmeticShopDiscount, String beautifySkinItemName, long createCardTotalAmount, int totalItemNumber,
+			String operatorName, String toolName, int operateExpense, String description) {
 		super();
 		this.operationId = operationId;
 		this.saleId = saleId;
 		this.createCardDate = createCardDate;
 		this.operationDate = operationDate;
+		this.clientId = clientId;
 		this.clientName = clientName;
+		this.cosmeticShopId = cosmeticShopId;
 		this.cosmeticShopName = cosmeticShopName;
 		this.cosmeticShopDiscount = cosmeticShopDiscount;
 		this.beautifySkinItemName = beautifySkinItemName;
@@ -157,13 +173,13 @@ public class OperationOperatorToolForDBDto {
 	@Override
 	public String toString() {
 		return "OperationOperatorToolForDBDto [operationId=" + operationId + ", saleId=" + saleId + ", createCardDate="
-				+ createCardDate + ", operationDate=" + operationDate + ", clientName=" + clientName
-				+ ", cosmeticShopName=" + cosmeticShopName + ", cosmeticShopDiscount=" + cosmeticShopDiscount
-				+ ", beautifySkinItemName=" + beautifySkinItemName + ", createCardTotalAmount=" + createCardTotalAmount
-				+ ", totalItemNumber=" + totalItemNumber + ", operatorName=" + operatorName + ", toolName=" + toolName
-				+ ", operateExpense=" + operateExpense + ", description=" + description + "]";
+				+ createCardDate + ", operationDate=" + operationDate + ", clientId=" + clientId + ", clientName="
+				+ clientName + ", cosmeticShopId=" + cosmeticShopId + ", cosmeticShopName=" + cosmeticShopName
+				+ ", cosmeticShopDiscount=" + cosmeticShopDiscount + ", beautifySkinItemName=" + beautifySkinItemName
+				+ ", createCardTotalAmount=" + createCardTotalAmount + ", totalItemNumber=" + totalItemNumber
+				+ ", operatorName=" + operatorName + ", toolName=" + toolName + ", operateExpense=" + operateExpense
+				+ ", description=" + description + "]";
 	}
-	
 	
 	
 }

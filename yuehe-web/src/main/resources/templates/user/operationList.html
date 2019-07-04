@@ -24,43 +24,31 @@
     	<thead>
     	
    			 <tr class="info">
-   			    <th>操作ID</th>
-   			    <th>销售卡ID</th>
-				<th>开卡日期</th>
-				<th>操作日期</th>
-				<th>客户姓名</th>
-				<th>美容院</th>
-				<th>美肤项目</th>
-				<th>开卡总金额</th>
-				<th>回款金额</th>
-				<th>疗程总次数</th>
-				<th>剩余次数</th>
-				<th>已消耗总数</th>
-				<th>已消耗回款</th>
-				<th>预付款总数</th>
-				<th>操作人</th>
-				<th>仪器</th>
-				<th>操作费用</th>
-				<th>备注</th>
+   			       <th>操作ID</th>
+						<th>操作日期</th>
+						<th>操作人</th>
+						<th>仪器</th>
+						<th>操作费用</th>
+						<th>备注</th>
 			</tr>
 		</thead>
 		
 		<tbody>
 			<tr data-th-each="operation : ${operationList}">
 			<td data-th-text="${operation.operationId}">...</td>
-			<td data-th-text="${operation.saleId}">...</td>
-			<td data-th-text="${operation.createCardDate}">...</td>
-			<td data-th-text="${operation.operationDate}">...</td>
-			<td data-th-text="${operation.clientName}">...</td>
-			<td data-th-text="${operation.cosmeticShopName}">...</td>
-			<td data-th-text="${operation.beautifySkinItemName}">...</td>
-			<td data-th-text="${operation.createCardTotalAmount}">...</td>
-			<td data-th-text="${operation.earnedTotalAmount}">...</td>
-			<td data-th-text="${operation.totalItemNumber}">...</td>
-			<td data-th-text="${operation.restItemNumber}">...</td>
-			<td data-th-text="${operation.consumedTotalAmount}">...</td>
-			<td data-th-text="${operation.consumedEarnedTotalAmount}">...</td>
-			<td data-th-text="${operation.advancedEarnedTotalAmount}">...</td>
+<!-- 			<td data-th-text="${operation.saleId}">...</td> -->
+<!-- 			<td data-th-text="${operation.createCardDate}">...</td> -->
+				<td data-th-text="${operation.operationDate}">...</td>
+<!-- 			<td data-th-text="${operation.clientName}">...</td> -->
+<!-- 			<td data-th-text="${operation.cosmeticShopName}">...</td> -->
+<!-- 			<td data-th-text="${operation.beautifySkinItemName}">...</td> -->
+<!-- 			<td data-th-text="${operation.createCardTotalAmount}">...</td> -->
+<!-- 			<td data-th-text="${operation.earnedTotalAmount}">...</td> -->
+<!-- 			<td data-th-text="${operation.totalItemNumber}">...</td> -->
+<!-- 			<td data-th-text="${operation.restItemNumber}">...</td> -->
+<!-- 			<td data-th-text="${operation.consumedTotalAmount}">...</td> -->
+<!-- 			<td data-th-text="${operation.consumedEarnedTotalAmount}">...</td> -->
+<!-- 			<td data-th-text="${operation.advancedEarnedTotalAmount}">...</td> -->
 			<td data-th-text="${operation.operatorName}">...</td>
 			<td data-th-text="${operation.toolName}">...</td>
 			<td data-th-text="${operation.operateExpense}">...</td>

@@ -2,11 +2,11 @@ $(function ($) {
 	jQuery(function() { 
 	$('#cosmeticShop').change(
 	        function() {
-	            $.getJSON("http://localhost:9090/getShopAllClients", {
+	            $.getJSON("http://localhost:9090/getShopAllClientsForFiltering", {
 	                cosmeticShopId : $(this).val(),
 	                ajax : 'true'
 	            }, function(data) {
-	                var html = '<option value="">--所有客户--</option>';
+	                var html = '<option value="all">--所有客户--</option>';
 	                var len = data.length;
 	                for ( var i = 0; i < len; i++) {
 	                    html += '<option value="' + data[i].id + '">'
@@ -18,11 +18,11 @@ $(function ($) {
 	        });
 	$('#client').change(
 			function() {
-				$.getJSON("http://localhost:9090/getClientAllSales", {
+				$.getJSON("http://localhost:9090/getClientAllSalesForFiltering", {
 					clientId : $(this).val(),
 					ajax : 'true'
 				}, function(data) {
-					var html = '<option value="">--所有美肤卡--</option>';
+					var html = '<option value="all">--所有美肤卡--</option>';
 					var len = data.length;
 					for ( var i = 0; i < len; i++) {
 						//alert(data[i].saleId);
@@ -40,33 +40,35 @@ $(function ($) {
 					ajax : 'true'
 				}, function(data) {
 					var html = '';
-					var len = data["operationList"].length; 
+					var len = data.operationDetailDtos.length; 
 					for ( var i = 0; i < len; i++) {
-						html = html+'<tr><td>' +data["operationList"][i].operationId+'</td>'
-						+'<td>'+data["operationList"][i].saleId+'</td>'
-						+'<td>'+data["operationList"][i].createCardDate+'</td>'
-						+'<td>'+data["operationList"][i].operationDate+'</td>'
-						+'<td>'+data["operationList"][i].clientName+'</td>'
-						+'<td>'+data["operationList"][i].cosmeticShopName+'</td>'
-						+'<td>'+data["operationList"][i].beautifySkinItemName+'</td>'
-						+'<td>'+data["operationList"][i].createCardTotalAmount+'</td>'
-						+'<td>'+data["operationList"][i].earnedTotalAmount+'</td>'
-						+'<td>'+data["operationList"][i].totalItemNumber+'</td>'
-						+'<td>'+data["operationList"][i].restItemNumber+'</td>'
-						+'<td>'+data["operationList"][i].consumedTotalAmount+'</td>'
-						+'<td>'+data["operationList"][i].consumedEarnedTotalAmount+'</td>'
-						+'<td>'+data["operationList"][i].advancedEarnedTotalAmount+'</td>'
-						+'<td>'+data["operationList"][i].operatorName+'</td>'
-						+'<td>'+data["operationList"][i].toolName+'</td>'
-						+'<td>'+data["operationList"][i].operateExpense+'</td>'
-						+'<td>'+data["operationList"][i].description+'</td></tr>';
+						html = html+'<tr><td>' +data.operationDetailDtos[i].operationId+'</td>'
+//						+'<td>'+data["operationList"][i].saleId+'</td>'
+//						+'<td>'+data["operationList"][i].createCardDate+'</td>'
+						+'<td>'+data.operationDetailDtos[i].operationDate+'</td>'
+//						+'<td>'+data["operationList"][i].clientName+'</td>'
+//						+'<td>'+data["operationList"][i].cosmeticShopName+'</td>'
+//						+'<td>'+data["operationList"][i].beautifySkinItemName+'</td>'
+//						+'<td>'+data["operationList"][i].createCardTotalAmount+'</td>'
+//						+'<td>'+data["operationList"][i].earnedTotalAmount+'</td>'
+//						+'<td>'+data["operationList"][i].totalItemNumber+'</td>'
+//						+'<td>'+data["operationList"][i].restItemNumber+'</td>'
+//						+'<td>'+data["operationList"][i].consumedTotalAmount+'</td>'
+//						+'<td>'+data["operationList"][i].consumedEarnedTotalAmount+'</td>'
+//						+'<td>'+data["operationList"][i].advancedEarnedTotalAmount+'</td>'
+						+'<td>'+data.operationDetailDtos[i].operatorName+'</td>'
+						+'<td>'+data.operationDetailDtos[i].toolName+'</td>'
+						+'<td>'+data.operationDetailDtos[i].operateExpense+'</td>'
+						+'<td>'+data.operationDetailDtos[i].description+'</td></tr>';
 						
 					}
 					//alert(html);
 					$('#operation_detail_table_body').html(html);
-					$('#operation_detail_total_consumed_amount').html(data["totalConsumedAmount"]);
-					$('#operation_detail_total_advanced_earned_amount').html(data["totalAdvancedEarnedAmount"]);
-					
+					$('#sale_overall_sale_id').html(data.saleId);
+					$('#sale_overall_create_card_date').html(data.createCardDate);
+					$('#sale_overall_beautify_skin_item_name').html(data.beautifySkinItemName);
+//					$('#operation_detail_total_advanced_earned_amount').html(data["totalAdvancedEarnedAmount"]);
+					$("#operation_detail").removeClass('hidden')
 				});
 			});
 	});

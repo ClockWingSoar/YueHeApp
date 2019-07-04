@@ -29,6 +29,8 @@ import org.springframework.transaction.annotation.Transactional;
 import com.yuehe.app.dto.SaleBeautifySkinItemForFilterDto;
 import com.yuehe.app.dto.SaleClientItemSellerDto;
 import com.yuehe.app.dto.SaleClientItemSellerForDBDto;
+import com.yuehe.app.dto.SaleDetailDto;
+import com.yuehe.app.dto.SaleDetailForDBDto;
 import com.yuehe.app.entity.BeautifySkinItem;
 import com.yuehe.app.entity.Client;
 import com.yuehe.app.entity.Sale;
@@ -70,8 +72,15 @@ public class SaleService {
     public List<SaleBeautifySkinItemForFilterDto> getSalesByClientId(String clientId) {
     	return saleRepository.findByClientId(clientId);
     }
+    
     public Sale getSaleById(String id) {
     	return saleRepository.findById(id);
+    }
+    public SaleDetailForDBDto getSaleBasicDetailById(String id) {
+    	return saleRepository.fetchSaleBasicDetailById(id);
+    }
+    public List<SaleBeautifySkinItemForFilterDto> getByClientId(String ClientId) {
+    	return saleRepository.findByClientId(ClientId);
     }
     public Sale getSaleByClientNameAndShopNameAndItemNameAndCreateCardDate(String clientName, String cosmeticShopName,
     																		String beautifySkinItemName, String createCardDate) {

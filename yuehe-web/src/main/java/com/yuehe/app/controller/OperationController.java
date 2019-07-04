@@ -1,11 +1,6 @@
 package com.yuehe.app.controller;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 //import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -13,7 +8,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,8 +15,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.yuehe.app.dto.OperationOperatorToolDto;
+import com.yuehe.app.dto.OperationDetailDto;
 import com.yuehe.app.dto.SaleBeautifySkinItemForFilterDto;
+import com.yuehe.app.dto.SaleDetailDto;
 import com.yuehe.app.entity.Client;
 import com.yuehe.app.entity.CosmeticShop;
 import com.yuehe.app.entity.Employee;
@@ -72,8 +67,8 @@ public class OperationController{
 	@GetMapping("/getOperationList")
 	public  String operationOverview(Model model){
 		// TODO Auto-generated method stub
-		List<OperationOperatorToolDto> operationList =new ArrayList<OperationOperatorToolDto>();
-		operationList = operationService.getOperationsDetailList();
+		List<OperationDetailDto> operationList =new ArrayList<OperationDetailDto>();
+		operationList = operationService.getAllOperationForOperationList();
 		 LOGGER.info("operationList {}", operationList);
 		model.addAttribute("operationList",operationList);
 		model.addAttribute("subModule", "operationList");
@@ -113,16 +108,16 @@ public class OperationController{
         Operation operation =new Operation();
         operation.setId(id);
         //Date createCardDateObj =new Date();
-        Date operationDateObj =new Date();
-        try {
-        	 //createCardDateObj=new SimpleDateFormat("yyyy-MM-dd").parse(createCardDate);
-        	 operationDateObj=new SimpleDateFormat("yyyy-MM-dd").parse(operationDate);
-//        	 LOGGER.debug("createCardDateObj:",createCardDateObj);
-        	 LOGGER.debug("operationDateObj:",operationDateObj);
- 		} catch (ParseException e) {
- 			// TODO Auto-generated catch block
- 			e.printStackTrace();
- 		}
+//        Date operationDateObj =new Date();
+//        try {
+//        	 //createCardDateObj=new SimpleDateFormat("yyyy-MM-dd").parse(createCardDate);
+//        	 operationDateObj=new SimpleDateFormat("yyyy-MM-dd").parse(operationDate);
+////        	 LOGGER.debug("createCardDateObj:",createCardDateObj);
+//        	 LOGGER.debug("operationDateObj:",operationDateObj);
+// 		} catch (ParseException e) {
+// 			// TODO Auto-generated catch block
+// 			e.printStackTrace();
+// 		}
         Sale sale = saleService.getSaleByClientNameAndShopNameAndItemNameAndCreateCardDate(
         		clientName,cosmeticShopName,beautifySkinItemName,createCardDate);
 	   LOGGER.debug("sale:",sale);
@@ -136,7 +131,7 @@ public class OperationController{
         LOGGER.debug("tool:",tool);
         if(tool != null)
         	operation.setToolId(tool.getId());
-        operation.setOperationDate(operationDateObj);
+        operation.setOperationDate(operationDate);
         operation.setDescription(description);
         LOGGER.debug("operation:",operation);
 
@@ -149,7 +144,7 @@ public class OperationController{
 	
 	
 	
-	@RequestMapping(value = "/getShopAllClients", method = RequestMethod.GET)
+	@RequestMapping(value = "/getShopAllClientsForFiltering", method = RequestMethod.GET)
 	public @ResponseBody
 	List<Client> findAllClientsByShopId(
 	        @RequestParam(value = "cosmeticShopId", required = true) String cosmeticShopId) {
@@ -158,7 +153,7 @@ public class OperationController{
 		clientList.forEach(l -> System.out.println(l));
 	    return clientList;
 	}
-	@RequestMapping(value = "/getClientAllSales", method = RequestMethod.GET)
+	@RequestMapping(value = "/getClientAllSalesForFiltering", method = RequestMethod.GET)
 	public @ResponseBody
 	List<SaleBeautifySkinItemForFilterDto> findAllSalesByClientId(
 			@RequestParam(value = "clientId", required = true) String clientId) {
@@ -170,18 +165,12 @@ public class OperationController{
     
 	@RequestMapping(value = "/getSaleAllOperations", method = RequestMethod.GET)
 	public @ResponseBody
-	Map<String,Object> findAllOperationsBySaleId(ModelMap model,
+	SaleDetailDto  findAllOperationsBySaleId(
 			@RequestParam(value = "saleId", required = true) String saleId) {
 		System.err.println("saleId-"+saleId);
-		HashMap<String, Object> operationMap = operationService.getOperationsBySaleId(saleId);
-		model.addAllAttributes(operationMap);
-//		List<OperationOperatorToolDto> operationList = (List<OperationOperatorToolDto>)operationMap.get("operationList");
-//		operationMap.forEach(new BiConsumer<k,v> -> System.out.println("k",v));
-		for(Map.Entry<String, Object> entry : operationMap.entrySet())
-		{
-			 System.out.println("Key = " + entry.getKey() + ", Value = " + entry.getValue());
-		}
-		return operationMap;
+		SaleDetailDto saleDetailDto = operationService.getSaleOperationDetailBySaleId(saleId);
+		System.out.println(saleDetailDto);
+		return saleDetailDto;
 	}
 	
 

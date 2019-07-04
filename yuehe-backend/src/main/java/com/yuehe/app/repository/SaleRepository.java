@@ -23,6 +23,7 @@ import org.springframework.data.jpa.repository.Query;
 
 import com.yuehe.app.dto.SaleBeautifySkinItemForFilterDto;
 import com.yuehe.app.dto.SaleClientItemSellerForDBDto;
+import com.yuehe.app.dto.SaleDetailForDBDto;
 import com.yuehe.app.entity.Sale;
 
 /**
@@ -30,11 +31,6 @@ import com.yuehe.app.entity.Sale;
  */
 public interface SaleRepository extends JpaRepository<Sale, Long> {
 
-    //List<Sale> findByName(String name);
-//	(String saleId, String clientName, String beautifySkinItemName,
-//			String cosmeticShopName, int itemNumber, long createCardTotalAmount, float discount, long receivedAmount,
-//			long unpaidAmount, long earnedAmount, long receivedEarnedAmount, long unpaidEarnedAmount, float employeePremium,
-//			float shopPremium, Date createCardDate, String sellerName, String description)
 	@Query("SELECT new com.yuehe.app.dto.SaleClientItemSellerForDBDto(s.id,c.name, b.name, p.name, "
 			+ "s.itemNumber,s.createCardTotalAmount,b.price,"
 			+ "s.receivedAmount,p.discount ,s.employeePremium,s.shopPremium,"
@@ -43,18 +39,21 @@ public interface SaleRepository extends JpaRepository<Sale, Long> {
 			+ "INNER JOIN s.beautifySkinItem b "
 			+ "INNER JOIN s.employee e "
 			+ "INNER JOIN c.cosmeticShop p")
-//	@Query("SELECT new com.yuehe.app.dto.SaleClientItemSellerDto(s.id,c.name, b.name, p.name, "
-//			+ "s.itemNumber,s.createCardTotalAmount,(s.createCardTotalAmount / (b.price * s.itemNumber)) as discount,"
-//			+ "s.receivedAmount,(s.createCardTotalAmount - s.receivedAmount) as unpaidAmount,"
-//			+ "(s.createCardTotalAmount * p.discount) as earnedAmount,(s.receivedAmount * p.discount) as receivedEarnedAmount,"
-//			+ "(earnedAmount - receivedEarnedAmount) as unpaidEarnedAmount ,s.employeePremium,s.shopPremium,"
-//			+ "s.createCardDate, e.name,s.description) "
-//			+ "FROM Sale s INNER JOIN s.client c "
-//			+ "INNER JOIN s.beautifySkinItem b "
-//			+ "INNER JOIN s.employee e "
-//			+ "INNER JOIN c.cosmeticShop p")
     List<SaleClientItemSellerForDBDto> fetchSaleClientItemSellerData();
+	
+	@Query("SELECT new com.yuehe.app.dto.SaleDetailForDBDto(s.id,s.createCardDate, b.name,  "
+			+ "s.createCardTotalAmount,s.itemNumber,"
+			+ "p.discount ,s.employeePremium,s.shopPremium,s.description) "
+			+ "FROM Sale s INNER JOIN s.beautifySkinItem b "
+			+ "INNER JOIN s.client c "
+			+ "INNER JOIN s.employee e "
+			+ "INNER JOIN c.cosmeticShop p "
+			+ "where s.id = ?1")
+	SaleDetailForDBDto fetchSaleBasicDetailById(String id);
+	
+	
     Sale findById(String id);
+    
     @Query("select s from Sale s where s.clientId = ?1 AND s.beautifySkinItemId = ?2 AND s.createCardDate = ?3")
     Sale findByClientIdAndItemIdAndCreateCardDate(String clientId, String beautifySkinItemId, String createCardDate);
     

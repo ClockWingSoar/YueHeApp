@@ -21,6 +21,7 @@ import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
+import com.yuehe.app.dto.OperationDetailDto;
 import com.yuehe.app.dto.OperationOperatorToolForDBDto;
 import com.yuehe.app.entity.Operation;
 
@@ -55,20 +56,31 @@ public interface OperationRepository  extends JpaRepository<Operation, Long> {
 //	this.description = description;
 	@Query("select count(o) from Operation o where o.saleId = ?1")
     int findOperationNumBySaleId(String saleId);
-	@Query("select new com.yuehe.app.dto.OperationOperatorToolForDBDto(o.id,s.id, s.createCardDate, o.operationDate, "
-			+ "c.name,p.name,p.discount,b.name,s.createCardTotalAmount,s.itemNumber,"
-			+ "e.name,t.name,t.operateExpense,"
-			+ "o.description) "
+	
+	
+	
+	@Query("select new com.yuehe.app.dto.OperationDetailDto(o.id,o.operationDate, "
+			+ "e.name,t.name,t.operateExpense,o.description) "
 			+ "FROM Operation o INNER JOIN o.sale s "
-			+ "INNER JOIN s.beautifySkinItem b "
+//			+ "INNER JOIN s.beautifySkinItem b "
++ "INNER JOIN o.employee e "
+//			+ "INNER JOIN s.client c "
+//			+ "INNER JOIN c.cosmeticShop p "
++ "INNER JOIN o.tool t"
++ " where o.saleId = ?1")
+	List<OperationDetailDto> findBySaleId(String saleId);
+	
+	@Query("select new com.yuehe.app.dto.OperationDetailDto(o.id,o.operationDate, "
+			+ "e.name,t.name,t.operateExpense,o.description) "
+			+ "FROM Operation o INNER JOIN o.sale s "
 			+ "INNER JOIN o.employee e "
-			+ "INNER JOIN s.client c "
-			+ "INNER JOIN c.cosmeticShop p "
-			+ "INNER JOIN o.tool t"
-			+ " where o.saleId = ?1")
-	List<OperationOperatorToolForDBDto> findBySaleId(String saleId);
+			+ "INNER JOIN o.tool t")
+	List<OperationDetailDto> findAllOperationList();
+	
+
+	
     @Query("SELECT new com.yuehe.app.dto.OperationOperatorToolForDBDto(o.id,s.id, s.createCardDate, o.operationDate, "
-			+ "c.name,p.name,p.discount,b.name,s.createCardTotalAmount,s.itemNumber,"
+			+ "c.id,c.name,p.id,p.name,p.discount,b.name,s.createCardTotalAmount,s.itemNumber,"
 			+ "e.name,t.name,t.operateExpense,"
 			+ "o.description) "
 			+ "FROM Operation o INNER JOIN o.sale s "
@@ -79,5 +91,6 @@ public interface OperationRepository  extends JpaRepository<Operation, Long> {
 			+ "INNER JOIN o.tool t"
 			)
     List<OperationOperatorToolForDBDto> fetchOperationOpertatorToolData();
+    
     Operation findById(String id);
 }

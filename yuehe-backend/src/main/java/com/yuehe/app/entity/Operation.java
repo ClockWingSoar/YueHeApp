@@ -29,7 +29,7 @@ public class Operation implements Serializable{
 
 	//Fields
 	
-	public Operation(String id, String saleId, String operatorId, String toolId, Date operationDate,
+	public Operation(String id, String saleId, String operatorId, String toolId, String operationDate,
 			String description) {
 		super();
 		
@@ -101,7 +101,7 @@ public class Operation implements Serializable{
 	}
 
 	@Column(name="operation_date")
-	private Date operationDate;
+	private String operationDate;
 	private String description;
 	
 	// Constructors
@@ -143,11 +143,11 @@ public class Operation implements Serializable{
 		this.toolId = toolId;
 	}
 
-	public Date getOperationDate() {
+	public String getOperationDate() {
 		return operationDate;
 	}
 
-	public void setOperationDate(Date operationDate) {
+	public void setOperationDate(String operationDate) {
 		this.operationDate = operationDate;
 	}
 
