@@ -78,7 +78,7 @@ public class ShopDetailDto extends ClientDetailDto{
 				+ allClientsCreateCardAmount + ", allClientsEarnedAmount=" + allClientsEarnedAmount
 				+ ", allClientsConsumedAmount=" + allClientsConsumedAmount + ", allClientsConsumedEarnedAmount="
 				+ allClientsConsumedEarnedAmount + ", allClientsAdvancedEarnedAmount=" + allClientsAdvancedEarnedAmount
-				+ "]";
+				+ ", clientDetailDtos=" + clientDetailDtos + "]";
 	}
 	
 }

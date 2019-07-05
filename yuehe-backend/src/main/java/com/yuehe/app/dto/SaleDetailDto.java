@@ -18,11 +18,11 @@ public class SaleDetailDto extends OperationDetailDto{
 	private long createCardTotalAmount;//开卡金额
 	private long earnedAmount;//回款金额
 	private int itemNumber;//开卡次数-疗程总次数
-	private String description;//备注
 	private int restItemNumber;//剩余次数
 	private long consumedAmount;//已消耗总数
 	private long consumedEarnedAmount;//已消耗回款
 	private long advancedEarnedAmount;//预付款总数
+	private String description;//备注
 	private List<OperationDetailDto> operationDetailDtos;//单张美肤卡下面所有的操作的信息
 	public String getSaleId() {
 		return saleId;

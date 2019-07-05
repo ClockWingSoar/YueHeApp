@@ -15,9 +15,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.yuehe.app.dto.ClientDetailDto;
 import com.yuehe.app.dto.OperationDetailDto;
 import com.yuehe.app.dto.SaleBeautifySkinItemForFilterDto;
 import com.yuehe.app.dto.SaleDetailDto;
+import com.yuehe.app.dto.ShopDetailDto;
+import com.yuehe.app.dto.YueHeAllShopsDetailDto;
 import com.yuehe.app.entity.Client;
 import com.yuehe.app.entity.CosmeticShop;
 import com.yuehe.app.entity.Employee;
@@ -172,6 +175,30 @@ public class OperationController{
 		System.out.println(saleDetailDto);
 		return saleDetailDto;
 	}
-	
+	@RequestMapping(value = "/getYueHeAllShopsOperations", method = RequestMethod.GET)
+	public @ResponseBody
+	SaleDetailDto  findAllOperationsByYueHe() {
+		YueHeAllShopsDetailDto yueHeAllShopsDetailDto = operationService.getYueHeAllShopsDetail();
+		System.out.println(yueHeAllShopsDetailDto);
+		return yueHeAllShopsDetailDto;
+	}
+	@RequestMapping(value = "/getShopAllClientsOperations", method = RequestMethod.GET)
+	public @ResponseBody
+	ShopDetailDto  findAllOperationsByShop(
+			@RequestParam(value = "shopId", required = true) String shopId) {
+		System.err.println("shopId-"+shopId);
+		ShopDetailDto shopDetailDto = operationService.getShopClientDetailByShopId(shopId);
+		System.out.println(shopDetailDto);
+		return shopDetailDto;
+	}
+	@RequestMapping(value = "/getClientAllSalesOperations", method = RequestMethod.GET)
+	public @ResponseBody
+	ClientDetailDto  findAllOperationsByClient(
+			@RequestParam(value = "clientId", required = true) String clientId) {
+		System.err.println("clientId-"+clientId);
+		ClientDetailDto clientDetailDto = operationService.getClientSaleDetailByClientId(clientId);
+		System.out.println(clientDetailDto);
+		return clientDetailDto;
+	}
 
 }

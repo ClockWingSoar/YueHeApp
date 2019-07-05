@@ -8,7 +8,7 @@
        <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
         <script type="text/javascript"  th:src="@{/js/jquery.min.js}"></script>
            <script type="text/javascript"  th:src="@{/js/bootstrap.min.js}"></script>
-           <script type="text/javascript"  th:src="@{/js/yuehe.js}"></script>
+           <script type="text/javascript"  th:src="@{/js/operation.js}"></script>
     <meta http-equiv="refresh" content="600; URL=/"> <!-- this will redirect to / after 600s-->
 
 </head>
@@ -17,13 +17,12 @@
 <div th:replace="~{fragments/header :: header}">Header</div>
 
 <div role="main" class="container ">
-	
 		<div th:replace="~{fragments/operationHeader :: header}">Operation Header</div>
 		<!-- 统计各个美容院的总消耗，总开卡金额，总回款，总预付款等 -->
 			<div class="form-group col-md-2 row ">
 		    <label for="cosmeticShopName">美容院:</label>
 		    <select  class="form-control" required="required"  name="cosmeticShop" id="cosmeticShop">
-		      <option disabled="disabled" selected="selected" value="all"> --所有店 --
+		      <option selected="selected" value="all"> --所有店 --
 		      </option>
 		      <option th:each="cosmeticShop : ${cosmeticShopList}" th:value="${cosmeticShop.id}" 
 		       th:text="${cosmeticShop.name}" >
@@ -35,7 +34,7 @@
 		       <label for="client">客户姓名</label>
 		          <select class="form-control"  
 		          name="client" id="client" required="required">
-		              <option disabled="disabled" selected="selected" > --所有客户 --</option>
+		              <option  selected="selected" value="all" > --所有客户 --</option>
 		               <!-- option th:each="client : ${clientList}" th:value="${client.id}" 
 		       th:text="${client.name}" > -->
 		          </select>
@@ -45,15 +44,43 @@
 		       <label for="sale">美肤销售卡</label>
 		          <select class="form-control"  
 		          name="sale" id="sale" required="required">
-		              <option disabled="disabled" selected="selected" > --所有美肤卡 --</option>
+		              <option selected="selected" value="all"  > --所有美肤卡 --</option>
 		               <!--option th:each="sale : ${saleList}" th:value="${sale.id}" 
 		       th:text="${sale.beautifySkinItemName}-${sale.createCardDate}" > -->
 		          </select>
 			</div>
-		</div>
+<!-- 			<form id="operation_summary_form" th:action="@{/getAllOperations}" > -->
+			 <div class="form-group col-md-4 row" style="margin-left:65px">
+             	<div class="input-group col-md-4">
+	                <button id="operation_summary_lookup" type="button" class="btn btn-outline-dark btn-lg" value="">查询</button>
+	            </div>
+	        </div>
+<!-- 	        </form> -->
+</div>
 <div role="main" class="container ">
 
 	<div class="row hidden" id="shop_detail">
+	<hr>
+	<div id="yuehe_overall" class="container">
+		   <div class="form-group row">
+				<div class="col-sm-1 " > <label class="control-label " >公司</label></div>
+				<div class="col-sm-1 ">	<span id="yuehe_overall_company_name"  class="form-control-static" ></span></div>
+				<div class="col-sm-1" > <label class="control-label " >开卡金额</label></div>
+				<div class="col-sm-1">	<span id="yuehe_overall_create_card_amount"  class="form-control-static" ></span></div>
+				<div class="col-sm-1" > <label class="control-label " >回款金额</label></div>
+				<div class="col-sm-1">	<span id="yuehe_overall_earned_amount"  class="form-control-static" ></span></div>
+			</div>
+		   <div class="form-group row">
+				<div class="col-sm-1" > <label class="control-label " >已消耗</label></div>
+				<div class="col-sm-1">	<span id="yuehe_overall_consumed_amount"  class="form-control-static" ></span></div>
+				<div class="col-sm-1" > <label class="control-label " >消耗回款</label></div>
+				<div class="col-sm-1" >	<span id="yuehe_overall_consumed_earned_amount"  class="form-control-static" ></span></div>
+				<div class="col-sm-1" > <label class="control-label " >预付款</label></div>
+				<div class="col-sm-1">	<span id="yuehe_overall_advanced_earned_amount"  class="form-control-static" ></span></div>
+				
+			</div>
+		</div>
+		<hr>
 		<div class="panel-body table-wrapper-scroll-y my-custom-scrollbar">
 		    <table  id="shop_detail_table" class="table table-striped  table-sm table-nonfluid" >
 		    	<thead>
@@ -65,7 +92,6 @@
 						<th>已消耗总数</th>
 						<th>已消耗回款</th>
 						<th>预付款总数</th>
-						<th>备注</th>
 					</tr>
 				</thead>
 				
@@ -75,6 +101,27 @@
 			</div>
 	    </div>
 	<div class="row hidden" id="client_detail">
+	<hr>
+	<div id="shop_overall" class="container">
+		   <div class="form-group row">
+				<div class="col-sm-1 " > <label class="control-label " >美容院</label></div>
+				<div class="col-sm-1 ">	<span id="shop_overall_shop_name"  class="form-control-static" ></span></div>
+				<div class="col-sm-1" > <label class="control-label " >开卡金额</label></div>
+				<div class="col-sm-1">	<span id="shop_overall_create_card_amount"  class="form-control-static" ></span></div>
+				<div class="col-sm-1" > <label class="control-label " >回款金额</label></div>
+				<div class="col-sm-1">	<span id="shop_overall_earned_amount"  class="form-control-static" ></span></div>
+			</div>
+		   <div class="form-group row">
+				<div class="col-sm-1" > <label class="control-label " >已消耗</label></div>
+				<div class="col-sm-1">	<span id="shop_overall_consumed_amount"  class="form-control-static" ></span></div>
+				<div class="col-sm-1" > <label class="control-label " >消耗回款</label></div>
+				<div class="col-sm-1" >	<span id="shop_overall_consumed_earned_amount"  class="form-control-static" ></span></div>
+				<div class="col-sm-1" > <label class="control-label " >预付款</label></div>
+				<div class="col-sm-1">	<span id="shop_overall_advanced_earned_amount"  class="form-control-static" ></span></div>
+				
+			</div>
+		</div>
+		<hr>
 		<div class="panel-body table-wrapper-scroll-y my-custom-scrollbar">
 		    <table  id="client_detail_table" class="table table-striped  table-sm table-nonfluid" >
 		    	<thead>
@@ -86,7 +133,6 @@
 						<th>已消耗总数</th>
 						<th>已消耗回款</th>
 						<th>预付款总数</th>
-						<th>备注</th>
 					</tr>
 				</thead>
 				
@@ -96,6 +142,27 @@
 			</div>
 	    </div>
 	<div class="row hidden" id="sale_detail">
+	<hr>
+	<div id="client_overall" class="container">
+		   <div class="form-group row">
+				<div class="col-sm-1 " > <label class="control-label " >客户姓名</label></div>
+				<div class="col-sm-1 ">	<span id="client_overall_client_name"  class="form-control-static" ></span></div>
+				<div class="col-sm-1" > <label class="control-label " >开卡金额</label></div>
+				<div class="col-sm-1">	<span id="client_overall_create_card_amount"  class="form-control-static" ></span></div>
+				<div class="col-sm-1" > <label class="control-label " >回款金额</label></div>
+				<div class="col-sm-1">	<span id="client_overall_earned_amount"  class="form-control-static" ></span></div>
+			</div>
+		   <div class="form-group row">
+				<div class="col-sm-1" > <label class="control-label " >已消耗</label></div>
+				<div class="col-sm-1">	<span id="client_overall_consumed_amount"  class="form-control-static" ></span></div>
+				<div class="col-sm-1" > <label class="control-label " >消耗回款</label></div>
+				<div class="col-sm-1" >	<span id="client_overall_consumed_earned_amount"  class="form-control-static" ></span></div>
+				<div class="col-sm-1" > <label class="control-label " >预付款</label></div>
+				<div class="col-sm-1">	<span id="client_overall_advanced_earned_amount"  class="form-control-static" ></span></div>
+				
+			</div>
+		</div>
+		<hr>
 		<div class="panel-body table-wrapper-scroll-y my-custom-scrollbar">
 		    <table  id="sale_detail_table" class="table table-striped  table-sm table-nonfluid" >
 		    	<thead>
@@ -111,7 +178,7 @@
 						<th>已消耗总数</th>
 						<th>已消耗回款</th>
 						<th>预付款总数</th>
-						<th>备注</th>
+<!-- 						<th>备注</th> -->
 					</tr>
 				</thead>
 				
@@ -120,18 +187,38 @@
 				</table>
 			</div>
 	    </div>
+	    <hr>
 	<div class="row hidden" id="operation_detail">
 		<div id="sale_overall" class="container">
 		   <div class="form-group row">
-				<div class="col-sm-1"> <label class="control-label " >销售卡ID</label></div>
-				<div class="col-sm-1">	<span id="sale_overall_sale_id"  class="form-control-static" ></span></div>
-				<div class="col-sm-1"> <label class="control-label " >开卡日期</label></div>
-				<div class="col-sm-1">	<span id="sale_overall_create_card_date"  class="form-control-static" ></span></div>
-				<div class="col-sm-1"> <label class="control-label " >美肤项目</label></div>
+				<div class="col-sm-1 " > <label class="control-label " >销售卡ID</label></div>
+				<div class="col-sm-1 ">	<span id="sale_overall_sale_id"  class="form-control-static" ></span></div>
+				<div class="col-sm-1 " > <label class="control-label " >开卡日期</label></div>
+				<div class="col-sm-1 " >	<span id="sale_overall_create_card_date"  class="form-control-static pull-left" ></span></div>
+				<div class="col-sm-1" > <label class="control-label " >美肤项目</label></div>
 				<div class="col-sm-1">	<span id="sale_overall_beautify_skin_item_name"  class="form-control-static" ></span></div>
+				<div class="col-sm-1" > <label class="control-label " >开卡金额</label></div>
+				<div class="col-sm-1">	<span id="sale_overall_create_card_amount"  class="form-control-static" ></span></div>
+				<div class="col-sm-1" > <label class="control-label " >回款金额</label></div>
+				<div class="col-sm-1">	<span id="sale_overall_earned_amount"  class="form-control-static" ></span></div>
+				
+			</div>
+		   <div class="form-group row">
+				<div class="col-sm-1" > <label class="control-label " >开卡次数</label></div>
+				<div class="col-sm-1">	<span id="sale_overall_item_number"  class="form-control-static" ></span></div>
+				<div class="col-sm-1" > <label class="control-label " >剩余次数</label></div>
+				<div class="col-sm-1" >	<span id="sale_overall_rest_item_number"  class="form-control-static" ></span></div>
+				<div class="col-sm-1" > <label class="control-label " >已消耗</label></div>
+				<div class="col-sm-1">	<span id="sale_overall_consumed_amount"  class="form-control-static" ></span></div>
+				
+				<div class="col-sm-1" > <label class="control-label " >消耗回款</label></div>
+				<div class="col-sm-1" >	<span id="sale_overall_consumed_earned_amount"  class="form-control-static" ></span></div>
+				<div class="col-sm-1" > <label class="control-label " >预付款</label></div>
+				<div class="col-sm-1">	<span id="sale_overall_advanced_earned_amount"  class="form-control-static" ></span></div>
 				
 			</div>
 		</div>
+		<hr>
 		<div class="panel-body table-wrapper-scroll-y my-custom-scrollbar">
 		    <table  id="operation_detail_table" class="table table-striped  table-sm table-nonfluid" >
 		    	<thead>
@@ -147,26 +234,6 @@
 				</thead>
 				
 				<tbody id="operation_detail_table_body">
-<!-- 					<tr data-th-each="operation : ${operationList}"> -->
-<!-- 					<td data-th-text="${operation.operationId}">...</td> -->
-<!-- 					<td data-th-text="${operation.saleId}">...</td> -->
-<!-- 					<td data-th-text="${operation.createCardDate}">...</td> -->
-<!-- 					<td data-th-text="${operation.operationDate}">...</td> -->
-<!-- 					<td data-th-text="${operation.clientName}">...</td> -->
-<!-- 					<td data-th-text="${operation.cosmeticShopName}">...</td> -->
-<!-- 					<td data-th-text="${operation.beautifySkinItemName}">...</td> -->
-<!-- 					<td data-th-text="${operation.createCardTotalAmount}">...</td> -->
-<!-- 					<td data-th-text="${operation.earnedTotalAmount}">...</td> -->
-<!-- 					<td data-th-text="${operation.totalItemNumber}">...</td> -->
-<!-- 					<td data-th-text="${operation.restItemNumber}">...</td> -->
-<!-- 					<td data-th-text="${operation.consumedTotalAmount}">...</td> -->
-<!-- 					<td data-th-text="${operation.consumedEarnedTotalAmount}">...</td> -->
-<!-- 					<td data-th-text="${operation.advancedEarnedTotalAmount}">...</td> -->
-<!-- 					<td data-th-text="${operation.operatorName}">...</td> -->
-<!-- 					<td data-th-text="${operation.toolName}">...</td> -->
-<!-- 					<td data-th-text="${operation.operateExpense}">...</td> -->
-<!-- 					<td data-th-text="${operation.description}">...</td> -->
-<!-- 					</tr> -->
 				</tbody>
 				</table>
 			</div>
