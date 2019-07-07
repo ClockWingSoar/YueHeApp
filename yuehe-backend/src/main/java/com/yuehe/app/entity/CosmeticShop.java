@@ -24,7 +24,7 @@ public class CosmeticShop implements Serializable{
 	@Override
 	public String toString() {
 		return "CosmeticShop [id=" + id + ", name=" + name + ", owner=" + owner + ", contactMethod=" + contactMethod
-				+ ", location=" + location + ", size=" + size + ", discount=" + discount + ", description="
+				+ ", location=" + location + ", size=" + size + ", discount=" + discount + ", shopPremium=" + shopPremium +", description="
 				+ description+ "]"; //+ ", clients=" + clients + "]";
 	}
 	/**
@@ -40,6 +40,8 @@ public class CosmeticShop implements Serializable{
 	private String location;
 	private int size;
 	private float discount;
+	@Column(name="shop_premium")
+	private float shopPremium;//例如肤语港，总业绩超过50万时，需要返还5万给店家
 	private String description;
 	@JsonManagedReference
 	@OneToMany(targetEntity = Client.class, mappedBy = "shopId", orphanRemoval = false, fetch = FetchType.LAZY)
@@ -125,6 +127,12 @@ public class CosmeticShop implements Serializable{
 	}
 	public void setClients(Set<Client> clients) {
 		this.clients = clients;
+	}
+	public float getShopPremium() {
+		return shopPremium;
+	}
+	public void setShopPremium(float shopPremium) {
+		this.shopPremium = shopPremium;
 	}
 
 	

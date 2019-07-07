@@ -201,14 +201,17 @@ public class OperationService {
     	 return saleDetailDtoList;
     	
     }
-    public SaleDetailDto getSaleBasicDetailById(String id) {
+    private SaleDetailDto getSaleBasicDetailById(String id) {
     	SaleDetailForDBDto saleDetailForDBDto = saleService.getSaleBasicDetailById(id);
     	SaleDetailDto saleDetailDto = new SaleDetailDto();
 		String saleId = saleDetailForDBDto.getSaleId();
 		float cosmeticShopDiscount = saleDetailForDBDto.getCosmeticShopDiscount();
 		long createCardTotalAmount =  saleDetailForDBDto.getCreateCardTotalAmount();
+		long employeePremium = new Float(saleDetailForDBDto.getEmployeePremium()).longValue();//员工奖励
+		long shopPremium = new Float(saleDetailForDBDto.getShopPremium()).longValue();//美容院回扣
 		int itemNumber = saleDetailForDBDto.getItemNumber();
-		long earnedAmount = new Double(createCardTotalAmount*cosmeticShopDiscount).longValue();
+		//回给公司的回款计算方法为：开卡金额 * 店家折扣点 - 给员工的奖励 - 给店家的回扣（柳叶需扣除业绩的1%）
+		long earnedAmount = new Double(createCardTotalAmount*cosmeticShopDiscount).longValue()-employeePremium-shopPremium;
 		int operationNumber = getOperationNumberBySaleId(saleId);//操作次数
 		float unitPrice = createCardTotalAmount/itemNumber;//美肤卡单次价格
 		int restItemNumber = itemNumber-operationNumber;//剩余次数
@@ -232,7 +235,7 @@ public class OperationService {
     	return saleDetailDto;
     }
     
-    public List<OperationDetailDto> getOperationsBySaleId(String saleId) {
+    private List<OperationDetailDto> getOperationsBySaleId(String saleId) {
     	List<OperationDetailDto> operationDetailDtoList = operationRepository.findBySaleId(saleId);
     	return operationDetailDtoList;
     }
@@ -246,183 +249,5 @@ public class OperationService {
 	 public long getEntityNumber() {
 	    	return operationRepository.count();
 	    }
-//	 public List<OperationDetailDto> convertOperationDto(OperationDetailDto operationDetailDto, 
-//			 							List<OperationOperatorToolForDBDto> operationOperatorToolForDBDtoList ){
-//		 
-//		
-//				
-//		
-//			List<SaleDetailDto> saleDetailDtoList = new ArrayList<SaleDetailDto>();
-//			List<ClientDetailDto> clientDetailDtoList = new ArrayList<ClientDetailDto>();
-//			List<ShopDetailDto> shopDetailDtoList = new ArrayList<ShopDetailDto>();
-//			YueHeAllShopsDetailDto yueHeAllShopsDetailDto = new YueHeAllShopsDetailDto();
-//			HashMap<String,Object> operationMap = new HashMap<String,Object>();
-//			String oldSaleId ="";
-//			String oldClientId ="";
-//			String oldShopId ="";
-//			int itemNumber = 0;
-//			int restItemNumber = 0;
-//			float unitPrice = 0;
-//			float cosmeticShopDiscount = 0;
-//			int operationNumber = 0;
-//		
-//		
-//			
-//			
-//					//only client id is different, need to create a new ClientDetailDto instance
-//					if(operationDetailDto instanceof  ClientDetailDto) {
-//						ClientDetailDto clientDetailDto = new ClientDetailDto();
-//						//set this client's all sales detail 
-//						clientDetailDto.setSaleId(saleId);
-//						clientDetailDto.setTotalItemNumber(itemNumber);
-//						clientDetailDto.setRestItemNumber(restItemNumber);
-//						clientDetailDto.setCreateCardTotalAmount(createCardTotalAmount);
-//						clientDetailDto.setConsumedAmount(consumedAmount);
-//						clientDetailDto.setEarnedAmount(earnedAmount);
-//						clientDetailDto.setConsumedEarnedAmount(consumedEarnedAmount);
-//						clientDetailDto.setAdvancedEarnedAmount(advancedEarnedAmount);
-//						clientDetailDto.setBeautifySkinItemName(operationOperatorToolForDBDto.getBeautifySkinItemName());
-//						clientDetailDto.setCreateCardDate(operationOperatorToolForDBDto.getCreateCardDate());
-//						
-//						if(!clientId.contentEquals(oldClientId)) {
-//							//set this client's overall numbers - only need to set once for one client
-//							clientDetailDto.setAllSalesConsumedAmount(allSalesConsumedAmount);
-//							clientDetailDto.setAllSalesEarnedAmount(allSalesEarnedAmount);
-//							clientDetailDto.setAllSalesCreateCardAmount(allSalesCreateCardTotalAmount);
-//							clientDetailDto.setAllSalesAdvancedEarnedAmount(allSalesAdvancedEarnedAmount);
-//							clientDetailDto.setAllSalesConsumedEarnedAmount(allSalesConsumedEarnedAmount);
-//							clientDetailDto.setClientName(operationOperatorToolForDBDto.getClientName());
-//							clientDetailDtoList.add(clientDetailDto);
-//						}
-//						oldClientId = clientId;
-//					}
-//				
-//				
-//					//only shop id is different, need to create a new ShopDetailDto instance
-//					if(operationDetailDto instanceof  ShopDetailDto) {
-//						//set this shop's all clients detail 
-//						ShopDetailDto shopDetailDto = new ShopDetailDto();
-//						shopDetailDto.setClientName(operationOperatorToolForDBDto.getClientName());
-//						shopDetailDto.
-//						shopDetailDto.
-//						shopDetailDto.
-//						shopDetailDto.
-//						shopDetailDto.
-//						shopDetailDto.
-//						
-//						
-//						
-//						
-//						if(!shopId.contentEquals(oldShopId)) {
-//							//set this shop's overall numbers - only need to set once for one shop
-//							shopDetailDto.setCosmeticShopName(operationOperatorToolForDBDto.getCosmeticShopName());
-//							shopDetailDto.setAllClientsConsumedEarnedAmount(allSalesConsumedEarnedAmount);
-//							shopDetailDto.setAllClientsEarnedAmount(allSalesEarnedAmount);
-//							shopDetailDto.setAllClientsCreateCardAmount(allSalesCreateCardTotalAmount);
-//							shopDetailDto.setAllClientsAdvancedEarnedAmount(allSalesAdvancedEarnedAmount);
-//							shopDetailDto.setAllClientsConsumedAmount(allSalesConsumedAmount);
-//							shopDetailDtoList.add(shopDetailDto);
-//						}
-//				}
-//				oldShopId = shopId;
-//				
-//			
-//						
-//				
-//				
-//			
-//				}
-//			if(operationDetailDto instanceof  YueHeAllShopsDetailDto) {
-//				yueHeAllShopsDetailDto.setYueheCompanyName("悦和国际");
-//				yueHeAllShopsDetailDto.setAllShopsAdvancedEarnedAmount(allSalesAdvancedEarnedAmount);
-//				yueHeAllShopsDetailDto.setAllShopsConsumedAmount(allSalesConsumedAmount);
-//				yueHeAllShopsDetailDto.setAllShopsConsumedEarnedAmount(allSalesConsumedEarnedAmount);
-//				yueHeAllShopsDetailDto.setAllShopsEarnedAmount(allSalesEarnedAmount);
-//				yueHeAllShopsDetailDto.setAllShopsCreateCardTotalAmount(allSalesCreateCardTotalAmount);
-//			}
-//			
-//					
-//			
-//			}
-//			
-//			operationOperatorToolForDBDtoList.forEach(l -> System.out.println(l));
-//			operationDetailDtoList.forEach(l -> System.out.println(l));
-//			saleDetailDtoList.forEach(l -> System.out.println(l));
-//			clientDetailDtoList.forEach(l -> System.out.println(l));
-//			shopDetailDtoList.forEach(l -> System.out.println(l));
-//			System.out.println(yueHeAllShopsDetailDto);
-//			operationMap.put("operationList", operationDetailDtoList);
-//			operationMap.put("saleList", saleDetailDtoList);
-//			operationMap.put("clientList", clientDetailDtoList);
-//			operationMap.put("shopList", shopDetailDtoList);
-//			operationMap.put("yueHeAllShopsDetailDto", yueHeAllShopsDetailDto);
-//			return operationMap;
-//	 }
-//	 
-//	 
-//	 
-//	 public List<SaleDetailDto> convertDBListToSaleDetailDto(String saleId,
-//			 							List<OperationDetailDto> operationDetailDtoList){
-//		 SaleDetailDto saleDetailDto = new SaleDetailDto();
-////		 List<OperationDetailDto> operationDetailDtoList = new ArrayList<OperationDetailDto>();
-//////				//only sale id is different, need to create a new SaleDetailDto instance
-////			for(OperationDetailDto operationDetailDto : operationDetailDtoList) {
-////				OperationDetailDto operationDetailDto = new OperationDetailDto();
-////			
-////				//set this sale's all operation's detail
-////				operationDetailDto.setOperationId(operationOperatorToolForDBDto.getOperationId());
-////				operationDetailDto.setOperationDate(simpleDateFormat.format(operationOperatorToolForDBDto.getOperationDate()));
-////				operationDetailDto.setOperatorName(operationOperatorToolForDBDto.getOperatorName());
-////				operationDetailDto.setToolName(operationOperatorToolForDBDto.getToolName());
-////				operationDetailDto.setOperateExpense(operationOperatorToolForDBDto.getOperateExpense());
-////				operationDetailDto.setDescription(operationOperatorToolForDBDto.getDescription());
-////				operationDetailDtoList.add(operationDetailDto);
-//////			
-//////				String clientId = operationOperatorToolForDBDto.getClientId();
-//////				String shopId = operationOperatorToolForDBDto.getCosmeticShopId();
-////			
-//////				if(!saleId.contentEquals(oldSaleId)) {
-////					
-////				}
-//
-//			//set this sale's overall numbers - only need to set once for one sale
-//			saleDetailDto.setTotalItemNumber(itemNumber);
-//			saleDetailDto.setRestItemNumber(restItemNumber);
-//			saleDetailDto.setCreateCardTotalAmount(createCardTotalAmount);
-//			saleDetailDto.setConsumedAmount(consumedAmount);
-//			saleDetailDto.setEarnedAmount(earnedAmount);
-//			saleDetailDto.setConsumedEarnedAmount(consumedEarnedAmount);
-//			saleDetailDto.setSaleId(saleId);
-//			saleDetailDto.setAdvancedEarnedAmount(advancedEarnedAmount);
-//			saleDetailDto.setBeautifySkinItemName(operationOperatorToolForDBDto.getBeautifySkinItemName());
-//			saleDetailDto.setCreateCardDate(operationOperatorToolForDBDto.getCreateCardDate());
-////			saleDetailDtoList.add(saleDetailDto);
-//			
-//			long createCardTotalAmount = 0;//for one sale 
-//			long earnedAmount = 0;//for one sale 
-//			long consumedAmount =0;//for one sale 
-//			long consumedEarnedAmount = 0;//for one sale 
-//			long advancedEarnedAmount = 0;//for one sale 
-//			cosmeticShopDiscount = operationOperatorToolForDBDto.getCosmeticShopDiscount();
-//			createCardTotalAmount =  operationOperatorToolForDBDto.getCreateCardTotalAmount();//开卡总金额
-//			itemNumber = operationOperatorToolForDBDto.getTotalItemNumber();//开卡次数
-//			operationNumber = getOperationNumberBySaleId(saleId);//操作次数
-//			unitPrice = createCardTotalAmount/itemNumber;//美肤卡单次价格
-//			restItemNumber = itemNumber-operationNumber;//剩余次数
-//			earnedAmount = new Double(createCardTotalAmount*cosmeticShopDiscount).longValue();//回款金额
-//			consumedAmount = new Double(operationNumber*unitPrice).longValue();//已消耗总数
-//			consumedEarnedAmount = new Double(operationNumber*unitPrice*cosmeticShopDiscount).longValue();//已消耗回款
-//			advancedEarnedAmount = earnedAmount-consumedEarnedAmount;//预付款只计算回款的部分，不包括美容院的
-//			allSalesAdvancedEarnedAmount +=  advancedEarnedAmount;//计算所有销售卡的总预付款
-//			allSalesConsumedEarnedAmount +=  consumedEarnedAmount;//计算所有销售卡的总消耗回款
-//			allSalesEarnedAmount +=  earnedAmount;//计算所有销售卡的总回款
-//			allSalesCreateCardTotalAmount += createCardTotalAmount;//计算所有销售卡的总开卡金额
-//			allSalesConsumedAmount +=  consumedAmount;////计算所有销售卡的总消耗
-//			System.out.println("allSalesConsumedAmount--"+allSalesConsumedAmount);
-//			System.out.println("consumedAmount--"+consumedAmount);
-//				
-//			}
-//			saleDetailDto.setOperationDetailDtos(operationDetailDtoList);
-//	 }
 	 
 }

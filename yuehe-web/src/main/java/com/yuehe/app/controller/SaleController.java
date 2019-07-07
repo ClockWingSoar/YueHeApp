@@ -12,9 +12,20 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.yuehe.app.dto.ClientAllSalesPerformanceDetailDto;
+import com.yuehe.app.dto.ClientDetailDto;
 import com.yuehe.app.dto.SaleClientItemSellerDto;
+import com.yuehe.app.dto.SaleDetailDto;
+import com.yuehe.app.dto.SalePerformanceDetailDto;
+import com.yuehe.app.dto.ShopAllSalesPerformanceDetailDto;
+import com.yuehe.app.dto.ShopDetailDto;
+import com.yuehe.app.dto.YueHeAllSalesPerformanceDetailDto;
+import com.yuehe.app.dto.YueHeAllShopsDetailDto;
 import com.yuehe.app.entity.BeautifySkinItem;
 import com.yuehe.app.entity.Client;
 import com.yuehe.app.entity.CosmeticShop;
@@ -66,9 +77,24 @@ public class SaleController{
 		List<SaleClientItemSellerDto> saleList =new ArrayList<SaleClientItemSellerDto>();
 		saleList = saleService.getSalesDetailList();
 		 LOGGER.info("saleList {}", saleList);
+		model.addAttribute("subModule", "saleList");
 		model.addAttribute("saleList",saleList);
 		
-		return "user/sale";
+		return "user/saleList";
+	}
+	@GetMapping("/getSaleNewItem")
+	public  String saleNewItem(Model model){
+		model.addAttribute("subModule", "saleNewItem");
+		
+		return "user/saleNewItem";
+	}
+	@GetMapping("/getSaleSummary")
+	public  String saleSummary(Model model){
+		List<CosmeticShop> cosmeticShopList = cosmeticShopService.getAllCosmeticShopForFiltering();
+		model.addAttribute("subModule", "saleSummary");
+		model.addAttribute("cosmeticShopList",cosmeticShopList);
+		
+		return "user/saleSummary";
 	}
 	@PostMapping("/createSale")
     public String createSale( @RequestParam(name = "clientName", required = false) String clientName,
@@ -118,6 +144,38 @@ public class SaleController{
         return "redirect:/getSaleList";
     }
 	
-    
-
+	@RequestMapping(value = "/getYueHeAllShopsSales", method = RequestMethod.GET)
+	public @ResponseBody
+	YueHeAllSalesPerformanceDetailDto  findAllSalesByYueHe() {
+		YueHeAllSalesPerformanceDetailDto yueHeAllSalesPerformanceDetailDto = saleService.getYueHeAllSalesPerformanceDetail();
+		System.out.println(yueHeAllSalesPerformanceDetailDto);
+		return yueHeAllSalesPerformanceDetailDto;
+	}
+	@RequestMapping(value = "/getShopAllClientsSales", method = RequestMethod.GET)
+	public @ResponseBody
+	ShopAllSalesPerformanceDetailDto  findAllSalesByShop(
+			@RequestParam(value = "shopId", required = true) String shopId) {
+		System.err.println("shopId-"+shopId);
+		ShopAllSalesPerformanceDetailDto shopAllSalesPerformanceDetailDto = saleService.getShopAllSalesPerformanceDetail(shopId);
+		System.out.println(shopAllSalesPerformanceDetailDto);
+		return shopAllSalesPerformanceDetailDto;
+	}
+	@RequestMapping(value = "/getClientAllSales", method = RequestMethod.GET)
+	public @ResponseBody
+	ClientAllSalesPerformanceDetailDto  findAllSalesByClient(
+			@RequestParam(value = "clientId", required = true) String clientId) {
+		System.err.println("clientId-"+clientId);
+		ClientAllSalesPerformanceDetailDto clientAllSalesPerformanceDetailDto = saleService.getClientAllSalesPerformanceDetail(clientId);
+		System.out.println(clientAllSalesPerformanceDetailDto);
+		return clientAllSalesPerformanceDetailDto;
+	}
+	@RequestMapping(value = "/getSalePerformanceDetail", method = RequestMethod.GET)
+	public @ResponseBody
+	SalePerformanceDetailDto  findSalePerformanceDetailBySaleId(
+			@RequestParam(value = "saleId", required = true) String saleId) {
+		System.err.println("saleId-"+saleId);
+		SalePerformanceDetailDto salePerformanceDetailDto = saleService.getSalePerformanceDetail(saleId);
+		System.out.println(salePerformanceDetailDto);
+		return salePerformanceDetailDto;
+	}
 }

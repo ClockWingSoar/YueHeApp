@@ -1,0 +1,245 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>销售表</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <link rel="stylesheet" th:href="@{/css/core.css}">
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+    <script type="text/javascript"  th:src="@{/js/jquery.min.js}"></script>
+    <script type="text/javascript"  th:src="@{/js/bootstrap.min.js}"></script>
+    <script type="text/javascript"  th:src="@{/js/sale.js}"></script>
+    <meta http-equiv="refresh" content="600; URL=/"> <!-- this will redirect to / after 600s-->
+
+</head>
+
+<body>
+<div th:replace="~{fragments/header :: header}">Header</div>
+
+<div role="main" class="container">
+<div th:replace="~{fragments/saleHeader :: header}">Sale Header</div>
+	<div class="container" >
+  <div role="main" class="container ">
+ <!-- 统计各个美容院的总消耗，总开卡金额，总回款，总预付款等 -->
+			<div class="form-group col-md-2 row ">
+		    <label for="cosmeticShopName">美容院:</label>
+		    <select  class="form-control" required="required"  name="cosmeticShop" id="cosmeticShop">
+		      <option selected="selected" value="all"> --所有店 --
+		      </option>
+		      <option th:each="cosmeticShop : ${cosmeticShopList}" th:value="${cosmeticShop.id}" 
+		       th:text="${cosmeticShop.name}" >
+		      </option>
+		    </select>
+			</div>
+	
+			<div class="form-group col-md-2 row col-md-offset-1"  style="margin-left:5px">
+		       <label for="client">客户姓名</label>
+		          <select class="form-control"  
+		          name="client" id="client" required="required">
+		              <option  selected="selected" value="all" > --所有客户 --</option>
+		          </select>
+			</div>
+	
+			<div class="form-group col-md-3 row col-md-offset-1" style="margin-left:5px">
+		       <label for="sale">美肤销售卡</label>
+		          <select class="form-control"  
+		          name="sale" id="sale" required="required">
+		              <option selected="selected" value="all"  > --所有美肤卡 --</option>
+		          </select>
+			</div>
+			 <div class="form-group col-md-4 row" style="margin-left:65px">
+             	<div class="input-group col-md-4">
+	                <button id="sale_summary_lookup" type="button" class="btn btn-outline-dark btn-lg" value="">查询</button>
+	            </div>
+	        </div>
+     </div>		
+	<div class="row hidden" id="shop_detail">
+	<hr>
+	<div id="yuehe_overall" class="container">
+		   <div class="form-group row">
+				<div class="col-sm-1 " > <label class="control-label " >公司</label></div>
+				<div class="col-sm-1 ">	<span id="yuehe_overall_company_name"  class="form-control-static" ></span></div>
+				<div class="col-sm-1" > <label class="control-label " >开卡金额</label></div>
+				<div class="col-sm-1">	<span id="yuehe_overall_create_card_amount"  class="form-control-static" ></span></div>
+				<div class="col-sm-1" > <label class="control-label " >实收金额</label></div>
+				<div class="col-sm-1">	<span id="yuehe_overall_received_amount"  class="form-control-static" ></span></div>
+				<div class="col-sm-1" > <label class="control-label " >欠收金额</label></div>
+				<div class="col-sm-1">	<span id="yuehe_overall_debt_amount"  class="form-control-static" ></span></div>
+			</div>
+		   <div class="form-group row">
+				<div class="col-sm-1" > <label class="control-label " >回款金额</label></div>
+				<div class="col-sm-1">	<span id="yuehe_overall_earned_amount"  class="form-control-static" ></span></div>
+				<div class="col-sm-1" > <label class="control-label " >实收回款</label></div>
+				<div class="col-sm-1">	<span id="yuehe_overall_received_earned_amount"  class="form-control-static" ></span></div>
+				<div class="col-sm-1" > <label class="control-label " >欠收回款</label></div>
+				<div class="col-sm-1" >	<span id="yuehe_overall_debt_earned_amount"  class="form-control-static" ></span></div>
+				<div class="col-sm-1" > <label class="control-label " >员工奖励</label></div>
+				<div class="col-sm-1">	<span id="yuehe_overall_employee_premium"  class="form-control-static" ></span></div>
+				<div class="col-sm-1" > <label class="control-label " >店家回扣</label></div>
+				<div class="col-sm-1">	<span id="yuehe_overall_shop_premium"  class="form-control-static" ></span></div>
+				
+			</div>
+		</div>
+		<hr>
+		<div class="panel-body table-wrapper-scroll-y my-custom-scrollbar">
+		    <table  id="shop_detail_table" class="table table-striped  table-sm table-nonfluid" >
+		    	<thead>
+		    	
+		   			 <tr class="info">
+						<th>美容院</th>
+						<th>开卡金额</th>
+						<th>实收金额</th>
+						<th>欠账金额</th>
+						<th>回款金额</th>
+						<th>实收回款</th>
+						<th>欠收回款</th>
+						<th>员工奖励</th>
+						<th>店家回扣</th>
+					</tr>
+				</thead>
+				
+				<tbody id="shop_detail_table_body">
+				</tbody>
+				</table>
+			</div>
+	    </div>
+	<div class="row hidden" id="client_detail">
+	<hr>
+	<div id="shop_overall" class="container">
+		   <div class="form-group row">
+				<div class="col-sm-1 " > <label class="control-label " >美容院</label></div>
+				<div class="col-sm-1 ">	<span id="shop_overall_shop_name"  class="form-control-static" ></span></div>
+				<div class="col-sm-1" > <label class="control-label " >开卡金额</label></div>
+				<div class="col-sm-1">	<span id="shop_overall_create_card_amount"  class="form-control-static" ></span></div>
+				<div class="col-sm-1" > <label class="control-label " >实收金额</label></div>
+				<div class="col-sm-1">	<span id="shop_overall_received_amount"  class="form-control-static" ></span></div>
+				<div class="col-sm-1" > <label class="control-label " >欠收金额</label></div>
+				<div class="col-sm-1">	<span id="shop_overall_debt_amount"  class="form-control-static" ></span></div>
+			</div>
+		   <div class="form-group row">
+				<div class="col-sm-1" > <label class="control-label " >回款金额</label></div>
+				<div class="col-sm-1">	<span id="shop_overall_earned_amount"  class="form-control-static" ></span></div>
+				<div class="col-sm-1" > <label class="control-label " >实收回款</label></div>
+				<div class="col-sm-1">	<span id="shop_overall_received_earned_amount"  class="form-control-static" ></span></div>
+				<div class="col-sm-1" > <label class="control-label " >欠收回款</label></div>
+				<div class="col-sm-1" >	<span id="shop_overall_debt_earned_amount"  class="form-control-static" ></span></div>
+				<div class="col-sm-1" > <label class="control-label " >员工奖励</label></div>
+				<div class="col-sm-1">	<span id="shop_overall_employee_premium"  class="form-control-static" ></span></div>
+				<div class="col-sm-1" > <label class="control-label " >店家回扣</label></div>
+				<div class="col-sm-1">	<span id="shop_overall_shop_premium"  class="form-control-static" ></span></div>
+				
+			</div>
+		</div>
+		<hr>
+		<div class="panel-body table-wrapper-scroll-y my-custom-scrollbar">
+		    <table  id="client_detail_table" class="table table-striped  table-sm table-nonfluid" >
+		    	<thead>
+		    	
+		   			 <tr class="info">
+						<th>客户姓名</th>
+						<th>开卡金额</th>
+						<th>实收金额</th>
+						<th>欠账金额</th>
+						<th>回款金额</th>
+						<th>实收回款</th>
+						<th>欠收回款</th>
+						<th>员工奖励</th>
+						<th>店家回扣</th>
+					</tr>
+				</thead>
+				
+				<tbody id="client_detail_table_body">
+				</tbody>
+				</table>
+			</div>
+	    </div>
+	<div class="row hidden" id="sale_detail">
+	<hr>
+	<div id="client_overall" class="container">
+		   <div class="form-group row">
+				<div class="col-sm-1 " > <label class="control-label " >客户姓名</label></div>
+				<div class="col-sm-1 ">	<span id="client_overall_client_name"  class="form-control-static" ></span></div>
+				<div class="col-sm-1" > <label class="control-label " >开卡金额</label></div>
+				<div class="col-sm-1">	<span id="client_overall_create_card_amount"  class="form-control-static" ></span></div>
+				<div class="col-sm-1" > <label class="control-label " >实收金额</label></div>
+				<div class="col-sm-1">	<span id="client_overall_received_amount"  class="form-control-static" ></span></div>
+				<div class="col-sm-1" > <label class="control-label " >欠收金额</label></div>
+				<div class="col-sm-1">	<span id="client_overall_debt_amount"  class="form-control-static" ></span></div>
+			</div>
+		   <div class="form-group row">
+				<div class="col-sm-1" > <label class="control-label " >回款金额</label></div>
+				<div class="col-sm-1">	<span id="client_overall_earned_amount"  class="form-control-static" ></span></div>
+				<div class="col-sm-1" > <label class="control-label " >实收回款</label></div>
+				<div class="col-sm-1">	<span id="client_overall_received_earned_amount"  class="form-control-static" ></span></div>
+				<div class="col-sm-1" > <label class="control-label " >欠收回款</label></div>
+				<div class="col-sm-1" >	<span id="client_overall_debt_earned_amount"  class="form-control-static" ></span></div>
+				<div class="col-sm-1" > <label class="control-label " >员工奖励</label></div>
+				<div class="col-sm-1">	<span id="client_overall_employee_premium"  class="form-control-static" ></span></div>
+				<div class="col-sm-1" > <label class="control-label " >店家回扣</label></div>
+				<div class="col-sm-1">	<span id="client_overall_shop_premium"  class="form-control-static" ></span></div>
+				
+			</div>
+		</div>
+		<hr>
+		<div class="panel-body table-wrapper-scroll-y my-custom-scrollbar">
+		    <table  id="sale_detail_table" class="table table-striped  table-sm table-nonfluid" >
+		    	<thead>
+		    	
+		   			 <tr class="info">
+		   			    <th>销售卡ID</th>
+						<th>开卡金额</th>
+						<th>实收金额</th>
+						<th>欠账金额</th>
+						<th>回款金额</th>
+						<th>实收回款</th>
+						<th>欠收回款</th>
+						<th>员工奖励</th>
+						<th>店家回扣</th>
+					</tr>
+				</thead>
+				
+				<tbody id="sale_detail_table_body">
+				</tbody>
+				</table>
+			</div>
+	    </div>
+	    <hr>
+	<div class="row hidden" id="sale_item">
+		<div id="sale" class="container">
+		   <div class="form-group row">
+				<div class="col-sm-1 " > <label class="control-label " >销售卡ID</label></div>
+				<div class="col-sm-1 ">	<span id="sale_sale_id"  class="form-control-static" ></span></div>
+				<div class="col-sm-1" > <label class="control-label " >开卡金额</label></div>
+				<div class="col-sm-1">	<span id="sale_create_card_amount"  class="form-control-static" ></span></div>
+				<div class="col-sm-1 " > <label class="control-label " >实收金额</label></div>
+				<div class="col-sm-1 " >	<span id="sale_received_amount"  class="form-control-static pull-left" ></span></div>
+				<div class="col-sm-1" > <label class="control-label " >欠账金额</label></div>
+				<div class="col-sm-1">	<span id="sale_debt_amount"  class="form-control-static" ></span></div>
+				
+			</div>
+		   <div class="form-group row">
+				<div class="col-sm-1" > <label class="control-label " >回款金额</label></div>
+				<div class="col-sm-1">	<span id="sale_earned_amount"  class="form-control-static" ></span></div>
+				<div class="col-sm-1" > <label class="control-label " >实收回款</label></div>
+				<div class="col-sm-1">	<span id="sale_received_earned_amount"  class="form-control-static" ></span></div>
+				<div class="col-sm-1" > <label class="control-label " >欠收回款</label></div>
+				<div class="col-sm-1" >	<span id="sale_debt_earned_amount"  class="form-control-static" ></span></div>
+				<div class="col-sm-1" > <label class="control-label " >员工奖励</label></div>
+				<div class="col-sm-1">	<span id="sale_employee_premium"  class="form-control-static" ></span></div>
+				<div class="col-sm-1" > <label class="control-label " >店家回扣</label></div>
+				<div class="col-sm-1" >	<span id="sale_shop_premium"  class="form-control-static" ></span></div>
+				
+			</div>
+		</div>
+		<hr>
+	    
+	    </div>
+    	<footer class="fixed-bottom" style="position: fixed; bottom: 0">
+        <div class="container">
+            <span class="text-muted">Developed by Yi Xiang Zhong.</span>
+        </div>
+    </footer>
+</div> 
+</div>
+</body>
+</html>
