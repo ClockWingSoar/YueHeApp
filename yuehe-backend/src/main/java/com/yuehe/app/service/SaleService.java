@@ -110,7 +110,7 @@ public class SaleService {
 			long createCardTotalAmount =  saleClientItemSellerForDBDto.getCreateCardTotalAmount();
 			long receivedAmount = saleClientItemSellerForDBDto.getReceivedAmount();
 			int itemNumber = saleClientItemSellerForDBDto.getItemNumber();
-			long receivedEarnedAmount = new Double(receivedAmount*cosmeticShopDiscount).longValue();
+			long receivedEarnedAmount = saleClientItemSellerForDBDto.getReceivedEarnedAmount();
 			Double discount = new Double(createCardTotalAmount)/new Double(beautifySkinItemPrice * itemNumber);
 			long employeePremium = new Float(saleClientItemSellerForDBDto.getEmployeePremium()).longValue();
 		    long shopPremium = new Float(saleClientItemSellerForDBDto.getShopPremium()).longValue();
@@ -275,7 +275,7 @@ public class SaleService {
 		 String description = salePerformanceDetailForDBDto.getDescription();
 		 long debtAmount = createCardTotalAmount - receivedAmount;
 		 long earnedAmount = new Double(createCardTotalAmount*cosmeticShopDiscount).longValue() - employeePremium - shopPremium;
-		 long receivedEarnedAmount = new Double(receivedAmount*cosmeticShopDiscount).longValue();
+		 long receivedEarnedAmount = salePerformanceDetailForDBDto.getReceivedEarnedAmount();
 		 long debtEarnedAmount = earnedAmount - receivedEarnedAmount;
 		 salePerformanceDetail.setSaleId(saleId);
 		 salePerformanceDetail.setCreateCardDate(createCardDate);

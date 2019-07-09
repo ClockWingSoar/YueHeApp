@@ -8,6 +8,12 @@
        <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
         <script type="text/javascript"  th:src="@{/js/jquery.min.js}"></script>
            <script type="text/javascript"  th:src="@{/js/bootstrap.min.js}"></script>
+                       <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+  <link rel="stylesheet" href="/resources/demos/style.css">
+  <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+                <script type="text/javascript"  th:src="@{/js/saleNewItem.js}"></script>
+           <script type="text/javascript"  th:src="@{/js/yueheCommon.js}"></script>
     <meta http-equiv="refresh" content="600; URL=/"> <!-- this will redirect to / after 600s-->
 
 </head>
@@ -21,68 +27,169 @@
      <div class="panel panel-default">
               <div class="panel-heading">  <h3>创建新的销售卡</h3></div>
            
-            <div class="form-group row">
+            <div class="form-group">
 			    <form th:action="@{/createSale}"  method="POST">
-		       		 <div class="input-group col-xs-4">
-			            <span class="input-group-addon"><i class="glyphicon glyphicon-euro"></i>客户姓名</span> 
-		                <input id="clientName" name="clientName" type=text class="form-control input-sm" ></input>
+			    <br>
+			    <div class="form-group  row ">
+                		<div class="col-md-1"> <span class="input-group-addon"><i class="glyphicon glyphicon-euro"></i>美容院</span> </div>
+					    
+						<div class="col-xs-3">    <select  class="form-control" required="required"  name="cosmeticShopId" id="cosmeticShop">
+					      <option selected="selected" > --请选择美容院 --
+					      </option>
+					      <option th:each="cosmeticShop : ${cosmeticShopList}" th:value="${cosmeticShop.id}" 
+					       th:text="${cosmeticShop.name}" >
+					      </option>
+					    </select>
+					    </div>
+						<div class="col-xs-6"> 
+						  <span class="help-block">一般来讲，通过客户名可以确定哪家美容院，但是不排除重名的情况</span>
+						  </div>
+					  </div>
+					  <div class="form-group  row ">
+			    	<div class="col-md-1"> <span class="input-group-addon"><i class="glyphicon glyphicon-euro"></i>客户名</span> </div>
+		       			<div class="col-xs-3">    
+			       			<select  class="form-control" required="required"  name="clientId" id="client">
+						      <option selected="selected" > --请选择客户姓名 --
+						      </option>
+						      <option th:each="client : ${clientList}" th:value="${client.id}" 
+						       th:text="${client.name}" >
+						      </option>
+						    </select>
+					    </div>
+		           		<div class="col-xs-6"> 
+	                		<span class="help-block">每个客户如果有不同的项目需分开写</span>
+	                	</div>
+	                </div> 
+		       		 <div class="form-group  row ">
+			           	<div class="col-md-1"> 
+			            	<span class="input-group-addon"><i class="glyphicon glyphicon-euro"></i>美肤项目</span> 
+			            </div>
+			             <div class="col-xs-3">  
+			             <select  class="form-control" required="required"  name="beautifySkinItemId" id="beautifySkinItem">
+						      <option selected="selected" > --请选择美肤套餐 --
+						      </option>
+						      <option th:each="beautifySkinItem : ${beautifySkinItemList}" th:value="${beautifySkinItem.id}" 
+						       th:text="${beautifySkinItem.name}" >
+						      </option>
+						    </select>
+		                </div>
+		                <div class="col-xs-6">
+	              			  <span class="help-block">一般包括有真皮斑，代谢，表皮斑，水光，扫黄等等</span>
+             			</div>
 		            </div>
-	                <span class="help-block">每个客户如果有不同的项目需分开写</span>
-		       		 <div class="input-group col-xs-4">
-			            <span class="input-group-addon"><i class="glyphicon glyphicon-euro"></i>美肤项目</span> 
-		                <input id="beautifySkinItemName" name="beautifySkinItemName" type=text class="form-control input-sm" ></input>
+		       		<div class="form-group  row ">
+			            <div class="col-md-1"> 
+			            	<span class="input-group-addon"><i class="glyphicon glyphicon-euro"></i>开卡日期</span> 
+			            </div>
+			            <div class="col-xs-3">  
+		               		 <input id="createCardDate" name="createCardDate" type=text class="form-control input-sm" ></input>
+		               	</div>
+		                <div class="col-xs-6">
+	               		 	<span class="help-block">通过开卡日期可以确定针对某个客户的单次某个项目的销售</span>
+	               		</div>
 		            </div>
-	                <span class="help-block">一般包括有真皮斑，代谢，表皮斑，水光，扫黄等等</span>
-		       		 <div class="input-group col-xs-4">
-			            <span class="input-group-addon"><i class="glyphicon glyphicon-euro"></i>所属美容院</span> 
-		                <input id="cosmeticShopName" name="cosmeticShopName" type=text class="form-control input-sm" ></input>
+		       		 <div class="form-group  row ">
+			       		 <div class="col-md-1"> 
+				            <span class="input-group-addon"><i class="glyphicon glyphicon-euro"></i>开卡次数</span> 
+				         </div>   
+			            <div class="col-xs-3">  
+		              	  <input id="itemNumber" name="itemNumber" type=text class="form-control input-sm" ></input>
+		              	</div>
+		              	<div class="col-xs-6">
+	               			 <span class="help-block">通过开卡次数和开卡金额可以计算某个项目给与客户的优惠力度，还可以计算消耗</span>
+	               		</div>
+		             </div>
+		       		 <div class="form-group  row ">
+		       		 	<div class="col-md-1"> 
+			           		 <span class="input-group-addon"><i class="glyphicon glyphicon-euro"></i>开卡总金额</span> 
+			            </div>
+			             <div class="col-xs-3">  
+		                	<input id="createCardTotalAmount" name="createCardTotalAmount" type=text class="form-control input-sm" ></input>
+		                 </div>
+			            <div class="col-xs-6">
+	                		<span class="help-block">开卡总金额一般由销售专家根据客户情况拟定，需跟标准价格进行计算得出优惠力度</span>
+		          		  </div>
 		            </div>
-	                <span class="help-block">一般来讲，通过客户名可以确定哪家美容院，但是不排除重名的情况</span>
-		       		 <div class="input-group col-xs-4">
-			            <span class="input-group-addon"><i class="glyphicon glyphicon-euro"></i>开卡日期</span> 
-		                <input id="createCardDate" name="createCardDate" type=text class="form-control input-sm" ></input>
-		            </div>
-	                <span class="help-block">通过开卡日期可以确定针对某个客户的单次某个项目的销售</span>
-		       		 <div class="input-group col-xs-4">
-			            <span class="input-group-addon"><i class="glyphicon glyphicon-euro"></i>开卡次数</span> 
-		                <input id="itemNumber" name="itemNumber" type=text class="form-control input-sm" ></input>
-		            </div>
-	                <span class="help-block">通过开卡次数和开卡金额可以计算某个项目给与客户的优惠力度，还可以计算消耗，一定要填写</span>
-		       		 <div class="input-group col-xs-4">
-			            <span class="input-group-addon"><i class="glyphicon glyphicon-euro"></i>开卡总金额</span> 
-		                <input id="createCardTotalAmount" name="createCardTotalAmount" type=text class="form-control input-sm" ></input>
-		            </div>
-	                <span class="help-block">开卡总金额一般由销售专家根据客户情况拟定，需跟标准价格进行计算得出优惠力度</span>
-		       		 <div class="input-group col-xs-4">
+		       		<div class="form-group  row ">
+			       		 <div class="col-md-1">
 			            <span class="input-group-addon"><i class="glyphicon glyphicon-euro"></i>实收金额</span> 
+			            </div>
+			             <div class="col-xs-3">  
 		                <input id="receivedAmount" name="receivedAmount" type=text class="form-control input-sm" ></input>
+		                </div>
+			            <div class="col-xs-6">
+		               		 <span class="help-block">这个是指客户给到店家的金额，也就是通常意义的业绩收入，需要按店折扣计算回款</span>
+			            </div>
 		            </div>
-	                <span class="help-block">这个是指客户给到店家的金额，也就是通常意义的业绩收入，需要按店折扣计算回款</span>
-		       		 <div class="input-group col-xs-4">
+		       		<div class="form-group  row ">
+			       		 <div class="col-md-1">
+			            <span class="input-group-addon"><i class="glyphicon glyphicon-euro"></i>实收回款</span> 
+			            </div>
+			             <div class="col-xs-3">  
+		                <input id="receivedEarnedAmount" name="receivedEarnedAmount" type=text class="form-control input-sm" ></input>
+		                </div>
+			            <div class="col-xs-6">
+		               		 <span class="help-block">这个是指店家回给悦和的金额，按店折扣计算回款，并需减除员工奖励和店家回扣</span>
+			            </div>
+		            </div>
+		       		
+	                 <div class="form-group  row ">
+			       		 <div class="col-md-1">
 			            <span class="input-group-addon"><i class="glyphicon glyphicon-euro"></i>员工回扣</span> 
+			            </div>
+			            <div class="col-xs-3">  
 		                <input id="employeePremium" name="employeePremium" type=text class="form-control input-sm" ></input>
+		                </div>
+		                <div class="col-xs-6">
+	             		   <span class="help-block">这个每个店可能都不一样，有些是开卡金额的百分之一，有些是满多少万给100或200</span>
+             		   </div>
 		            </div>
-	                <span class="help-block">这个每个店可能都不一样，有些是开卡金额的百分之一，有些是满多少万给100或200</span>
-		       		 <div class="input-group col-xs-4">
+		       		  <div class="form-group  row ">
+			       		 <div class="col-md-1">
 			            <span class="input-group-addon"><i class="glyphicon glyphicon-euro"></i>店家回扣</span> 
+			            </div>
+			            <div class="col-xs-3">  
 		                <input id="shopPremium" name="shopPremium" type=text class="form-control input-sm" ></input>
+		                </div>
+		                <div class="col-xs-6">
+			                <span class="help-block">这是针对柳叶或者肤语港，满足一定条件需要返还店家一定额度的业绩</span>
+		                </div>
 		            </div>
-	                <span class="help-block">这是针对柳叶或者肤语港，满足一定条件需要返还店家一定额度的业绩</span>
-		       		 <div class="input-group col-xs-4">
-			            <span class="input-group-addon"><i class="glyphicon glyphicon-euro"></i>销售专家</span> 
-		                <input id="sellerName" name="sellerName" type=text class="form-control input-sm" ></input>
-		            </div>
-	                <span class="help-block">目前专家只有钟悦旻和陈康健，需要按格式填写销售记录表</span>
-		       		 <div class="input-group col-xs-4">
+	                
+	                 <div class="form-group  row ">
+			       		 <div class="col-md-1">
+				            <span class="input-group-addon"><i class="glyphicon glyphicon-euro"></i>销售专家</span> 
+			            </div>
+		           		<div class="col-xs-3">    
+			       			<select  class="form-control" required="required"  name="sellerId" id="seller">
+						      <option selected="selected" > --请选择销售专家姓名 --
+						      </option>
+						      <option th:each="seller : ${sellerList}" th:value="${seller.employeeId}" 
+						       th:text="${seller.employeeName}" >
+						      </option>
+						    </select>
+					    </div>
+			             <div class="col-xs-6">
+		                <span class="help-block">目前专家只有钟悦旻和陈康健，需要按格式填写销售记录表</span>
+		                 </div>
+	                 </div>
+		       		   <div class="form-group  row ">
+		       		 <div class="col-md-1">
 			            <span class="input-group-addon"><i class="glyphicon glyphicon-euro"></i>备注</span> 
+		            </div>
+	                <div class="col-xs-3"> 
 		                <input id="description" name="description" type=text class="form-control input-sm" ></input>
 		            </div>
-	                <span class="help-block">此处填写额外的说明情况</span>
-			        <hr>
-			        <div class="content">
-			            <div class="input-group col-xs-4">
-			                <input type="submit" class="btn  btn-lg" value="提交"/>
-			            </div>
+		             <div class="col-xs-6">
+	              	  <span class="help-block">此处填写额外的说明情况</span>
+	                </div>
+	                </div>
+		            <div class="form-group  row ">
+				        <div class="content">
+				            <div class="input-group col-xs-4">
+				                <input type="submit" class="btn  btn-lg" value="提交"/>
+				            </div>
+				        </div>
 			        </div>
 			    </form>
 			  </div>   

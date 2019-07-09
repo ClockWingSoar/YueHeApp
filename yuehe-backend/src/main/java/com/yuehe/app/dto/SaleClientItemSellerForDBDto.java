@@ -22,10 +22,11 @@ public class SaleClientItemSellerForDBDto {
 	private long createCardTotalAmount;
 	private int beautifySkinItemPrice;
 	private long receivedAmount;
+	private long receivedEarnedAmount;
 	private float cosmeticShopDiscount;
 	public SaleClientItemSellerForDBDto(String saleId, String clientName, String beautifySkinItemName,
 			String cosmeticShopName, int itemNumber, long createCardTotalAmount, int beautifySkinItemPrice,
-			long receivedAmount, float cosmeticShopDiscount, float employeePremium, float shopPremium,
+			long receivedAmount,long receivedEarnedAmount, float cosmeticShopDiscount, float employeePremium, float shopPremium,
 			String createCardDate, String sellerName, String description) {
 		super();
 		this.saleId = saleId;
@@ -36,6 +37,7 @@ public class SaleClientItemSellerForDBDto {
 		this.createCardTotalAmount = createCardTotalAmount;
 		this.beautifySkinItemPrice = beautifySkinItemPrice;
 		this.receivedAmount = receivedAmount;
+		this.receivedEarnedAmount = receivedEarnedAmount;
 		this.cosmeticShopDiscount = cosmeticShopDiscount;
 		this.employeePremium = employeePremium;
 		this.shopPremium = shopPremium;
@@ -102,6 +104,13 @@ public class SaleClientItemSellerForDBDto {
 	public void setReceivedAmount(long receivedAmount) {
 		this.receivedAmount = receivedAmount;
 	}
+	
+	public long getReceivedEarnedAmount() {
+		return receivedEarnedAmount;
+	}
+	public void setReceivedEarnedAmount(long receivedEarnedAmount) {
+		this.receivedEarnedAmount = receivedEarnedAmount;
+	}
 	public String getCreateCardDate() {
 		return createCardDate;
 	}
@@ -137,7 +146,7 @@ public class SaleClientItemSellerForDBDto {
 		return "SaleClientItemSellerForDBDto [saleId=" + saleId + ", clientName=" + clientName
 				+ ", beautifySkinItemName=" + beautifySkinItemName + ", cosmeticShopName=" + cosmeticShopName
 				+ ", itemNumber=" + itemNumber + ", createCardTotalAmount=" + createCardTotalAmount
-				+ ", beautifySkinItemPrice=" + beautifySkinItemPrice + ", receivedAmount=" + receivedAmount
+				+ ", beautifySkinItemPrice=" + beautifySkinItemPrice + ", receivedAmount=" + receivedAmount+", receivedEarnedAmount=" + receivedEarnedAmount
 				+ ", cosmeticShopDiscount=" + cosmeticShopDiscount + ", employeePremium=" + employeePremium
 				+ ", shopPremium=" + shopPremium + ", createCardDate=" + createCardDate + ", sellerName=" + sellerName
 				+ ", description=" + description + "]";

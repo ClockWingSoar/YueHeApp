@@ -19,6 +19,7 @@ public class SalePerformanceDetailForDBDto {
 	private String beautifySkinItemName;
 	private long createCardTotalAmount;
 	private long receivedAmount;
+	private long receivedEarnedAmount;
 	private int itemNumber;
 	private float cosmeticShopDiscount;
 	private float employeePremium;
@@ -54,6 +55,13 @@ public class SalePerformanceDetailForDBDto {
 	public void setReceivedAmount(long receivedAmount) {
 		this.receivedAmount = receivedAmount;
 	}
+	
+	public long getReceivedEarnedAmount() {
+		return receivedEarnedAmount;
+	}
+	public void setReceivedEarnedAmount(long receivedEarnedAmount) {
+		this.receivedEarnedAmount = receivedEarnedAmount;
+	}
 	public int getItemNumber() {
 		return itemNumber;
 	}
@@ -85,7 +93,7 @@ public class SalePerformanceDetailForDBDto {
 		this.description = description;
 	}
 	public SalePerformanceDetailForDBDto(String saleId, String createCardDate, String beautifySkinItemName,
-			long createCardTotalAmount, long receivedAmount, int itemNumber, float cosmeticShopDiscount,
+			long createCardTotalAmount, long receivedAmount,long receivedEarnedAmount, int itemNumber, float cosmeticShopDiscount,
 			float employeePremium, float shopPremium, String description) {
 		super();
 		this.saleId = saleId;
@@ -93,6 +101,7 @@ public class SalePerformanceDetailForDBDto {
 		this.beautifySkinItemName = beautifySkinItemName;
 		this.createCardTotalAmount = createCardTotalAmount;
 		this.receivedAmount = receivedAmount;
+		this.receivedEarnedAmount = receivedEarnedAmount;
 		this.itemNumber = itemNumber;
 		this.cosmeticShopDiscount = cosmeticShopDiscount;
 		this.employeePremium = employeePremium;
@@ -103,9 +112,9 @@ public class SalePerformanceDetailForDBDto {
 	public String toString() {
 		return "SalePerformanceDetailForDBDto [saleId=" + saleId + ", createCardDate=" + createCardDate
 				+ ", beautifySkinItemName=" + beautifySkinItemName + ", createCardTotalAmount=" + createCardTotalAmount
-				+ ", receivedAmount=" + receivedAmount + ", itemNumber=" + itemNumber + ", cosmeticShopDiscount="
-				+ cosmeticShopDiscount + ", employeePremium=" + employeePremium + ", shopPremium=" + shopPremium
-				+ ", description=" + description + "]";
+				+ ", receivedAmount=" + receivedAmount + ", receivedEarnedAmount=" + receivedEarnedAmount
+				+ ", itemNumber=" + itemNumber + ", cosmeticShopDiscount=" + cosmeticShopDiscount + ", employeePremium="
+				+ employeePremium + ", shopPremium=" + shopPremium + ", description=" + description + "]";
 	}
 	
 }

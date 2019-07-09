@@ -34,7 +34,7 @@ public interface SaleRepository extends JpaRepository<Sale, Long> {
 
 	@Query("SELECT new com.yuehe.app.dto.SaleClientItemSellerForDBDto(s.id,c.name, b.name, p.name, "
 			+ "s.itemNumber,s.createCardTotalAmount,b.price,"
-			+ "s.receivedAmount,p.discount ,s.employeePremium,s.shopPremium,"
+			+ "s.receivedAmount,s.receivedEarnedAmount,p.discount ,s.employeePremium,s.shopPremium,"
 			+ "s.createCardDate, e.name,s.description) "
 			+ "FROM Sale s INNER JOIN s.client c "
 			+ "INNER JOIN s.beautifySkinItem b "
@@ -63,7 +63,7 @@ public interface SaleRepository extends JpaRepository<Sale, Long> {
 	 * @return
 	 */
 	@Query("SELECT new com.yuehe.app.dto.SalePerformanceDetailForDBDto(s.id,s.createCardDate, b.name,  "
-			+ "s.createCardTotalAmount,s.receivedAmount,s.itemNumber,"
+			+ "s.createCardTotalAmount,s.receivedAmount,s.receivedEarnedAmount,s.itemNumber,"
 			+ "p.discount ,s.employeePremium,s.shopPremium,s.description) "
 			+ "FROM Sale s INNER JOIN s.beautifySkinItem b "
 			+ "INNER JOIN s.client c "

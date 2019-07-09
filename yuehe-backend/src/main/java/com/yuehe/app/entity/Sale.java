@@ -73,6 +73,9 @@ public class Sale implements Serializable{
 	@Column(name="received_amount")
 	private long receivedAmount;
 	
+	@Column(name="received_earned_amount")
+	private long receivedEarnedAmount;
+	
 	@Column(name="employee_premium")
 	private float employeePremium;
 	
@@ -164,6 +167,14 @@ public class Sale implements Serializable{
 		this.receivedAmount = receivedAmount;
 	}
 
+	public long getReceivedEarnedAmount() {
+		return receivedEarnedAmount;
+	}
+
+	public void setReceivedEarnedAmount(long receivedEarnedAmount) {
+		this.receivedEarnedAmount = receivedEarnedAmount;
+	}
+
 	public String getCreateCardDate() {
 		return createCardDate;
 	}
@@ -216,8 +227,9 @@ public class Sale implements Serializable{
 		this.receivedAmount = receivedAmount;
 	}
 
-	public Sale(String id, String clientId, String beautifySkinItemId, String sellerId, int itemNumber, long createCardTotalAmount,
-			float employeePremium, float shopPremium, int receivedAmount, String createCardDate, String description) {
+	public Sale(String id, String clientId, String beautifySkinItemId, String sellerId, int itemNumber,
+			long createCardTotalAmount, long receivedAmount, long receivedEarnedAmount, float employeePremium,
+			float shopPremium, String createCardDate, String description) {
 		super();
 		this.id = id;
 		this.clientId = clientId;
@@ -225,11 +237,22 @@ public class Sale implements Serializable{
 		this.sellerId = sellerId;
 		this.itemNumber = itemNumber;
 		this.createCardTotalAmount = createCardTotalAmount;
+		this.receivedAmount = receivedAmount;
+		this.receivedEarnedAmount = receivedEarnedAmount;
 		this.employeePremium = employeePremium;
 		this.shopPremium = shopPremium;
-		this.receivedAmount = receivedAmount;
 		this.createCardDate = createCardDate;
 		this.description = description;
 	}
+
+	@Override
+	public String toString() {
+		return "Sale [id=" + id + ", clientId=" + clientId + ", beautifySkinItemId=" + beautifySkinItemId
+				+ ", sellerId=" + sellerId + ", itemNumber=" + itemNumber + ", createCardTotalAmount="
+				+ createCardTotalAmount + ", receivedAmount=" + receivedAmount + ", receivedEarnedAmount="
+				+ receivedEarnedAmount + ", employeePremium=" + employeePremium + ", shopPremium=" + shopPremium
+				+ ", createCardDate=" + createCardDate + ", description=" + description + "]";
+	}
+
 
 }

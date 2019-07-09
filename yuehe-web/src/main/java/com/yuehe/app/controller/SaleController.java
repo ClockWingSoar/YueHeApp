@@ -1,4 +1,5 @@
 package com.yuehe.app.controller;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -18,22 +19,19 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.yuehe.app.dto.ClientAllSalesPerformanceDetailDto;
-import com.yuehe.app.dto.ClientDetailDto;
+import com.yuehe.app.dto.DutyEmployeeRoleDto;
 import com.yuehe.app.dto.SaleClientItemSellerDto;
-import com.yuehe.app.dto.SaleDetailDto;
 import com.yuehe.app.dto.SalePerformanceDetailDto;
 import com.yuehe.app.dto.ShopAllSalesPerformanceDetailDto;
-import com.yuehe.app.dto.ShopDetailDto;
 import com.yuehe.app.dto.YueHeAllSalesPerformanceDetailDto;
-import com.yuehe.app.dto.YueHeAllShopsDetailDto;
 import com.yuehe.app.entity.BeautifySkinItem;
-import com.yuehe.app.entity.Client;
 import com.yuehe.app.entity.CosmeticShop;
 import com.yuehe.app.entity.Employee;
 import com.yuehe.app.entity.Sale;
 import com.yuehe.app.service.BeautifySkinItemService;
 import com.yuehe.app.service.ClientService;
 import com.yuehe.app.service.CosmeticShopService;
+import com.yuehe.app.service.DutyService;
 import com.yuehe.app.service.EmployeeService;
 import com.yuehe.app.service.SaleService;
 import com.yuehe.app.util.YueHeUtil;
@@ -46,7 +44,7 @@ public class SaleController{
 	        return "sale";
 	    }
 	 private final static Logger LOGGER = LoggerFactory.getLogger(SaleController.class);
-	
+	  private SimpleDateFormat simpleDateFormat =  new SimpleDateFormat("yyyy-MM-dd");
 	@Autowired
 	private final SaleService saleService;
 	@Autowired
@@ -55,13 +53,11 @@ public class SaleController{
 	private final CosmeticShopService cosmeticShopService;
 	@Autowired
 	private final EmployeeService employeeService;
-	private CosmeticShop cosmeticShop;
-	private  Client client;
-	private  Employee employee;
-	private  BeautifySkinItem beautifySkinItem;
+	@Autowired
+	private final DutyService dutyService;
 	@Autowired
 	private final BeautifySkinItemService beautifySkinItemService;
-	public SaleController(SaleService saleService, ClientService clientService,
+	public SaleController(SaleService saleService, ClientService clientService, DutyService dutyService,
 			EmployeeService employeeService,BeautifySkinItemService beautifySkinItemService,
 			CosmeticShopService cosmeticShopService) {
 		this.saleService = saleService;
@@ -69,6 +65,7 @@ public class SaleController{
 		this.employeeService = employeeService;
 		this.beautifySkinItemService = beautifySkinItemService;
 		this.cosmeticShopService = cosmeticShopService;
+		this.dutyService = dutyService;
 	}
 
 	@GetMapping("/getSaleList")
@@ -84,29 +81,49 @@ public class SaleController{
 	}
 	@GetMapping("/getSaleNewItem")
 	public  String saleNewItem(Model model){
+		getAllCosmeticShops(model);
+		getAllSellerRoles(model);
+		getAllBeautifySkinItems(model);
 		model.addAttribute("subModule", "saleNewItem");
 		
 		return "user/saleNewItem";
 	}
 	@GetMapping("/getSaleSummary")
 	public  String saleSummary(Model model){
-		List<CosmeticShop> cosmeticShopList = cosmeticShopService.getAllCosmeticShopForFiltering();
+		getAllCosmeticShops(model);
 		model.addAttribute("subModule", "saleSummary");
-		model.addAttribute("cosmeticShopList",cosmeticShopList);
 		
 		return "user/saleSummary";
 	}
+	public void getAllCosmeticShops(Model model) {
+		List<CosmeticShop> cosmeticShopList = cosmeticShopService.getAllCosmeticShopForFiltering();
+		model.addAttribute("cosmeticShopList", cosmeticShopList);
+	}
+	public void getAllBeautifySkinItems(Model model) {
+		List<BeautifySkinItem> beautifySkinItemList = beautifySkinItemService.getAllBeautifySkinItem();
+		model.addAttribute("beautifySkinItemList", beautifySkinItemList);
+	}
+	public void getAllEmployees(Model model) {
+		List<Employee> employeeList = employeeService.getAllEmployees();
+		model.addAttribute("employeeList", employeeList);
+	}
+	public void getAllSellerRoles(Model model) {
+		List<DutyEmployeeRoleDto> sellerList = dutyService.getAllPersonByRoleName("专家");
+		sellerList.forEach(l -> System.out.println(l));
+		model.addAttribute("sellerList", sellerList);
+	}
 	@PostMapping("/createSale")
-    public String createSale( @RequestParam(name = "clientName", required = false) String clientName,
-    								@RequestParam(name = "beautifySkinItemName", required = false) String beautifySkinItemName,
-                                       @RequestParam(name = "cosmeticShopName", required = false) String cosmeticShopName,
+    public String createSale( @RequestParam(name = "clientId", required = false) String clientId,
+    								@RequestParam(name = "beautifySkinItemId", required = false) String beautifySkinItemId,
+//                                       @RequestParam(name = "cosmeticShopId", required = false) String cosmeticShopId,
                                        @RequestParam(name = "itemNumber", required = false) int itemNumber,
                                        @RequestParam(name = "createCardTotalAmount", required = false) long createCardTotalAmount,
-                                       @RequestParam(name = "receivedAmount", required = false) int receivedAmount,
+                                       @RequestParam(name = "receivedAmount", required = false) long receivedAmount,
+                                       @RequestParam(name = "receivedEarnedAmount", required = false) long receivedEarnedAmount,
                                        @RequestParam(name = "employeePremium", required = false) float employeePremium,
                                        @RequestParam(name = "shopPremium", required = false) float shopPremium,
-                                       @RequestParam(name = "createCardDate", required = false) String createCardDate,
-                                       @RequestParam(name = "sellerName", required = false) String sellerName,
+                                       @RequestParam(name = "createCardDate", required = false) Date createCardDate,
+                                       @RequestParam(name = "sellerId", required = false) String sellerId,
                                        @RequestParam(name = "description", required = false) String description
                                        ) 
 	{
@@ -114,26 +131,16 @@ public class SaleController{
         String id = YueHeUtil.getId(6,Math.toIntExact(idNums));
         Sale sale =new Sale();
         sale.setId(id);
-        cosmeticShop = cosmeticShopService.getCosmeticShopByName(cosmeticShopName);
-        LOGGER.debug("cosmeticshop:",cosmeticShop);
-        client = clientService.getClientByClientNameAndShopName(clientName,cosmeticShopName);
-	    LOGGER.debug("client:",client);
-        if(client != null)
-        	sale.setClientId(client.getId());
-        employee = employeeService.getEmployeeByName(sellerName);
-    	LOGGER.debug("employee:",employee);
-        if(employee != null)
-        	sale.setSellerId(employee.getId());
-        beautifySkinItem = beautifySkinItemService.getBeautifySkinItemByName(beautifySkinItemName);
-    	LOGGER.debug("beautifySkinItem:",beautifySkinItem);
-        if(beautifySkinItem != null)
-        	sale.setBeautifySkinItemId(beautifySkinItem.getId());
+        sale.setClientId(clientId);
+        sale.setSellerId(sellerId);
+        sale.setBeautifySkinItemId(beautifySkinItemId);
         sale.setItemNumber(itemNumber);
         sale.setCreateCardTotalAmount(createCardTotalAmount);
         sale.setReceivedAmount(receivedAmount);
+        sale.setReceivedEarnedAmount(receivedEarnedAmount);
         sale.setEmployeePremium(employeePremium);
         sale.setShopPremium(shopPremium);
-        sale.setCreateCardDate(createCardDate);
+        sale.setCreateCardDate(simpleDateFormat.format(createCardDate));
         sale.setDescription(description);
         LOGGER.debug("sale:",sale);
 
