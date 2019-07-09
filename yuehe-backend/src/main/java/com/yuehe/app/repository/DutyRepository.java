@@ -28,9 +28,12 @@ import com.yuehe.app.entity.Duty;
  * @author Soveran Zhong
  */
 public interface DutyRepository extends JpaRepository<Duty, Long> {
-
-    //List<DutyEmployeeRoleDto> findByName(String name);
-	@Query("SELECT new com.yuehe.app.dto.DutyEmployeeRoleDto(d.id,e.name, r.name,d.welfare, d.description) "
+	
+	@Query("SELECT new com.yuehe.app.dto.DutyEmployeeRoleDto(d.id,e.id,e.name, r.name,d.welfare, d.description) "
+			+ "FROM Duty d INNER JOIN d.employee e  INNER JOIN d.role r WHERE r.name=?1")
+    List<DutyEmployeeRoleDto> findByRoleName(String name);
+	
+	@Query("SELECT new com.yuehe.app.dto.DutyEmployeeRoleDto(d.id,e.id,e.name, r.name,d.welfare, d.description) "
 			+ "FROM Duty d INNER JOIN d.employee e  INNER JOIN d.role r")
     List<DutyEmployeeRoleDto> fetchDutyData();
     Duty findById(String id);

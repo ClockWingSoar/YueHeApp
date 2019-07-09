@@ -51,6 +51,9 @@ public class DutyService {
     public Duty getDutyById(String id) {
     	return dutyRepository.findById(id);
     }
+    public List<DutyEmployeeRoleDto> getAllPersonByRoleName(String name) {
+    	return dutyRepository.findByRoleName(name);
+    }
     
     @Transactional(rollbackFor = Exception.class)
     public List<Duty> saveAll(List<Duty> duty) {

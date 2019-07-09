@@ -13,6 +13,8 @@ public class DutyEmployeeRoleDto {
 		//super();
 	}
 	private String id;
+	private String employeeId;
+	
 	private String employeeName;
 	private String roleName;
 	private int welfare;
@@ -29,6 +31,13 @@ public class DutyEmployeeRoleDto {
 	}
 	public void setId(String id) {
 		this.id = id;
+	}
+	public String getEmployeeId() {
+		return employeeId;
+	}
+
+	public void setEmployeeId(String employeeId) {
+		this.employeeId = employeeId;
 	}
 	public String getEmployeeName() {
 		return employeeName;
@@ -48,9 +57,12 @@ public class DutyEmployeeRoleDto {
 	public void setDescription(String description) {
 		this.description = description;
 	}
-	public DutyEmployeeRoleDto(String id, String employeeName, String roleName, int welfare, String description) {
+
+	public DutyEmployeeRoleDto(String id, String employeeId, String employeeName, String roleName, int welfare,
+			String description) {
 		super();
 		this.id = id;
+		this.employeeId = employeeId;
 		this.employeeName = employeeName;
 		this.roleName = roleName;
 		this.welfare = welfare;
@@ -59,7 +71,7 @@ public class DutyEmployeeRoleDto {
 
 	@Override
 	public String toString() {
-		return "DutyEmployeeRoleDto [id=" + id + ", employeeName=" + employeeName + ", roleName=" + roleName
-				+ ", welfare=" + welfare + ", description=" + description + "]";
+		return "DutyEmployeeRoleDto [id=" + id + ", employeeId=" + employeeId + ", employeeName=" + employeeName
+				+ ", roleName=" + roleName + ", welfare=" + welfare + ", description=" + description + "]";
 	}
 }

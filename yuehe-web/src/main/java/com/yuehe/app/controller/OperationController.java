@@ -1,5 +1,7 @@
 package com.yuehe.app.controller;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 //import org.apache.commons.lang3.StringUtils;
@@ -16,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.yuehe.app.dto.ClientDetailDto;
+import com.yuehe.app.dto.DutyEmployeeRoleDto;
 import com.yuehe.app.dto.OperationDetailDto;
 import com.yuehe.app.dto.SaleBeautifySkinItemForFilterDto;
 import com.yuehe.app.dto.SaleDetailDto;
@@ -25,10 +28,10 @@ import com.yuehe.app.entity.Client;
 import com.yuehe.app.entity.CosmeticShop;
 import com.yuehe.app.entity.Employee;
 import com.yuehe.app.entity.Operation;
-import com.yuehe.app.entity.Sale;
 import com.yuehe.app.entity.Tool;
 import com.yuehe.app.service.ClientService;
 import com.yuehe.app.service.CosmeticShopService;
+import com.yuehe.app.service.DutyService;
 import com.yuehe.app.service.EmployeeService;
 import com.yuehe.app.service.OperationService;
 import com.yuehe.app.service.SaleService;
@@ -43,7 +46,7 @@ public class OperationController{
 //	        return "operation";
 //	    }
 	 private final static Logger LOGGER = LoggerFactory.getLogger(OperationController.class);
-	
+	  private SimpleDateFormat simpleDateFormat =  new SimpleDateFormat("yyyy-MM-dd");
 	@Autowired
 	private final OperationService operationService;
 	@Autowired
@@ -51,20 +54,22 @@ public class OperationController{
 	@Autowired
 	private final ToolService toolService;
 	@Autowired
+	private final DutyService dutyService;
+	@Autowired
 	private final ClientService clientService;
 	@Autowired
 	private final CosmeticShopService cosmeticShopService;
 	@Autowired
 	private final EmployeeService employeeService;
-	private  Employee employee;
 	public OperationController(OperationService operationService, SaleService saleService,CosmeticShopService cosmeticShopService,
-			EmployeeService employeeService,ToolService toolService, ClientService clientService) {
+			EmployeeService employeeService,ToolService toolService, ClientService clientService,DutyService dutyService) {
 		this.operationService = operationService;
 		this.saleService = saleService;
 		this.employeeService = employeeService;
 		this.toolService = toolService;
 		this.clientService = clientService;
 		this.cosmeticShopService = cosmeticShopService;
+		this.dutyService = dutyService;
 	}
 
 	@GetMapping("/getOperationList")
@@ -82,27 +87,43 @@ public class OperationController{
 
 	@GetMapping("/getOperationNewItem")
 	public  String operationNewItemOverview(Model model){
+		getAllCosmeticShops(model);
+		getAllOperatorRoles(model);
+		getAllTools(model);
 		model.addAttribute("subModule", "operationNewItem");
 		return "user/operationNewItem";
 	}
 	
 	@GetMapping("/getOperationSummary")
 	public  String operationSummary(Model model){
-		List<CosmeticShop> cosmeticShopList = cosmeticShopService.getAllCosmeticShopForFiltering();
-		model.addAttribute("subModule", "operationSummary");
-		model.addAttribute("cosmeticShopList", cosmeticShopList);
+		getAllCosmeticShops(model);
 		return "user/operationSummary";
 	}
-	
+	public void getAllCosmeticShops(Model model) {
+		List<CosmeticShop> cosmeticShopList = cosmeticShopService.getAllCosmeticShopForFiltering();
+		model.addAttribute("cosmeticShopList", cosmeticShopList);
+	}
+	public void getAllEmployees(Model model) {
+		List<Employee> employeeList = employeeService.getAllEmployees();
+		model.addAttribute("employeeList", employeeList);
+	}
+	public void getAllOperatorRoles(Model model) {
+		List<DutyEmployeeRoleDto> operatorList = dutyService.getAllPersonByRoleName("操作人");
+		operatorList.forEach(l -> System.out.println(l));
+		model.addAttribute("operatorList", operatorList);
+	}
+	public void getAllTools(Model model) {
+		List<Tool> toolList = toolService.getAllTools();
+		model.addAttribute("toolList", toolList);
+	}
 	
 	@PostMapping("/createOperation")
-    public String createOperation( @RequestParam(name = "clientName", required = false) String clientName,
-						            @RequestParam(name = "cosmeticShopName", required = false) String cosmeticShopName,
-									@RequestParam(name = "beautifySkinItemName", required = false) String beautifySkinItemName,
-						            @RequestParam(name = "createCardDate", required = false) String createCardDate,
-						            @RequestParam(name = "operatorName", required = false) String operatorName,
-						            @RequestParam(name = "toolName", required = false) String toolName,
-						            @RequestParam(name = "operationDate", required = false) String operationDate,
+    public String createOperation( //@RequestParam(name = "clientId", required = false) String clientId,
+						            //@RequestParam(name = "cosmeticShopId", required = false) String cosmeticShopId,
+									@RequestParam(name = "saleId", required = false) String saleId,
+						            @RequestParam(name = "operatorId", required = false) String operatorId,
+						            @RequestParam(name = "toolId", required = false) String toolId,
+						            @RequestParam(name = "operationDate", required = false) Date operationDate,
 						            @RequestParam(name = "description", required = false) String description
                                        ) 
 	{
@@ -110,33 +131,13 @@ public class OperationController{
         String id = YueHeUtil.getId(4,Math.toIntExact(idNums));
         Operation operation =new Operation();
         operation.setId(id);
-        //Date createCardDateObj =new Date();
-//        Date operationDateObj =new Date();
-//        try {
-//        	 //createCardDateObj=new SimpleDateFormat("yyyy-MM-dd").parse(createCardDate);
-//        	 operationDateObj=new SimpleDateFormat("yyyy-MM-dd").parse(operationDate);
-////        	 LOGGER.debug("createCardDateObj:",createCardDateObj);
-//        	 LOGGER.debug("operationDateObj:",operationDateObj);
-// 		} catch (ParseException e) {
-// 			// TODO Auto-generated catch block
-// 			e.printStackTrace();
-// 		}
-        Sale sale = saleService.getSaleByClientNameAndShopNameAndItemNameAndCreateCardDate(
-        		clientName,cosmeticShopName,beautifySkinItemName,createCardDate);
-	   LOGGER.debug("sale:",sale);
-	   if(sale != null)
-		   operation.setSaleId(sale.getId());
-	   employee = employeeService.getEmployeeByName(operatorName);
-	   LOGGER.debug("employee:",employee);
-	   if(employee != null)
-		   operation.setOperatorId(employee.getId());
-        Tool tool = toolService.getToolByName(toolName);
-        LOGGER.debug("tool:",tool);
-        if(tool != null)
-        	operation.setToolId(tool.getId());
-        operation.setOperationDate(operationDate);
+        operation.setSaleId(saleId);
+		operation.setOperatorId(operatorId);
+        operation.setToolId(toolId);
+        operation.setOperationDate(simpleDateFormat.format(operationDate));
         operation.setDescription(description);
-        LOGGER.debug("operation:",operation);
+        System.err.println("operation:"+operation);
+        LOGGER.info("operation:",operation);
 
         if (operation != null) {
             LOGGER.info("Saved {}", operationService.create(operation));
