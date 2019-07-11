@@ -18,6 +18,7 @@ import com.yuehe.app.entity.Client;
 import com.yuehe.app.entity.CosmeticShop;
 import com.yuehe.app.service.ClientService;
 import com.yuehe.app.service.CosmeticShopService;
+import com.yuehe.app.service.YueHeCommonService;
 import com.yuehe.app.util.YueHeUtil;
 
 
@@ -33,10 +34,10 @@ public class ClientController{
 	@Autowired
 	private final ClientService clientService;
 	@Autowired
-	private final CosmeticShopService cosmeticShopService;
-	public ClientController(ClientService clientService,CosmeticShopService cosmeticShopService) {
+	private final YueHeCommonService yueHeCommonService;
+	public ClientController(ClientService clientService,YueHeCommonService yueHeCommonService) {
 		this.clientService = clientService;
-		this.cosmeticShopService = cosmeticShopService;
+		this.yueHeCommonService = yueHeCommonService;
 	}
 
 	@GetMapping("/getClientList")
@@ -45,13 +46,14 @@ public class ClientController{
 		List<ClientShopDto> clientList =new ArrayList<ClientShopDto>();
 		clientList = clientService.getClientsDetailList();
 		 LOGGER.info("clientList {}", clientList);
+		 yueHeCommonService.getAllCosmeticShops(model);
 		model.addAttribute("clientList",clientList);
 		
 		return "user/client";
 	}
 	@PostMapping("/createClient")
     public String createClient( @RequestParam(name = "name", required = false) String name,
-                                       @RequestParam(name = "cosmeticShopName", required = false) String cosmeticShopName,
+                                       @RequestParam(name = "cosmeticShopId", required = false) String cosmeticShopId,
                                        @RequestParam(name = "age", required = false) int age,
                                        @RequestParam(name = "gender", required = false) String gender,
                                        @RequestParam(name = "symptom", required = false) String symptom
@@ -62,10 +64,7 @@ public class ClientController{
         Client client =new Client();
         client.setId(id);
         client.setName(name);
-        cosmeticShop = cosmeticShopService.getCosmeticShopByName(cosmeticShopName);
-        LOGGER.debug("cosmeticshop:",cosmeticShop);
-        if(cosmeticShop != null)
-        	client.setShopId(cosmeticShop.getId());
+        client.setShopId(cosmeticShopId);
         client.setAge(age);
         client.setGender(gender);
         client.setSymptom(symptom);

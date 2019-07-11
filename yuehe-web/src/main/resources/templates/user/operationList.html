@@ -24,6 +24,7 @@
     	<thead>
     	
    			 <tr class="info">
+   			       <th>销售ID</th>
    			       <th>操作ID</th>
 						<th>操作日期</th>
 						<th>操作人</th>
@@ -35,8 +36,8 @@
 		
 		<tbody>
 			<tr data-th-each="operation : ${operationList}">
+			<td data-th-text="${operation.saleId}">...</td>
 			<td data-th-text="${operation.operationId}">...</td>
-<!-- 			<td data-th-text="${operation.saleId}">...</td> -->
 <!-- 			<td data-th-text="${operation.createCardDate}">...</td> -->
 				<td data-th-text="${operation.operationDate}">...</td>
 <!-- 			<td data-th-text="${operation.clientName}">...</td> -->

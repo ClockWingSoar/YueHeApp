@@ -33,7 +33,7 @@ import com.yuehe.app.repository.DutyRepository;
 @Service
 @Transactional(readOnly = true)
 public class DutyService {
-    private static final Logger LOGGER = LoggerFactory.getLogger(SaleService.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(DutyService.class);
     private final DutyRepository dutyRepository;
 
     public DutyService(DutyRepository dutyRepository) {

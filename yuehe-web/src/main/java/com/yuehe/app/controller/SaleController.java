@@ -19,21 +19,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.yuehe.app.dto.ClientAllSalesPerformanceDetailDto;
-import com.yuehe.app.dto.DutyEmployeeRoleDto;
 import com.yuehe.app.dto.SaleClientItemSellerDto;
 import com.yuehe.app.dto.SalePerformanceDetailDto;
 import com.yuehe.app.dto.ShopAllSalesPerformanceDetailDto;
 import com.yuehe.app.dto.YueHeAllSalesPerformanceDetailDto;
-import com.yuehe.app.entity.BeautifySkinItem;
-import com.yuehe.app.entity.CosmeticShop;
-import com.yuehe.app.entity.Employee;
 import com.yuehe.app.entity.Sale;
-import com.yuehe.app.service.BeautifySkinItemService;
-import com.yuehe.app.service.ClientService;
-import com.yuehe.app.service.CosmeticShopService;
-import com.yuehe.app.service.DutyService;
-import com.yuehe.app.service.EmployeeService;
 import com.yuehe.app.service.SaleService;
+import com.yuehe.app.service.YueHeCommonService;
 import com.yuehe.app.util.YueHeUtil;
 
 
@@ -48,24 +40,10 @@ public class SaleController{
 	@Autowired
 	private final SaleService saleService;
 	@Autowired
-	private final ClientService clientService;
-	@Autowired
-	private final CosmeticShopService cosmeticShopService;
-	@Autowired
-	private final EmployeeService employeeService;
-	@Autowired
-	private final DutyService dutyService;
-	@Autowired
-	private final BeautifySkinItemService beautifySkinItemService;
-	public SaleController(SaleService saleService, ClientService clientService, DutyService dutyService,
-			EmployeeService employeeService,BeautifySkinItemService beautifySkinItemService,
-			CosmeticShopService cosmeticShopService) {
+	private final YueHeCommonService yueHeCommonService;
+	public SaleController(SaleService saleService, YueHeCommonService yueHeCommonService) {
 		this.saleService = saleService;
-		this.clientService = clientService;
-		this.employeeService = employeeService;
-		this.beautifySkinItemService = beautifySkinItemService;
-		this.cosmeticShopService = cosmeticShopService;
-		this.dutyService = dutyService;
+		this.yueHeCommonService = yueHeCommonService;
 	}
 
 	@GetMapping("/getSaleList")
@@ -81,37 +59,21 @@ public class SaleController{
 	}
 	@GetMapping("/getSaleNewItem")
 	public  String saleNewItem(Model model){
-		getAllCosmeticShops(model);
-		getAllSellerRoles(model);
-		getAllBeautifySkinItems(model);
+		yueHeCommonService.getAllCosmeticShops(model);
+		yueHeCommonService.getAllPersonByRoleName(model,"专家");
+		yueHeCommonService.getAllBeautifySkinItems(model);
 		model.addAttribute("subModule", "saleNewItem");
 		
 		return "user/saleNewItem";
 	}
 	@GetMapping("/getSaleSummary")
 	public  String saleSummary(Model model){
-		getAllCosmeticShops(model);
+		yueHeCommonService.getAllCosmeticShops(model);
 		model.addAttribute("subModule", "saleSummary");
 		
 		return "user/saleSummary";
 	}
-	public void getAllCosmeticShops(Model model) {
-		List<CosmeticShop> cosmeticShopList = cosmeticShopService.getAllCosmeticShopForFiltering();
-		model.addAttribute("cosmeticShopList", cosmeticShopList);
-	}
-	public void getAllBeautifySkinItems(Model model) {
-		List<BeautifySkinItem> beautifySkinItemList = beautifySkinItemService.getAllBeautifySkinItem();
-		model.addAttribute("beautifySkinItemList", beautifySkinItemList);
-	}
-	public void getAllEmployees(Model model) {
-		List<Employee> employeeList = employeeService.getAllEmployees();
-		model.addAttribute("employeeList", employeeList);
-	}
-	public void getAllSellerRoles(Model model) {
-		List<DutyEmployeeRoleDto> sellerList = dutyService.getAllPersonByRoleName("专家");
-		sellerList.forEach(l -> System.out.println(l));
-		model.addAttribute("sellerList", sellerList);
-	}
+
 	@PostMapping("/createSale")
     public String createSale( @RequestParam(name = "clientId", required = false) String clientId,
     								@RequestParam(name = "beautifySkinItemId", required = false) String beautifySkinItemId,

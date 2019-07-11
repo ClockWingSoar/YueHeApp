@@ -84,7 +84,7 @@
 			       			<select  class="form-control" required="required"  name="operatorId" id="operator">
 						      <option selected="selected" > --请选择操作人姓名 --
 						      </option>
-						      <option th:each="operator : ${operatorList}" th:value="${operator.employeeId}" 
+						      <option th:each="operator : ${dutyList}" th:value="${operator.employeeId}" 
 						       th:text="${operator.employeeName}" >
 						      </option>
 						    </select>

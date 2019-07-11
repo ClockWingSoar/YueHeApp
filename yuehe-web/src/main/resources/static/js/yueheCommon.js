@@ -1,4 +1,4 @@
-function getShopAllClients() {
+function getShopAllClientsList() {
     $.getJSON("http://localhost:9090/getShopAllClientsForFiltering", {
         cosmeticShopId : $(this).val(),
         ajax : 'true'
@@ -16,7 +16,7 @@ function getShopAllClients() {
     });
 }
 
-function getClientAllSales() {
+function getClientAllSalesList() {
 	$.getJSON("http://localhost:9090/getClientAllSalesForFiltering", {
 		clientId : $(this).val(),
 		ajax : 'true'

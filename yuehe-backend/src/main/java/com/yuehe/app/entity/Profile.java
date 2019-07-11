@@ -2,9 +2,16 @@ package com.yuehe.app.entity;
 import java.io.Serializable;
 import java.util.Date;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
 /**
  * Profile entity. @author Soveran Zhong
  */
+@Entity
+@Table(name="profile")
 public class Profile implements Serializable{
 	
 	//Fields
@@ -25,12 +32,12 @@ public class Profile implements Serializable{
 	/**
 	 * 
 	 */
-	/**
-	 * 
-	 */
-
+	@Id
+	@Column(name="sale_id")
 	private String saleId;
+	@Column(name="rest_card_amount")
 	private int restCardAmount;
+	@Column(name="create_profile_date")
 	private Date createProfileDate;
 	private String description;
 	

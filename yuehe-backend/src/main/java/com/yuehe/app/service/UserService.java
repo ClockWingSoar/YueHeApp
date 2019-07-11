@@ -37,7 +37,7 @@ import com.yuehe.app.repository.UserRepository;
 @Service
 @Transactional(readOnly = true)
 public class UserService implements UserDetailsService {
-    private static final Logger LOGGER = LoggerFactory.getLogger(UserDetailsService.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(UserService.class);
     private final UserRepository userRepository;
 
     public UserService(UserRepository userRepository) {

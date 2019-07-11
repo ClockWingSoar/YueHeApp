@@ -59,7 +59,7 @@ public interface OperationRepository  extends JpaRepository<Operation, Long> {
 	
 	
 	
-	@Query("select new com.yuehe.app.dto.OperationDetailDto(o.id,o.operationDate, "
+	@Query("select new com.yuehe.app.dto.OperationDetailDto(o.saleId,o.id,o.operationDate, "
 			+ "e.name,t.name,t.operateExpense,o.description) "
 			+ "FROM Operation o INNER JOIN o.sale s "
 //			+ "INNER JOIN s.beautifySkinItem b "
@@ -70,7 +70,7 @@ public interface OperationRepository  extends JpaRepository<Operation, Long> {
 + " where o.saleId = ?1")
 	List<OperationDetailDto> findBySaleId(String saleId);
 	
-	@Query("select new com.yuehe.app.dto.OperationDetailDto(o.id,o.operationDate, "
+	@Query("select new com.yuehe.app.dto.OperationDetailDto(o.saleId,o.id,o.operationDate, "
 			+ "e.name,t.name,t.operateExpense,o.description) "
 			+ "FROM Operation o INNER JOIN o.sale s "
 			+ "INNER JOIN o.employee e "

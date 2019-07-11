@@ -1,19 +1,3 @@
-/*
-    Copyright (C) 2018  Shazin Sadakath
-
-    This program is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
-
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with this program.  If not, see <https://www.gnu.org/licenses/>.
- */
 package com.yuehe.app.service;
 
 import java.util.List;
@@ -30,12 +14,12 @@ import com.yuehe.app.entity.CosmeticShop;
 import com.yuehe.app.repository.ClientRepository;
 
 /**
- * @author Shazin Sadakath
+ * @author Soveran Zhong
  */
 @Service
 @Transactional(readOnly = true)
 public class ClientService {
-    private static final Logger LOGGER = LoggerFactory.getLogger(SaleService.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(ClientService.class);
     private final ClientRepository clientRepository;
 	@Autowired
 	private final CosmeticShopService cosmeticShopService;
@@ -75,9 +59,12 @@ public class ClientService {
         return clientRepository.saveAll(client);
     }
 	public List<ClientShopDto> getClientsDetailList() {
-		List<ClientShopDto> list = clientRepository.fetchClientShopDataInnerJoin();
+		List<ClientShopDto> list = clientRepository.fetchClientShopDataList();
 		list.forEach(l -> System.out.println(l));
 		return list;
+	}
+	public ClientShopDto getClientDetailById(String id) {
+		return clientRepository.fetchClientDetailById(id);
 	}
 	 public long getEntityNumber() {
 	    	return clientRepository.count();

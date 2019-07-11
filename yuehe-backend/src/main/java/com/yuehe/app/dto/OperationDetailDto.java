@@ -13,6 +13,7 @@ public class OperationDetailDto {
 	public OperationDetailDto() {
 		//super();
 	}
+	private String saleId;//销售ID
 	private String operationId;//操作ID
 	private String operationDate;//操作日期
 	private String operatorName;//操作人
@@ -55,9 +56,17 @@ public class OperationDetailDto {
 	public void setDescription(String description) {
 		this.description = description;
 	}
-	public OperationDetailDto(String operationId, String operationDate, String operatorName, String toolName,
-			int operateExpense, String description) {
-		//super();
+	
+	public String getSaleId() {
+		return saleId;
+	}
+	public void setSaleId(String saleId) {
+		this.saleId = saleId;
+	}
+	public OperationDetailDto(String saleId, String operationId, String operationDate, String operatorName,
+			String toolName, int operateExpense, String description) {
+		super();
+		this.saleId = saleId;
 		this.operationId = operationId;
 		this.operationDate = operationDate;
 		this.operatorName = operatorName;
@@ -67,9 +76,9 @@ public class OperationDetailDto {
 	}
 	@Override
 	public String toString() {
-		return "OperationDetailDto [operationId=" + operationId + ", operationDate=" + operationDate + ", operatorName="
-				+ operatorName + ", toolName=" + toolName + ", operateExpense=" + operateExpense + ", description="
-				+ description + "]";
+		return "OperationDetailDto [saleId=" + saleId + ", operationId=" + operationId + ", operationDate="
+				+ operationDate + ", operatorName=" + operatorName + ", toolName=" + toolName + ", operateExpense="
+				+ operateExpense + ", description=" + description + "]";
 	}
 	
 	

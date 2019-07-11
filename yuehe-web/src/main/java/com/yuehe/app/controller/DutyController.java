@@ -14,14 +14,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.yuehe.app.dto.DutyEmployeeRoleDto;
-import com.yuehe.app.entity.Employee;
-import com.yuehe.app.entity.Client;
 import com.yuehe.app.entity.Duty;
-import com.yuehe.app.entity.Duty;
-import com.yuehe.app.entity.Role;
-import com.yuehe.app.service.EmployeeService;
 import com.yuehe.app.service.DutyService;
-import com.yuehe.app.service.RoleService;
+import com.yuehe.app.service.YueHeCommonService;
 import com.yuehe.app.util.YueHeUtil;
 
 
@@ -33,19 +28,13 @@ public class DutyController{
 	    }
 	 private final static Logger LOGGER = LoggerFactory.getLogger(DutyController.class);
 	
-	private Role role;
-	private Employee employee;
 	@Autowired
 	private final DutyService dutyService;
 	@Autowired
-	private final RoleService roleService;
-	@Autowired
-	private final EmployeeService employeeService;
-	public DutyController(DutyService dutyService,
-								RoleService roleService,EmployeeService employeeService) {
+	private final YueHeCommonService yueHeCommonService;
+	public DutyController(DutyService dutyService,YueHeCommonService yueHeCommonService) {
 		this.dutyService = dutyService;
-		this.roleService = roleService;
-		this.employeeService = employeeService;
+		this.yueHeCommonService = yueHeCommonService;
 	}
 
 	@GetMapping("/getDutyList")
@@ -54,13 +43,16 @@ public class DutyController{
 		List<DutyEmployeeRoleDto> dutyList =new ArrayList<DutyEmployeeRoleDto>();
 		dutyList = dutyService.getDutyDetailList();
 		 LOGGER.info("dutyList {}", dutyList);
+		 yueHeCommonService.getAllEmployees(model);
+		 yueHeCommonService.getAllRoles(model);
 		model.addAttribute("dutyList",dutyList);
 		
 		return "user/duty";
 	}
+
 	@PostMapping("/createDuty")
-    public String createDuty( @RequestParam(name = "employeeName", required = false) String employeeName,
-                                       @RequestParam(name = "roleName", required = false) String roleName,
+    public String createDuty( @RequestParam(name = "employeeId", required = false) String employeeId,
+                                       @RequestParam(name = "roleId", required = false) String roleId,
                                        @RequestParam(name = "welfare", required = false) int welfare,
                                        @RequestParam(name = "description", required = false) String description
                                        ) 
@@ -71,15 +63,8 @@ public class DutyController{
         duty.setId(id);
         duty.setWelfare(welfare);
         duty.setDescription(description);
-        role = roleService.getRoleByName(roleName);
-        LOGGER.debug("role:",role);
-        if(role != null)
-        	duty.setRoleId(role.getId());
-        LOGGER.debug("duty:",duty);
-        employee = employeeService.getEmployeeByName(employeeName);
-    	LOGGER.debug("employee:",employee);
-        if(employee != null)
-        	duty.setEmployeeId(employee.getId());
+        duty.setRoleId(roleId);
+        duty.setEmployeeId(employeeId);
         LOGGER.debug("duty:",duty);
 
         if (duty != null) {

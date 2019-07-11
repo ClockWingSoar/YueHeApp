@@ -1,7 +1,7 @@
 $(function ($) {
 	$( "#createCardDate" ).datepicker();
-	$('#cosmeticShop').change(getShopAllClients);
-	$('#client').change(getClientAllSales);
+	$('#cosmeticShop').change(getShopAllClientsList);
+	$('#client').change(getClientAllSalesList);
 	
 
 	

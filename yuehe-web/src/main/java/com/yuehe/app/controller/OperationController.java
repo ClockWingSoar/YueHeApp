@@ -18,24 +18,17 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.yuehe.app.dto.ClientDetailDto;
-import com.yuehe.app.dto.DutyEmployeeRoleDto;
 import com.yuehe.app.dto.OperationDetailDto;
 import com.yuehe.app.dto.SaleBeautifySkinItemForFilterDto;
 import com.yuehe.app.dto.SaleDetailDto;
 import com.yuehe.app.dto.ShopDetailDto;
 import com.yuehe.app.dto.YueHeAllShopsDetailDto;
 import com.yuehe.app.entity.Client;
-import com.yuehe.app.entity.CosmeticShop;
-import com.yuehe.app.entity.Employee;
 import com.yuehe.app.entity.Operation;
-import com.yuehe.app.entity.Tool;
 import com.yuehe.app.service.ClientService;
-import com.yuehe.app.service.CosmeticShopService;
-import com.yuehe.app.service.DutyService;
-import com.yuehe.app.service.EmployeeService;
 import com.yuehe.app.service.OperationService;
 import com.yuehe.app.service.SaleService;
-import com.yuehe.app.service.ToolService;
+import com.yuehe.app.service.YueHeCommonService;
 import com.yuehe.app.util.YueHeUtil;
 
 
@@ -52,24 +45,15 @@ public class OperationController{
 	@Autowired
 	private final SaleService saleService;
 	@Autowired
-	private final ToolService toolService;
-	@Autowired
-	private final DutyService dutyService;
-	@Autowired
 	private final ClientService clientService;
 	@Autowired
-	private final CosmeticShopService cosmeticShopService;
-	@Autowired
-	private final EmployeeService employeeService;
-	public OperationController(OperationService operationService, SaleService saleService,CosmeticShopService cosmeticShopService,
-			EmployeeService employeeService,ToolService toolService, ClientService clientService,DutyService dutyService) {
+	private final YueHeCommonService yueHeCommonService;
+	public OperationController(OperationService operationService, SaleService saleService,
+			ClientService clientService,YueHeCommonService yueHeCommonService) {
 		this.operationService = operationService;
 		this.saleService = saleService;
-		this.employeeService = employeeService;
-		this.toolService = toolService;
 		this.clientService = clientService;
-		this.cosmeticShopService = cosmeticShopService;
-		this.dutyService = dutyService;
+		this.yueHeCommonService = yueHeCommonService;
 	}
 
 	@GetMapping("/getOperationList")
@@ -87,35 +71,20 @@ public class OperationController{
 
 	@GetMapping("/getOperationNewItem")
 	public  String operationNewItemOverview(Model model){
-		getAllCosmeticShops(model);
-		getAllOperatorRoles(model);
-		getAllTools(model);
+		yueHeCommonService.getAllCosmeticShops(model);
+		yueHeCommonService.getAllPersonByRoleName(model,"操作人");
+		yueHeCommonService.getAllTools(model);
 		model.addAttribute("subModule", "operationNewItem");
 		return "user/operationNewItem";
 	}
 	
 	@GetMapping("/getOperationSummary")
 	public  String operationSummary(Model model){
-		getAllCosmeticShops(model);
+		yueHeCommonService.getAllCosmeticShops(model);
+		model.addAttribute("subModule", "operationSummary");
 		return "user/operationSummary";
 	}
-	public void getAllCosmeticShops(Model model) {
-		List<CosmeticShop> cosmeticShopList = cosmeticShopService.getAllCosmeticShopForFiltering();
-		model.addAttribute("cosmeticShopList", cosmeticShopList);
-	}
-	public void getAllEmployees(Model model) {
-		List<Employee> employeeList = employeeService.getAllEmployees();
-		model.addAttribute("employeeList", employeeList);
-	}
-	public void getAllOperatorRoles(Model model) {
-		List<DutyEmployeeRoleDto> operatorList = dutyService.getAllPersonByRoleName("操作人");
-		operatorList.forEach(l -> System.out.println(l));
-		model.addAttribute("operatorList", operatorList);
-	}
-	public void getAllTools(Model model) {
-		List<Tool> toolList = toolService.getAllTools();
-		model.addAttribute("toolList", toolList);
-	}
+	
 	
 	@PostMapping("/createOperation")
     public String createOperation( //@RequestParam(name = "clientId", required = false) String clientId,
