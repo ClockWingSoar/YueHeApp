@@ -1,12 +1,29 @@
 package com.yuehe.app.entity;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.Set;
+
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 /**
  * Employee entity. @author Soveran Zhong
  */
+@Entity
+@Table(name = "employee")
 public class Employee implements Serializable{
 	
+	@Override
+	public String toString() {
+		return "Employee [id=" + id + ", name=" + name + ", salary=" + salary + ", birthday=" + birthday
+				+ ", description=" + description + ", resigned=" + resigned + "]";
+	}
+
 	/**
 	 * 
 	 */
@@ -27,8 +44,34 @@ public class Employee implements Serializable{
 	/**
 	 * 
 	 */
-
+	@Id
 	private String id;
+	 @JsonManagedReference
+	@OneToMany(targetEntity = Sale.class, mappedBy = "sellerId", orphanRemoval = false, fetch = FetchType.LAZY)
+	private Set<Sale> sales;
+	 @JsonManagedReference
+	@OneToMany(targetEntity = Duty.class, mappedBy = "employeeId", orphanRemoval = false, fetch = FetchType.LAZY)
+	private Set<Duty> duties;
+	 @JsonManagedReference
+	@OneToMany(targetEntity = Operation.class, mappedBy = "operatorId", orphanRemoval = false, fetch = FetchType.LAZY)
+	private Set<Operation> operations;
+	
+	public Set<Operation> getOperations() {
+		return operations;
+	}
+
+	public void setOperations(Set<Operation> operations) {
+		this.operations = operations;
+	}
+
+	public Set<Duty> getDuties() {
+		return duties;
+	}
+
+	public void setDuties(Set<Duty> duties) {
+		this.duties = duties;
+	}
+
 	private String name;
 	private int salary;
 	private Date birthday;
@@ -76,7 +119,7 @@ public class Employee implements Serializable{
 
 	public String getDescription() {
 		return description;
-	}
+	} 
 
 	public void setDescription(String description) {
 		this.description = description;
@@ -89,6 +132,14 @@ public class Employee implements Serializable{
 	public void setResigned(String resigned) {
 		this.resigned = resigned;
 	}
+	public Set<Sale> getSales() {
+		return sales;
+	}
+
+	public void setSales(Set<Sale> sales) {
+		this.sales = sales;
+	}
+
 
 	
 }

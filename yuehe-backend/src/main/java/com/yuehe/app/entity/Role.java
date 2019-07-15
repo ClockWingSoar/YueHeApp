@@ -1,13 +1,25 @@
 package com.yuehe.app.entity;
+
 import java.io.Serializable;
+import java.util.Set;
+
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 /**
  * Role entity. @author Soveran Zhong
  */
-public class Role implements Serializable{
-	
-	//Fields
-	
+@Entity
+@Table(name = "role")
+public class Role implements Serializable {
+
+	// Fields
+
 	/**
 	 * 
 	 */
@@ -24,20 +36,35 @@ public class Role implements Serializable{
 	/**
 	 * 
 	 */
-	/**
-	 * 
-	 */
-
+	@Id
 	private String id;
+	 @JsonManagedReference
+	@OneToMany(targetEntity = Duty.class, mappedBy = "roleId", orphanRemoval = false, fetch = FetchType.LAZY)
+	private Set<Duty> duties;
+
+	public Set<Duty> getDuties() {
+		return duties;
+	}
+
+	public void setDuties(Set<Duty> duties) {
+		this.duties = duties;
+	}
+
 	private String name;
 	private String responsibility;
 	private String description;
-	
+
 	// Constructors
+
+	@Override
+	public String toString() {
+		return "Role [id=" + id + ", name=" + name + ", responsibility=" + responsibility + ", description="
+				+ description + "]";
+	}
 
 	/** default constructor */
 	public Role() {
-		
+
 	}
 
 	public String getId() {
@@ -72,5 +99,4 @@ public class Role implements Serializable{
 		this.description = description;
 	}
 
-	
 }

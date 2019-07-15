@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <link  rel="stylesheet" media="screen" th:href="@{/css/bootstrap.min.css}"/>
+</head>
+<body>	
+	<div class="container" th:fragment="header">
+	  <ul class="nav nav-tabs nav-justified">
+	    <li th:classappend="${subModule == 'operationList' ? 'active' : ''}" >
+	    <a href="#" th:href="@{/getOperationList}" style="font-size: 22px; text-decoration: none">操作表详情</a></li>
+        <li th:classappend="${subModule == 'operationSummary' ? 'active' : ''}">
+                    <a href="#" th:href="@{/getOperationSummary}" style="font-size: 22px; text-decoration: none">操作表汇总</a>
+                </li>
+        <li th:classappend="${subModule == 'operationNewItem' ? 'active' : ''}">
+                    <a href="#" th:href="@{/getOperationNewItem}" style="font-size: 22px; text-decoration: none">新建操作表</a>
+                </li>
+	  </ul>
+	  <br>
+	  </div>
+</body>
+</html>

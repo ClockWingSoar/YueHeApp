@@ -1,0 +1,153 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>操作表</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+       <link rel="stylesheet" th:href="@{/css/core.css}">
+       <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+        <script type="text/javascript"  th:src="@{/js/jquery.min.js}"></script>
+           <script type="text/javascript"  th:src="@{/js/bootstrap.min.js}"></script>
+             <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+  <link rel="stylesheet" href="/resources/demos/style.css">
+  <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+           <script type="text/javascript"  th:src="@{/js/operationNewItem.js}"></script>
+           <script type="text/javascript"  th:src="@{/js/yueheCommon.js}"></script>
+    <meta http-equiv="refresh" content="600; URL=/"> <!-- this will redirect to / after 600s-->
+
+</head>
+
+<body>
+<div th:replace="~{fragments/header.html :: header}">Header</div>
+
+<div role="main" class="container">
+<div th:replace="~{fragments/operationHeader.html :: header}">Operation Header</div>
+
+     <div class="panel panel-default">
+              <div class="panel-heading">  <h3>创建新的操作卡</h3></div>
+           
+            <div class="form-group">
+			    <form th:action="@{/createOperation}"  method="POST">
+			    <br>
+			    <div class="form-group  row ">
+                		<div class="col-md-1"> <span class="input-group-addon"><i class="glyphicon glyphicon-pencil"></i>美容院</span> </div>
+					    
+						<div class="col-xs-3">    <select  class="form-control" required="required"  name="cosmeticShopId" id="cosmeticShop">
+					      <option selected="selected" value="all"> --请选择美容院 --
+					      </option>
+					      <option th:each="cosmeticShop : ${cosmeticShopList}" th:value="${cosmeticShop.id}" 
+					       th:text="${cosmeticShop.name}" >
+					      </option>
+					    </select>
+					    </div>
+						<div class="col-xs-6"> 
+						  <span class="help-block">一般来讲，通过客户名可以确定哪家美容院，但是不排除重名的情况</span>
+						  </div>
+					  </div>
+			    <div class="form-group  row ">
+			    	<div class="col-md-1"> <span class="input-group-addon"><i class="glyphicon glyphicon-pencil"></i>客户名</span> </div>
+		       			<div class="col-xs-3">    
+			       			<select  class="form-control" required="required"  name="clientId" id="client">
+						      <option selected="selected" value="all"> --请选择客户姓名 --
+						      </option>
+						      <option th:each="client : ${clientList}" th:value="${client.id}" 
+						       th:text="${client.name}" >
+						      </option>
+						    </select>
+					    </div>
+		           		<div class="col-xs-6"> 
+	                		<span class="help-block">每个客户如果有不同的项目需分开写</span>
+	                		 </div>
+	                </div> 
+	                <div class="form-group  row ">
+			       		 <div class="col-md-1">
+				            <span class="input-group-addon"><i class="glyphicon glyphicon-pencil"></i>销售卡</span> 
+			            </div>
+		               	<div class="col-xs-3">    <select  class="form-control" required="required"  name="saleId" id="sale">
+					      <option selected="selected" value="all"> --请选择销售卡 --
+					      </option>
+					      <option th:each="sale : ${saleList}" th:value="${sale.id}" 
+					       th:text="'${sale.beautifySKinItemName}'+'--'+'${sale.createCardDate}'" >
+					      </option>
+					    </select>
+					    </div>
+					    <div class="col-xs-6"> 
+						  <span class="help-block">销售卡可以通过美肤卡项目名+开卡日期来区分</span>
+						  </div>
+	                </div>
+	                 <div class="form-group  row ">
+			       		 <div class="col-md-1">
+				            <span class="input-group-addon"><i class="glyphicon glyphicon-pencil"></i>操作人</span> 
+			            </div>
+		           		<div class="col-xs-3">    
+			       			<select  class="form-control" required="required"  name="operatorId" id="operator">
+						      <option selected="selected" > --请选择操作人姓名 --
+						      </option>
+						      <option th:each="operator : ${dutyList}" th:value="${operator.employeeId}" 
+						       th:text="${operator.employeeName}" >
+						      </option>
+						    </select>
+					    </div>
+			             <div class="col-xs-6">
+		                <span class="help-block">操作医生，后期如果要计算操作费用的话，以此区分</span>
+		                 </div>
+	                 </div>
+	                <div class="form-group  row ">
+		       			<div class="col-md-1">   
+			            	<span class="input-group-addon"><i class="glyphicon glyphicon-pencil"></i>操作仪器</span> 
+		           		 </div>
+		           		 <div class="col-xs-3"> 
+		            	<select  class="form-control" required="required"  name="toolId" id="tool">
+						      <option selected="selected" > --请选择操作仪器 --
+						      </option>
+						      <option th:each="tool : ${toolList}" th:value="${tool.id}" 
+						       th:text="${tool.name}" >
+						      </option>
+						    </select>
+					    </div>
+		            	 <div class="col-xs-6">
+		                <span class="help-block">通过操作仪器可以确认操作医生的操作费用</span>
+		                </div>
+	                </div>
+	                 <div class="form-group  row ">
+			       		 <div class="col-md-1">
+				            <span class="input-group-addon"><i class="glyphicon glyphicon-pencil"></i>操作日期</span> 
+			            </div>
+			             <div class="col-xs-3"> 
+			                <input id="operationDate" name="operationDate" type=text class="form-control input-sm" ></input>
+			                
+			            </div>
+		                 <div class="col-xs-6">
+		                	<span class="help-block">通过操作日期来计算一个销售卡的一次消耗</span>
+		                </div>
+	                </div>
+	                 <div class="form-group  row ">
+		       		 <div class="col-md-1">
+			            <span class="input-group-addon"><i class="glyphicon glyphicon-pencil"></i>备注</span> 
+		            </div>
+	                <div class="col-xs-3"> 
+		                <input id="description" name="description" type=text class="form-control input-sm" ></input>
+		            </div>
+		             <div class="col-xs-6">
+	              	  <span class="help-block">此处填写额外的说明情况</span>
+	                </div>
+	                </div>
+	                 <div class="form-group  row ">
+				         <div class="content">
+			            	 <div class="input-group col-xs-4">
+				                <input type="submit" class="btn  btn-lg" value="提交"/>
+				            </div>
+				        </div>
+			        </div>
+                	
+	                
+			    </form>
+			  </div>   
+			</div>
+    	<div th:replace="~{fragments/footer.html :: footer}">footer</div>
+<!-- /.container -->
+</div>
+	               		
+</body>
+</html>

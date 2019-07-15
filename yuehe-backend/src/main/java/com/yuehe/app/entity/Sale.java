@@ -1,10 +1,26 @@
 package com.yuehe.app.entity;
 import java.io.Serializable;
-import java.util.Date;
+import java.util.Set;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 /**
  * Sale entity. @author Soveran Zhong
  */
+@Entity
+@Table(name="sale")
 public class Sale implements Serializable{
 	
 	//Fields
@@ -14,39 +30,62 @@ public class Sale implements Serializable{
 	 */
 	private static final long serialVersionUID = -496619121626313549L;
 
-	public Sale(String id, String clientId, String itemId, String sellerId, String itemNumber, float discount,
-			float employeePremium, float shopPremium, int receivedAmount, Date createCardDate, String description) {
-		super();
-		this.id = id;
-		this.clientId = clientId;
-		this.itemId = itemId;
-		this.sellerId = sellerId;
-		this.itemNumber = itemNumber;
-		this.discount = discount;
-		this.employeePremium = employeePremium;
-		this.shopPremium = shopPremium;
-		this.receivedAmount = receivedAmount;
-		this.createCardDate = createCardDate;
-		this.description = description;
-	}
-
 	/**
 	 * 
 	 */
-	/**
-	 * 
-	 */
-
-	private String id;
+	@Id	private String id;
+	 @JsonBackReference
+	@ManyToOne(fetch = FetchType.LAZY) 
+	@JoinColumn(name = "client_id",insertable = false, updatable = false)
+	@Fetch(FetchMode.JOIN)
+	private Client client;
+	
+	@Column(name="client_id")
 	private String clientId;
-	private String itemId;
+	 @JsonBackReference
+	@ManyToOne(fetch = FetchType.LAZY) 
+	@JoinColumn(name = "beautify_skin_item_id",insertable = false, updatable = false)
+	@Fetch(FetchMode.JOIN)
+	private BeautifySkinItem beautifySkinItem;
+	
+	@Column(name="beautify_skin_item_id")
+	private String beautifySkinItemId;
+	 @JsonBackReference
+	@ManyToOne(fetch = FetchType.LAZY) 
+	@JoinColumn(name = "seller_id",insertable = false, updatable = false)
+	@Fetch(FetchMode.JOIN)
+	private Employee employee;
+	
+	@OneToMany(targetEntity = Operation.class, mappedBy = "saleId", orphanRemoval = false, fetch = FetchType.LAZY)
+	private Set<Operation> operations;
+	
+	
+
+	@Column(name="seller_id")
 	private String sellerId;
-	private String itemNumber;
-	private float discount;
+	
+	@Column(name="item_number")
+	private int itemNumber;
+	
+	@Column(name="create_card_total_amount")
+	private long createCardTotalAmount;
+	
+	@Column(name="received_amount")
+	private long receivedAmount;
+	
+	@Column(name="received_earned_amount")
+	private long receivedEarnedAmount;
+	
+	@Column(name="employee_premium")
 	private float employeePremium;
+	
+	@Column(name="shop_premium")
 	private float shopPremium;
-	private int receivedAmount;
-	private Date createCardDate;
+	
+	
+	@Column(name="create_card_date")
+	private String createCardDate; 
+	
 	private String description;
 	
 	// Constructors
@@ -72,12 +111,12 @@ public class Sale implements Serializable{
 		this.clientId = clientId;
 	}
 
-	public String getItemId() {
-		return itemId;
+	public String getBeautifySkinItemId() {
+		return beautifySkinItemId;
 	}
 
-	public void setItemId(String itemId) {
-		this.itemId = itemId;
+	public void setBeautifySkinItemId(String beautifySkinItemId) {
+		this.beautifySkinItemId = beautifySkinItemId;
 	}
 
 	public String getSellerId() {
@@ -88,20 +127,20 @@ public class Sale implements Serializable{
 		this.sellerId = sellerId;
 	}
 
-	public String getItemNumber() {
+	public int getItemNumber() {
 		return itemNumber;
 	}
 
-	public void setItemNumber(String itemNumber) {
+	public void setItemNumber(int itemNumber) {
 		this.itemNumber = itemNumber;
 	}
 
-	public float getDiscount() {
-		return discount;
+	public float getCreateCardTotalAmount() {
+		return createCardTotalAmount;
 	}
 
-	public void setDiscount(float discount) {
-		this.discount = discount;
+	public void setCreateCardTotalAmount(long createCardTotalAmount) {
+		this.createCardTotalAmount = createCardTotalAmount;
 	}
 
 	public float getEmployeePremium() {
@@ -120,7 +159,7 @@ public class Sale implements Serializable{
 		this.shopPremium = shopPremium;
 	}
 
-	public int getReceivedAmount() {
+	public long getReceivedAmount() {
 		return receivedAmount;
 	}
 
@@ -128,11 +167,19 @@ public class Sale implements Serializable{
 		this.receivedAmount = receivedAmount;
 	}
 
-	public Date getCreateCardDate() {
+	public long getReceivedEarnedAmount() {
+		return receivedEarnedAmount;
+	}
+
+	public void setReceivedEarnedAmount(long receivedEarnedAmount) {
+		this.receivedEarnedAmount = receivedEarnedAmount;
+	}
+
+	public String getCreateCardDate() {
 		return createCardDate;
 	}
 
-	public void setCreateCardDate(Date createCardDate) {
+	public void setCreateCardDate(String createCardDate) {
 		this.createCardDate = createCardDate;
 	}
 
@@ -144,5 +191,68 @@ public class Sale implements Serializable{
 		this.description = description;
 	}
 
-	
+
+	public Client getClient() {
+		return client;
+	}
+
+	public void setClient(Client client) {
+		this.client = client;
+	}
+
+	public BeautifySkinItem getBeautifySkinItem() {
+		return beautifySkinItem;
+	}
+
+	public void setBeautifySkinItem(BeautifySkinItem beautifySkinItem) {
+		this.beautifySkinItem = beautifySkinItem;
+	}
+
+	public Employee getEmployee() {
+		return employee;
+	}
+
+	public void setEmployee(Employee employee) {
+		this.employee = employee;
+	}
+	public Set<Operation> getOperations() {
+		return operations;
+	}
+
+	public void setOperations(Set<Operation> operations) {
+		this.operations = operations;
+	}
+
+	public void setReceivedAmount(long receivedAmount) {
+		this.receivedAmount = receivedAmount;
+	}
+
+	public Sale(String id, String clientId, String beautifySkinItemId, String sellerId, int itemNumber,
+			long createCardTotalAmount, long receivedAmount, long receivedEarnedAmount, float employeePremium,
+			float shopPremium, String createCardDate, String description) {
+		super();
+		this.id = id;
+		this.clientId = clientId;
+		this.beautifySkinItemId = beautifySkinItemId;
+		this.sellerId = sellerId;
+		this.itemNumber = itemNumber;
+		this.createCardTotalAmount = createCardTotalAmount;
+		this.receivedAmount = receivedAmount;
+		this.receivedEarnedAmount = receivedEarnedAmount;
+		this.employeePremium = employeePremium;
+		this.shopPremium = shopPremium;
+		this.createCardDate = createCardDate;
+		this.description = description;
+	}
+
+	@Override
+	public String toString() {
+		return "Sale [id=" + id + ", clientId=" + clientId + ", beautifySkinItemId=" + beautifySkinItemId
+				+ ", sellerId=" + sellerId + ", itemNumber=" + itemNumber + ", createCardTotalAmount="
+				+ createCardTotalAmount + ", receivedAmount=" + receivedAmount + ", receivedEarnedAmount="
+				+ receivedEarnedAmount + ", employeePremium=" + employeePremium + ", shopPremium=" + shopPremium
+				+ ", createCardDate=" + createCardDate + ", description=" + description + "]";
+	}
+
+
 }
