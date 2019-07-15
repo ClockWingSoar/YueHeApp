@@ -13,10 +13,10 @@
 </head>
 
 <body>
-<div th:replace="~{fragments/header :: header}">Header</div>
+<div th:replace="~{fragments/header.html :: header}">Header</div>
 
 <div role="main" class="container">
-	<div th:replace="~{fragments/operationHeader :: header}">Operation Header</div>
+	<div th:replace="~{fragments/operationHeader.html :: header}">Operation Header</div>
     <div class="panel panel-default">
     <div class="panel-heading"><h4>以下为现有的操作记录:</h4></div>
     <div class="panel-body table-wrapper-scroll-y my-custom-scrollbar">
@@ -61,7 +61,7 @@
 	  
 	  
 	</div>
-    <div th:replace="~{fragments/footer :: footer}">footer</div>
+    <div th:replace="~{fragments/footer.html :: footer}">footer</div>
 <!-- /.container -->
 </div>
 </body>

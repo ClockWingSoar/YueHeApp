@@ -47,7 +47,7 @@ public class DutyController{
 		 yueHeCommonService.getAllRoles(model);
 		model.addAttribute("dutyList",dutyList);
 		
-		return "user/duty";
+		return "user/duty.html";
 	}
 
 	@PostMapping("/createDuty")

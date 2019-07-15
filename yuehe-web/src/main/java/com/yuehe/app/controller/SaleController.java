@@ -55,7 +55,7 @@ public class SaleController{
 		model.addAttribute("subModule", "saleList");
 		model.addAttribute("saleList",saleList);
 		
-		return "user/saleList";
+		return "user/saleList.html";
 	}
 	@GetMapping("/getSaleNewItem")
 	public  String saleNewItem(Model model){
@@ -64,14 +64,14 @@ public class SaleController{
 		yueHeCommonService.getAllBeautifySkinItems(model);
 		model.addAttribute("subModule", "saleNewItem");
 		
-		return "user/saleNewItem";
+		return "user/saleNewItem.html";
 	}
 	@GetMapping("/getSaleSummary")
 	public  String saleSummary(Model model){
 		yueHeCommonService.getAllCosmeticShops(model);
 		model.addAttribute("subModule", "saleSummary");
 		
-		return "user/saleSummary";
+		return "user/saleSummary.html";
 	}
 
 	@PostMapping("/createSale")

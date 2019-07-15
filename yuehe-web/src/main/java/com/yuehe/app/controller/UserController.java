@@ -50,7 +50,7 @@ public class UserController {
 		 LOGGER.info("userList:{}", userList);
 		model.addAttribute("userList",userList);
 		
-		return "user/user";
+		return "user/user.html";
 	}
 	@PostMapping("/createUser")
    public String createUser( @RequestParam(name = "username", required = false) String username,

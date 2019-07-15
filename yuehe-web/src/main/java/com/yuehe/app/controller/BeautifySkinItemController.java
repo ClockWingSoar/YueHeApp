@@ -47,7 +47,7 @@ public class BeautifySkinItemController{
 		model.addAttribute("message",message);
 		model.addAttribute("beautifySkinItemList",beautifySkinItemList);
 		
-		return "user/beautifySkinItem";
+		return "user/beautifySkinItem.html";
 	}
 	@PostMapping("/createBeautifySkinItem")
     public String createBeautifySkinItem( @RequestParam(name = "name", required = false) String name,

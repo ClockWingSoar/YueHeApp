@@ -66,7 +66,7 @@ public class OperationController{
 		model.addAttribute("subModule", "operationList");
 		model.addAttribute("module", "operation");
 		
-		return "user/operationList";
+		return "user/operationList.html";
 	}
 
 	@GetMapping("/getOperationNewItem")
@@ -75,14 +75,14 @@ public class OperationController{
 		yueHeCommonService.getAllPersonByRoleName(model,"操作人");
 		yueHeCommonService.getAllTools(model);
 		model.addAttribute("subModule", "operationNewItem");
-		return "user/operationNewItem";
+		return "user/operationNewItem.html";
 	}
 	
 	@GetMapping("/getOperationSummary")
 	public  String operationSummary(Model model){
 		yueHeCommonService.getAllCosmeticShops(model);
 		model.addAttribute("subModule", "operationSummary");
-		return "user/operationSummary";
+		return "user/operationSummary.html";
 	}
 	
 	

@@ -19,10 +19,10 @@
 </head>
 
 <body>
-<div th:replace="~{fragments/header :: header}">Header</div>
+<div th:replace="~{fragments/header.html :: header}">Header</div>
 
 <div role="main" class="container">
-<div th:replace="~{fragments/saleHeader :: header}">Sale Header</div>
+<div th:replace="~{fragments/saleHeader.html :: header}">Sale Header</div>
 
      <div class="panel panel-default">
               <div class="panel-heading">  <h3>创建新的销售卡</h3></div>
@@ -194,7 +194,7 @@
 			    </form>
 			  </div>   
 		</div>
-   <div th:replace="~{fragments/footer :: footer}">footer</div>
+   <div th:replace="~{fragments/footer.html :: footer}">footer</div>
 <!-- /.container -->
 </div>
 </body>

@@ -41,7 +41,7 @@ public class RoleController{
 		 LOGGER.info("roleList {}", roleList);
 		model.addAttribute("roleList",roleList);
 		
-		return "user/role";
+		return "user/role.html";
 	}
 	@PostMapping("/createRole")
     public String createRole( @RequestParam(name = "name", required = false) String name,

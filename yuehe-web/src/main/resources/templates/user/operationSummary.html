@@ -15,10 +15,10 @@
 </head>
 
 <body>
-<div th:replace="~{fragments/header :: header}">Header</div>
+<div th:replace="~{fragments/header.html :: header}">Header</div>
 
 <div role="main" class="container ">
-		<div th:replace="~{fragments/operationHeader :: header}">Operation Header</div>
+		<div th:replace="~{fragments/operationHeader.html :: header}">Operation Header</div>
 </div>
 <div role="main" class="container ">
 	<div class="container ">
@@ -236,7 +236,7 @@
 			</div>
 	    
 	    </div>
-    	<div th:replace="~{fragments/footer :: footer}">footer</div>
+    	<div th:replace="~{fragments/footer.html :: footer}">footer</div>
 </div> 
 </body>
 </html>

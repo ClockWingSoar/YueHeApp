@@ -43,7 +43,7 @@ public class EmployeeController{
 		 LOGGER.info("employeeList {}", employeeList);
 		model.addAttribute("employeeList",employeeList);
 		
-		return "user/employee";
+		return "user/employee.html";
 	}
 	@PostMapping("/createEmployee")
     public String createemployee( @RequestParam(name = "name", required = false) String name,

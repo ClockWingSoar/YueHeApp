@@ -45,7 +45,7 @@ public class ProfileController{
 		// TODO Auto-generated method stub
 		 yueHeCommonService.getAllCosmeticShops(model);
 		
-		return "user/profile";
+		return "user/profile.html";
 	}
 	@RequestMapping(value = "/getProfileDetail", method = RequestMethod.GET)
 	public @ResponseBody

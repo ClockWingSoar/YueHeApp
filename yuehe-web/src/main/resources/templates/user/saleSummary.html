@@ -15,10 +15,10 @@
 </head>
 
 <body>
-<div th:replace="~{fragments/header :: header}">Header</div>
+<div th:replace="~{fragments/header.html :: header}">Header</div>
 
 <div role="main" class="container">
-<div th:replace="~{fragments/saleHeader :: header}">Sale Header</div>
+<div th:replace="~{fragments/saleHeader.html :: header}">Sale Header</div>
 	<div class="container" >
   <div role="main" class="container ">
  <!-- 统计各个美容院的总消耗，总开卡金额，总回款，总预付款等 -->
@@ -235,7 +235,7 @@
 		<hr>
 	    
 	    </div>
-    	<div th:replace="~{fragments/footer :: footer}">footer</div>
+    	<div th:replace="~{fragments/footer.html :: footer}">footer</div>
 </div> 
 </div>
 </body>

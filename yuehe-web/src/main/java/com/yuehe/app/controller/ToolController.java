@@ -43,7 +43,7 @@ public class ToolController{
 		 LOGGER.info("toolList {}", toolList);
 		model.addAttribute("toolList",toolList);
 		
-		return "user/tool";
+		return "user/tool.html";
 	}
 	@PostMapping("/createTool")
     public String createTool( @RequestParam(name = "name", required = false) String name,

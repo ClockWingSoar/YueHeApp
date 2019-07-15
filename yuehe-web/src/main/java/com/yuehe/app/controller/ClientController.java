@@ -49,7 +49,7 @@ public class ClientController{
 		 yueHeCommonService.getAllCosmeticShops(model);
 		model.addAttribute("clientList",clientList);
 		
-		return "user/client";
+		return "user/client.html";
 	}
 	@PostMapping("/createClient")
     public String createClient( @RequestParam(name = "name", required = false) String name,

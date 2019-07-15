@@ -40,7 +40,7 @@ public class CosmeticShopController{
 		 LOGGER.info("cosmeticShopList {}", cosmeticShopList);
 		model.addAttribute("cosmeticShopList",cosmeticShopList);
 		
-		return "user/cosmeticShop";
+		return "user/cosmeticShop.html";
 	}
 	@PostMapping("/createCosmeticShop")
     public String createCosmeticShop( @RequestParam(name = "name", required = false) String name,
