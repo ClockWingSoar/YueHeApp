@@ -1,15 +1,24 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:th="http://www.thymeleaf.org"
+    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <head>
     <title>悦和国际官网</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <link rel="stylesheet" media="screen" th:href="@{/css/bootstrap.min.css}"/>
     <link rel="stylesheet" media="screen" th:href="@{/css/core.css}" />
+    <link rel="stylesheet" media="screen" th:href="@{/css/login.css}" />
     <script type="text/javascript" th:src="@{/js/jquery.min.js}"></script>
     <script type="text/javascript" th:src="@{/js/bootstrap.min.js}"></script>
 </head>
 <body>
-<div th:replace="~{fragments/header :: header}">Header</div>
+
+<div th:replace="~{fragments/header.html :: header}">Header</div>
+<!-- logo -->
+		<div class="logo flt">
+			<img alt="168信息" src="images/YueHeGuoJiLogo_new.png"/>
+			<span>悦和后台管理系统</span>
+		</div>
 <div class="container">
     <div class="text-center">
         
@@ -23,9 +32,9 @@
            最朴实的服务理念，最先进的服务技术，给您一个健康肌肤，还您一份完美无瑕。  
         </div>
         
-        <p>
+        <!-- p>
             <a id="signup" class="btn btn-success btn-lg">登陆</a>
-        </p>
+        </p> -->
     </div>
     <div th:align="center">&copy; 2019 悦和国际</div>
 </div>

@@ -2,87 +2,166 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>系統用戶表</title>
+    <title>档案表</title>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
        <link rel="stylesheet" th:href="@{/css/core.css}">
        <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
         <script type="text/javascript"  th:src="@{/js/jquery.min.js}"></script>
            <script type="text/javascript"  th:src="@{/js/bootstrap.min.js}"></script>
+                       <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+  <link rel="stylesheet" href="/resources/demos/style.css">
+  <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+                <script type="text/javascript"  th:src="@{/js/profile.js}"></script>
+           <script type="text/javascript"  th:src="@{/js/yueheCommon.js}"></script>
     <meta http-equiv="refresh" content="600; URL=/"> <!-- this will redirect to / after 600s-->
 
 </head>
 
 <body>
-<div th:replace="~{fragments/header :: header}">Header</div>
+<div th:replace="~{fragments/header.html :: header}">Header</div>
 
-<main role="main" class="container">
+<div role="main" class="container">
+<!-- <div th:replace="~{fragments/saleHeader :: header}">Profile Header</div> -->
 
-    <div class="starter-template">
-        <h3>以下为现有的系統用戶:</h3>
-       
-    </div>
-
-    <div class="container">
-    <table  class="table table-striped">
-    	<thead>
-   			 <tr class="info">
-   			    <th>ID</th>
-				<th>用戶名</th>
-				<th>密碼</th>
-				<th>角色</th>
-			</tr>
-		</thead>
-		<tbody>
-			<tr data-th-each="user : ${userList}">
-			<td data-th-text="${user.id}">...</td>
-			<td data-th-text="${user.username}">...</td>
-			<td data-th-text="${user.password}">...</td>
-			<td data-th-text="${user.role}">...</td>
-			</tr>
-		</tbody>
-		</table>
-	</div>
-</main>
-
-<main role="main" class="container">
-<!-- div class="container">
-    <nav class="navbar navbar-inverse">
-        <div class="container-fluid">
-          
-        </div>
-    </nav> -->
-      <div class="starter-template">
-                <h3>创建新的用戶</h3>
-            </div>
-            <div>
-			    <form th:action="@{/createUser}"  method="POST">
-			        <div class="row form-row">
-			            <div class="col-xs-2"><i class="fa fa-plus"></i> 用戶名称
-			                <input id="username" name="username" type=text class="form-control input-sm" style="min-width: 10%"></input>
-			            </div>
-			               <div class="col-xs-2"><i class="fa fa-plus"></i> 用戶密碼
-			                <input id="password" name="password" type=text class="form-control input-sm" style="min-width: 10%"></input>
-			            </div>
-			            <div class="col-xs-2"><i class="fa fa-asterisk"></i> 用戶角色
-			                <input id="role" name="role" type=text class="form-control input-sm" style="min-width: 10%"></input>
-			            </div>
-			        </div>
-			        <br>
-			        <div class="row form-row">
-			            <div class="col-md-4">
-			                <input type="submit" class="btn btn-success btn-lg" value="提交"/>
-			            </div>
-			        </div>
+     <div class="panel panel-default">
+              <div class="panel-heading">  <h3>查找客户档案</h3></div>
+           
+            <div class="form-group">
+			    <form th:action="@{/getProfileDetail}"  method="POST">
+			   
+			    <br>
+			    <div class="form-group  row "  style="margin-left:5px">
+<!-- 			    <div class="form-group col-md-2 row col-md-offset-1"  style="margin-left:5px"> -->
+		       
+						<div class="col-xs-2">  
+							<label for="cosmeticShop">美容院</label>  
+							<select  class="form-control" required="required"  name="cosmeticShopId" id="cosmeticShop">
+						      <option selected="selected" > --请选择美容院 --
+						      </option>
+						      <option th:each="cosmeticShop : ${cosmeticShopList}" th:value="${cosmeticShop.id}" 
+						       th:text="${cosmeticShop.name}" >
+						      </option>
+					   		 </select>
+					    </div>
+		       			<div class="col-xs-2">    
+		       				<label for="cosmeticShop">客户名</label>  
+			       			<select  class="form-control" required="required"  name="clientId" id="client">
+						      <option selected="selected" > --请选择客户姓名 --
+						      </option>
+						      <option th:each="client : ${clientList}" th:value="${client.id}" 
+						       th:text="${client.name}" >
+						      </option>
+						    </select>
+					    </div>
+		           		<div class="col-xs-2" style="margin-left:65px"> 
+						    <button type="button" class="btn btn-default" id="profile_search">
+						      <span class="glyphicon glyphicon-search"></span> 搜索
+						    </button>
+	                	</div>
+	                </div>
 			    </form>
-			    </div>
-			    
-</main>
-    <footer class="fixed-bottom" style="position: fixed; bottom: 0">
-        <div class="container">
-            <span class="text-muted">Developed by Yi Xiang Zhong.</span>
-        </div>
-    </footer>
+			  </div>   
+		</div>
+		
+	<div class="row hidden" id="sale_detail">
+	<hr>
+	<div id="client_sale_overall" class="container">
+		   <div class="form-group row">
+				<div class="col-sm-1 " > <label class="control-label " >客户姓名</label></div>
+				<div class="col-sm-1 ">	<span id="sale_client_overall_client_name"  class="form-control-static" ></span></div>
+				<div class="col-sm-1" > <label class="control-label " >开卡金额</label></div>
+				<div class="col-sm-1">	<span id="sale_client_overall_create_card_amount"  class="form-control-static" ></span></div>
+				<div class="col-sm-1" > <label class="control-label " >实收金额</label></div>
+				<div class="col-sm-1">	<span id="sale_client_overall_received_amount"  class="form-control-static" ></span></div>
+				<div class="col-sm-1" > <label class="control-label " >欠收金额</label></div>
+				<div class="col-sm-1">	<span id="sale_client_overall_debt_amount"  class="form-control-static" ></span></div>
+			</div>
+		   <div class="form-group row">
+				<div class="col-sm-1" > <label class="control-label " >回款金额</label></div>
+				<div class="col-sm-1">	<span id="sale_client_overall_earned_amount"  class="form-control-static" ></span></div>
+				<div class="col-sm-1" > <label class="control-label " >实收回款</label></div>
+				<div class="col-sm-1">	<span id="sale_client_overall_received_earned_amount"  class="form-control-static" ></span></div>
+				<div class="col-sm-1" > <label class="control-label " >欠收回款</label></div>
+				<div class="col-sm-1" >	<span id="sale_client_overall_debt_earned_amount"  class="form-control-static" ></span></div>
+				<div class="col-sm-1" > <label class="control-label " >员工奖励</label></div>
+				<div class="col-sm-1">	<span id="sale_client_overall_employee_premium"  class="form-control-static" ></span></div>
+				<div class="col-sm-1" > <label class="control-label " >店家回扣</label></div>
+				<div class="col-sm-1">	<span id="sale_client_overall_shop_premium"  class="form-control-static" ></span></div>
+				
+			</div>
+		</div>
+		<hr>
+		<div class="panel-body table-wrapper-scroll-y my-custom-scrollbar">
+		    <table  id="sale_detail_table" class="table table-striped  table-sm table-nonfluid" >
+		    	<thead>
+		    	
+		   			 <tr class="info">
+		   			    <th>销售卡ID</th>
+						<th>开卡金额</th>
+						<th>实收金额</th>
+						<th>欠账金额</th>
+						<th>回款金额</th>
+						<th>实收回款</th>
+						<th>欠收回款</th>
+						<th>员工奖励</th>
+						<th>店家回扣</th>
+					</tr>
+				</thead>
+				
+				<tbody id="sale_detail_table_body">
+				</tbody>
+				</table>
+			</div>
+	    </div>
+	    <div class="row hidden" id="sale_detail_operation">
+	<hr>
+	<div id="client_operation_overall" class="container">
+		   <div class="form-group row">
+				<div class="col-sm-1 " > <label class="control-label " >客户姓名</label></div>
+				<div class="col-sm-1 ">	<span id="client_overall_client_name"  class="form-control-static" ></span></div>
+				<div class="col-sm-1" > <label class="control-label " >开卡金额</label></div>
+				<div class="col-sm-1">	<span id="client_overall_create_card_amount"  class="form-control-static" ></span></div>
+				<div class="col-sm-1" > <label class="control-label " >回款金额</label></div>
+				<div class="col-sm-1">	<span id="client_overall_earned_amount"  class="form-control-static" ></span></div>
+			</div>
+		   <div class="form-group row">
+				<div class="col-sm-1" > <label class="control-label " >已消耗</label></div>
+				<div class="col-sm-1">	<span id="client_overall_consumed_amount"  class="form-control-static" ></span></div>
+				<div class="col-sm-1" > <label class="control-label " >消耗回款</label></div>
+				<div class="col-sm-1" >	<span id="client_overall_consumed_earned_amount"  class="form-control-static" ></span></div>
+				<div class="col-sm-1" > <label class="control-label " >预付款</label></div>
+				<div class="col-sm-1">	<span id="client_overall_advanced_earned_amount"  class="form-control-static" ></span></div>
+				
+			</div>
+		</div>
+		<hr>
+		<div class="panel-body table-wrapper-scroll-y my-custom-scrollbar">
+		    <table  id="sale_operation_detail_table" class="table table-striped  table-sm table-nonfluid" >
+		    	<thead>
+		    	
+		   			 <tr class="info">
+		   			    <th>销售卡ID</th>
+						<th>开卡日期</th>
+						<th>美肤项目</th>
+						<th>开卡总金额</th>
+						<th>回款金额</th>
+						<th>疗程总次数</th>
+						<th>剩余次数</th>
+						<th>已消耗总数</th>
+						<th>已消耗回款</th>
+						<th>预付款总数</th>
+					</tr>
+				</thead>
+				
+				<tbody id="sale_operation_detail_table_body">
+				</tbody>
+				</table>
+			</div>
+	    </div>
+		
+ 	<div th:replace="~{fragments/footer.html :: footer}">footer</div>
 <!-- /.container -->
-
+</div>
 </body>
 </html>

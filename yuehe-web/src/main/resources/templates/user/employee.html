@@ -1,0 +1,93 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>员工表</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+       <link rel="stylesheet" th:href="@{/css/core.css}">
+       <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+        <script type="text/javascript"  th:src="@{/js/jquery.min.js}"></script>
+           <script type="text/javascript"  th:src="@{/js/bootstrap.min.js}"></script>
+    <meta http-equiv="refresh" content="600; URL=/"> <!-- this will redirect to / after 600s-->
+
+</head>
+
+<body>
+<div th:replace="~{fragments/header.html :: header}">Header</div>
+
+<div role="main" class="container">
+   
+     <div class="panel panel-default">
+      <div class="panel-heading"><h3>以下为现有的员工:</h3></div>
+		<div class="panel-body table-wrapper-scroll-y my-custom-scrollbar">
+	    <table  class="table table-striped">
+	    <thead>
+   			 <tr class="info">
+   			    <th>ID</th>
+				<th>姓名</th>
+				<th>工资</th>
+				<th>生日</th>
+				<th>离职否</th>
+				<th>备注</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr data-th-each="employee : ${employeeList}">
+			<td data-th-text="${employee.Id}">...</td>
+			<td data-th-text="${employee.Name}">...</td>
+			<td data-th-text="${employee.salary}">...</td>
+			<td data-th-text="${#dates.format(employee.birthday, 'yyyy-MM-dd')}">...</td>
+		  	 <td  th:if="${employee.resigned} == y">已离职</td>
+		  	 <td  th:if="${employee.resigned} == n">在职</td>
+			<td data-th-text="${employee.description}">...</td>
+			</tr>
+		</tbody>
+		</table>
+	</div>
+	</div>
+     <div class="panel panel-default">
+         <div class="panel-heading"> <h3>创建新的员工</h3></div>
+             <div class="form-group row">
+			    <form th:action="@{/createEmployee}"  method="POST">
+			     <div class="input-group col-xs-4">
+		            <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i>员工名称</span> 
+	                <input id="name" name="name" type=text class="form-control input-sm" ></input>
+	           	 </div>
+	           	 <span class="help-block">员工姓名可能会重名，系统自动生成唯一ID</span>
+	           	 
+			     <div class="input-group col-xs-4">
+		            <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i>工资</span> 
+	                <input id="salary" name="salary" type=text class="form-control input-sm" ></input>
+	           	 </div>
+	           	 <span class="help-block">工资构成可能包括底薪，各项补贴或分红，可能需要重新设计工资页</span>
+	           	 
+			      <div class="input-group col-xs-4">
+		            <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i>生日</span> 
+	                <input id="birthday" name="birthday" type=text class="form-control input-sm" ></input>
+	           	 </div>
+	           	 <span class="help-block">公司的活动基金可以用来给员工过生日</span>
+	           	 
+			      <div class="input-group col-xs-4">
+		            <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i>离职否</span> 
+	                <input id="resigned" name="resigned" type=text class="form-control input-sm" ></input>
+	           	 </div>
+	           	 <span class="help-block">(y代表已离职,n代表在职)，因为计算悦和过去的操作记录需要离职员工的信息</span>
+			    
+			      <div class="input-group col-xs-4">
+		            <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i>备注</span> 
+	                <input id="description" name="description" type=text class="form-control input-sm" ></input>
+	           	 </div>
+	           	 <span class="help-block">其他信息</span>
+		        <br>
+		        <div class="content">
+	             <div class="input-group col-xs-4">
+		                <input type="submit" class="btn  btn-lg" value="提交"/>
+		            </div>
+		        </div>
+			    </form>
+			    </div>
+			</div>    
+  	 <div th:replace="~{fragments/footer.html :: footer}">footer</div>
+	</div>
+</body>
+</html>

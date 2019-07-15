@@ -9,6 +9,7 @@ public enum IdType {
 	ROLE, //角色表id应该以 js001自增开始
 	SALE, //销售表id应该以xs001自增开始
 	TOOL,//工具表id应该以 gj001自增开始
-	USER//用戶表id应该以 yh001自增开始
+	USER,//用戶表id应该以 yh001自增开始
+	DUTY//职责分工表id应该以 zz001自增开始
 
 }

@@ -1,10 +1,14 @@
 package com.yuehe.app.entity;
 import java.io.Serializable;
+import java.util.Set;
+
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 /**
  * BeautifySkinItem entity. @author Soveran Zhong
@@ -21,9 +25,12 @@ public class BeautifySkinItem implements Serializable{
 	 */
 	private static final long serialVersionUID = -6638046999127630014L;
 	 @Id
-//	 @GeneratedValue(strategy = GenerationType.AUTO)
 	private String id;
+	 @JsonBackReference
+	@OneToMany(targetEntity = Sale.class, mappedBy = "beautifySkinItemId", orphanRemoval = false, fetch = FetchType.LAZY)
+	private Set<Sale> sales;
 	private String name;
+	
 	private int price;
 	private String description;
 	
@@ -63,6 +70,12 @@ public class BeautifySkinItem implements Serializable{
 	}
 	public void setDescription(String description) {
 		this.description = description;
+	}
+	public Set<Sale> getSales() {
+		return sales;
+	}
+	public void setSales(Set<Sale> sales) {
+		this.sales = sales;
 	}
 	@Override
 	public String toString() {

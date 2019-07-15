@@ -1,0 +1,76 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>角色表</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+       <link rel="stylesheet" th:href="@{/css/core.css}">
+       <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+        <script type="text/javascript"  th:src="@{/js/jquery.min.js}"></script>
+           <script type="text/javascript"  th:src="@{/js/bootstrap.min.js}"></script>
+    <meta http-equiv="refresh" content="600; URL=/"> <!-- this will redirect to / after 600s-->
+
+</head>
+
+<body>
+<div th:replace="~{fragments/header.html :: header}">Header</div>
+
+<div role="main" class="container">
+ 	<div class="panel panel-default">
+        <div class="panel-heading"><h3>以下为现有的角色:</h3> </div>
+
+    <div class="panel-body table-wrapper-scroll-y my-custom-scrollbar">
+    <table  class="table table-striped">
+    	<thead>
+   			 <tr class="info">
+   			    <th>ID</th>
+				<th>姓名</th>
+				<th>职责</th>
+				<th>简介</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr data-th-each="role : ${roleList}">
+			<td data-th-text="${role.Id}">...</td>
+			<td data-th-text="${role.Name}">...</td>
+			<td data-th-text="${role.responsibility}">...</td>
+			<td data-th-text="${role.description}">...</td>
+			</tr>
+		</tbody>
+		</table>
+	</div>
+	</div>
+   <div class="panel panel-default">
+         <div class="panel-heading"> <h3>创建新的角色</h3></div>
+            <div class="form-group row">
+			    <form th:action="@{/createRole}"  method="POST">
+			      <div class="input-group col-xs-4">
+		            <span class="input-group-addon"><i class="glyphicon glyphicon-cloud"></i>角色名称</span> 
+	                <input id="name" name="name" type=text class="form-control input-sm" ></input>
+	            </div>
+                <span class="help-block">角色指的是公司的某一项职责，主要如销售专家，技术医生，司机等</span>
+		    
+			      <div class="input-group col-xs-4">
+		            <span class="input-group-addon"><i class="glyphicon glyphicon-cloud"></i>职责</span> 
+	                <input id="responsibility" name="responsibility" type=text class="form-control input-sm" ></input>
+	            </div>
+                <span class="help-block">这个角色主要负责的任务包括哪些</span>
+		    
+			      <div class="input-group col-xs-4">
+		            <span class="input-group-addon"><i class="glyphicon glyphicon-cloud"></i>简介</span> 
+	                <input id="description" name="description" type=text class="form-control input-sm" ></input>
+	            </div>
+                <span class="help-block">其他信息</span>
+			        <br>
+			        <div class="content">
+			            <div class="input-group col-xs-4">
+			                <input type="submit" class="btn  btn-lg" value="提交"/>
+			            </div>
+			        </div>
+			    </form>
+		    </div>
+	   </div> 
+  	 <div th:replace="~{fragments/footer.html :: footer}">footer</div>
+</div>
+</body>
+</html>

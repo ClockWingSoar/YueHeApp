@@ -40,10 +40,10 @@ public class CosmeticShopController{
 		 LOGGER.info("cosmeticShopList {}", cosmeticShopList);
 		model.addAttribute("cosmeticShopList",cosmeticShopList);
 		
-		return "user/cosmeticShop";
+		return "user/cosmeticShop.html";
 	}
 	@PostMapping("/createCosmeticShop")
-    public String createcosmeticShop( @RequestParam(name = "name", required = false) String name,
+    public String createCosmeticShop( @RequestParam(name = "name", required = false) String name,
                                        @RequestParam(name = "owner", required = false) String owner,
                                        @RequestParam(name = "contactMethod", required = false) String contactMethod,
                                        @RequestParam(name = "location", required = false) String location,
@@ -52,9 +52,8 @@ public class CosmeticShopController{
                                        @RequestParam(name = "description", required = false) String description
                                        ) 
 	{
-        List<CosmeticShop> cosmeticShopList = new ArrayList<>();
-        int idNums = cosmeticShopService.getAllCosmeticShop().size();
-        String id = YueHeUtil.getId(2,idNums);
+		long idNums = cosmeticShopService.getEntityNumber();
+        String id = YueHeUtil.getId(2,Math.toIntExact(idNums));
         CosmeticShop cosmeticShop =new CosmeticShop();
         cosmeticShop.setId(id);
         cosmeticShop.setName(name);
@@ -64,11 +63,10 @@ public class CosmeticShopController{
         cosmeticShop.setSize(Integer.parseInt(size));
         cosmeticShop.setDiscount(Float.parseFloat(discount));
         cosmeticShop.setDescription(description);
-        cosmeticShopList.add(cosmeticShop);
         LOGGER.debug("cosmeticShop:",cosmeticShop);
 
-        if (!cosmeticShopList.isEmpty()) {
-            LOGGER.info("Saved {}", cosmeticShopService.saveAll(cosmeticShopList));
+        if (cosmeticShop != null) {
+            LOGGER.info("Saved {}", cosmeticShopService.create(cosmeticShop));
         }
 
         return "redirect:/getCosmeticShopList";

@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <link  rel="stylesheet" media="screen" th:href="@{/css/bootstrap.min.css}"/>
+</head>
+<body>	
+	<div class="container" th:fragment="header">
+	  <ul class="nav nav-tabs nav-justified">
+	    <li th:classappend="${subModule == 'saleList' ? 'active' : ''}" >
+	    <a href="#" th:href="@{/getSaleList}" style="font-size: 22px; text-decoration: none">销售表详情</a></li>
+        <li th:classappend="${subModule == 'saleSummary' ? 'active' : ''}">
+                    <a href="#" th:href="@{/getSaleSummary}" style="font-size: 22px; text-decoration: none">销售表汇总</a>
+                </li>
+        <li th:classappend="${subModule == 'saleNewItem' ? 'active' : ''}">
+                    <a href="#" th:href="@{/getSaleNewItem}" style="font-size: 22px; text-decoration: none">新建销售表</a>
+                </li>
+	  </ul>
+	  <br>
+	  </div>
+</body>
+</html>

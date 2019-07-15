@@ -55,6 +55,9 @@ public class YueHeUtil {
 		case USER:
 			id = buildId("yh",calculateMidZeros(commonIdLen1,idFinalPart),idFinalPart);
 			break;
+		case DUTY:
+			id = buildId("zz",calculateMidZeros(commonIdLen1,idFinalPart),idFinalPart);
+			break;
 		default:
 			break;
 			

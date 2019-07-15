@@ -1,10 +1,16 @@
 package com.yuehe.app.entity;
 import java.io.Serializable;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 
 /**
  * Client entity. @author Soveran Zhong
@@ -15,6 +21,12 @@ public class CosmeticShop implements Serializable{
 	
 	//Fields
 	
+	@Override
+	public String toString() {
+		return "CosmeticShop [id=" + id + ", name=" + name + ", owner=" + owner + ", contactMethod=" + contactMethod
+				+ ", location=" + location + ", size=" + size + ", discount=" + discount + ", shopPremium=" + shopPremium +", description="
+				+ description+ "]"; //+ ", clients=" + clients + "]";
+	}
 	/**
 	 * 
 	 */
@@ -28,12 +40,23 @@ public class CosmeticShop implements Serializable{
 	private String location;
 	private int size;
 	private float discount;
+	@Column(name="shop_premium")
+	private float shopPremium;//例如肤语港，总业绩超过50万时，需要返还5万给店家
 	private String description;
+	@JsonManagedReference
+	@OneToMany(targetEntity = Client.class, mappedBy = "shopId", orphanRemoval = false, fetch = FetchType.LAZY)
+	private Set<Client> clients;
 	
 	// Constructors
 
 	/** default constructor */
 	public CosmeticShop() {
+		
+	}
+	/** use it for filtering to filter client for operationSummary.html*/
+	public CosmeticShop(String id,String name) {
+		this.id = id;
+		this.name = name;
 		
 	}
 	/** full constructor */
@@ -98,6 +121,18 @@ public class CosmeticShop implements Serializable{
 	}
 	public void setDescription(String description) {
 		this.description = description;
+	}
+	public Set<Client> getClients() {
+		return clients;
+	}
+	public void setClients(Set<Client> clients) {
+		this.clients = clients;
+	}
+	public float getShopPremium() {
+		return shopPremium;
+	}
+	public void setShopPremium(float shopPremium) {
+		this.shopPremium = shopPremium;
 	}
 
 	
