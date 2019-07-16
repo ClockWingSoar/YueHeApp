@@ -18,11 +18,15 @@ package com.yuehe.app.service;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -101,8 +105,13 @@ public class SaleService {
         LOGGER.info("Saving {}", sale);
         return saleRepository.saveAll(sale);
     }
-	public List<SaleClientItemSellerDto> getSalesDetailList() {
-		List<SaleClientItemSellerForDBDto> saleClientItemSellerForDBDtoList = saleRepository.fetchSaleClientItemSellerData();
+	public Map<String,Object> getSalesDetailList(Pageable pageable) {
+		Page<SaleClientItemSellerForDBDto> saleClientItemSellerForDBDtoPage = saleRepository.fetchSaleClientItemSellerData(pageable);
+		List<SaleClientItemSellerForDBDto> saleClientItemSellerForDBDtoList = new ArrayList<SaleClientItemSellerForDBDto>();
+		Map<String,Object> saleMap = new HashMap<String,Object>();
+		 if(saleClientItemSellerForDBDtoPage.hasContent()) {
+			 saleClientItemSellerForDBDtoList =  saleClientItemSellerForDBDtoPage.getContent();
+	        }
 		List<SaleClientItemSellerDto> saleClientItemSellerDtoList = new ArrayList<SaleClientItemSellerDto>();
 		for(SaleClientItemSellerForDBDto saleClientItemSellerForDBDto : saleClientItemSellerForDBDtoList) {
 			long beautifySkinItemPrice = saleClientItemSellerForDBDto.getBeautifySkinItemPrice();
@@ -139,7 +148,9 @@ public class SaleService {
 		}
 		saleClientItemSellerForDBDtoList.forEach(l -> System.out.println(l));
 		saleClientItemSellerDtoList.forEach(l -> System.out.println(l));
-		return saleClientItemSellerDtoList;
+		saleMap.put("saleList",saleClientItemSellerDtoList);
+		saleMap.put("salePage",saleClientItemSellerForDBDtoPage);
+		return saleMap;
 	}
 	 public long getEntityNumber() {
 	    	return saleRepository.count();

@@ -1,13 +1,17 @@
 package com.yuehe.app.controller;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
 
 //import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -47,13 +51,26 @@ public class SaleController{
 	}
 
 	@GetMapping("/getSaleList")
-	public  String saleOverview(Model model){
+	public  String saleOverview(HttpServletRequest request,Model model){
+//		public  String saleOverview(@PageableDefault(size = 10,sort = "id") Pageable pageable,Model model){
 		// TODO Auto-generated method stub
-		List<SaleClientItemSellerDto> saleList =new ArrayList<SaleClientItemSellerDto>();
-		saleList = saleService.getSalesDetailList();
-		 LOGGER.info("saleList {}", saleList);
+		Map<String,Object> saleMap =new HashMap<String,Object>();
+//		saleList = saleService.getSalesDetailList(pageable);
+		int page = 0; //default page number is 0 (yes it is weird)
+	    int size = 10; //default page size is 10
+	    
+        if (request.getParameter("page") != null && !request.getParameter("page").isEmpty()) {
+            page = Integer.parseInt(request.getParameter("page"));
+        }
+
+        if (request.getParameter("size") != null && !request.getParameter("size").isEmpty()) {
+            size = Integer.parseInt(request.getParameter("size"));
+        }
+        saleMap = saleService.getSalesDetailList(PageRequest.of(page, size));
+		 LOGGER.info("saleMap {}", saleMap);
+		model.addAllAttributes(saleMap);
 		model.addAttribute("subModule", "saleList");
-		model.addAttribute("saleList",saleList);
+//		model.addAttribute("saleListPage",saleList);
 		
 		return "user/saleList.html";
 	}

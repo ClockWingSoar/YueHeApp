@@ -18,6 +18,8 @@ package com.yuehe.app.repository;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
@@ -40,7 +42,7 @@ public interface SaleRepository extends JpaRepository<Sale, Long> {
 			+ "INNER JOIN s.beautifySkinItem b "
 			+ "INNER JOIN s.employee e "
 			+ "INNER JOIN c.cosmeticShop p")
-    List<SaleClientItemSellerForDBDto> fetchSaleClientItemSellerData();
+    Page<SaleClientItemSellerForDBDto> fetchSaleClientItemSellerData(Pageable pageable);
 	/**
 	 * To calculate the overall sale consuming situation-including consumed amount, consumed earned amount, advanced earned amount
 	  * 用于计算耗卡情况，如该销售卡的实际消耗，实际回款消耗，还有剩余的预付款等
