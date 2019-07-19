@@ -12,8 +12,8 @@ import org.springframework.data.jpa.repository.Query;
  * @author YIXIANGZhong
  * @since 1.0
  */
-public class OperationOperatorToolForDBDto {
-	public OperationOperatorToolForDBDto() {
+public class OperationOperatorToolForDBDTO {
+	public OperationOperatorToolForDBDTO() {
 		//super();
 	}
 	//private String operationId;//操作ID
@@ -148,7 +148,7 @@ public class OperationOperatorToolForDBDto {
 	public void setCosmeticShopId(String cosmeticShopId) {
 		this.cosmeticShopId = cosmeticShopId;
 	}
-	public OperationOperatorToolForDBDto(String operationId, String saleId, String createCardDate, String operationDate,
+	public OperationOperatorToolForDBDTO(String operationId, String saleId, String createCardDate, String operationDate,
 			String clientId, String clientName, String cosmeticShopId, String cosmeticShopName,
 			float cosmeticShopDiscount, String beautifySkinItemName, long createCardTotalAmount, int totalItemNumber,
 			String operatorName, String toolName, int operateExpense, String description) {
@@ -172,7 +172,7 @@ public class OperationOperatorToolForDBDto {
 	}
 	@Override
 	public String toString() {
-		return "OperationOperatorToolForDBDto [operationId=" + operationId + ", saleId=" + saleId + ", createCardDate="
+		return "OperationOperatorToolForDBDTO [operationId=" + operationId + ", saleId=" + saleId + ", createCardDate="
 				+ createCardDate + ", operationDate=" + operationDate + ", clientId=" + clientId + ", clientName="
 				+ clientName + ", cosmeticShopId=" + cosmeticShopId + ", cosmeticShopName=" + cosmeticShopName
 				+ ", cosmeticShopDiscount=" + cosmeticShopDiscount + ", beautifySkinItemName=" + beautifySkinItemName

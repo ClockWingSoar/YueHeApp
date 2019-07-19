@@ -1,83 +1,93 @@
 <!DOCTYPE HTML>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
+
 <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>销售表</title>
-	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-       <link rel="stylesheet" th:href="@{/css/core.css}">
-       <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
-        <script type="text/javascript"  th:src="@{/js/jquery.min.js}"></script>
-           <script type="text/javascript"  th:src="@{/js/bootstrap.min.js}"></script>
-    <meta http-equiv="refresh" content="600; URL=/"> <!-- this will redirect to / after 600s-->
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<title>销售表</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<link rel="stylesheet" th:href="@{/css/core.css}">
+	<link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+	<script type="text/javascript" th:src="@{/js/jquery.min.js}"></script>
+	<script type="text/javascript" th:src="@{/js/bootstrap.min.js}"></script>
+	<script type="text/javascript" th:src="@{/js/saleList.js}"></script>
+	<meta http-equiv="refresh" content="600; URL=/"> <!-- this will redirect to / after 600s-->
 
 </head>
 
 <body>
-<div th:replace="~{fragments/header.html :: header}">Header</div>
+	<div th:replace="~{fragments/header.html :: header}">Header</div>
 
-<div role="main" class="container">
-<div th:replace="~{fragments/saleHeader.html :: header}">Sale Header</div>
-     <div class="panel panel-default">
-     <div class="panel-heading"><h3>以下为现有的销售记录:</h3></div>
-     <div class="panel-body table-wrapper-scroll-y my-custom-scrollbar">
-     <table  id="saleRecordList" class="table table-striped  table-sm " >
-    	<thead>
-   			 <tr class="info">
-   			    <th>ID</th>
-				<th>开卡日期</th>
-				<th>客户姓名</th>
-				<th>美容院</th>
-				<th>美肤项目</th>
-				<th>开卡次数</th>
-				<th>开卡总金额</th>
-				<th>折扣</th>
-				<th>实收金额</th>
-				<th>欠款</th>
-				<th>应回款</th>
-				<th>实收回款</th>
-				<th>欠收回款</th>
-				<th>员工回扣</th>
-				<th>店家回扣</th>
-				<th>销售专家</th>
-				<th>备注</th>
-			</tr>
-		</thead>
-		
-		<tbody>
-			<tr data-th-each="sale : ${saleList}">
-			<td data-th-text="${sale.saleId}">...</td>
-			<td data-th-text="${sale.createCardDate}">...</td>
-			<td data-th-text="${sale.clientName}">...</td>
-			<td data-th-text="${sale.cosmeticShopName}">...</td>
-			<td data-th-text="${sale.beautifySkinItemName}">...</td>
-			<td data-th-text="${sale.itemNumber}">...</td>
-			<td data-th-text="${sale.createCardTotalAmount}">...</td>
-			<td data-th-text="${sale.discount}">...</td>
-			<td data-th-text="${sale.receivedAmount}">...</td>
-			<td data-th-text="${sale.unpaidAmount}">...</td>
-			<td data-th-text="${sale.earnedAmount}">...</td>
-			<td data-th-text="${sale.receivedEarnedAmount}">...</td>
-			<td data-th-text="${sale.unpaidEarnedAmount}">...</td>
-			<td data-th-text="${sale.employeePremium}">...</td>
-			<td data-th-text="${sale.shopPremium}">...</td>
-			<td data-th-text="${sale.sellerName}">...</td>
-			<td data-th-text="${sale.description}">...</td>
-			</tr>
-		</tbody>
-		</table>
-	</div>
-	<div class="pagination">
-    <span th:if="${salePage.hasPrevious()}">
-        <a th:href="@{/getSaleList(page=${salePage.number-1},size=${salePage.size})}">Previous</a>
-    </span>
-    <th:block th:each="i: ${#numbers.sequence(0, salePage.totalPages - 1)}">
+	<div role="main" class="container">
+		<div th:replace="~{fragments/saleHeader.html :: header}">Sale Header</div>
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h3>以下为现有的销售记录:</h3>
+			</div>
+			<div class="panel-body my-panels table-wrapper-scroll-y my-custom-scrollbar">
+				<table id="saleRecordList" class="table table-hover  table-sm ">
+					<thead>
+						<tr class="info">
+							<th data-sort-prop="id">ID</th>
+							<th data-sort-prop="client.cosmeticShop.name">美容院</th>
+							<th data-sort-prop="client.name">客户姓名</th>
+							<th data-sort-prop="beautifySkinItem.name">美肤项目</th>
+							<th data-sort-prop="createCardDate">开卡日期</th>
+							<th>开卡次数</th>
+							<th data-sort-prop="createCardTotalAmount">开卡总金额</th>
+							<th>折扣</th>
+							<th data-sort-prop="receivedAmount">实收金额</th>
+							<th>欠款</th>
+							<th>应回款</th>
+							<th data-sort-prop="receivedEarnedAmount">实收回款</th>
+							<th>欠收回款</th>
+							<th>员工回扣</th>
+							<th>店家回扣</th>
+							<th data-sort-prop="employee.name">销售专家</th>
+							<th>备注</th>
+						</tr>
+					</thead>
+
+					<tbody>
+						<tr data-th-each="sale : ${saleList}">
+							<td data-th-text="${sale.saleId}">...</td>
+							<td data-th-text="${sale.cosmeticShopName}">...</td>
+							<td data-th-text="${sale.clientName}">...</td>
+							<td data-th-text="${sale.beautifySkinItemName}">...</td>
+							<td data-th-text="${sale.createCardDate}">...</td>
+							<td data-th-text="${sale.itemNumber}">...</td>
+							<td data-th-text="${sale.createCardTotalAmount}">...</td>
+							<td data-th-text="${sale.discount}">...</td>
+							<td data-th-text="${sale.receivedAmount}">...</td>
+							<td data-th-text="${sale.unpaidAmount}">...</td>
+							<td data-th-text="${sale.earnedAmount}">...</td>
+							<td data-th-text="${sale.receivedEarnedAmount}">...</td>
+							<td data-th-text="${sale.unpaidEarnedAmount}">...</td>
+							<td data-th-text="${sale.employeePremium}">...</td>
+							<td data-th-text="${sale.shopPremium}">...</td>
+							<td data-th-text="${sale.sellerName}">...</td>
+							<td data-th-text="${sale.description}">...</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<!-- using th:with to declare a local variable for sorting query param -->
+			<div class="pagination" th:with="sortParam=${sortProperty+','+(sortDirection?'desc':'asc')}">
+				<span th:if="${salePage.hasPrevious()}">
+					<a
+						th:href="@{/getSaleList(page=${salePage.number-1},size=${salePage.size},sort=${sortParam})}">上一页</a>
+				</span>
+				<input id="salePageNumber" type="hidden" th:value="${salePage.number}">
+				<input id="salePageSize" type="hidden" th:value="${salePage.size}">
+				<input id="sortProperty" type="hidden" th:value="${sortProperty}">
+				<input id="sortDirection" type="hidden" th:value="${sortDirection}">
+				<th:block th:each="i: ${#numbers.sequence(0, salePage.totalPages - 1)}">
         <span th:if="${salePage.number == i}" class="selected">[[${i}+1]]</span>
         <span th:unless="${salePage.number == i}">
-             <a th:href="@{/getSaleList(page=${i},size=${salePage.size})}">[[${i}+1]]</a>
+             <a th:href="@{/getSaleList(page=${i},size=${salePage.size},sort=${sortParam})}">[[${i}+1]]</a>
         </span>
     </th:block>
     <span th:if="${salePage.hasNext()}">
-        <a th:href="@{/getSaleList(page=${salePage.number+1},size=${salePage.size})}">Next</a>
+        <a th:href="@{/getSaleList(page=${salePage.number+1},size=${salePage.size},sort=${sortParam})}">下一页</a>
     </span>
 </div>
 <!-- Sales pagination -->

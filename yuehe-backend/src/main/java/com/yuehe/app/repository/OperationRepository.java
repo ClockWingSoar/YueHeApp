@@ -21,8 +21,8 @@ import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
-import com.yuehe.app.dto.OperationDetailDto;
-import com.yuehe.app.dto.OperationOperatorToolForDBDto;
+import com.yuehe.app.dto.OperationDetailDTO;
+import com.yuehe.app.dto.OperationOperatorToolForDBDTO;
 import com.yuehe.app.entity.Operation;
 
 /**
@@ -59,7 +59,7 @@ public interface OperationRepository  extends JpaRepository<Operation, Long> {
 	
 	
 	
-	@Query("select new com.yuehe.app.dto.OperationDetailDto(o.saleId,o.id,o.operationDate, "
+	@Query("select new com.yuehe.app.dto.OperationDetailDTO(o.saleId,o.id,o.operationDate, "
 			+ "e.name,t.name,t.operateExpense,o.description) "
 			+ "FROM Operation o INNER JOIN o.sale s "
 //			+ "INNER JOIN s.beautifySkinItem b "
@@ -68,18 +68,18 @@ public interface OperationRepository  extends JpaRepository<Operation, Long> {
 //			+ "INNER JOIN c.cosmeticShop p "
 + "INNER JOIN o.tool t"
 + " where o.saleId = ?1")
-	List<OperationDetailDto> findBySaleId(String saleId);
+	List<OperationDetailDTO> findBySaleId(String saleId);
 	
-	@Query("select new com.yuehe.app.dto.OperationDetailDto(o.saleId,o.id,o.operationDate, "
+	@Query("select new com.yuehe.app.dto.OperationDetailDTO(o.saleId,o.id,o.operationDate, "
 			+ "e.name,t.name,t.operateExpense,o.description) "
 			+ "FROM Operation o INNER JOIN o.sale s "
 			+ "INNER JOIN o.employee e "
 			+ "INNER JOIN o.tool t")
-	List<OperationDetailDto> findAllOperationList();
+	List<OperationDetailDTO> findAllOperationList();
 	
 
 	
-    @Query("SELECT new com.yuehe.app.dto.OperationOperatorToolForDBDto(o.id,s.id, s.createCardDate, o.operationDate, "
+    @Query("SELECT new com.yuehe.app.dto.OperationOperatorToolForDBDTO(o.id,s.id, s.createCardDate, o.operationDate, "
 			+ "c.id,c.name,p.id,p.name,p.discount,b.name,s.createCardTotalAmount,s.itemNumber,"
 			+ "e.name,t.name,t.operateExpense,"
 			+ "o.description) "
@@ -90,7 +90,7 @@ public interface OperationRepository  extends JpaRepository<Operation, Long> {
 			+ "INNER JOIN c.cosmeticShop p "
 			+ "INNER JOIN o.tool t"
 			)
-    List<OperationOperatorToolForDBDto> fetchOperationOpertatorToolData();
+    List<OperationOperatorToolForDBDTO> fetchOperationOpertatorToolData();
     
     Operation findById(String id);
 }

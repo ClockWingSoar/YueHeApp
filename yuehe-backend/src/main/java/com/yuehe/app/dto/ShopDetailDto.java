@@ -9,8 +9,8 @@ import java.util.List;
  * @author YIXIANGZhong
  * @since 1.0
  */
-public class ShopDetailDto extends ClientDetailDto{
-	public ShopDetailDto() {
+public class ShopDetailDTO extends ClientDetailDTO{
+	public ShopDetailDTO() {
 	}
 	private String cosmeticShopName;//美容院名
 	private long allClientsCreateCardAmount;//单店所有顾客的总开卡金额
@@ -18,7 +18,7 @@ public class ShopDetailDto extends ClientDetailDto{
 	private long allClientsConsumedAmount;//单店所有顾客的总消耗款
 	private long allClientsConsumedEarnedAmount;//单店所有顾客的总消耗回款
 	private long allClientsAdvancedEarnedAmount;//单店所有顾客的总预付款
-	private List<ClientDetailDto> clientDetailDtos;//单店下面所有的客户的信息
+	private List<ClientDetailDTO> clientDetailDTOs;//单店下面所有的客户的信息
 	public String getCosmeticShopName() {
 		return cosmeticShopName;
 	}
@@ -56,13 +56,13 @@ public class ShopDetailDto extends ClientDetailDto{
 		allClientsAdvancedEarnedAmount = totalClientAdvancedEarnedAmount;
 	}
 	
-	public List<ClientDetailDto> getClientDetailDtos() {
-		return clientDetailDtos;
+	public List<ClientDetailDTO> getClientDetailDTOs() {
+		return clientDetailDTOs;
 	}
-	public void setClientDetailDtos(List<ClientDetailDto> clientDetailDtos) {
-		this.clientDetailDtos = clientDetailDtos;
+	public void setClientDetailDTOs(List<ClientDetailDTO> clientDetailDTOs) {
+		this.clientDetailDTOs = clientDetailDTOs;
 	}
-	public ShopDetailDto(String cosmeticShopName, long allClientsCreateCardAmount, long allClientsEarnedAmount,
+	public ShopDetailDTO(String cosmeticShopName, long allClientsCreateCardAmount, long allClientsEarnedAmount,
 			long allClientsConsumedAmount, long allClientsConsumedEarnedAmount, long allClientsAdvancedEarnedAmount) {
 		super();
 		this.cosmeticShopName = cosmeticShopName;
@@ -74,11 +74,11 @@ public class ShopDetailDto extends ClientDetailDto{
 	}
 	@Override
 	public String toString() {
-		return "ShopDetailDto [cosmeticShopName=" + cosmeticShopName + ", allClientsCreateCardAmount="
+		return "ShopDetailDTO [cosmeticShopName=" + cosmeticShopName + ", allClientsCreateCardAmount="
 				+ allClientsCreateCardAmount + ", allClientsEarnedAmount=" + allClientsEarnedAmount
 				+ ", allClientsConsumedAmount=" + allClientsConsumedAmount + ", allClientsConsumedEarnedAmount="
 				+ allClientsConsumedEarnedAmount + ", allClientsAdvancedEarnedAmount=" + allClientsAdvancedEarnedAmount
-				+ ", clientDetailDtos=" + clientDetailDtos + "]";
+				+ ", clientDetailDTOs=" + clientDetailDTOs + "]";
 	}
 	
 }

@@ -10,8 +10,8 @@ import java.util.Date;
  * @author YIXIANGZhong
  * @since 1.0
  */
-public class SaleClientItemSellerDto {
-	public SaleClientItemSellerDto() {
+public class SaleClientItemSellerDTO {
+	public SaleClientItemSellerDTO() {
 		//super();
 	}
 	private String saleId;
@@ -134,7 +134,7 @@ public class SaleClientItemSellerDto {
 	public void setUnpaidEarnedAmount(long unpaidEarnedAmount) {
 		this.unpaidEarnedAmount = unpaidEarnedAmount;
 	}
-	public SaleClientItemSellerDto(String saleId, String clientName, String beautifySkinItemName,
+	public SaleClientItemSellerDTO(String saleId, String clientName, String beautifySkinItemName,
 			String cosmeticShopName, int itemNumber, long createCardTotalAmount, float discount, long receivedAmount,
 			long unpaidAmount, long earnedAmount, long receivedEarnedAmount, long unpaidEarnedAmount, float employeePremium,
 			float shopPremium, String createCardDate, String sellerName, String description) {
@@ -159,7 +159,7 @@ public class SaleClientItemSellerDto {
 	}
 	@Override
 	public String toString() {
-		return "SaleClientItemSellerDto [saleId=" + saleId + ", clientName=" + clientName + ", beautifySkinItemName="
+		return "SaleClientItemSellerDTO [saleId=" + saleId + ", clientName=" + clientName + ", beautifySkinItemName="
 				+ beautifySkinItemName + ", cosmeticShopName=" + cosmeticShopName + ", itemNumber=" + itemNumber
 				+ ", createCardTotalAmount=" + createCardTotalAmount + ", discount=" + discount + ", receivedAmount="
 				+ receivedAmount + ", unpaidAmount=" + unpaidAmount + ", earnedAmount=" + earnedAmount

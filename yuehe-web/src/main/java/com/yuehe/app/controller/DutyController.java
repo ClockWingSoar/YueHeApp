@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.yuehe.app.dto.DutyEmployeeRoleDto;
+import com.yuehe.app.dto.DutyEmployeeRoleDTO;
 import com.yuehe.app.entity.Duty;
 import com.yuehe.app.service.DutyService;
 import com.yuehe.app.service.YueHeCommonService;
@@ -40,7 +40,7 @@ public class DutyController{
 	@GetMapping("/getDutyList")
 	public  String dutyOverview(Model model){
 		// TODO Auto-generated method stub
-		List<DutyEmployeeRoleDto> dutyList =new ArrayList<DutyEmployeeRoleDto>();
+		List<DutyEmployeeRoleDTO> dutyList =new ArrayList<DutyEmployeeRoleDTO>();
 		dutyList = dutyService.getDutyDetailList();
 		 LOGGER.info("dutyList {}", dutyList);
 		 yueHeCommonService.getAllEmployees(model);

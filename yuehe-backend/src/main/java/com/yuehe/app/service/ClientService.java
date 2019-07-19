@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.yuehe.app.dto.ClientShopDto;
+import com.yuehe.app.dto.ClientShopDTO;
 import com.yuehe.app.entity.Client;
 import com.yuehe.app.entity.CosmeticShop;
 import com.yuehe.app.repository.ClientRepository;
@@ -58,12 +58,12 @@ public class ClientService {
         LOGGER.info("Saving {}", client);
         return clientRepository.saveAll(client);
     }
-	public List<ClientShopDto> getClientsDetailList() {
-		List<ClientShopDto> list = clientRepository.fetchClientShopDataList();
+	public List<ClientShopDTO> getClientsDetailList() {
+		List<ClientShopDTO> list = clientRepository.fetchClientShopDataList();
 		list.forEach(l -> System.out.println(l));
 		return list;
 	}
-	public ClientShopDto getClientDetailById(String id) {
+	public ClientShopDTO getClientDetailById(String id) {
 		return clientRepository.fetchClientDetailById(id);
 	}
 	 public long getEntityNumber() {

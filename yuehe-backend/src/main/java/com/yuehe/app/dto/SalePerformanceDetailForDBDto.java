@@ -10,8 +10,8 @@ import java.util.Date;
  * @author YIXIANGZhong
  * @since 1.0
  */
-public class SalePerformanceDetailForDBDto {
-	public SalePerformanceDetailForDBDto() {
+public class SalePerformanceDetailForDBDTO {
+	public SalePerformanceDetailForDBDTO() {
 		//super();
 	}
 	private String saleId;
@@ -92,7 +92,7 @@ public class SalePerformanceDetailForDBDto {
 	public void setDescription(String description) {
 		this.description = description;
 	}
-	public SalePerformanceDetailForDBDto(String saleId, String createCardDate, String beautifySkinItemName,
+	public SalePerformanceDetailForDBDTO(String saleId, String createCardDate, String beautifySkinItemName,
 			long createCardTotalAmount, long receivedAmount,long receivedEarnedAmount, int itemNumber, float cosmeticShopDiscount,
 			float employeePremium, float shopPremium, String description) {
 		super();
@@ -110,7 +110,7 @@ public class SalePerformanceDetailForDBDto {
 	}
 	@Override
 	public String toString() {
-		return "SalePerformanceDetailForDBDto [saleId=" + saleId + ", createCardDate=" + createCardDate
+		return "SalePerformanceDetailForDBDTO [saleId=" + saleId + ", createCardDate=" + createCardDate
 				+ ", beautifySkinItemName=" + beautifySkinItemName + ", createCardTotalAmount=" + createCardTotalAmount
 				+ ", receivedAmount=" + receivedAmount + ", receivedEarnedAmount=" + receivedEarnedAmount
 				+ ", itemNumber=" + itemNumber + ", cosmeticShopDiscount=" + cosmeticShopDiscount + ", employeePremium="

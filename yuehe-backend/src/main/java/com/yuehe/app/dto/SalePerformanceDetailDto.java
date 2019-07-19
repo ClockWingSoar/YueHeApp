@@ -10,8 +10,8 @@ import java.util.Date;
  * @author YIXIANGZhong
  * @since 1.0
  */
-public class SalePerformanceDetailDto {
-	public SalePerformanceDetailDto() {
+public class SalePerformanceDetailDTO {
+	public SalePerformanceDetailDTO() {
 		//super();
 	}
 	private String saleId;
@@ -112,7 +112,7 @@ public class SalePerformanceDetailDto {
 	public void setShopPremium(float shopPremium) {
 		this.shopPremium = shopPremium;
 	}
-	public SalePerformanceDetailDto(String saleId, String createCardDate, String beautifySkinItemName,
+	public SalePerformanceDetailDTO(String saleId, String createCardDate, String beautifySkinItemName,
 			long createCardTotalAmount, long receivedAmount, long debtAmount, long earnedAmount,
 			long receivedEarnedAmount, long debtEarnedAmount, int itemNumber, float cosmeticShopDiscount,
 			float employeePremium, float shopPremium, String description) {
@@ -134,7 +134,7 @@ public class SalePerformanceDetailDto {
 	}
 	@Override
 	public String toString() {
-		return "SalePerformanceDetailDto [saleId=" + saleId + ", createCardDate=" + createCardDate
+		return "SalePerformanceDetailDTO [saleId=" + saleId + ", createCardDate=" + createCardDate
 				+ ", beautifySkinItemName=" + beautifySkinItemName + ", createCardTotalAmount=" + createCardTotalAmount
 				+ ", receivedAmount=" + receivedAmount + ", debtAmount=" + debtAmount + ", earnedAmount=" + earnedAmount
 				+ ", receivedEarnedAmount=" + receivedEarnedAmount + ", debtEarnedAmount=" + debtEarnedAmount

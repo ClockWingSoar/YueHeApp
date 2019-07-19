@@ -9,8 +9,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 
-import com.yuehe.app.dto.ClientShopDto;
-import com.yuehe.app.dto.DutyEmployeeRoleDto;
+import com.yuehe.app.dto.ClientShopDTO;
+import com.yuehe.app.dto.DutyEmployeeRoleDTO;
 import com.yuehe.app.entity.BeautifySkinItem;
 import com.yuehe.app.entity.Client;
 import com.yuehe.app.entity.CosmeticShop;
@@ -67,7 +67,7 @@ public class YueHeCommonService {
 	}
 
 	public void getAllPersonByRoleName(Model model,String roleName) {
-		List<DutyEmployeeRoleDto> dutyList = dutyService.getAllPersonByRoleName(roleName);
+		List<DutyEmployeeRoleDTO> dutyList = dutyService.getAllPersonByRoleName(roleName);
 		dutyList.forEach(l -> System.out.println(l));
 		model.addAttribute("dutyList", dutyList);
 	}

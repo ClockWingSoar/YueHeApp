@@ -27,19 +27,19 @@ function getClientAllSalesOperations(clientId){
 		ajax : 'true'
 	}, function(data) {
 		var html = '';
-		var len = data.saleDetailDtos.length; 
+		var len = data.saleDetailDTOs.length; 
 		for ( var i = 0; i < len; i++) {
-			html = html+'<tr><td>' +data.saleDetailDtos[i].saleId+'</td>'
-			+'<td>'+data.saleDetailDtos[i].createCardDate+'</td>'
-			+'<td>'+data.saleDetailDtos[i].beautifySkinItemName+'</td>'
-			+'<td>'+data.saleDetailDtos[i].createCardTotalAmount+'</td>'
-			+'<td>'+data.saleDetailDtos[i].earnedAmount+'</td>'
-			+'<td>'+data.saleDetailDtos[i].itemNumber+'</td>'
-			+'<td>'+data.saleDetailDtos[i].restItemNumber+'</td>'
-			+'<td>'+data.saleDetailDtos[i].consumedAmount+'</td>'
-			+'<td>'+data.saleDetailDtos[i].consumedEarnedAmount+'</td>'
-			+'<td>'+data.saleDetailDtos[i].advancedEarnedAmount+'</td></tr>'
-//			+'<td>'+data.saleDetailDtos[i].description+'</td></tr>';
+			html = html+'<tr><td>' +data.saleDetailDTOs[i].saleId+'</td>'
+			+'<td>'+data.saleDetailDTOs[i].createCardDate+'</td>'
+			+'<td>'+data.saleDetailDTOs[i].beautifySkinItemName+'</td>'
+			+'<td>'+data.saleDetailDTOs[i].createCardTotalAmount+'</td>'
+			+'<td>'+data.saleDetailDTOs[i].earnedAmount+'</td>'
+			+'<td>'+data.saleDetailDTOs[i].itemNumber+'</td>'
+			+'<td>'+data.saleDetailDTOs[i].restItemNumber+'</td>'
+			+'<td>'+data.saleDetailDTOs[i].consumedAmount+'</td>'
+			+'<td>'+data.saleDetailDTOs[i].consumedEarnedAmount+'</td>'
+			+'<td>'+data.saleDetailDTOs[i].advancedEarnedAmount+'</td></tr>'
+//			+'<td>'+data.saleDetailDTOs[i].description+'</td></tr>';
 			
 		}
 		$('#sale_detail_table_body').html(html);
@@ -62,14 +62,14 @@ function getSaleAllOperations(saleId){
 		ajax : 'true'
 	}, function(data) {
 		var html = '';
-		var len = data.operationDetailDtos.length; 
+		var len = data.operationDetailDTOs.length; 
 		for ( var i = 0; i < len; i++) {
-			html = html+'<tr><td>' +data.operationDetailDtos[i].operationId+'</td>'
-			+'<td>'+data.operationDetailDtos[i].operationDate+'</td>'
-			+'<td>'+data.operationDetailDtos[i].operatorName+'</td>'
-			+'<td>'+data.operationDetailDtos[i].toolName+'</td>'
-			+'<td>'+data.operationDetailDtos[i].operateExpense+'</td>'
-			+'<td>'+data.operationDetailDtos[i].description+'</td></tr>';
+			html = html+'<tr><td>' +data.operationDetailDTOs[i].operationId+'</td>'
+			+'<td>'+data.operationDetailDTOs[i].operationDate+'</td>'
+			+'<td>'+data.operationDetailDTOs[i].operatorName+'</td>'
+			+'<td>'+data.operationDetailDTOs[i].toolName+'</td>'
+			+'<td>'+data.operationDetailDTOs[i].operateExpense+'</td>'
+			+'<td>'+data.operationDetailDTOs[i].description+'</td></tr>';
 			
 		}
 		//alert(html);
@@ -98,14 +98,14 @@ function getShopAllClientsOperations(shopId){
 		ajax : 'true'
 	}, function(data) {
 		var html = '';
-		var len = data.clientDetailDtos.length;
+		var len = data.clientDetailDTOs.length;
 		for ( var i = 0; i < len; i++) {
-			html = html+'<tr><td>' +data.clientDetailDtos[i].clientName+'</td>'
-			+'<td>'+data.clientDetailDtos[i].allSalesCreateCardAmount+'</td>'
-			+'<td>'+data.clientDetailDtos[i].allSalesEarnedAmount+'</td>'
-			+'<td>'+data.clientDetailDtos[i].allSalesConsumedAmount+'</td>'
-			+'<td>'+data.clientDetailDtos[i].allSalesConsumedEarnedAmount+'</td>'
-			+'<td>'+data.clientDetailDtos[i].allSalesAdvancedEarnedAmount+'</td></tr>';
+			html = html+'<tr><td>' +data.clientDetailDTOs[i].clientName+'</td>'
+			+'<td>'+data.clientDetailDTOs[i].allSalesCreateCardAmount+'</td>'
+			+'<td>'+data.clientDetailDTOs[i].allSalesEarnedAmount+'</td>'
+			+'<td>'+data.clientDetailDTOs[i].allSalesConsumedAmount+'</td>'
+			+'<td>'+data.clientDetailDTOs[i].allSalesConsumedEarnedAmount+'</td>'
+			+'<td>'+data.clientDetailDTOs[i].allSalesAdvancedEarnedAmount+'</td></tr>';
 			
 		}
 		$('#client_detail_table_body').html(html);
@@ -127,14 +127,14 @@ function getYueHeAllShopsOperations(){
 		ajax : 'true'
 	}, function(data) {
 		var html = '';
-		var len = data.shopDetailDtos.length; 
+		var len = data.shopDetailDTOs.length; 
 		for ( var i = 0; i < len; i++) {
-			html = html+'<tr><td>' +data.shopDetailDtos[i].cosmeticShopName+'</td>'
-			+'<td>'+data.shopDetailDtos[i].allClientsCreateCardAmount+'</td>'
-			+'<td>'+data.shopDetailDtos[i].allClientsEarnedAmount+'</td>'
-			+'<td>'+data.shopDetailDtos[i].allClientsConsumedAmount+'</td>'
-			+'<td>'+data.shopDetailDtos[i].allClientsConsumedEarnedAmount+'</td>'
-			+'<td>'+data.shopDetailDtos[i].allClientsAdvancedEarnedAmount+'</td></tr>';
+			html = html+'<tr><td>' +data.shopDetailDTOs[i].cosmeticShopName+'</td>'
+			+'<td>'+data.shopDetailDTOs[i].allClientsCreateCardAmount+'</td>'
+			+'<td>'+data.shopDetailDTOs[i].allClientsEarnedAmount+'</td>'
+			+'<td>'+data.shopDetailDTOs[i].allClientsConsumedAmount+'</td>'
+			+'<td>'+data.shopDetailDTOs[i].allClientsConsumedEarnedAmount+'</td>'
+			+'<td>'+data.shopDetailDTOs[i].allClientsAdvancedEarnedAmount+'</td></tr>';
 			
 		}
 		$('#shop_detail_table_body').html(html);

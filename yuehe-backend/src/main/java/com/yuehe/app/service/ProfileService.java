@@ -9,10 +9,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.yuehe.app.dto.ClientAllSalesPerformanceDetailDto;
-import com.yuehe.app.dto.ClientDetailDto;
-import com.yuehe.app.dto.ClientShopDto;
-import com.yuehe.app.dto.ProfileDetailDto;
+import com.yuehe.app.dto.ClientAllSalesPerformanceDetailDTO;
+import com.yuehe.app.dto.ClientDetailDTO;
+import com.yuehe.app.dto.ClientShopDTO;
+import com.yuehe.app.dto.ProfileDetailDTO;
 import com.yuehe.app.entity.Client;
 
 /**
@@ -42,15 +42,15 @@ public class ProfileService {
     }
 
 
-    public ProfileDetailDto getProfileByClientId(String clientId) {
-		ClientShopDto clientShopDto = clientService.getClientDetailById(clientId);
-    	ClientDetailDto clientDetailDto = operationService.getClientSaleDetailByClientId(clientId);
-    	ClientAllSalesPerformanceDetailDto clientAllSalesPerformanceDetailDto = saleService.getClientAllSalesPerformanceDetail(clientId);
-    	ProfileDetailDto profileDetailDto = new ProfileDetailDto();
-    	profileDetailDto.setClientShopDto(clientShopDto);
-    	profileDetailDto.setClientDetailDto(clientDetailDto);
-    	profileDetailDto.setClientAllSalesPerformanceDetailDto(clientAllSalesPerformanceDetailDto);
-    	LOGGER.info("profileDetailDto {}",profileDetailDto);
-    	return profileDetailDto;
+    public ProfileDetailDTO getProfileByClientId(String clientId) {
+		ClientShopDTO clientShopDTO = clientService.getClientDetailById(clientId);
+    	ClientDetailDTO clientDetailDTO = operationService.getClientSaleDetailByClientId(clientId);
+    	ClientAllSalesPerformanceDetailDTO clientAllSalesPerformanceDetailDTO = saleService.getClientAllSalesPerformanceDetail(clientId);
+    	ProfileDetailDTO profileDetailDTO = new ProfileDetailDTO();
+    	profileDetailDTO.setClientShopDTO(clientShopDTO);
+    	profileDetailDTO.setClientDetailDTO(clientDetailDTO);
+    	profileDetailDTO.setClientAllSalesPerformanceDetailDTO(clientAllSalesPerformanceDetailDTO);
+    	LOGGER.info("profileDetailDTO {}",profileDetailDTO);
+    	return profileDetailDTO;
     }
 }

@@ -21,7 +21,7 @@ import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
-import com.yuehe.app.dto.DutyEmployeeRoleDto;
+import com.yuehe.app.dto.DutyEmployeeRoleDTO;
 import com.yuehe.app.entity.Duty;
 
 /**
@@ -29,12 +29,12 @@ import com.yuehe.app.entity.Duty;
  */
 public interface DutyRepository extends JpaRepository<Duty, Long> {
 	
-	@Query("SELECT new com.yuehe.app.dto.DutyEmployeeRoleDto(d.id,e.id,e.name, r.name,d.welfare, d.description) "
+	@Query("SELECT new com.yuehe.app.dto.DutyEmployeeRoleDTO(d.id,e.id,e.name, r.name,d.welfare, d.description) "
 			+ "FROM Duty d INNER JOIN d.employee e  INNER JOIN d.role r WHERE r.name=?1")
-    List<DutyEmployeeRoleDto> findByRoleName(String name);
+    List<DutyEmployeeRoleDTO> findByRoleName(String name);
 	
-	@Query("SELECT new com.yuehe.app.dto.DutyEmployeeRoleDto(d.id,e.id,e.name, r.name,d.welfare, d.description) "
+	@Query("SELECT new com.yuehe.app.dto.DutyEmployeeRoleDTO(d.id,e.id,e.name, r.name,d.welfare, d.description) "
 			+ "FROM Duty d INNER JOIN d.employee e  INNER JOIN d.role r")
-    List<DutyEmployeeRoleDto> fetchDutyData();
+    List<DutyEmployeeRoleDTO> fetchDutyData();
     Duty findById(String id);
 }

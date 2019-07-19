@@ -10,8 +10,8 @@ import java.util.Date;
  * @author YIXIANGZhong
  * @since 1.0
  */
-public class SaleClientItemSellerForDBDto {
-	public SaleClientItemSellerForDBDto() {
+public class SaleClientItemSellerForDBDTO {
+	public SaleClientItemSellerForDBDTO() {
 		//super();
 	}
 	private String saleId;
@@ -24,7 +24,7 @@ public class SaleClientItemSellerForDBDto {
 	private long receivedAmount;
 	private long receivedEarnedAmount;
 	private float cosmeticShopDiscount;
-	public SaleClientItemSellerForDBDto(String saleId, String clientName, String beautifySkinItemName,
+	public SaleClientItemSellerForDBDTO(String saleId, String clientName, String beautifySkinItemName,
 			String cosmeticShopName, int itemNumber, long createCardTotalAmount, int beautifySkinItemPrice,
 			long receivedAmount,long receivedEarnedAmount, float cosmeticShopDiscount, float employeePremium, float shopPremium,
 			String createCardDate, String sellerName, String description) {
@@ -143,7 +143,7 @@ public class SaleClientItemSellerForDBDto {
 	}
 	@Override
 	public String toString() {
-		return "SaleClientItemSellerForDBDto [saleId=" + saleId + ", clientName=" + clientName
+		return "SaleClientItemSellerForDBDTO [saleId=" + saleId + ", clientName=" + clientName
 				+ ", beautifySkinItemName=" + beautifySkinItemName + ", cosmeticShopName=" + cosmeticShopName
 				+ ", itemNumber=" + itemNumber + ", createCardTotalAmount=" + createCardTotalAmount
 				+ ", beautifySkinItemPrice=" + beautifySkinItemPrice + ", receivedAmount=" + receivedAmount+", receivedEarnedAmount=" + receivedEarnedAmount

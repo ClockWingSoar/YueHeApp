@@ -8,11 +8,11 @@ package com.yuehe.app.dto;
  * @author YIXIANGZhong
  * @since 1.0
  */
-public class ClientShopDto {
-	public ClientShopDto() {
+public class ClientShopDTO {
+	public ClientShopDTO() {
 		//super();
 	}
-	public ClientShopDto(String clientId, String clientName, String cosmeticShopName, int clientAge,
+	public ClientShopDTO(String clientId, String clientName, String cosmeticShopName, int clientAge,
 			String clientGender, String clientSymptom) {
 		super();
 		this.clientId = clientId;
@@ -66,7 +66,7 @@ public class ClientShopDto {
 	}
 	@Override
 	public String toString() {
-		return "ClientShopDto [clientId=" + clientId + ", clientName=" + clientName + ", cosmeticShopName="
+		return "ClientShopDTO [clientId=" + clientId + ", clientName=" + clientName + ", cosmeticShopName="
 				+ cosmeticShopName + ", clientAge=" + clientAge + ", clientGender=" + clientGender + ", clientSymptom="
 				+ clientSymptom + "]";
 	}

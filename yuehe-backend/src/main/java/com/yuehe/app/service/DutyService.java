@@ -23,7 +23,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.yuehe.app.dto.DutyEmployeeRoleDto;
+import com.yuehe.app.dto.DutyEmployeeRoleDTO;
 import com.yuehe.app.entity.Duty;
 import com.yuehe.app.repository.DutyRepository;
 
@@ -51,7 +51,7 @@ public class DutyService {
     public Duty getDutyById(String id) {
     	return dutyRepository.findById(id);
     }
-    public List<DutyEmployeeRoleDto> getAllPersonByRoleName(String name) {
+    public List<DutyEmployeeRoleDTO> getAllPersonByRoleName(String name) {
     	return dutyRepository.findByRoleName(name);
     }
     
@@ -60,8 +60,8 @@ public class DutyService {
         LOGGER.info("Saving {}", duty);
         return dutyRepository.saveAll(duty);
     }
-	public List<DutyEmployeeRoleDto> getDutyDetailList() {
-		List<DutyEmployeeRoleDto> list = dutyRepository.fetchDutyData();
+	public List<DutyEmployeeRoleDTO> getDutyDetailList() {
+		List<DutyEmployeeRoleDTO> list = dutyRepository.fetchDutyData();
 		list.forEach(l -> System.out.println(l));
 		return list;
 	}

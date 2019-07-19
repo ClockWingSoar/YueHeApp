@@ -9,8 +9,8 @@ import java.util.Date;
  * @author YIXIANGZhong
  * @since 1.0
  */
-public class OperationDetailDto {
-	public OperationDetailDto() {
+public class OperationDetailDTO {
+	public OperationDetailDTO() {
 		//super();
 	}
 	private String saleId;//销售ID
@@ -63,7 +63,7 @@ public class OperationDetailDto {
 	public void setSaleId(String saleId) {
 		this.saleId = saleId;
 	}
-	public OperationDetailDto(String saleId, String operationId, String operationDate, String operatorName,
+	public OperationDetailDTO(String saleId, String operationId, String operationDate, String operatorName,
 			String toolName, int operateExpense, String description) {
 		super();
 		this.saleId = saleId;
@@ -76,7 +76,7 @@ public class OperationDetailDto {
 	}
 	@Override
 	public String toString() {
-		return "OperationDetailDto [saleId=" + saleId + ", operationId=" + operationId + ", operationDate="
+		return "OperationDetailDTO [saleId=" + saleId + ", operationId=" + operationId + ", operationDate="
 				+ operationDate + ", operatorName=" + operatorName + ", toolName=" + toolName + ", operateExpense="
 				+ operateExpense + ", description=" + description + "]";
 	}

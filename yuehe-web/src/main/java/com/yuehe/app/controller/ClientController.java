@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.yuehe.app.dto.ClientShopDto;
+import com.yuehe.app.dto.ClientShopDTO;
 import com.yuehe.app.entity.Client;
 import com.yuehe.app.entity.CosmeticShop;
 import com.yuehe.app.service.ClientService;
@@ -43,7 +43,7 @@ public class ClientController{
 	@GetMapping("/getClientList")
 	public  String clientOverview(Model model){
 		// TODO Auto-generated method stub
-		List<ClientShopDto> clientList =new ArrayList<ClientShopDto>();
+		List<ClientShopDTO> clientList =new ArrayList<ClientShopDTO>();
 		clientList = clientService.getClientsDetailList();
 		 LOGGER.info("clientList {}", clientList);
 		 yueHeCommonService.getAllCosmeticShops(model);

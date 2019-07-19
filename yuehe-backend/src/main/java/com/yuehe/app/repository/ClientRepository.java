@@ -20,7 +20,7 @@ import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
-import com.yuehe.app.dto.ClientShopDto;
+import com.yuehe.app.dto.ClientShopDTO;
 import com.yuehe.app.entity.Client;
 
 /**
@@ -29,13 +29,13 @@ import com.yuehe.app.entity.Client;
 public interface ClientRepository extends JpaRepository<Client, Long> {
 
     List<Client> findByName(String name);
-	@Query("SELECT new com.yuehe.app.dto.ClientShopDto(c.id,c.name, s.name, c.age, c.gender,c.symptom) "
+	@Query("SELECT new com.yuehe.app.dto.ClientShopDTO(c.id,c.name, s.name, c.age, c.gender,c.symptom) "
 			+ "FROM Client c INNER JOIN c.cosmeticShop s")
-    List<ClientShopDto> fetchClientShopDataList();
+    List<ClientShopDTO> fetchClientShopDataList();
 	
-	@Query("SELECT new com.yuehe.app.dto.ClientShopDto(c.id,c.name, s.name, c.age, c.gender,c.symptom) "
+	@Query("SELECT new com.yuehe.app.dto.ClientShopDTO(c.id,c.name, s.name, c.age, c.gender,c.symptom) "
 			+ "FROM Client c INNER JOIN c.cosmeticShop s where c.id = ?1")
-	ClientShopDto fetchClientDetailById(String id);
+	ClientShopDTO fetchClientDetailById(String id);
 	
     Client findById(String id);
     @Query("select c from Client c where c.name = ?1 AND c.shopId =?2")

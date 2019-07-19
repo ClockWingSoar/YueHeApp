@@ -9,8 +9,8 @@ import java.util.List;
  * @author YIXIANGZhong
  * @since 1.0
  */
-public class SaleDetailDto extends OperationDetailDto{
-	public SaleDetailDto() {
+public class SaleDetailDTO extends OperationDetailDTO{
+	public SaleDetailDTO() {
 	}
 	private String saleId;//销售卡ID
 	private String createCardDate;//开卡日期
@@ -23,7 +23,7 @@ public class SaleDetailDto extends OperationDetailDto{
 	private long consumedEarnedAmount;//已消耗回款
 	private long advancedEarnedAmount;//预付款总数
 	private String description;//备注
-	private List<OperationDetailDto> operationDetailDtos;//单张美肤卡下面所有的操作的信息
+	private List<OperationDetailDTO> operationDetailDTOs;//单张美肤卡下面所有的操作的信息
 	public String getSaleId() {
 		return saleId;
 	}
@@ -94,13 +94,13 @@ public class SaleDetailDto extends OperationDetailDto{
 	}
 	
 	
-	public List<OperationDetailDto> getOperationDetailDtos() {
-		return operationDetailDtos;
+	public List<OperationDetailDTO> getOperationDetailDTOs() {
+		return operationDetailDTOs;
 	}
-	public void setOperationDetailDtos(List<OperationDetailDto> operationDetailDtos) {
-		this.operationDetailDtos = operationDetailDtos;
+	public void setOperationDetailDTOs(List<OperationDetailDTO> operationDetailDTOs) {
+		this.operationDetailDTOs = operationDetailDTOs;
 	}
-	public SaleDetailDto(String saleId, String createCardDate, String beautifySkinItemName, long createCardTotalAmount,
+	public SaleDetailDTO(String saleId, String createCardDate, String beautifySkinItemName, long createCardTotalAmount,
 			long earnedAmount,int itemNumber, String description, int restItemNumber, long consumedAmount, long consumedEarnedAmount,
 			long advancedEarnedAmount) {
 		super();
@@ -116,7 +116,7 @@ public class SaleDetailDto extends OperationDetailDto{
 		this.consumedEarnedAmount = consumedEarnedAmount;
 		this.advancedEarnedAmount = advancedEarnedAmount;
 	}
-	public SaleDetailDto(String saleId, String createCardDate, String beautifySkinItemName, long createCardTotalAmount,
+	public SaleDetailDTO(String saleId, String createCardDate, String beautifySkinItemName, long createCardTotalAmount,
 			long earnedAmount,int itemNumber, String description, int restItemNumber, long consumedAmount, long consumedEarnedAmount,
 			long advancedEarnedAmount,String operationId, String operationDate, String operatorName, String toolName,
 			int operateExpense, String operationDescription) {
@@ -134,12 +134,12 @@ public class SaleDetailDto extends OperationDetailDto{
 	}
 	@Override
 	public String toString() {
-		return "SaleDetailDto [saleId=" + saleId + ", createCardDate=" + createCardDate + ", beautifySkinItemName="
+		return "SaleDetailDTO [saleId=" + saleId + ", createCardDate=" + createCardDate + ", beautifySkinItemName="
 				+ beautifySkinItemName + ", createCardTotalAmount=" + createCardTotalAmount + ", earnedAmount="
 				+ earnedAmount + ", itemNumber=" + itemNumber + ", description=" + description + ", restItemNumber="
 				+ restItemNumber + ", consumedAmount=" + consumedAmount + ", consumedEarnedAmount="
-				+ consumedEarnedAmount + ", advancedEarnedAmount=" + advancedEarnedAmount + ", operationDetailDtos="
-				+ operationDetailDtos + "]";
+				+ consumedEarnedAmount + ", advancedEarnedAmount=" + advancedEarnedAmount + ", operationDetailDTOs="
+				+ operationDetailDTOs + "]";
 	}
 
 	

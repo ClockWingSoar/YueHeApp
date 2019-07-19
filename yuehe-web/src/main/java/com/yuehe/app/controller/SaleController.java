@@ -2,7 +2,9 @@ package com.yuehe.app.controller;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -12,6 +14,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,11 +26,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.yuehe.app.dto.ClientAllSalesPerformanceDetailDto;
-import com.yuehe.app.dto.SaleClientItemSellerDto;
-import com.yuehe.app.dto.SalePerformanceDetailDto;
-import com.yuehe.app.dto.ShopAllSalesPerformanceDetailDto;
-import com.yuehe.app.dto.YueHeAllSalesPerformanceDetailDto;
+import com.yuehe.app.dto.ClientAllSalesPerformanceDetailDTO;
+import com.yuehe.app.dto.SaleClientItemSellerForDBDTO;
+import com.yuehe.app.dto.SalePerformanceDetailDTO;
+import com.yuehe.app.dto.ShopAllSalesPerformanceDetailDTO;
+import com.yuehe.app.dto.YueHeAllSalesPerformanceDetailDTO;
 import com.yuehe.app.entity.Sale;
 import com.yuehe.app.service.SaleService;
 import com.yuehe.app.service.YueHeCommonService;
@@ -56,17 +60,38 @@ public class SaleController{
 		// TODO Auto-generated method stub
 		Map<String,Object> saleMap =new HashMap<String,Object>();
 //		saleList = saleService.getSalesDetailList(pageable);
-		int page = 0; //default page number is 0 (yes it is weird)
-	    int size = 10; //default page size is 10
+		int pageNumber = 0; //default page number is 0 (yes it is weird)
+	    int pageSize = 10; //default page size is 10
+	    String sort = "id,asc"; //default sort column is sale id and in ascending order
+	    String sortProperty = "id"; //default sort column is sale id
+	    Direction sortDirection = Direction.ASC; //default sort direction is ascending
 	    
         if (request.getParameter("page") != null && !request.getParameter("page").isEmpty()) {
-            page = Integer.parseInt(request.getParameter("page"));
+            pageNumber = Integer.parseInt(request.getParameter("page"));
         }
 
         if (request.getParameter("size") != null && !request.getParameter("size").isEmpty()) {
-            size = Integer.parseInt(request.getParameter("size"));
+            pageSize = Integer.parseInt(request.getParameter("size"));
         }
-        saleMap = saleService.getSalesDetailList(PageRequest.of(page, size));
+        if (request.getParameter("sort") != null && !request.getParameter("sort").isEmpty()) {
+        	sort = request.getParameter("sort");
+        }
+        String[] sortStr = sort.split(",");
+        sortProperty = sortStr[0];
+        sortDirection = Direction.fromString(sortStr[1]);
+        saleMap = saleService.getSalesDetailList(pageNumber, pageSize,sortDirection,sortProperty);
+//        	    Order.asc("shopId"),
+//        	    Order.desc("clientId"))));
+        @SuppressWarnings("unchecked")
+		Page<SaleClientItemSellerForDBDTO> saleMapPage = (Page<SaleClientItemSellerForDBDTO>)saleMap.get("salePage");
+        List<Sort.Order> sortOrders = saleMapPage.getSort().stream().collect(Collectors.toList());
+		sortOrders.forEach(l -> System.out.println(l));
+		int sortOrdersLen = sortOrders.size();
+        if (sortOrdersLen > 0) {
+			Sort.Order order = sortOrders.get(sortOrdersLen-1);			
+            model.addAttribute("sortProperty", order.getProperty());
+            model.addAttribute("sortDirection", order.getDirection() == Sort.Direction.DESC);
+        }
 		 LOGGER.info("saleMap {}", saleMap);
 		model.addAllAttributes(saleMap);
 		model.addAttribute("subModule", "saleList");
@@ -132,36 +157,36 @@ public class SaleController{
 	
 	@RequestMapping(value = "/getYueHeAllShopsSales", method = RequestMethod.GET)
 	public @ResponseBody
-	YueHeAllSalesPerformanceDetailDto  findAllSalesByYueHe() {
-		YueHeAllSalesPerformanceDetailDto yueHeAllSalesPerformanceDetailDto = saleService.getYueHeAllSalesPerformanceDetail();
-		System.out.println(yueHeAllSalesPerformanceDetailDto);
-		return yueHeAllSalesPerformanceDetailDto;
+	YueHeAllSalesPerformanceDetailDTO  findAllSalesByYueHe() {
+		YueHeAllSalesPerformanceDetailDTO yueHeAllSalesPerformanceDetailDTO = saleService.getYueHeAllSalesPerformanceDetail();
+		System.out.println(yueHeAllSalesPerformanceDetailDTO);
+		return yueHeAllSalesPerformanceDetailDTO;
 	}
 	@RequestMapping(value = "/getShopAllClientsSales", method = RequestMethod.GET)
 	public @ResponseBody
-	ShopAllSalesPerformanceDetailDto  findAllSalesByShop(
+	ShopAllSalesPerformanceDetailDTO  findAllSalesByShop(
 			@RequestParam(value = "shopId", required = true) String shopId) {
 		System.err.println("shopId-"+shopId);
-		ShopAllSalesPerformanceDetailDto shopAllSalesPerformanceDetailDto = saleService.getShopAllSalesPerformanceDetail(shopId);
-		System.out.println(shopAllSalesPerformanceDetailDto);
-		return shopAllSalesPerformanceDetailDto;
+		ShopAllSalesPerformanceDetailDTO shopAllSalesPerformanceDetailDTO = saleService.getShopAllSalesPerformanceDetail(shopId);
+		System.out.println(shopAllSalesPerformanceDetailDTO);
+		return shopAllSalesPerformanceDetailDTO;
 	}
 	@RequestMapping(value = "/getClientAllSales", method = RequestMethod.GET)
 	public @ResponseBody
-	ClientAllSalesPerformanceDetailDto  findAllSalesByClient(
+	ClientAllSalesPerformanceDetailDTO  findAllSalesByClient(
 			@RequestParam(value = "clientId", required = true) String clientId) {
 		System.err.println("clientId-"+clientId);
-		ClientAllSalesPerformanceDetailDto clientAllSalesPerformanceDetailDto = saleService.getClientAllSalesPerformanceDetail(clientId);
-		System.out.println(clientAllSalesPerformanceDetailDto);
-		return clientAllSalesPerformanceDetailDto;
+		ClientAllSalesPerformanceDetailDTO clientAllSalesPerformanceDetailDTO = saleService.getClientAllSalesPerformanceDetail(clientId);
+		System.out.println(clientAllSalesPerformanceDetailDTO);
+		return clientAllSalesPerformanceDetailDTO;
 	}
 	@RequestMapping(value = "/getSalePerformanceDetail", method = RequestMethod.GET)
 	public @ResponseBody
-	SalePerformanceDetailDto  findSalePerformanceDetailBySaleId(
+	SalePerformanceDetailDTO  findSalePerformanceDetailBySaleId(
 			@RequestParam(value = "saleId", required = true) String saleId) {
 		System.err.println("saleId-"+saleId);
-		SalePerformanceDetailDto salePerformanceDetailDto = saleService.getSalePerformanceDetail(saleId);
-		System.out.println(salePerformanceDetailDto);
-		return salePerformanceDetailDto;
+		SalePerformanceDetailDTO salePerformanceDetailDTO = saleService.getSalePerformanceDetail(saleId);
+		System.out.println(salePerformanceDetailDTO);
+		return salePerformanceDetailDTO;
 	}
 }

@@ -17,11 +17,18 @@ body {
        -moz-box-shadow: 0 1px 2px rgba(0,0,0,.05);
             box-shadow: 0 1px 2px rgba(0,0,0,.05);
 }
+.panel > .panel-body{
+  padding-top: 0px;
+}
+.panel > .panel-heading{
+  background-color: blue;
+  color: white;
+}
 .my-custom-scrollbar {
 position: relative;
-height: 400px;
+height: 460px;
 overflow: auto;
-margin: 0 auto;
+margin: 10 auto;
 white-space: nowrap;
 }
 .table-wrapper-scroll-y {
@@ -30,7 +37,9 @@ display: block;
 thead th {
   font-size: 1.2em;
   padding: 5px !important;
-  height: 25px;
+  height: 45px;
+  background: lemonchiffon;
+  position: sticky; top: 0; 
 }
 .saleRecordList {
 max-width: 800px;
@@ -53,7 +62,7 @@ bottom: .5em;
 }
 .px-2 {
   padding-left: ($spacer * .5) !important;
-  padding-right: ($spacer * .5) !important;
+  padding-right: ($spacer * .5) !important；
 }
 .ml-1 {
   margin-left: 5%

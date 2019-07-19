@@ -10,8 +10,8 @@ import java.util.List;
  * @author YIXIANGZhong
  * @since 1.0
  */
-public class ShopAllSalesPerformanceDetailDto {
-	public ShopAllSalesPerformanceDetailDto() {
+public class ShopAllSalesPerformanceDetailDTO {
+	public ShopAllSalesPerformanceDetailDTO() {
 		//super();
 	}
 	private String cosmeticShopName;
@@ -23,7 +23,7 @@ public class ShopAllSalesPerformanceDetailDto {
 	private long allClientsSalesDebtEarnedAmount;
 	private float allClientsSalesEmployeePremium;
 	private float allClientsSalesShopPremium;
-	private List<ClientAllSalesPerformanceDetailDto> clientAllSalesPerformanceDetailDtos;
+	private List<ClientAllSalesPerformanceDetailDTO> clientAllSalesPerformanceDetailDTOs;
 	public long getAllClientsSalesCreateCardTotalAmount() {
 		return allClientsSalesCreateCardTotalAmount;
 	}
@@ -72,12 +72,12 @@ public class ShopAllSalesPerformanceDetailDto {
 	public void setAllClientsSalesShopPremium(float allClientsSalesShopPremium) {
 		this.allClientsSalesShopPremium = allClientsSalesShopPremium;
 	}
-	public List<ClientAllSalesPerformanceDetailDto> getClientAllSalesPerformanceDetailDtos() {
-		return clientAllSalesPerformanceDetailDtos;
+	public List<ClientAllSalesPerformanceDetailDTO> getClientAllSalesPerformanceDetailDTOs() {
+		return clientAllSalesPerformanceDetailDTOs;
 	}
-	public void setClientAllSalesPerformanceDetailDtos(
-			List<ClientAllSalesPerformanceDetailDto> clientAllSalesPerformanceDetailDtos) {
-		this.clientAllSalesPerformanceDetailDtos = clientAllSalesPerformanceDetailDtos;
+	public void setClientAllSalesPerformanceDetailDTOs(
+			List<ClientAllSalesPerformanceDetailDTO> clientAllSalesPerformanceDetailDTOs) {
+		this.clientAllSalesPerformanceDetailDTOs = clientAllSalesPerformanceDetailDTOs;
 	}
 	
 	public String getCosmeticShopName() {
@@ -86,11 +86,11 @@ public class ShopAllSalesPerformanceDetailDto {
 	public void setCosmeticShopName(String cosmeticShopName) {
 		this.cosmeticShopName = cosmeticShopName;
 	}
-	public ShopAllSalesPerformanceDetailDto(String cosmeticShopName, long allClientsSalesCreateCardTotalAmount,
+	public ShopAllSalesPerformanceDetailDTO(String cosmeticShopName, long allClientsSalesCreateCardTotalAmount,
 			long allClientsSalesReceivedAmount, long allClientsSalesDebtAmount, long allClientsSalesEarnedAmount,
 			long allClientsSalesReceivedEarnedAmount, long allClientsSalesDebtEarnedAmount,
 			float allClientsSalesEmployeePremium, float allClientsSalesShopPremium,
-			List<ClientAllSalesPerformanceDetailDto> clientAllSalesPerformanceDetailDtos) {
+			List<ClientAllSalesPerformanceDetailDTO> clientAllSalesPerformanceDetailDTOs) {
 		super();
 		this.cosmeticShopName = cosmeticShopName;
 		this.allClientsSalesCreateCardTotalAmount = allClientsSalesCreateCardTotalAmount;
@@ -101,19 +101,19 @@ public class ShopAllSalesPerformanceDetailDto {
 		this.allClientsSalesDebtEarnedAmount = allClientsSalesDebtEarnedAmount;
 		this.allClientsSalesEmployeePremium = allClientsSalesEmployeePremium;
 		this.allClientsSalesShopPremium = allClientsSalesShopPremium;
-		this.clientAllSalesPerformanceDetailDtos = clientAllSalesPerformanceDetailDtos;
+		this.clientAllSalesPerformanceDetailDTOs = clientAllSalesPerformanceDetailDTOs;
 	}
 	@Override
 	public String toString() {
-		return "ShopAllSalesPerformanceDetailDto [cosmeticShopName=" + cosmeticShopName + ", allClientsSalesCreateCardTotalAmount="
+		return "ShopAllSalesPerformanceDetailDTO [cosmeticShopName=" + cosmeticShopName + ", allClientsSalesCreateCardTotalAmount="
 				+ allClientsSalesCreateCardTotalAmount + ", allClientsSalesReceivedAmount="
 				+ allClientsSalesReceivedAmount + ", allClientsSalesDebtAmount=" + allClientsSalesDebtAmount
 				+ ", allClientsSalesEarnedAmount=" + allClientsSalesEarnedAmount
 				+ ", allClientsSalesReceivedEarnedAmount=" + allClientsSalesReceivedEarnedAmount
 				+ ", allClientsSalesDebtEarnedAmount=" + allClientsSalesDebtEarnedAmount
 				+ ", allClientsSalesEmployeePremium=" + allClientsSalesEmployeePremium + ", allClientsSalesShopPremium="
-				+ allClientsSalesShopPremium + ", clientAllSalesPerformanceDetailDtos="
-				+ clientAllSalesPerformanceDetailDtos + "]";
+				+ allClientsSalesShopPremium + ", clientAllSalesPerformanceDetailDTOs="
+				+ clientAllSalesPerformanceDetailDTOs + "]";
 	}
 	
 	

@@ -7,42 +7,42 @@ package com.yuehe.app.dto;
  * @author YIXIANGZhong
  * @since 1.0
  */
-public class ProfileDetailDto {
-	public ProfileDetailDto() {
+public class ProfileDetailDTO {
+	public ProfileDetailDTO() {
 	}
-	private ClientDetailDto clientDetailDto;//该顾客的个人销售卡操作信息
-	private ClientShopDto clientShopDto;//该顾客的个人信息
-	private ClientAllSalesPerformanceDetailDto clientAllSalesPerformanceDetailDto;//该顾客的个人销售卡信息
-	public ClientDetailDto getClientDetailDto() {
-		return clientDetailDto;
+	private ClientDetailDTO clientDetailDTO;//该顾客的个人销售卡操作信息
+	private ClientShopDTO clientShopDTO;//该顾客的个人信息
+	private ClientAllSalesPerformanceDetailDTO clientAllSalesPerformanceDetailDTO;//该顾客的个人销售卡信息
+	public ClientDetailDTO getClientDetailDTO() {
+		return clientDetailDTO;
 	}
-	public void setClientDetailDto(ClientDetailDto clientDetailDto) {
-		this.clientDetailDto = clientDetailDto;
+	public void setClientDetailDTO(ClientDetailDTO clientDetailDTO) {
+		this.clientDetailDTO = clientDetailDTO;
 	}
-	public ClientShopDto getClientShopDto() {
-		return clientShopDto;
+	public ClientShopDTO getClientShopDTO() {
+		return clientShopDTO;
 	}
-	public void setClientShopDto(ClientShopDto clientShopDto) {
-		this.clientShopDto = clientShopDto;
+	public void setClientShopDTO(ClientShopDTO clientShopDTO) {
+		this.clientShopDTO = clientShopDTO;
 	}
-	public ClientAllSalesPerformanceDetailDto getClientAllSalesPerformanceDetailDto() {
-		return clientAllSalesPerformanceDetailDto;
+	public ClientAllSalesPerformanceDetailDTO getClientAllSalesPerformanceDetailDTO() {
+		return clientAllSalesPerformanceDetailDTO;
 	}
-	public void setClientAllSalesPerformanceDetailDto(
-			ClientAllSalesPerformanceDetailDto clientAllSalesPerformanceDetailDto) {
-		this.clientAllSalesPerformanceDetailDto = clientAllSalesPerformanceDetailDto;
+	public void setClientAllSalesPerformanceDetailDTO(
+			ClientAllSalesPerformanceDetailDTO clientAllSalesPerformanceDetailDTO) {
+		this.clientAllSalesPerformanceDetailDTO = clientAllSalesPerformanceDetailDTO;
 	}
-	public ProfileDetailDto(ClientDetailDto clientDetailDto, ClientShopDto clientShopDto,
-			ClientAllSalesPerformanceDetailDto clientAllSalesPerformanceDetailDto) {
+	public ProfileDetailDTO(ClientDetailDTO clientDetailDTO, ClientShopDTO clientShopDTO,
+			ClientAllSalesPerformanceDetailDTO clientAllSalesPerformanceDetailDTO) {
 		super();
-		this.clientDetailDto = clientDetailDto;
-		this.clientShopDto = clientShopDto;
-		this.clientAllSalesPerformanceDetailDto = clientAllSalesPerformanceDetailDto;
+		this.clientDetailDTO = clientDetailDTO;
+		this.clientShopDTO = clientShopDTO;
+		this.clientAllSalesPerformanceDetailDTO = clientAllSalesPerformanceDetailDTO;
 	}
 	@Override
 	public String toString() {
-		return "ProfileDetailDto [clientDetailDto=" + clientDetailDto + ", clientShopDto=" + clientShopDto
-				+ ", clientAllSalesPerformanceDetailDto=" + clientAllSalesPerformanceDetailDto + "]";
+		return "ProfileDetailDTO [clientDetailDTO=" + clientDetailDTO + ", clientShopDTO=" + clientShopDTO
+				+ ", clientAllSalesPerformanceDetailDTO=" + clientAllSalesPerformanceDetailDTO + "]";
 	}
 	
 	

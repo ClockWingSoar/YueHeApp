@@ -17,12 +17,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.yuehe.app.dto.ClientDetailDto;
-import com.yuehe.app.dto.OperationDetailDto;
-import com.yuehe.app.dto.SaleBeautifySkinItemForFilterDto;
-import com.yuehe.app.dto.SaleDetailDto;
-import com.yuehe.app.dto.ShopDetailDto;
-import com.yuehe.app.dto.YueHeAllShopsDetailDto;
+import com.yuehe.app.dto.ClientDetailDTO;
+import com.yuehe.app.dto.OperationDetailDTO;
+import com.yuehe.app.dto.SaleBeautifySkinItemForFilterDTO;
+import com.yuehe.app.dto.SaleDetailDTO;
+import com.yuehe.app.dto.ShopDetailDTO;
+import com.yuehe.app.dto.YueHeAllShopsDetailDTO;
 import com.yuehe.app.entity.Client;
 import com.yuehe.app.entity.Operation;
 import com.yuehe.app.service.ClientService;
@@ -59,7 +59,7 @@ public class OperationController{
 	@GetMapping("/getOperationList")
 	public  String operationOverview(Model model){
 		// TODO Auto-generated method stub
-		List<OperationDetailDto> operationList =new ArrayList<OperationDetailDto>();
+		List<OperationDetailDTO> operationList =new ArrayList<OperationDetailDTO>();
 		operationList = operationService.getAllOperationForOperationList();
 		 LOGGER.info("operationList {}", operationList);
 		model.addAttribute("operationList",operationList);
@@ -128,47 +128,47 @@ public class OperationController{
 	}
 	@RequestMapping(value = "/getClientAllSalesForFiltering", method = RequestMethod.GET)
 	public @ResponseBody
-	List<SaleBeautifySkinItemForFilterDto> findAllSalesByClientId(
+	List<SaleBeautifySkinItemForFilterDTO> findAllSalesByClientId(
 			@RequestParam(value = "clientId", required = true) String clientId) {
 		System.err.println("clientId-"+clientId);
-		List<SaleBeautifySkinItemForFilterDto> saleList = saleService.getSalesByClientId(clientId);
+		List<SaleBeautifySkinItemForFilterDTO> saleList = saleService.getSalesByClientId(clientId);
 		saleList.forEach(l -> System.out.println(l));
 		return saleList;
 	}
     
 	@RequestMapping(value = "/getSaleAllOperations", method = RequestMethod.GET)
 	public @ResponseBody
-	SaleDetailDto  findAllOperationsBySaleId(
+	SaleDetailDTO  findAllOperationsBySaleId(
 			@RequestParam(value = "saleId", required = true) String saleId) {
 		System.err.println("saleId-"+saleId);
-		SaleDetailDto saleDetailDto = operationService.getSaleOperationDetailBySaleId(saleId);
-		System.out.println(saleDetailDto);
-		return saleDetailDto;
+		SaleDetailDTO saleDetailDTO = operationService.getSaleOperationDetailBySaleId(saleId);
+		System.out.println(saleDetailDTO);
+		return saleDetailDTO;
 	}
 	@RequestMapping(value = "/getYueHeAllShopsOperations", method = RequestMethod.GET)
 	public @ResponseBody
-	SaleDetailDto  findAllOperationsByYueHe() {
-		YueHeAllShopsDetailDto yueHeAllShopsDetailDto = operationService.getYueHeAllShopsDetail();
-		System.out.println(yueHeAllShopsDetailDto);
-		return yueHeAllShopsDetailDto;
+	SaleDetailDTO  findAllOperationsByYueHe() {
+		YueHeAllShopsDetailDTO yueHeAllShopsDetailDTO = operationService.getYueHeAllShopsDetail();
+		System.out.println(yueHeAllShopsDetailDTO);
+		return yueHeAllShopsDetailDTO;
 	}
 	@RequestMapping(value = "/getShopAllClientsOperations", method = RequestMethod.GET)
 	public @ResponseBody
-	ShopDetailDto  findAllOperationsByShop(
+	ShopDetailDTO  findAllOperationsByShop(
 			@RequestParam(value = "shopId", required = true) String shopId) {
 		System.err.println("shopId-"+shopId);
-		ShopDetailDto shopDetailDto = operationService.getShopClientDetailByShopId(shopId);
-		System.out.println(shopDetailDto);
-		return shopDetailDto;
+		ShopDetailDTO shopDetailDTO = operationService.getShopClientDetailByShopId(shopId);
+		System.out.println(shopDetailDTO);
+		return shopDetailDTO;
 	}
 	@RequestMapping(value = "/getClientAllSalesOperations", method = RequestMethod.GET)
 	public @ResponseBody
-	ClientDetailDto  findAllOperationsByClient(
+	ClientDetailDTO  findAllOperationsByClient(
 			@RequestParam(value = "clientId", required = true) String clientId) {
 		System.err.println("clientId-"+clientId);
-		ClientDetailDto clientDetailDto = operationService.getClientSaleDetailByClientId(clientId);
-		System.out.println(clientDetailDto);
-		return clientDetailDto;
+		ClientDetailDTO clientDetailDTO = operationService.getClientSaleDetailByClientId(clientId);
+		System.out.println(clientDetailDTO);
+		return clientDetailDTO;
 	}
 
 }

@@ -23,10 +23,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
-import com.yuehe.app.dto.SaleBeautifySkinItemForFilterDto;
-import com.yuehe.app.dto.SaleClientItemSellerForDBDto;
-import com.yuehe.app.dto.SaleDetailForDBDto;
-import com.yuehe.app.dto.SalePerformanceDetailForDBDto;
+import com.yuehe.app.dto.SaleBeautifySkinItemForFilterDTO;
+import com.yuehe.app.dto.SaleClientItemSellerForDBDTO;
+import com.yuehe.app.dto.SaleDetailForDBDTO;
+import com.yuehe.app.dto.SalePerformanceDetailForDBDTO;
 import com.yuehe.app.entity.Sale;
 
 /**
@@ -34,7 +34,7 @@ import com.yuehe.app.entity.Sale;
  */
 public interface SaleRepository extends JpaRepository<Sale, Long> {
 
-	@Query("SELECT new com.yuehe.app.dto.SaleClientItemSellerForDBDto(s.id,c.name, b.name, p.name, "
+	@Query("SELECT new com.yuehe.app.dto.SaleClientItemSellerForDBDTO(s.id,c.name, b.name, p.name, "
 			+ "s.itemNumber,s.createCardTotalAmount,b.price,"
 			+ "s.receivedAmount,s.receivedEarnedAmount,p.discount ,s.employeePremium,s.shopPremium,"
 			+ "s.createCardDate, e.name,s.description) "
@@ -42,14 +42,14 @@ public interface SaleRepository extends JpaRepository<Sale, Long> {
 			+ "INNER JOIN s.beautifySkinItem b "
 			+ "INNER JOIN s.employee e "
 			+ "INNER JOIN c.cosmeticShop p")
-    Page<SaleClientItemSellerForDBDto> fetchSaleClientItemSellerData(Pageable pageable);
+    Page<SaleClientItemSellerForDBDTO> fetchSaleClientItemSellerData(Pageable pageable);
 	/**
 	 * To calculate the overall sale consuming situation-including consumed amount, consumed earned amount, advanced earned amount
 	  * 用于计算耗卡情况，如该销售卡的实际消耗，实际回款消耗，还有剩余的预付款等
 	 * @param id
 	 * @return
 	 */
-	@Query("SELECT new com.yuehe.app.dto.SaleDetailForDBDto(s.id,s.createCardDate, b.name,  "
+	@Query("SELECT new com.yuehe.app.dto.SaleDetailForDBDTO(s.id,s.createCardDate, b.name,  "
 			+ "s.createCardTotalAmount,s.itemNumber,"
 			+ "p.discount ,s.employeePremium,s.shopPremium,s.description) "
 			+ "FROM Sale s INNER JOIN s.beautifySkinItem b "
@@ -57,14 +57,14 @@ public interface SaleRepository extends JpaRepository<Sale, Long> {
 			+ "INNER JOIN s.employee e "
 			+ "INNER JOIN c.cosmeticShop p "
 			+ "where s.id = ?1")
-	SaleDetailForDBDto fetchSaleBasicDetailById(String id);
+	SaleDetailForDBDTO fetchSaleBasicDetailById(String id);
 	/**
 	 * To calculate the overall sale performance situation-including create card amount, received amount, debt amount etc.
 	 * 用于计算销售业绩情况，如该销售卡的开卡金额，实际收款，实际回款，还有欠款等
 	 * @param id
 	 * @return
 	 */
-	@Query("SELECT new com.yuehe.app.dto.SalePerformanceDetailForDBDto(s.id,s.createCardDate, b.name,  "
+	@Query("SELECT new com.yuehe.app.dto.SalePerformanceDetailForDBDTO(s.id,s.createCardDate, b.name,  "
 			+ "s.createCardTotalAmount,s.receivedAmount,s.receivedEarnedAmount,s.itemNumber,"
 			+ "p.discount ,s.employeePremium,s.shopPremium,s.description) "
 			+ "FROM Sale s INNER JOIN s.beautifySkinItem b "
@@ -72,7 +72,7 @@ public interface SaleRepository extends JpaRepository<Sale, Long> {
 			+ "INNER JOIN s.employee e "
 			+ "INNER JOIN c.cosmeticShop p "
 			+ "where s.id = ?1")
-	SalePerformanceDetailForDBDto fetchSalePerformanceDetailById(String id);
+	SalePerformanceDetailForDBDTO fetchSalePerformanceDetailById(String id);
 	
 	
     Sale findById(String id);
@@ -80,7 +80,7 @@ public interface SaleRepository extends JpaRepository<Sale, Long> {
     @Query("select s from Sale s where s.clientId = ?1 AND s.beautifySkinItemId = ?2 AND s.createCardDate = ?3")
     Sale findByClientIdAndItemIdAndCreateCardDate(String clientId, String beautifySkinItemId, String createCardDate);
     
-    @Query("select new com.yuehe.app.dto.SaleBeautifySkinItemForFilterDto(s.id, b.name, s.createCardDate) from Sale s "
+    @Query("select new com.yuehe.app.dto.SaleBeautifySkinItemForFilterDTO(s.id, b.name, s.createCardDate) from Sale s "
     		+ "INNER JOIN s.beautifySkinItem b where s.clientId = ?1")
-    List<SaleBeautifySkinItemForFilterDto> findByClientId(String clientId);
+    List<SaleBeautifySkinItemForFilterDTO> findByClientId(String clientId);
 }

@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.yuehe.app.dto.ProfileDetailDto;
+import com.yuehe.app.dto.ProfileDetailDTO;
 import com.yuehe.app.entity.CosmeticShop;
 import com.yuehe.app.service.ClientService;
 import com.yuehe.app.service.ProfileService;
@@ -49,11 +49,11 @@ public class ProfileController{
 	}
 	@RequestMapping(value = "/getProfileDetail", method = RequestMethod.GET)
 	public @ResponseBody
-	ProfileDetailDto  getProfileByClientId(
+	ProfileDetailDTO  getProfileByClientId(
 			@RequestParam(value = "clientId", required = true) String clientId) {
-		ProfileDetailDto profileDetailDto = profileService.getProfileByClientId(clientId);
-		System.out.println(profileDetailDto);
-		return profileDetailDto;
+		ProfileDetailDTO profileDetailDTO = profileService.getProfileByClientId(clientId);
+		System.out.println(profileDetailDTO);
+		return profileDetailDTO;
 	}
 
 	

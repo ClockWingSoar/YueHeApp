@@ -11,8 +11,8 @@ import javax.persistence.Column;
  * @author YIXIANGZhong
  * @since 1.0
  */
-public class SaleDetailForDBDto{
-	public SaleDetailForDBDto() {
+public class SaleDetailForDBDTO{
+	public SaleDetailForDBDTO() {
 	}
 //	(s.id,s.createCardDate, b.name,  "
 //			+ "s.createCardTotalAmount,s.itemNumber,b.price,"
@@ -81,7 +81,7 @@ public class SaleDetailForDBDto{
 	public void setDescription(String description) {
 		this.description = description;
 	}
-	public SaleDetailForDBDto(String saleId, String createCardDate, String beautifySkinItemName,
+	public SaleDetailForDBDTO(String saleId, String createCardDate, String beautifySkinItemName,
 			long createCardTotalAmount, int itemNumber, float cosmeticShopDiscount,
 			float employeePremium, float shopPremium, String description) {
 		//super();
@@ -97,7 +97,7 @@ public class SaleDetailForDBDto{
 	}
 	@Override
 	public String toString() {
-		return "SaleDetailForDBDto [saleId=" + saleId + ", createCardDate=" + createCardDate + ", beautifySkinItemName="
+		return "SaleDetailForDBDTO [saleId=" + saleId + ", createCardDate=" + createCardDate + ", beautifySkinItemName="
 				+ beautifySkinItemName + ", createCardTotalAmount=" + createCardTotalAmount + ", itemNumber="
 				+ itemNumber + ", cosmeticShopDiscount="
 				+ cosmeticShopDiscount + ", employeePremium=" + employeePremium + ", shopPremium=" + shopPremium

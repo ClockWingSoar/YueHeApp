@@ -12,7 +12,6 @@
 	<properties>
 		<java.version>1.8</java.version>
 		 <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<bootstrap.version>4.2.1</bootstrap.version>
 	</properties>
 <!-- parent pom -->
     <parent>
@@ -31,21 +30,12 @@
 			  <artifactId>yuehe-backend</artifactId>
 			  <version>0.0.1-SNAPSHOT</version>
         </dependency>
-           <!-- Optional, for bootstrap -->
-        <dependency>
-            <groupId>org.webjars</groupId>
-            <artifactId>bootstrap</artifactId>
-            <version>${bootstrap.version}</version>
+		 <dependency>
+             <groupId>com.yuehe.app.common</groupId>
+			  <artifactId>yuehe-common</artifactId>
+			  <version>0.0.1-SNAPSHOT</version>
         </dependency>
-            <dependency>
-	    <groupId>org.webjars</groupId>
-		    <artifactId>webjars-locator-core</artifactId>
-		</dependency>
-		<!-- web mvc -->	
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
-        </dependency>
+   
 
         <!-- thymeleaf -->
         <dependency>

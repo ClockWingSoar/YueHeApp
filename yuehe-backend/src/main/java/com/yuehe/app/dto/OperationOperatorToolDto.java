@@ -8,8 +8,8 @@ package com.yuehe.app.dto;
  * @author YIXIANGZhong
  * @since 1.0
  */
-public class OperationOperatorToolDto {
-	public OperationOperatorToolDto() {
+public class OperationOperatorToolDTO {
+	public OperationOperatorToolDTO() {
 		//super();
 	}
 	//private String operationId;//操作ID
@@ -159,7 +159,7 @@ public class OperationOperatorToolDto {
 	}
 	
 	
-	public OperationOperatorToolDto(String operationId, String saleId, String createCardDate, String operationDate,
+	public OperationOperatorToolDTO(String operationId, String saleId, String createCardDate, String operationDate,
 			String clientName, String cosmeticShopName, String beautifySkinItemName, long createCardTotalAmount,
 			long earnedTotalAmount, int totalItemNumber, int restItemNumber, long consumedTotalAmount,
 			long consumedEarnedTotalAmount, long advancedEarnedTotalAmount, String operatorName, String toolName,
@@ -186,7 +186,7 @@ public class OperationOperatorToolDto {
 	}
 	@Override
 	public String toString() {
-		return "OperationOpertatorToolDto [operationId=" + operationId + ", saleId=" + saleId + ", createCardDate="
+		return "OperationOpertatorToolDTO [operationId=" + operationId + ", saleId=" + saleId + ", createCardDate="
 				+ createCardDate + ", operationDate=" + operationDate + ", clientName=" + clientName
 				+ ", cosmeticShopName=" + cosmeticShopName + ", beautifySkinItemName=" + beautifySkinItemName
 				+ ", createCardTotalAmount=" + createCardTotalAmount + ", earnedTotalAmount=" + earnedTotalAmount

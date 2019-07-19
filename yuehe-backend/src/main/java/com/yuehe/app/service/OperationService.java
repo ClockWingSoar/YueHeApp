@@ -26,13 +26,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.yuehe.app.dto.ClientDetailDto;
-import com.yuehe.app.dto.OperationDetailDto;
-import com.yuehe.app.dto.SaleBeautifySkinItemForFilterDto;
-import com.yuehe.app.dto.SaleDetailDto;
-import com.yuehe.app.dto.SaleDetailForDBDto;
-import com.yuehe.app.dto.ShopDetailDto;
-import com.yuehe.app.dto.YueHeAllShopsDetailDto;
+import com.yuehe.app.dto.ClientDetailDTO;
+import com.yuehe.app.dto.OperationDetailDTO;
+import com.yuehe.app.dto.SaleBeautifySkinItemForFilterDTO;
+import com.yuehe.app.dto.SaleDetailDTO;
+import com.yuehe.app.dto.SaleDetailForDBDTO;
+import com.yuehe.app.dto.ShopDetailDTO;
+import com.yuehe.app.dto.YueHeAllShopsDetailDTO;
 import com.yuehe.app.entity.Client;
 import com.yuehe.app.entity.CosmeticShop;
 import com.yuehe.app.entity.Operation;
@@ -69,7 +69,7 @@ public class OperationService {
     public List<Operation> getAllOriginalOperation() {
         return operationRepository.findAll();
     }
-    public List<OperationDetailDto> getAllOperationForOperationList() {
+    public List<OperationDetailDTO> getAllOperationForOperationList() {
     	return operationRepository.findAllOperationList();
     }
     public Operation getOperationById(String id) {
@@ -80,13 +80,13 @@ public class OperationService {
     }
 	/**
 	 * To get all the operation details for yuehe all shops-all clients-all sales
-	 * @return yueHeAllShopsDetailDto
+	 * @return yueHeAllShopsDetailDTO
 	 */
-	public YueHeAllShopsDetailDto getYueHeAllShopsDetail() {
-		YueHeAllShopsDetailDto yueHeAllShopsDetailDto = new YueHeAllShopsDetailDto();
-		List<ShopDetailDto> shopDetailDtoList = new ArrayList<ShopDetailDto>();
+	public YueHeAllShopsDetailDTO getYueHeAllShopsDetail() {
+		YueHeAllShopsDetailDTO yueHeAllShopsDetailDTO = new YueHeAllShopsDetailDTO();
+		List<ShopDetailDTO> shopDetailDTOList = new ArrayList<ShopDetailDTO>();
 		List<CosmeticShop> cosmeticShopList = cosmeticShopService.getAllCosmeticShopForFiltering();
-		//it only has one instance of YueHeAllShopsDetailDto, but to use the common method convertOperationDto()
+		//it only has one instance of YueHeAllShopsDetailDTO, but to use the common method convertOperationDTO()
 		//I have to put it in a list
 		long allShopsConsumedAmount = 0;//for all shop's all client's all sales
 		long allShopsAdvancedEarnedAmount = 0;//for all shop's all client's all sales
@@ -94,122 +94,122 @@ public class OperationService {
 		long allShopsEarnedAmount = 0;//for all shop's all client's all sales
 		long allShopsConsumedEarnedAmount = 0;//for all shop's all client's all sales
 		for(CosmeticShop cosmeticShop : cosmeticShopList) {
-			ShopDetailDto shopDetailDto = getShopClientDetailByShopId(cosmeticShop.getId());
-			shopDetailDtoList.add(shopDetailDto);
-			long allClientsConsumedAmount = shopDetailDto.getAllClientsConsumedAmount();
-    		long allClientsAdvancedEarnedAmount = shopDetailDto.getAllClientsAdvancedEarnedAmount();
-    		long allClientsCreateCardTotalAmount = shopDetailDto.getAllClientsCreateCardAmount();
-    		long allClientsEarnedAmount = shopDetailDto.getAllClientsEarnedAmount();
-    		long allClientsConsumedEarnedAmount = shopDetailDto.getAllClientsConsumedEarnedAmount();
+			ShopDetailDTO shopDetailDTO = getShopClientDetailByShopId(cosmeticShop.getId());
+			shopDetailDTOList.add(shopDetailDTO);
+			long allClientsConsumedAmount = shopDetailDTO.getAllClientsConsumedAmount();
+    		long allClientsAdvancedEarnedAmount = shopDetailDTO.getAllClientsAdvancedEarnedAmount();
+    		long allClientsCreateCardTotalAmount = shopDetailDTO.getAllClientsCreateCardAmount();
+    		long allClientsEarnedAmount = shopDetailDTO.getAllClientsEarnedAmount();
+    		long allClientsConsumedEarnedAmount = shopDetailDTO.getAllClientsConsumedEarnedAmount();
     		allShopsConsumedAmount += allClientsConsumedAmount;
     		allShopsAdvancedEarnedAmount += allClientsAdvancedEarnedAmount;
     		allShopsCreateCardTotalAmount += allClientsCreateCardTotalAmount;
     		allShopsEarnedAmount += allClientsEarnedAmount;
     		allShopsConsumedEarnedAmount += allClientsConsumedEarnedAmount;
 		}
-		yueHeAllShopsDetailDto.setYueheCompanyName("悦和国际");
-		yueHeAllShopsDetailDto.setShopDetailDtos(shopDetailDtoList);
-		yueHeAllShopsDetailDto.setAllShopsAdvancedEarnedAmount(allShopsAdvancedEarnedAmount);
-		yueHeAllShopsDetailDto.setAllShopsConsumedAmount(allShopsConsumedAmount);
-		yueHeAllShopsDetailDto.setAllShopsConsumedEarnedAmount(allShopsConsumedEarnedAmount);
-		yueHeAllShopsDetailDto.setAllShopsCreateCardTotalAmount(allShopsCreateCardTotalAmount);
-		yueHeAllShopsDetailDto.setAllShopsEarnedAmount(allShopsEarnedAmount);
-		return yueHeAllShopsDetailDto;
+		yueHeAllShopsDetailDTO.setYueheCompanyName("悦和国际");
+		yueHeAllShopsDetailDTO.setShopDetailDTOs(shopDetailDTOList);
+		yueHeAllShopsDetailDTO.setAllShopsAdvancedEarnedAmount(allShopsAdvancedEarnedAmount);
+		yueHeAllShopsDetailDTO.setAllShopsConsumedAmount(allShopsConsumedAmount);
+		yueHeAllShopsDetailDTO.setAllShopsConsumedEarnedAmount(allShopsConsumedEarnedAmount);
+		yueHeAllShopsDetailDTO.setAllShopsCreateCardTotalAmount(allShopsCreateCardTotalAmount);
+		yueHeAllShopsDetailDTO.setAllShopsEarnedAmount(allShopsEarnedAmount);
+		return yueHeAllShopsDetailDTO;
 	}
     
-    public ShopDetailDto getShopClientDetailByShopId(String shopId) {
+    public ShopDetailDTO getShopClientDetailByShopId(String shopId) {
     	List<Client> clientListByShopId = clientService.getClientsByShopId(shopId);
-    	List<ClientDetailDto> clientDetailDtoList = new ArrayList<ClientDetailDto>();
+    	List<ClientDetailDTO> clientDetailDTOList = new ArrayList<ClientDetailDTO>();
     
     	String shopName = cosmeticShopService.getCosmeticShopById(shopId).getName();
-    	ShopDetailDto shopDetailDto = new ShopDetailDto();
+    	ShopDetailDTO shopDetailDTO = new ShopDetailDTO();
     	long allClientsConsumedAmount = 0;//for one shop all client's all sales
 		long allClientsAdvancedEarnedAmount = 0;//for one shop all client's all sales
 		long allClientsCreateCardTotalAmount = 0;//for one shop all client's all sales
 		long allClientsEarnedAmount = 0;//for one shop all client's all sales
 		long allClientsConsumedEarnedAmount = 0;//for one shop all client's all sales
 		for(Client client : clientListByShopId) {
-    		ClientDetailDto clientDetailDto = getClientSaleDetailByClientId(client.getId());
-    		clientDetailDtoList.add(clientDetailDto);
-    		long allSalesConsumedAmount = clientDetailDto.getAllSalesConsumedAmount();
-    		long allSalesAdvancedEarnedAmount = clientDetailDto.getAllSalesAdvancedEarnedAmount();
-    		long allSalesCreateCardTotalAmount = clientDetailDto.getAllSalesCreateCardAmount();
-    		long allSalesEarnedAmount = clientDetailDto.getAllSalesEarnedAmount();
-    		long allSalesConsumedEarnedAmount = clientDetailDto.getAllSalesConsumedEarnedAmount();
+    		ClientDetailDTO clientDetailDTO = getClientSaleDetailByClientId(client.getId());
+    		clientDetailDTOList.add(clientDetailDTO);
+    		long allSalesConsumedAmount = clientDetailDTO.getAllSalesConsumedAmount();
+    		long allSalesAdvancedEarnedAmount = clientDetailDTO.getAllSalesAdvancedEarnedAmount();
+    		long allSalesCreateCardTotalAmount = clientDetailDTO.getAllSalesCreateCardAmount();
+    		long allSalesEarnedAmount = clientDetailDTO.getAllSalesEarnedAmount();
+    		long allSalesConsumedEarnedAmount = clientDetailDTO.getAllSalesConsumedEarnedAmount();
     		allClientsConsumedAmount += allSalesConsumedAmount;
     		allClientsAdvancedEarnedAmount += allSalesAdvancedEarnedAmount;
     		allClientsCreateCardTotalAmount += allSalesCreateCardTotalAmount;
     		allClientsEarnedAmount += allSalesEarnedAmount;
     		allClientsConsumedEarnedAmount += allSalesConsumedEarnedAmount;
     	}
-    	shopDetailDto.setClientDetailDtos(clientDetailDtoList);
-    	shopDetailDto.setCosmeticShopName(shopName);
-    	shopDetailDto.setAllClientsAdvancedEarnedAmount(allClientsAdvancedEarnedAmount);
-    	shopDetailDto.setAllClientsConsumedAmount(allClientsConsumedAmount);
-    	shopDetailDto.setAllClientsConsumedEarnedAmount(allClientsConsumedEarnedAmount);
-    	shopDetailDto.setAllClientsCreateCardAmount(allClientsCreateCardTotalAmount);
-    	shopDetailDto.setAllClientsEarnedAmount(allClientsEarnedAmount);
-    	return shopDetailDto;
+    	shopDetailDTO.setClientDetailDTOs(clientDetailDTOList);
+    	shopDetailDTO.setCosmeticShopName(shopName);
+    	shopDetailDTO.setAllClientsAdvancedEarnedAmount(allClientsAdvancedEarnedAmount);
+    	shopDetailDTO.setAllClientsConsumedAmount(allClientsConsumedAmount);
+    	shopDetailDTO.setAllClientsConsumedEarnedAmount(allClientsConsumedEarnedAmount);
+    	shopDetailDTO.setAllClientsCreateCardAmount(allClientsCreateCardTotalAmount);
+    	shopDetailDTO.setAllClientsEarnedAmount(allClientsEarnedAmount);
+    	return shopDetailDTO;
     }
     
-    public ClientDetailDto getClientSaleDetailByClientId(String clientId) {
-    	List<SaleDetailDto> saleDetailDtoList = getAllSalesDetailByClientId(clientId);
+    public ClientDetailDTO getClientSaleDetailByClientId(String clientId) {
+    	List<SaleDetailDTO> saleDetailDTOList = getAllSalesDetailByClientId(clientId);
     	String clientName = clientService.getClientById(clientId).getName();
-    	ClientDetailDto clientDetailDto = new ClientDetailDto();
+    	ClientDetailDTO clientDetailDTO = new ClientDetailDTO();
     	long allSalesConsumedAmount = 0;//for one client's all sales
 		long allSalesAdvancedEarnedAmount = 0;//for one client's all sales
 		long allSalesCreateCardTotalAmount = 0;//for one client's all sales
 		long allSalesEarnedAmount = 0;//for one client's all sales
 		long allSalesConsumedEarnedAmount = 0;//for one client's all sales
-    	for(SaleDetailDto saleDetailDto : saleDetailDtoList) {
-    		long consumedAmount = saleDetailDto.getConsumedAmount();
-    		long advancedEarnedAmount = saleDetailDto.getAdvancedEarnedAmount();
-    		long createCardtotalAmount = saleDetailDto.getCreateCardTotalAmount();
-    		long earnedAmount = saleDetailDto.getEarnedAmount();
-    		long consumedEarnedAmount = saleDetailDto.getConsumedEarnedAmount();
+    	for(SaleDetailDTO saleDetailDTO : saleDetailDTOList) {
+    		long consumedAmount = saleDetailDTO.getConsumedAmount();
+    		long advancedEarnedAmount = saleDetailDTO.getAdvancedEarnedAmount();
+    		long createCardtotalAmount = saleDetailDTO.getCreateCardTotalAmount();
+    		long earnedAmount = saleDetailDTO.getEarnedAmount();
+    		long consumedEarnedAmount = saleDetailDTO.getConsumedEarnedAmount();
     		allSalesConsumedAmount += consumedAmount;
     		allSalesAdvancedEarnedAmount += advancedEarnedAmount;
     		allSalesCreateCardTotalAmount += createCardtotalAmount;
     		allSalesEarnedAmount += earnedAmount;
     		allSalesConsumedEarnedAmount += consumedEarnedAmount;
     	}
-    	clientDetailDto.setSaleDetailDtos(saleDetailDtoList);
-    	clientDetailDto.setClientName(clientName);
-    	clientDetailDto.setAllSalesAdvancedEarnedAmount(allSalesAdvancedEarnedAmount);
-    	clientDetailDto.setAllSalesConsumedAmount(allSalesConsumedAmount);
-    	clientDetailDto.setAllSalesConsumedEarnedAmount(allSalesConsumedEarnedAmount);
-    	clientDetailDto.setAllSalesCreateCardAmount(allSalesCreateCardTotalAmount);
-    	clientDetailDto.setAllSalesEarnedAmount(allSalesEarnedAmount);
-    	return clientDetailDto;
+    	clientDetailDTO.setSaleDetailDTOs(saleDetailDTOList);
+    	clientDetailDTO.setClientName(clientName);
+    	clientDetailDTO.setAllSalesAdvancedEarnedAmount(allSalesAdvancedEarnedAmount);
+    	clientDetailDTO.setAllSalesConsumedAmount(allSalesConsumedAmount);
+    	clientDetailDTO.setAllSalesConsumedEarnedAmount(allSalesConsumedEarnedAmount);
+    	clientDetailDTO.setAllSalesCreateCardAmount(allSalesCreateCardTotalAmount);
+    	clientDetailDTO.setAllSalesEarnedAmount(allSalesEarnedAmount);
+    	return clientDetailDTO;
     }
     
-    public SaleDetailDto getSaleOperationDetailBySaleId(String saleId) {
-    	List<OperationDetailDto> operationDetailDtoList = getOperationsBySaleId(saleId);
-    	SaleDetailDto saleDetailDto = getSaleBasicDetailById(saleId);
-    	saleDetailDto.setOperationDetailDtos(operationDetailDtoList);
-    	return saleDetailDto;
+    public SaleDetailDTO getSaleOperationDetailBySaleId(String saleId) {
+    	List<OperationDetailDTO> operationDetailDTOList = getOperationsBySaleId(saleId);
+    	SaleDetailDTO saleDetailDTO = getSaleBasicDetailById(saleId);
+    	saleDetailDTO.setOperationDetailDTOs(operationDetailDTOList);
+    	return saleDetailDTO;
     }
-    public List<SaleDetailDto> getAllSalesDetailByClientId(String ClientId){
-    	List<SaleDetailDto> saleDetailDtoList = new ArrayList<SaleDetailDto>();
-    	 List<SaleBeautifySkinItemForFilterDto> saleListByClient =  saleService.getByClientId(ClientId);
-    	 for(SaleBeautifySkinItemForFilterDto saleBeautifySkinItemForFilterDto : saleListByClient) {
-    		 String saleId = saleBeautifySkinItemForFilterDto.getSaleId();
-    		 SaleDetailDto saleDetailDto = getSaleBasicDetailById(saleId);
-    		 saleDetailDtoList.add(saleDetailDto);
+    public List<SaleDetailDTO> getAllSalesDetailByClientId(String ClientId){
+    	List<SaleDetailDTO> saleDetailDTOList = new ArrayList<SaleDetailDTO>();
+    	 List<SaleBeautifySkinItemForFilterDTO> saleListByClient =  saleService.getByClientId(ClientId);
+    	 for(SaleBeautifySkinItemForFilterDTO saleBeautifySkinItemForFilterDTO : saleListByClient) {
+    		 String saleId = saleBeautifySkinItemForFilterDTO.getSaleId();
+    		 SaleDetailDTO saleDetailDTO = getSaleBasicDetailById(saleId);
+    		 saleDetailDTOList.add(saleDetailDTO);
     		 
     	 }
-    	 return saleDetailDtoList;
+    	 return saleDetailDTOList;
     	
     }
-    private SaleDetailDto getSaleBasicDetailById(String id) {
-    	SaleDetailForDBDto saleDetailForDBDto = saleService.getSaleBasicDetailById(id);
-    	SaleDetailDto saleDetailDto = new SaleDetailDto();
-		String saleId = saleDetailForDBDto.getSaleId();
-		float cosmeticShopDiscount = saleDetailForDBDto.getCosmeticShopDiscount();
-		long createCardTotalAmount =  saleDetailForDBDto.getCreateCardTotalAmount();
-		long employeePremium = new Float(saleDetailForDBDto.getEmployeePremium()).longValue();//员工奖励
-		long shopPremium = new Float(saleDetailForDBDto.getShopPremium()).longValue();//美容院回扣
-		int itemNumber = saleDetailForDBDto.getItemNumber();
+    private SaleDetailDTO getSaleBasicDetailById(String id) {
+    	SaleDetailForDBDTO saleDetailForDBDTO = saleService.getSaleBasicDetailById(id);
+    	SaleDetailDTO saleDetailDTO = new SaleDetailDTO();
+		String saleId = saleDetailForDBDTO.getSaleId();
+		float cosmeticShopDiscount = saleDetailForDBDTO.getCosmeticShopDiscount();
+		long createCardTotalAmount =  saleDetailForDBDTO.getCreateCardTotalAmount();
+		long employeePremium = new Float(saleDetailForDBDTO.getEmployeePremium()).longValue();//员工奖励
+		long shopPremium = new Float(saleDetailForDBDTO.getShopPremium()).longValue();//美容院回扣
+		int itemNumber = saleDetailForDBDTO.getItemNumber();
 		//回给公司的回款计算方法为：开卡金额 * 店家折扣点 - 给员工的奖励 - 给店家的回扣（柳叶需扣除业绩的1%）
 		long earnedAmount = new Double(createCardTotalAmount*cosmeticShopDiscount).longValue()-employeePremium-shopPremium;
 		int operationNumber = getOperationNumberBySaleId(saleId);//操作次数
@@ -219,25 +219,25 @@ public class OperationService {
 		long consumedEarnedAmount = new Double(operationNumber*unitPrice*cosmeticShopDiscount).longValue();//已消耗回款
 		long advancedEarnedAmount = earnedAmount-consumedEarnedAmount;//预付款只计算回款的部分，不包括美容院的
 		
-		saleDetailDto.setSaleId(saleId);
-		saleDetailDto.setCreateCardDate(saleDetailForDBDto.getCreateCardDate());
-		saleDetailDto.setBeautifySkinItemName(saleDetailForDBDto.getBeautifySkinItemName());
-		saleDetailDto.setCreateCardTotalAmount(createCardTotalAmount);
-		saleDetailDto.setEarnedAmount(earnedAmount);
-		saleDetailDto.setItemNumber(itemNumber);
-		saleDetailDto.setDescription(saleDetailForDBDto.getDescription());
-		saleDetailDto.setRestItemNumber(restItemNumber);
-		saleDetailDto.setConsumedAmount(consumedAmount);
-		saleDetailDto.setConsumedEarnedAmount(consumedEarnedAmount);
-		saleDetailDto.setAdvancedEarnedAmount(advancedEarnedAmount);
+		saleDetailDTO.setSaleId(saleId);
+		saleDetailDTO.setCreateCardDate(saleDetailForDBDTO.getCreateCardDate());
+		saleDetailDTO.setBeautifySkinItemName(saleDetailForDBDTO.getBeautifySkinItemName());
+		saleDetailDTO.setCreateCardTotalAmount(createCardTotalAmount);
+		saleDetailDTO.setEarnedAmount(earnedAmount);
+		saleDetailDTO.setItemNumber(itemNumber);
+		saleDetailDTO.setDescription(saleDetailForDBDTO.getDescription());
+		saleDetailDTO.setRestItemNumber(restItemNumber);
+		saleDetailDTO.setConsumedAmount(consumedAmount);
+		saleDetailDTO.setConsumedEarnedAmount(consumedEarnedAmount);
+		saleDetailDTO.setAdvancedEarnedAmount(advancedEarnedAmount);
 			
     		
-    	return saleDetailDto;
+    	return saleDetailDTO;
     }
     
-    private List<OperationDetailDto> getOperationsBySaleId(String saleId) {
-    	List<OperationDetailDto> operationDetailDtoList = operationRepository.findBySaleId(saleId);
-    	return operationDetailDtoList;
+    private List<OperationDetailDTO> getOperationsBySaleId(String saleId) {
+    	List<OperationDetailDTO> operationDetailDTOList = operationRepository.findBySaleId(saleId);
+    	return operationDetailDTOList;
     }
     
     @Transactional(rollbackFor = Exception.class)

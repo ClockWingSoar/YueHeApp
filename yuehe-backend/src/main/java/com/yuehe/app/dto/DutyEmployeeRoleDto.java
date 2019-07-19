@@ -8,8 +8,8 @@ package com.yuehe.app.dto;
  * @author YIXIANGZhong
  * @since 1.0
  */
-public class DutyEmployeeRoleDto {
-	public DutyEmployeeRoleDto() {
+public class DutyEmployeeRoleDTO {
+	public DutyEmployeeRoleDTO() {
 		//super();
 	}
 	private String id;
@@ -58,7 +58,7 @@ public class DutyEmployeeRoleDto {
 		this.description = description;
 	}
 
-	public DutyEmployeeRoleDto(String id, String employeeId, String employeeName, String roleName, int welfare,
+	public DutyEmployeeRoleDTO(String id, String employeeId, String employeeName, String roleName, int welfare,
 			String description) {
 		super();
 		this.id = id;
@@ -71,7 +71,7 @@ public class DutyEmployeeRoleDto {
 
 	@Override
 	public String toString() {
-		return "DutyEmployeeRoleDto [id=" + id + ", employeeId=" + employeeId + ", employeeName=" + employeeName
+		return "DutyEmployeeRoleDTO [id=" + id + ", employeeId=" + employeeId + ", employeeName=" + employeeName
 				+ ", roleName=" + roleName + ", welfare=" + welfare + ", description=" + description + "]";
 	}
 }

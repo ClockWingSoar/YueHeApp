@@ -9,8 +9,8 @@ import java.util.List;
  * @author YIXIANGZhong
  * @since 1.0
  */
-public class YueHeAllShopsDetailDto extends ShopDetailDto{
-	public YueHeAllShopsDetailDto() {
+public class YueHeAllShopsDetailDTO extends ShopDetailDTO{
+	public YueHeAllShopsDetailDTO() {
 		//super();
 	}
 	private String yueheCompanyName;//悦和国际的大名
@@ -19,7 +19,7 @@ public class YueHeAllShopsDetailDto extends ShopDetailDto{
 	private long allShopsConsumedAmount;//悦和所有店的总消耗款
 	private long allShopsConsumedEarnedAmount;//悦和所有店的总消耗回款
 	private long allShopsAdvancedEarnedAmount;//悦和所有店的总预付款
-	private List<ShopDetailDto> shopDetailDtos;//悦和下面所有的店的信息
+	private List<ShopDetailDTO> shopDetailDTOs;//悦和下面所有的店的信息
 	public String getYueheCompanyName() {
 		return yueheCompanyName;
 	}
@@ -57,13 +57,13 @@ public class YueHeAllShopsDetailDto extends ShopDetailDto{
 		this.allShopsAdvancedEarnedAmount = allShopsAdvancedEarnedAmount;
 	}
 	
-	public List<ShopDetailDto> getShopDetailDtos() {
-		return shopDetailDtos;
+	public List<ShopDetailDTO> getShopDetailDTOs() {
+		return shopDetailDTOs;
 	}
-	public void setShopDetailDtos(List<ShopDetailDto> shopDetailDtos) {
-		this.shopDetailDtos = shopDetailDtos;
+	public void setShopDetailDTOs(List<ShopDetailDTO> shopDetailDTOs) {
+		this.shopDetailDTOs = shopDetailDTOs;
 	}
-	public YueHeAllShopsDetailDto(String yueheCompanyName, long allShopsCreateCardTotalAmount,
+	public YueHeAllShopsDetailDTO(String yueheCompanyName, long allShopsCreateCardTotalAmount,
 			long allShopsEarnedAmount, long allShopsConsumedAmount, long allShopsConsumedEarnedAmount,
 			long allShopsAdvancedEarnedAmount) {
 		super();
@@ -76,7 +76,7 @@ public class YueHeAllShopsDetailDto extends ShopDetailDto{
 	}
 	@Override
 	public String toString() {
-		return "YueHeAllShopsDetailDto [yueheCompanyName=" + yueheCompanyName + ", allShopsCreateCardTotalAmount="
+		return "YueHeAllShopsDetailDTO [yueheCompanyName=" + yueheCompanyName + ", allShopsCreateCardTotalAmount="
 				+ allShopsCreateCardTotalAmount + ", allShopsEarnedAmount=" + allShopsEarnedAmount
 				+ ", allShopsConsumedAmount=" + allShopsConsumedAmount
 				+ ", allShopsConsumedEarnedAmount=" + allShopsConsumedEarnedAmount

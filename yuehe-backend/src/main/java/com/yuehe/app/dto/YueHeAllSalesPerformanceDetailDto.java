@@ -10,8 +10,8 @@ import java.util.List;
  * @author YIXIANGZhong
  * @since 1.0
  */
-public class YueHeAllSalesPerformanceDetailDto {
-	public YueHeAllSalesPerformanceDetailDto() {
+public class YueHeAllSalesPerformanceDetailDTO {
+	public YueHeAllSalesPerformanceDetailDTO() {
 		//super();
 	}
 	private String companyName;
@@ -23,7 +23,7 @@ public class YueHeAllSalesPerformanceDetailDto {
 	private long allShopsSalesDebtEarnedAmount;
 	private float allShopsSalesEmployeePremium;
 	private float allShopsSalesShopPremium;
-	private List<ShopAllSalesPerformanceDetailDto> shopAllSalesPerformanceDetailDtos;
+	private List<ShopAllSalesPerformanceDetailDTO> shopAllSalesPerformanceDetailDTOs;
 	public long getAllShopsSalesCreateCardTotalAmount() {
 		return allShopsSalesCreateCardTotalAmount;
 	}
@@ -72,12 +72,12 @@ public class YueHeAllSalesPerformanceDetailDto {
 	public void setAllShopsSalesShopPremium(float allShopsSalesShopPremium) {
 		this.allShopsSalesShopPremium = allShopsSalesShopPremium;
 	}
-	public List<ShopAllSalesPerformanceDetailDto> getShopAllSalesPerformanceDetailDtos() {
-		return shopAllSalesPerformanceDetailDtos;
+	public List<ShopAllSalesPerformanceDetailDTO> getShopAllSalesPerformanceDetailDTOs() {
+		return shopAllSalesPerformanceDetailDTOs;
 	}
-	public void setShopAllSalesPerformanceDetailDtos(
-			List<ShopAllSalesPerformanceDetailDto> shopAllSalesPerformanceDetailDtos) {
-		this.shopAllSalesPerformanceDetailDtos = shopAllSalesPerformanceDetailDtos;
+	public void setShopAllSalesPerformanceDetailDTOs(
+			List<ShopAllSalesPerformanceDetailDTO> shopAllSalesPerformanceDetailDTOs) {
+		this.shopAllSalesPerformanceDetailDTOs = shopAllSalesPerformanceDetailDTOs;
 	}
 	
 	public String getCompanyName() {
@@ -86,11 +86,11 @@ public class YueHeAllSalesPerformanceDetailDto {
 	public void setCompanyName(String companyName) {
 		this.companyName = companyName;
 	}
-	public YueHeAllSalesPerformanceDetailDto(String companyName, long allShopsSalesCreateCardTotalAmount,
+	public YueHeAllSalesPerformanceDetailDTO(String companyName, long allShopsSalesCreateCardTotalAmount,
 			long allShopsSalesReceivedAmount, long allShopsSalesDebtAmount, long allShopsSalesEarnedAmount,
 			long allShopsSalesReceivedEarnedAmount, long allShopsSalesDebtEarnedAmount,
 			float allShopsSalesEmployeePremium, float allShopsSalesShopPremium,
-			List<ShopAllSalesPerformanceDetailDto> shopAllSalesPerformanceDetailDtos) {
+			List<ShopAllSalesPerformanceDetailDTO> shopAllSalesPerformanceDetailDTOs) {
 		super();
 		this.companyName = companyName;
 		this.allShopsSalesCreateCardTotalAmount = allShopsSalesCreateCardTotalAmount;
@@ -101,18 +101,18 @@ public class YueHeAllSalesPerformanceDetailDto {
 		this.allShopsSalesDebtEarnedAmount = allShopsSalesDebtEarnedAmount;
 		this.allShopsSalesEmployeePremium = allShopsSalesEmployeePremium;
 		this.allShopsSalesShopPremium = allShopsSalesShopPremium;
-		this.shopAllSalesPerformanceDetailDtos = shopAllSalesPerformanceDetailDtos;
+		this.shopAllSalesPerformanceDetailDTOs = shopAllSalesPerformanceDetailDTOs;
 	}
 	@Override
 	public String toString() {
-		return "YueHeAllSalesPerformanceDetailDto [companyName=" + companyName
+		return "YueHeAllSalesPerformanceDetailDTO [companyName=" + companyName
 				+ ", allShopsSalesCreateCardTotalAmount=" + allShopsSalesCreateCardTotalAmount
 				+ ", allShopsSalesReceivedAmount=" + allShopsSalesReceivedAmount + ", allShopsSalesDebtAmount="
 				+ allShopsSalesDebtAmount + ", allShopsSalesEarnedAmount=" + allShopsSalesEarnedAmount
 				+ ", allShopsSalesReceivedEarnedAmount=" + allShopsSalesReceivedEarnedAmount
 				+ ", allShopsSalesDebtEarnedAmount=" + allShopsSalesDebtEarnedAmount + ", allShopsSalesEmployeePremium="
 				+ allShopsSalesEmployeePremium + ", allShopsSalesShopPremium=" + allShopsSalesShopPremium
-				+ ", shopAllSalesPerformanceDetailDtos=" + shopAllSalesPerformanceDetailDtos + "]";
+				+ ", shopAllSalesPerformanceDetailDTOs=" + shopAllSalesPerformanceDetailDTOs + "]";
 	}
 	
 }

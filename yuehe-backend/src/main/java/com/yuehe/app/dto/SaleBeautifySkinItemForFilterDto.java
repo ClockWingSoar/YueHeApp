@@ -7,8 +7,8 @@ package com.yuehe.app.dto;
  * @author YIXIANGZhong
  * @since 1.0
  */
-public class SaleBeautifySkinItemForFilterDto {
-	public SaleBeautifySkinItemForFilterDto() {
+public class SaleBeautifySkinItemForFilterDTO {
+	public SaleBeautifySkinItemForFilterDTO() {
 		//super();
 	}
 	private String saleId;
@@ -32,7 +32,7 @@ public class SaleBeautifySkinItemForFilterDto {
 	public void setCreateCardDate(String createCardDate) {
 		this.createCardDate = createCardDate;
 	}
-	public SaleBeautifySkinItemForFilterDto(String saleId, String beautifySkinItemName, String createCardDate) {
+	public SaleBeautifySkinItemForFilterDTO(String saleId, String beautifySkinItemName, String createCardDate) {
 		super();
 		this.saleId = saleId;
 		this.beautifySkinItemName = beautifySkinItemName;
@@ -40,7 +40,7 @@ public class SaleBeautifySkinItemForFilterDto {
 	}
 	@Override
 	public String toString() {
-		return "SaleBeautifySkinItemForFilterDto [saleId=" + saleId + ", beautifySkinItemName=" + beautifySkinItemName
+		return "SaleBeautifySkinItemForFilterDTO [saleId=" + saleId + ", beautifySkinItemName=" + beautifySkinItemName
 				+ ", createCardDate=" + createCardDate + "]";
 	}
 	

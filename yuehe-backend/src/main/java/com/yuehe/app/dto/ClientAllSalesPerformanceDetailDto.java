@@ -10,8 +10,8 @@ import java.util.List;
  * @author YIXIANGZhong
  * @since 1.0
  */
-public class ClientAllSalesPerformanceDetailDto {
-	public ClientAllSalesPerformanceDetailDto() {
+public class ClientAllSalesPerformanceDetailDTO {
+	public ClientAllSalesPerformanceDetailDTO() {
 		//super();
 	}
 	private String clientName;
@@ -23,7 +23,7 @@ public class ClientAllSalesPerformanceDetailDto {
 	private long allSalesDebtEarnedAmount;
 	private float allSalesEmployeePremium;
 	private float allSalesShopPremium;
-	private List<SalePerformanceDetailDto> salePerformanceDetailDtos;
+	private List<SalePerformanceDetailDTO> salePerformanceDetailDTOs;
 	public long getAllSalesCreateCardTotalAmount() {
 		return allSalesCreateCardTotalAmount;
 	}
@@ -72,11 +72,11 @@ public class ClientAllSalesPerformanceDetailDto {
 	public void setAllSalesShopPremium(float allSalesShopPremium) {
 		this.allSalesShopPremium = allSalesShopPremium;
 	}
-	public List<SalePerformanceDetailDto> getSalePerformanceDetailDtos() {
-		return salePerformanceDetailDtos;
+	public List<SalePerformanceDetailDTO> getSalePerformanceDetailDTOs() {
+		return salePerformanceDetailDTOs;
 	}
-	public void setSalePerformanceDetailDtos(List<SalePerformanceDetailDto> salePerformanceDetailDtos) {
-		this.salePerformanceDetailDtos = salePerformanceDetailDtos;
+	public void setSalePerformanceDetailDTOs(List<SalePerformanceDetailDTO> salePerformanceDetailDTOs) {
+		this.salePerformanceDetailDTOs = salePerformanceDetailDTOs;
 	}
 	
 	public String getClientName() {
@@ -85,10 +85,10 @@ public class ClientAllSalesPerformanceDetailDto {
 	public void setClientName(String clientName) {
 		this.clientName = clientName;
 	}
-	public ClientAllSalesPerformanceDetailDto(String clientName, long allSalesCreateCardTotalAmount,
+	public ClientAllSalesPerformanceDetailDTO(String clientName, long allSalesCreateCardTotalAmount,
 			long allSalesReceivedAmount, long allSalesDebtAmount, long allSalesEarnedAmount,
 			long allSalesReceivedEarnedAmount, long allSalesDebtEarnedAmount, float allSalesEmployeePremium,
-			float allSalesShopPremium, List<SalePerformanceDetailDto> salePerformanceDetailDtos) {
+			float allSalesShopPremium, List<SalePerformanceDetailDTO> salePerformanceDetailDTOs) {
 		super();
 		this.clientName = clientName;
 		this.allSalesCreateCardTotalAmount = allSalesCreateCardTotalAmount;
@@ -99,17 +99,17 @@ public class ClientAllSalesPerformanceDetailDto {
 		this.allSalesDebtEarnedAmount = allSalesDebtEarnedAmount;
 		this.allSalesEmployeePremium = allSalesEmployeePremium;
 		this.allSalesShopPremium = allSalesShopPremium;
-		this.salePerformanceDetailDtos = salePerformanceDetailDtos;
+		this.salePerformanceDetailDTOs = salePerformanceDetailDTOs;
 	}
 	@Override
 	public String toString() {
-		return "ClientAllSalesPerformanceDetailDto [clientName=" + clientName + ", allSalesCreateCardTotalAmount="
+		return "ClientAllSalesPerformanceDetailDTO [clientName=" + clientName + ", allSalesCreateCardTotalAmount="
 				+ allSalesCreateCardTotalAmount + ", allSalesReceivedAmount=" + allSalesReceivedAmount
 				+ ", allSalesDebtAmount=" + allSalesDebtAmount + ", allSalesEarnedAmount=" + allSalesEarnedAmount
 				+ ", allSalesReceivedEarnedAmount=" + allSalesReceivedEarnedAmount + ", allSalesDebtEarnedAmount="
 				+ allSalesDebtEarnedAmount + ", allSalesEmployeePremium=" + allSalesEmployeePremium
-				+ ", allSalesShopPremium=" + allSalesShopPremium + ", salePerformanceDetailDtos="
-				+ salePerformanceDetailDtos + "]";
+				+ ", allSalesShopPremium=" + allSalesShopPremium + ", salePerformanceDetailDTOs="
+				+ salePerformanceDetailDTOs + "]";
 	}
 	
 }

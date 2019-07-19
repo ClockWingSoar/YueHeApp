@@ -9,8 +9,8 @@ import java.util.List;
  * @author YIXIANGZhong
  * @since 1.0
  */
-public class ClientDetailDto extends SaleDetailDto{
-	public ClientDetailDto() {
+public class ClientDetailDTO extends SaleDetailDTO{
+	public ClientDetailDTO() {
 	}
 	private String clientName;//客户名
 	private long allSalesCreateCardAmount;//单个顾客所有销售卡的总开卡金额
@@ -18,7 +18,7 @@ public class ClientDetailDto extends SaleDetailDto{
 	private long allSalesConsumedAmount;//单个顾客所有销售卡的总消耗款
 	private long allSalesConsumedEarnedAmount;//单个顾客所有销售卡的总消耗回款
 	private long allSalesAdvancedEarnedAmount;//单个顾客所有销售卡的总预付款
-	private List<SaleDetailDto> saleDetailDtos;//单个顾客下面所有的销售卡信息
+	private List<SaleDetailDTO> saleDetailDTOs;//单个顾客下面所有的销售卡信息
 	public String getClientName() {
 		return clientName;
 	}
@@ -56,13 +56,13 @@ public class ClientDetailDto extends SaleDetailDto{
 		this.allSalesAdvancedEarnedAmount = allSalesAdvancedEarnedAmount;
 	}
 	
-	public List<SaleDetailDto> getSaleDetailDtos() {
-		return saleDetailDtos;
+	public List<SaleDetailDTO> getSaleDetailDTOs() {
+		return saleDetailDTOs;
 	}
-	public void setSaleDetailDtos(List<SaleDetailDto> saleDetailDtos) {
-		this.saleDetailDtos = saleDetailDtos;
+	public void setSaleDetailDTOs(List<SaleDetailDTO> saleDetailDTOs) {
+		this.saleDetailDTOs = saleDetailDTOs;
 	}
-	public ClientDetailDto(String clientName, long allSalesCreateCardAmount, long allSalesEarnedAmount,
+	public ClientDetailDTO(String clientName, long allSalesCreateCardAmount, long allSalesEarnedAmount,
 			long allSalesConsumedAmount, long allSalesConsumedEarnedAmount, long allSalesAdvancedEarnedAmount) {
 		super();
 		this.clientName = clientName;
@@ -74,7 +74,7 @@ public class ClientDetailDto extends SaleDetailDto{
 	}
 	@Override
 	public String toString() {
-		return "ClientDetailDto [clientName=" + clientName + ", allSalesCreateCardAmount=" + allSalesCreateCardAmount
+		return "ClientDetailDTO [clientName=" + clientName + ", allSalesCreateCardAmount=" + allSalesCreateCardAmount
 				+ ", allSalesEarnedAmount=" + allSalesEarnedAmount + ", allSalesConsumedAmount="
 				+ allSalesConsumedAmount + ", allSalesConsumedEarnedAmount=" + allSalesConsumedEarnedAmount
 				+ ", allSalesAdvancedEarnedAmount=" + allSalesAdvancedEarnedAmount + "]";
