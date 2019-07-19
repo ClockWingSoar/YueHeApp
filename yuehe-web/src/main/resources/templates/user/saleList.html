@@ -28,21 +28,21 @@
 					<thead>
 						<tr class="info">
 							<th data-sort-prop="id">ID</th>
+							<th data-sort-prop="employee.name">销售专家</th>
 							<th data-sort-prop="client.cosmeticShop.name">美容院</th>
 							<th data-sort-prop="client.name">客户姓名</th>
 							<th data-sort-prop="beautifySkinItem.name">美肤项目</th>
 							<th data-sort-prop="createCardDate">开卡日期</th>
-							<th>开卡次数</th>
+							<th data-sort-prop="itemNumber">开卡次数</th>
 							<th data-sort-prop="createCardTotalAmount">开卡总金额</th>
-							<th>折扣</th>
 							<th data-sort-prop="receivedAmount">实收金额</th>
+							<th>折扣</th>
 							<th>欠款</th>
 							<th>应回款</th>
 							<th data-sort-prop="receivedEarnedAmount">实收回款</th>
 							<th>欠收回款</th>
 							<th>员工回扣</th>
 							<th>店家回扣</th>
-							<th data-sort-prop="employee.name">销售专家</th>
 							<th>备注</th>
 						</tr>
 					</thead>
@@ -50,21 +50,21 @@
 					<tbody>
 						<tr data-th-each="sale : ${saleList}">
 							<td data-th-text="${sale.saleId}">...</td>
+							<td data-th-text="${sale.sellerName}">...</td>
 							<td data-th-text="${sale.cosmeticShopName}">...</td>
 							<td data-th-text="${sale.clientName}">...</td>
 							<td data-th-text="${sale.beautifySkinItemName}">...</td>
 							<td data-th-text="${sale.createCardDate}">...</td>
 							<td data-th-text="${sale.itemNumber}">...</td>
 							<td data-th-text="${sale.createCardTotalAmount}">...</td>
-							<td data-th-text="${sale.discount}">...</td>
 							<td data-th-text="${sale.receivedAmount}">...</td>
+							<td data-th-text="${sale.discount}">...</td>
 							<td data-th-text="${sale.unpaidAmount}">...</td>
 							<td data-th-text="${sale.earnedAmount}">...</td>
 							<td data-th-text="${sale.receivedEarnedAmount}">...</td>
 							<td data-th-text="${sale.unpaidEarnedAmount}">...</td>
 							<td data-th-text="${sale.employeePremium}">...</td>
 							<td data-th-text="${sale.shopPremium}">...</td>
-							<td data-th-text="${sale.sellerName}">...</td>
 							<td data-th-text="${sale.description}">...</td>
 						</tr>
 					</tbody>
