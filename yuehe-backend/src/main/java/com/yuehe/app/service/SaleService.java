@@ -18,6 +18,8 @@ package com.yuehe.app.service;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -37,6 +39,7 @@ import com.yuehe.app.entity.CosmeticShop;
 import com.yuehe.app.entity.Sale;
 import com.yuehe.app.repository.SaleRepository;
 
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,7 +51,6 @@ import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.domain.Sort.Order;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.apache.commons.lang3.StringUtils;
 /**
  * @author Shazin Sadakath
  */
@@ -61,7 +63,7 @@ public class SaleService {
 	enum SaleSortBy{
 
 		ID, CLIENTCOSMETICSHOPNAME, CLIENTNAME, BEAUTIFYSKINITEMNAME, CREATECARDDATE, CREATECARDTOTALAMOUNT,ITEMNUMBER,
-		 RECEIVEDAMOUNT	, RECEIVEDEARNEDAMOUNT, EMPLOYEENAME;
+		 RECEIVEDAMOUNT	, RECEIVEDEARNEDAMOUNT, EMPLOYEENAME, DISCOUNT;
  
 	}
 	@Autowired
@@ -117,6 +119,8 @@ public class SaleService {
     }
 	public Map<String,Object> getSalesDetailList(int pageNumber, int pageSize,Direction sortDirection,String sortProperty ) {
 		Sort sort = null;
+		boolean sortByJPA = true;
+		Comparator<SaleClientItemSellerDTO> comparator = null;
 		//Below code is using the table field to do the sorting, when it comes to the foreign table, you need to use the foreign
 		//relationship to refer to it, like through entity "sale" to "client" to "cosmeticShop", you got "client.cosmeticshop.name"
 		//but you can't have any "." inside a enum class, so you have to remove all the ".", then do the comparing
@@ -148,10 +152,22 @@ public class SaleService {
 			case EMPLOYEENAME:
 				sort = Sort.by(new Order(sortDirection,"employee.name"));
 				break;
+			case DISCOUNT:
+				comparator = SaleClientItemSellerDTO.discountComparator;
+				sortByJPA = false;
+				break;
 			default:break;
 			
 		}
-		Pageable pageable = PageRequest.of(pageNumber, pageSize,sort);
+		Pageable pageable = null;
+		if(sortByJPA){
+
+			 pageable = PageRequest.of(pageNumber, pageSize,sort);
+		}
+		else{
+			 pageable = PageRequest.of(pageNumber, pageSize);
+
+		}
 		Page<SaleClientItemSellerForDBDTO> saleClientItemSellerForDBDTOPage = saleRepository.fetchSaleClientItemSellerData(pageable);
 		List<SaleClientItemSellerForDBDTO> saleClientItemSellerForDBDTOList = new ArrayList<SaleClientItemSellerForDBDTO>();
 		Map<String,Object> saleMap = new HashMap<String,Object>();
@@ -194,10 +210,20 @@ public class SaleService {
 		}
 		saleClientItemSellerForDBDTOList.forEach(l -> System.out.println(l));
 		saleClientItemSellerDTOList.forEach(l -> System.out.println(l));
+		if(!sortByJPA){
+			if(sortDirection == Direction.ASC){
+
+				Collections.sort(saleClientItemSellerDTOList,comparator);
+			}else{
+				
+				Collections.sort(saleClientItemSellerDTOList,comparator.reversed());
+			}
+		}
 		saleMap.put("saleList",saleClientItemSellerDTOList);
 		saleMap.put("salePage",saleClientItemSellerForDBDTOPage);
 		return saleMap;
 	}
+	// public void sort
 	 public long getEntityNumber() {
 	    	return saleRepository.count();
 	    }

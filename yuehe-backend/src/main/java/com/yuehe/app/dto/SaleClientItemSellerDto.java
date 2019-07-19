@@ -1,16 +1,18 @@
 package com.yuehe.app.dto;
 
-import java.util.Date;
+import java.util.Comparator;
 
 /**
  * 
- * This is DTO class which is to render the view of sale.html,using when it needs to join other tables
- * to get seller name by it's employee id, it's different with the entity
- * class {@link com.yuehe.app.entity.Client} which is aim to symplify the data store volume
+ * This is DTO class which is to render the view of sale.html,using when it
+ * needs to join other tables to get seller name by it's employee id, it's
+ * different with the entity class {@link com.yuehe.app.entity.Client} which is
+ * aim to symplify the data store volume
+ * 
  * @author YIXIANGZhong
  * @since 1.0
  */
-public class SaleClientItemSellerDTO {
+public class SaleClientItemSellerDTO implements Comparable<SaleClientItemSellerDTO>{
 	public SaleClientItemSellerDTO() {
 		//super();
 	}
@@ -167,7 +169,31 @@ public class SaleClientItemSellerDTO {
 				+ ", employeePremium=" + employeePremium + ", shopPremium=" + shopPremium + ", createCardDate="
 				+ createCardDate + ", sellerName=" + sellerName + ", description=" + description + "]";
 	}
+	public int compareTo(SaleClientItemSellerDTO saleClientItemSellerDTO) {
+		
+		//ascending order
+		return this.saleId.compareTo(saleClientItemSellerDTO.getSaleId());
+		
+	}
 
+	public static Comparator<SaleClientItemSellerDTO> discountComparator 
+							 =Comparator.comparing(SaleClientItemSellerDTO::getDiscount);
+						//   = (s1, s2) -> s1.getDiscount()-s2.getDiscount();
+	// 					  new Comparator<SaleClientItemSellerDTO>() {
+
+	//     public int compare(SaleClientItemSellerDTO saleClientItemSellerDTO1, SaleClientItemSellerDTO saleClientItemSellerDTO2) {
+	    	
+	//       Float discount1 = saleClientItemSellerDTO1.getDiscount();
+	//       Float discount2 = saleClientItemSellerDTO2.getDiscount();
+	      
+	//       //ascending order
+	//       return discount1.compareTo(discount2);
+	      
+	//       //descending order
+	//       //return fruitName2.compareTo(fruitName1);
+	//     }
+
+	// };
 	
 	
 }

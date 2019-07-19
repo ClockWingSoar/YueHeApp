@@ -36,7 +36,7 @@
 							<th data-sort-prop="itemNumber">开卡次数</th>
 							<th data-sort-prop="createCardTotalAmount">开卡总金额</th>
 							<th data-sort-prop="receivedAmount">实收金额</th>
-							<th>折扣</th>
+							<th data-sort-prop="discount">折扣</th>
 							<th>欠款</th>
 							<th>应回款</th>
 							<th data-sort-prop="receivedEarnedAmount">实收回款</th>
@@ -71,7 +71,7 @@
 				</table>
 			</div>
 			<!-- using th:with to declare a local variable for sorting query param -->
-			<div class="pagination" th:with="sortParam=${sortProperty+','+(sortDirection?'desc':'asc')}">
+			<div class="pagination" th:with="sortParam=${sortProperty+','+(sortDirectionFlag?'desc':'asc')}">
 				<span th:if="${salePage.hasPrevious()}">
 					<a
 						th:href="@{/getSaleList(page=${salePage.number-1},size=${salePage.size},sort=${sortParam})}">上一页</a>
@@ -79,7 +79,7 @@
 				<input id="salePageNumber" type="hidden" th:value="${salePage.number}">
 				<input id="salePageSize" type="hidden" th:value="${salePage.size}">
 				<input id="sortProperty" type="hidden" th:value="${sortProperty}">
-				<input id="sortDirection" type="hidden" th:value="${sortDirection}">
+				<input id="sortDirectionFlag" type="hidden" th:value="${sortDirectionFlag}">
 				<th:block th:each="i: ${#numbers.sequence(0, salePage.totalPages - 1)}">
         <span th:if="${salePage.number == i}" class="selected">[[${i}+1]]</span>
         <span th:unless="${salePage.number == i}">

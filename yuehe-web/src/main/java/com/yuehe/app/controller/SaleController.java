@@ -90,8 +90,12 @@ public class SaleController{
         if (sortOrdersLen > 0) {
 			Sort.Order order = sortOrders.get(sortOrdersLen-1);			
             model.addAttribute("sortProperty", order.getProperty());
-            model.addAttribute("sortDirection", order.getDirection() == Sort.Direction.DESC);
-        }
+            model.addAttribute("sortDirectionFlag", order.getDirection() == Sort.Direction.DESC);
+        }else{//set back sortProperty and sortDirectionFlag for the column that not in table,like discount, unpaidAmount,etc.
+            model.addAttribute("sortProperty", sortProperty);
+            model.addAttribute("sortDirectionFlag", sortDirection == Sort.Direction.DESC);
+
+		}
 		 LOGGER.info("saleMap {}", saleMap);
 		model.addAllAttributes(saleMap);
 		model.addAttribute("subModule", "saleList");
