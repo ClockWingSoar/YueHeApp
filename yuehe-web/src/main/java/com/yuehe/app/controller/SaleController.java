@@ -80,8 +80,6 @@ public class SaleController{
         sortProperty = sortStr[0];
         sortDirection = Direction.fromString(sortStr[1]);
         saleMap = saleService.getSalesDetailList(pageNumber, pageSize,sortDirection,sortProperty);
-//        	    Order.asc("shopId"),
-//        	    Order.desc("clientId"))));
         @SuppressWarnings("unchecked")
 		Page<SaleClientItemSellerForDBDTO> saleMapPage = (Page<SaleClientItemSellerForDBDTO>)saleMap.get("salePage");
         List<Sort.Order> sortOrders = saleMapPage.getSort().stream().collect(Collectors.toList());

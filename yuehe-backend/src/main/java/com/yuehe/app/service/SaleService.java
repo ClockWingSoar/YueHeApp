@@ -59,11 +59,11 @@ import org.springframework.transaction.annotation.Transactional;
 public class SaleService {
     private static final Logger LOGGER = LoggerFactory.getLogger(SaleService.class);
     private final SaleRepository saleRepository;
-	private SimpleDateFormat simpleDateFormat =  new SimpleDateFormat("yyyy-MM-dd");
-	enum SaleSortBy{
+	private static enum SaleSortBy{
 
-		ID, CLIENTCOSMETICSHOPNAME, CLIENTNAME, BEAUTIFYSKINITEMNAME, CREATECARDDATE, CREATECARDTOTALAMOUNT,ITEMNUMBER,
-		 RECEIVEDAMOUNT	, RECEIVEDEARNEDAMOUNT, EMPLOYEENAME, DISCOUNT;
+		ID, EMPLOYEENAME, CLIENTCOSMETICSHOPNAME, CLIENTNAME, BEAUTIFYSKINITEMNAME, CREATECARDDATE, CREATECARDTOTALAMOUNT,
+		ITEMNUMBER,RECEIVEDAMOUNT, DISCOUNT, UNPAIDAMOUNT, EARNEDAMOUNT, RECEIVEDEARNEDAMOUNT, UNPAIDEARNEDAMOUNT,
+		EMPLOYEEPREMIUM, SHOPPREMIUM;
  
 	}
 	@Autowired
@@ -132,10 +132,12 @@ public class SaleService {
 			case RECEIVEDAMOUNT:
 			case ITEMNUMBER:
 			case RECEIVEDEARNEDAMOUNT:
+			case EMPLOYEEPREMIUM:
+			case SHOPPREMIUM:
 				sort = Sort.by(new Order(sortDirection,sortProperty));
 				break;
 			case CLIENTCOSMETICSHOPNAME:
-				sort =  Sort.by(new Order(sortDirection,"client.cosmeticShop.name"));
+				sort = Sort.by(new Order(sortDirection,"client.cosmeticShop.name"));
 				break;
 			case CLIENTNAME:
 				sort = Sort.by(new Order(sortDirection,"client.cosmeticShop.name")
@@ -154,6 +156,18 @@ public class SaleService {
 				break;
 			case DISCOUNT:
 				comparator = SaleClientItemSellerDTO.discountComparator;
+				sortByJPA = false;
+				break;
+			case UNPAIDAMOUNT:
+				comparator = SaleClientItemSellerDTO.unpaidAmountComparator;
+				sortByJPA = false;
+				break;
+			case EARNEDAMOUNT:
+				comparator = SaleClientItemSellerDTO.earnedAmountComparator;
+				sortByJPA = false;
+				break;
+			case UNPAIDEARNEDAMOUNT:
+				comparator = SaleClientItemSellerDTO.unpaidEarnedAmountComparator;
 				sortByJPA = false;
 				break;
 			default:break;

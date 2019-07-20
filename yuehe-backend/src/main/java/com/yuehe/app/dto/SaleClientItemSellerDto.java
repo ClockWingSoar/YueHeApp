@@ -178,6 +178,12 @@ public class SaleClientItemSellerDTO implements Comparable<SaleClientItemSellerD
 
 	public static Comparator<SaleClientItemSellerDTO> discountComparator 
 							 =Comparator.comparing(SaleClientItemSellerDTO::getDiscount);
+	public static Comparator<SaleClientItemSellerDTO> unpaidAmountComparator 
+							 =Comparator.comparing(SaleClientItemSellerDTO::getUnpaidAmount);
+	public static Comparator<SaleClientItemSellerDTO> earnedAmountComparator 
+							 =Comparator.comparing(SaleClientItemSellerDTO::getEarnedAmount);
+	public static Comparator<SaleClientItemSellerDTO> unpaidEarnedAmountComparator 
+							 =Comparator.comparing(SaleClientItemSellerDTO::getUnpaidEarnedAmount);
 						//   = (s1, s2) -> s1.getDiscount()-s2.getDiscount();
 	// 					  new Comparator<SaleClientItemSellerDTO>() {
 
