@@ -18,16 +18,17 @@ package com.yuehe.app.repository;
 
 import java.util.List;
 
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
-
 import com.yuehe.app.dto.SaleBeautifySkinItemForFilterDTO;
 import com.yuehe.app.dto.SaleClientItemSellerForDBDTO;
 import com.yuehe.app.dto.SaleDetailForDBDTO;
 import com.yuehe.app.dto.SalePerformanceDetailForDBDTO;
 import com.yuehe.app.entity.Sale;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 
 /**
  * @author Soveran Zhong
@@ -42,7 +43,17 @@ public interface SaleRepository extends JpaRepository<Sale, Long> {
 			+ "INNER JOIN s.beautifySkinItem b "
 			+ "INNER JOIN s.employee e "
 			+ "INNER JOIN c.cosmeticShop p")
-    Page<SaleClientItemSellerForDBDTO> fetchSaleClientItemSellerData(Pageable pageable);
+	Page<SaleClientItemSellerForDBDTO> fetchSaleClientItemSellerData(Pageable pageable);
+	
+	@Query("SELECT new com.yuehe.app.dto.SaleClientItemSellerForDBDTO(s.id,c.name, b.name, p.name, "
+			+ "s.itemNumber,s.createCardTotalAmount,b.price,"
+			+ "s.receivedAmount,s.receivedEarnedAmount,p.discount ,s.employeePremium,s.shopPremium,"
+			+ "s.createCardDate, e.name,s.description) "
+			+ "FROM Sale s INNER JOIN s.client c "
+			+ "INNER JOIN s.beautifySkinItem b "
+			+ "INNER JOIN s.employee e "
+			+ "INNER JOIN c.cosmeticShop p")
+    List<SaleClientItemSellerForDBDTO> fetchSaleClientItemSellerDataForDownload(Sort sort);
 	/**
 	 * To calculate the overall sale consuming situation-including consumed amount, consumed earned amount, advanced earned amount
 	  * 用于计算耗卡情况，如该销售卡的实际消耗，实际回款消耗，还有剩余的预付款等

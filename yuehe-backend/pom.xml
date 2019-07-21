@@ -1,25 +1,24 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-  <groupId>com.yuehe.app.backend</groupId>
-  <artifactId>yuehe-backend</artifactId>
-  <packaging>jar</packaging>
-  <version>0.0.1-SNAPSHOT</version>
-  <name>yuehe-backend-maven</name>
-  <description>use maven as build tool</description>
-  <!-- parent pom -->
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>com.yuehe.app.backend</groupId>
+    <artifactId>yuehe-backend</artifactId>
+    <packaging>jar</packaging>
+    <version>0.0.1-SNAPSHOT</version>
+    <name>yuehe-backend-maven</name>
+    <description>use maven as build tool</description>
+    <!-- parent pom -->
     <parent>
         <artifactId>yuehewebsite</artifactId>
         <groupId>com.yuehe.app</groupId>
         <version>1.0</version>
     </parent>
-	<dependencies>
+    <dependencies>
         <dependency>
             <groupId>com.yuehe.app.common</groupId>
-             <artifactId>yuehe-common</artifactId>
-             <version>0.0.1-SNAPSHOT</version>
-       </dependency>
+            <artifactId>yuehe-common</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
         <!-- JPA Data (We are going to use Repositories, Entities, Hibernate, etc...) -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -30,20 +29,21 @@
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
-		</dependency>
+        </dependency>
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-core</artifactId>
             <version>5.4.3.Final</version>
         </dependency>
-       <!-- https://mvnrepository.com/artifact/org.hibernate/hibernate-validator -->
+        <!-- https://mvnrepository.com/artifact/org.hibernate/hibernate-validator -->
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-validator</artifactId>
             <version>6.0.16.Final</version>
         </dependency>
-		
-	</dependencies>	
-	
-	
+       
+
+    </dependencies>
+
+
 </project>
