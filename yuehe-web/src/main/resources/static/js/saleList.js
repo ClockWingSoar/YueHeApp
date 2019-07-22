@@ -30,6 +30,12 @@ $(function ($) {
 		  }
 	      
 	      });
-	    });
+		});
+		$('#sale_csv_export').click(
+			function() {
+				var tableName = "销售业绩-"; 
+				window.location.href = 'saleCsvDownload'+
+				'?sort='+ sortProperty+','+ ((sortDirectionFlag=="false")?'asc':'desc')+'&tableName='+ tableName;
+			});
 	
 });

@@ -153,7 +153,9 @@ public class SaleService {
 	 */
 	public Map<String, Object>  getSalesDetailListForDownload(Direction sortDirection,String sortProperty){
 		this.sort = Sort.by(sortDirection, sortProperty);
-		// boolean sortByJPA = true;
+		List<SaleClientItemSellerForDBDTO> 	saleClientItemSellerForDBDTOList = new ArrayList<SaleClientItemSellerForDBDTO>();
+		List<SaleClientItemSellerDTO> saleClientItemSellerDTOList = new ArrayList<SaleClientItemSellerDTO>();
+		
 		List<Sort.Order> sortOrders = null;
 		// Comparator<SaleClientItemSellerDTO> comparator = null;
 	
@@ -162,9 +164,12 @@ public class SaleService {
 		if(this.sortByJPA){
 
 			sortOrders = this.sort.get().collect(Collectors.toList());
+			saleClientItemSellerForDBDTOList = saleRepository.fetchSaleClientItemSellerDataForDownloadWithSort(this.sort);
+		}else{
+			saleClientItemSellerForDBDTOList = saleRepository.fetchSaleClientItemSellerDataForDownload();
+
 		}
-		List<SaleClientItemSellerForDBDTO> 	saleClientItemSellerForDBDTOList = saleRepository.fetchSaleClientItemSellerDataForDownload(this.sort);
-		List<SaleClientItemSellerDTO> saleClientItemSellerDTOList = new ArrayList<SaleClientItemSellerDTO>();
+		
 		buildSalesDetailList(saleClientItemSellerDTOList, saleClientItemSellerForDBDTOList);
 		sortByCollectionsIfPropertyNotInDB(sortByJPA, sortDirection, comparator, saleClientItemSellerDTOList);
 		saleMap.put("csvObjList",saleClientItemSellerDTOList);

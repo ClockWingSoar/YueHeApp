@@ -53,7 +53,18 @@ public interface SaleRepository extends JpaRepository<Sale, Long> {
 			+ "INNER JOIN s.beautifySkinItem b "
 			+ "INNER JOIN s.employee e "
 			+ "INNER JOIN c.cosmeticShop p")
-    List<SaleClientItemSellerForDBDTO> fetchSaleClientItemSellerDataForDownload(Sort sort);
+    List<SaleClientItemSellerForDBDTO> fetchSaleClientItemSellerDataForDownloadWithSort(Sort sort);
+	
+	//add below method to avoid sorting the table when using frontend view table column not in DB to sort,like unpaidAmount
+	@Query("SELECT new com.yuehe.app.dto.SaleClientItemSellerForDBDTO(s.id,c.name, b.name, p.name, "
+			+ "s.itemNumber,s.createCardTotalAmount,b.price,"
+			+ "s.receivedAmount,s.receivedEarnedAmount,p.discount ,s.employeePremium,s.shopPremium,"
+			+ "s.createCardDate, e.name,s.description) "
+			+ "FROM Sale s INNER JOIN s.client c "
+			+ "INNER JOIN s.beautifySkinItem b "
+			+ "INNER JOIN s.employee e "
+			+ "INNER JOIN c.cosmeticShop p")
+    List<SaleClientItemSellerForDBDTO> fetchSaleClientItemSellerDataForDownload();
 	/**
 	 * To calculate the overall sale consuming situation-including consumed amount, consumed earned amount, advanced earned amount
 	  * 用于计算耗卡情况，如该销售卡的实际消耗，实际回款消耗，还有剩余的预付款等

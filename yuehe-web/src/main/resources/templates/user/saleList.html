@@ -20,10 +20,20 @@
 	<div role="main" class="container">
 		<div th:replace="~{fragments/saleHeader.html :: header}">Sale Header</div>
 		<div class="panel panel-default">
-			<div class="panel-heading">
-				<h3>以下为现有的销售记录:</h3>
+			<div class="panel-heading" style="padding-bottom: 0px;padding-top: 0px;">
+				<div class="form-group  row " style="margin-bottom: 0px;">
+					<div class="col-md-11">
+						<h3>以下为现有的销售记录:</h3>
+					</div>
+
+					<div class="col-md-1">
+						<h3><button id="sale_csv_export" type="submit" class="btn btn-primary">导出csv</button></h3>
+					</div>
+				</div>
+
 			</div>
 			<div class="panel-body my-panels table-wrapper-scroll-y my-custom-scrollbar">
+
 				<table id="saleRecordList" class="table table-hover  table-sm ">
 					<thead>
 						<tr class="info">
@@ -70,26 +80,26 @@
 					</tbody>
 				</table>
 			</div>
+			<input id="salePageNumber" type="hidden" th:value="${salePage.number}">
+			<input id="salePageSize" type="hidden" th:value="${salePage.size}">
+			<input id="sortProperty" type="hidden" th:value="${sortProperty}">
+			<input id="sortDirectionFlag" type="hidden" th:value="${sortDirectionFlag}">
 			<!-- using th:with to declare a local variable for sorting query param -->
-			<div class="pagination" th:with="sortParam=${sortProperty+','+(sortDirectionFlag?'desc':'asc')}">
-				<span th:if="${salePage.hasPrevious()}">
+			<ul class="pagination pull-right" th:with="sortParam=${sortProperty+','+(sortDirectionFlag?'desc':'asc')}">
+				<li th:if="${salePage.hasPrevious()}">
 					<a
 						th:href="@{/getSaleList(page=${salePage.number-1},size=${salePage.size},sort=${sortParam})}">上一页</a>
-				</span>
-				<input id="salePageNumber" type="hidden" th:value="${salePage.number}">
-				<input id="salePageSize" type="hidden" th:value="${salePage.size}">
-				<input id="sortProperty" type="hidden" th:value="${sortProperty}">
-				<input id="sortDirectionFlag" type="hidden" th:value="${sortDirectionFlag}">
+				</li>
 				<th:block th:each="i: ${#numbers.sequence(0, salePage.totalPages - 1)}">
-        <span th:if="${salePage.number == i}" class="selected">[[${i}+1]]</span>
-        <span th:unless="${salePage.number == i}">
-             <a th:href="@{/getSaleList(page=${i},size=${salePage.size},sort=${sortParam})}">[[${i}+1]]</a>
-        </span>
-    </th:block>
-    <span th:if="${salePage.hasNext()}">
-        <a th:href="@{/getSaleList(page=${salePage.number+1},size=${salePage.size},sort=${sortParam})}">下一页</a>
-    </span>
-</div>
+					<li th:if="${salePage.number == i}" class="active"><a href="#" >[[${i}+1]]</a></li>
+					<li th:unless="${salePage.number == i}">
+						<a th:href="@{/getSaleList(page=${i},size=${salePage.size},sort=${sortParam})}">[[${i}+1]]</a>
+					</li>
+				</th:block>
+				<li th:if="${salePage.hasNext()}">
+					<a th:href="@{/getSaleList(page=${salePage.number+1},size=${salePage.size},sort=${sortParam})}">下一页</a>
+				</li>
+			</ul>
 <!-- Sales pagination -->
 <!-- <nav aria-label="Pagination" th:if="${customers.totalPages gt 0}"> -->
 <!--     <ul class="pagination justify-content-center font-weight-medium"> -->

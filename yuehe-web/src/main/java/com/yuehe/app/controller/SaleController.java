@@ -94,16 +94,15 @@ public class SaleController{
      * Handle request to download an Excel document
      */
     @GetMapping("/saleCsvDownload")
-    public String saleCsvDownload(Model model, HttpServletRequest request,HttpServletResponse response) {
+    public void saleCsvDownload(Model model, HttpServletRequest request,HttpServletResponse response) {
 		Map<String,Object> saleMap =new HashMap<String,Object>();
 
 		buildSortOrderBeforeDBQuerying(request);
 		saleMap = saleService.getSalesDetailListForDownload(this.sortDirection,this.sortProperty);
-		@SuppressWarnings("unchecked")
-		List<SaleClientItemSellerDTO> saleClientItemSellerDTOList = (List<SaleClientItemSellerDTO>)saleMap.get("saleList");
+		// List<SaleClientItemSellerDTO> saleClientItemSellerDTOList = (List<SaleClientItemSellerDTO>)saleMap.get("saleList");
 		// model.addAttribute("csvObjList", saleClientItemSellerDTOList);
-		String[] headers ={"saleId","clientName","beautifySkinItemName","cosmeticShopName","itemNumber","createCardTotalAmount","createCardDate","sellerName",
-								"discount","receivedAmount","unpaidAmount","earnedAmount","receivedEarnedAmount","unpaidEarnedAmount","employeePremium","shopPremium","description"};
+		String[] headers ={"saleId","sellerName","cosmeticShopName","clientName","beautifySkinItemName","createCardDate","itemNumber","createCardTotalAmount","receivedAmount",
+								"discount","unpaidAmount","earnedAmount","receivedEarnedAmount","unpaidEarnedAmount","employeePremium","shopPremium","description"};
 		saleMap.put("headers", headers);
 		@SuppressWarnings("unchecked")
 		List<Sort.Order> sortOrders = (List<Sort.Order>)saleMap.get("sortOrders");
@@ -115,7 +114,7 @@ public class SaleController{
 			e.printStackTrace();
 		}
 		;
-        return "redirect:/getSaleList";
+        // return " "; to fix the issue of java.lang.IllegalStateException: getOutputStream() has already been called for this responsejava.lang.IllegalStateException: getOutputStream() has already been called for this response
 	}
 	private void buildSortOrderBeforeDBQuerying(HttpServletRequest request){
 		String sort = "id,asc"; //default sort column is sale id and in ascending order
