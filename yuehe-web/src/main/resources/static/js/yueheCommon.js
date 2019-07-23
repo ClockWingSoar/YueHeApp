@@ -12,6 +12,7 @@ function getShopAllClientsList() {
         html += '</option>';
         htmlForSale = '<option value="all">--所有美肤卡--</option>';
         $('#client').html(html);
+        document.getElementById("client").fstdropdown.rebind();//To update the dropdown list after using fstdropdown.js, otherwise it won't show any data in the list
         $('#sale').html(htmlForSale);
     });
 }
@@ -29,6 +30,7 @@ function getClientAllSalesList() {
 			+ data[i].beautifySkinItemName + '-' + data[i].createCardDate+ '</option>';
 		}
 		html += '</option>';
-		$('#sale').html(html);
+        $('#sale').html(html);
+        document.getElementById("sale").fstdropdown.rebind();
 	});
 }
