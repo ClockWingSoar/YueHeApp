@@ -112,7 +112,10 @@
     font-size: 14px;
     display: none;
 }
-
+.fstdropdown.disabled{
+    pointer-events: none;
+    opacity: 0.4;
+}
 .fstdropdown.open > .fstsearch {
     display: block;
     padding: 4px;

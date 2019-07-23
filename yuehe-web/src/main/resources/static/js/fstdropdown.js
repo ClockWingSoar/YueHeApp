@@ -17,8 +17,10 @@ function setFstDropdown() {
         var searchDisable = select.dataset["searchdisable"];
         var placeholder = select.dataset["placeholder"];
         var opened = select.dataset["opened"];
+        var disabled = select.dataset["disabled"];//to disable the div if the dropdown is depend on another dropdown, it needs to be activated after the dependent dropdown is selected
         var div = createFstElement("div", "fstdiv", select.parentNode, null);
-        var dropdown = createFstElement("div", "fstdropdown" + (opened != null && opened == "true" ? " open" : ""), div,
+        var dropdown = createFstElement("div", "fstdropdown" + (opened != null && opened == "true" ? " open" : "") 
+                        + (disabled != null && disabled == "true" ? " disabled" : ""), div,
             opened == null || opened != "true" ? { "click": openSelect, "blur": openSelect } : null);
         dropdown.select = select;
         dropdown.setAttribute("tabindex", "0");
@@ -37,7 +39,9 @@ function setFstDropdown() {
             selectAll.selected = false;
         }
         createFstElement("div", "fstlist", dropdown, null);
-        select.fstdropdown = { dd: dropdown, rebind: function () { rebindDropdown(select); } };
+        //add activated function to enable the div dropdown after the dependent dropdown is selected
+        select.fstdropdown = { dd: dropdown, rebind: function () { rebindDropdown(select); }
+                                    ,activated: function () { activatedDropdown(select); } };
         rebindDropdown(select);
         select.classList.add("fstcreated");
     }
@@ -114,11 +118,16 @@ function setFstDropdown() {
                 listEl.dataset["value"] = optList[opt].value;
                 if (optList[opt].selected)
                     listEl.classList.add("selected");
-                listEl.addEventListener("click", changeSelect);
+                listEl.addEventListener("click", changeSelect); 
                 ddList.appendChild(listEl);
             }
         }
         setHeader(select, null);
+    }
+    //add to enable the div dropdown after the dependent dropdown is selected
+    function activatedDropdown(select) {
+        var ddDisabledList = select.fstdropdown.dd;
+        ddDisabledList.classList.remove("disabled");
     }
 
     function initNewEvent(eventName, target) {

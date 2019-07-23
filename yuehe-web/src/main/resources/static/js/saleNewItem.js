@@ -1,6 +1,7 @@
 $(function ($) {
+	var removeFirstOptionFlag = true;
 	$( "#createCardDate" ).datepicker();
-	$('#cosmeticShop').change(getShopAllClientsList);
+	$('#cosmeticShop').change(removeFirstOptionFlag,getShopAllClientsList);
 	$('#client').change(getClientAllSalesList);
 	
 

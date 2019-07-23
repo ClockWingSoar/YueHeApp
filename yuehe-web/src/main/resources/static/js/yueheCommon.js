@@ -1,4 +1,4 @@
-function getShopAllClientsList() {
+function getShopAllClientsList(removeFirstOptionFlag) {
     $.getJSON("http://localhost:9090/getShopAllClientsForFiltering", {
         cosmeticShopId : $(this).val(),
         ajax : 'true'
@@ -12,7 +12,24 @@ function getShopAllClientsList() {
         html += '</option>';
         htmlForSale = '<option value="all">--所有美肤卡--</option>';
         $('#client').html(html);
-        document.getElementById("client").fstdropdown.rebind();//To update the dropdown list after using fstdropdown.js, otherwise it won't show any data in the list
+        var clientSelector = document.getElementById("client");
+        $('#client').removeAttr("data-disabled");
+        if(removeFirstOptionFlag.data){
+            var clientList = Array.from(document.getElementById("client").querySelectorAll("option"));
+            for(var i = 0; i < clientList.length; i++)
+            {
+                console.log(clientList[i]);
+            }
+            clientList[0].remove();//remove the first option if it's for Sale or Operation New Item page
+            //change the first option if it's for Sale or Operation New Item page
+            var opt = document.createElement("option");
+            opt.value = "";
+            opt.text = "--输入客户名搜索客户--";
+            opt.selected = true;
+            clientSelector.add(opt,0);
+        }
+        clientSelector.fstdropdown.rebind();//To populate the generated div dropdown list after selecting cosmeticshop
+        clientSelector.fstdropdown.activated();//To enable the dropdown list after selecting cosmeticshop
         $('#sale').html(htmlForSale);
     });
 }
