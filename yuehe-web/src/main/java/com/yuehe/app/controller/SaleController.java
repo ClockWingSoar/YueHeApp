@@ -177,11 +177,11 @@ public class SaleController{
 	}
 	public void getSaleDetail(Model model, String id){
 		getSaleNewItemDropDownDataList(model);
-		Sale sale = saleService.getSaleById(id);
+		Sale sale = saleService.getById(id);
 		model.addAttribute("sale",sale);
 	}
 	@PostMapping("/sale/update/{id}")
-	public  String saleUpdateItem(Model model,	@PathVariable("id") String id ,@Valid Sale sale, BindingResult result, RedirectAttributes attr){
+	public  String updateSaleItem(Model model,	@PathVariable("id") String id ,@Valid Sale sale, BindingResult result, RedirectAttributes attr){
 		if (result.hasErrors()) {
 			// sale.setId(id);
 			
@@ -208,9 +208,29 @@ public class SaleController{
         if (sale != null) {
             LOGGER.info("updated {}", saleService.create(sale));
         }
-
+		model.addAttribute("message", "销售卡-"+id+" 更新成功");
 		return "redirect:/getSaleList";
 	}
+
+	@GetMapping("/sale/delete/{id}")
+    public String deleteSaleItem(@PathVariable("id") String id, Model model) {
+		saleService.deleteById(id);
+		model.addAttribute("message", "销售卡-"+id+" 删除成功");
+        return "redirect:/getSaleList";
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
 	@GetMapping("/getSaleSummary")
 	public  String saleSummary(Model model){
 		List<CosmeticShop> cosmeticShopList =  	yueHeCommonService.getAllCosmeticShops();

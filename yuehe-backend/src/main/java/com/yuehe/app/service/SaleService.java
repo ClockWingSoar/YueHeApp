@@ -101,8 +101,11 @@ public class SaleService {
     	return saleRepository.findByClientId(clientId);
     }
     
-    public Sale getSaleById(String id) {
+    public Sale getById(String id) {
     	return saleRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid sale Id:" + id));
+    }
+    public void deleteById(String id) {
+    	 saleRepository.deleteById(id);
     }
     public SaleDetailForDBDTO getSaleBasicDetailById(String id) {
     	return saleRepository.fetchSaleBasicDetailById(id);
