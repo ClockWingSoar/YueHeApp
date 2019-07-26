@@ -46,7 +46,8 @@ public class ClientController{
 		List<ClientShopDTO> clientList =new ArrayList<ClientShopDTO>();
 		clientList = clientService.getClientsDetailList();
 		 LOGGER.info("clientList {}", clientList);
-		 yueHeCommonService.getAllCosmeticShops(model);
+		 List<CosmeticShop> cosmeticShopList = yueHeCommonService.getAllCosmeticShops();
+		model.addAttribute("cosmeticShopList",cosmeticShopList);
 		model.addAttribute("clientList",clientList);
 		
 		return "user/client.html";

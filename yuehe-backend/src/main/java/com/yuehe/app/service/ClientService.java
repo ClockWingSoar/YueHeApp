@@ -40,7 +40,7 @@ public class ClientService {
 //    	clientList = clientRepository.findAll();
         return clientRepository.findAll();
     }
-    public Client getClientById(String id) {
+    public Client getById(String id) {
     	return clientRepository.findById(id);
     }
     public List<Client> getClientByName(String name) {

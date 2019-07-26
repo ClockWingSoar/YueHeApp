@@ -61,23 +61,23 @@ public class YueHeCommonService {
 		this.operationService = operationService;
 	}
 
-	public void getAllCosmeticShops(Model model) {
+	public List<CosmeticShop> getAllCosmeticShops() {
 		List<CosmeticShop> cosmeticShopList = cosmeticShopService.getAllCosmeticShopForFiltering();
-		model.addAttribute("cosmeticShopList", cosmeticShopList);
+		return cosmeticShopList;
 	}
 
-	public void getAllPersonByRoleName(Model model,String roleName) {
+	public List<DutyEmployeeRoleDTO> getAllPersonByRoleName(String roleName) {
 		List<DutyEmployeeRoleDTO> dutyList = dutyService.getAllPersonByRoleName(roleName);
 		dutyList.forEach(l -> System.out.println(l));
-		model.addAttribute("dutyList", dutyList);
+		return dutyList;
 	}
-	public void getAllTools(Model model) {
+	public List<Tool> getAllTools() {
 		List<Tool> toolList = toolService.getAllTools();
-		model.addAttribute("toolList", toolList);
+		return toolList;
 	}
-	public void getAllBeautifySkinItems(Model model) {
+	public List<BeautifySkinItem> getAllBeautifySkinItems() {
 		List<BeautifySkinItem> beautifySkinItemList = beautifySkinItemService.getAllBeautifySkinItem();
-		model.addAttribute("beautifySkinItemList", beautifySkinItemList);
+		return beautifySkinItemList;
 	}
 	public void getAllEmployees(Model model) {
 		List<Employee> employeeList = employeeService.getAllEmployees();
@@ -87,4 +87,13 @@ public class YueHeCommonService {
 		List<Role> roleList = roleService.getAllRoles();
 		model.addAttribute("roleList", roleList);
 	}
+	public Client getClientById(String clientId) {
+    	return clientService.getById(clientId);
+    }
+	public Employee getEmployeeById(String employeeId) {
+    	return employeeService.getById(employeeId);
+    }
+	public BeautifySkinItem getBeautifySkinItemById(String beautifySkinItemId) {
+    	return beautifySkinItemService.getById(beautifySkinItemId);
+    }
 }

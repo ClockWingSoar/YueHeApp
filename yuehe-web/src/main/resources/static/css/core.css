@@ -24,6 +24,9 @@ body {
   background-color: blue;
   color: white;
 }
+.clickable-row {
+  cursor: pointer;
+}
 .my-custom-scrollbar {
 position: relative;
 height: 460px;
@@ -60,10 +63,7 @@ table.dataTable thead .sorting_desc_disabled:after,
 table.dataTable thead .sorting_desc_disabled:before {
 bottom: .5em;
 }
-.px-2 {
-  padding-left: ($spacer * .5) !important;
-  padding-right: ($spacer * .5) !important；
-}
+
 .ml-1 {
   margin-left: 5%
 }

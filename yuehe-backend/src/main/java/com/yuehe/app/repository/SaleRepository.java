@@ -99,10 +99,11 @@ public interface SaleRepository extends JpaRepository<Sale, Long> {
 	
     Sale findById(String id);
     
-    @Query("select s from Sale s where s.clientId = ?1 AND s.beautifySkinItemId = ?2 AND s.createCardDate = ?3")
-    Sale findByClientIdAndItemIdAndCreateCardDate(String clientId, String beautifySkinItemId, String createCardDate);
+    // @Query("select s from Sale s where s.clientId = ?1 AND s.beautifySkinItemId = ?2 AND s.createCardDate = ?3")
+    // Sale findByClientIdAndItemIdAndCreateCardDate(String clientId, String beautifySkinItemId, String createCardDate);
     
     @Query("select new com.yuehe.app.dto.SaleBeautifySkinItemForFilterDTO(s.id, b.name, s.createCardDate) from Sale s "
-    		+ "INNER JOIN s.beautifySkinItem b where s.clientId = ?1")
+    		+ "INNER JOIN s.beautifySkinItem b where s.client.id = ?1")
     List<SaleBeautifySkinItemForFilterDTO> findByClientId(String clientId);
 }
+

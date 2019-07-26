@@ -29,7 +29,14 @@ $(function ($) {
 			}
 		  }
 	      
-	      });
+		  });
+		  $(".clickable-row tr").click(function() {
+			  
+			window.location = "sale/edit/"+$(this).find("td:eq(0)").text();
+			console.log(window.location);
+			});
+
+
 		});
 		$('#sale_csv_export').click(
 			function() {
@@ -37,5 +44,6 @@ $(function ($) {
 				window.location.href = 'saleCsvDownload'+
 				'?sort='+ sortProperty+','+ ((sortDirectionFlag=="false")?'asc':'desc')+'&tableName='+ tableName;
 			});
+		
 	
 });

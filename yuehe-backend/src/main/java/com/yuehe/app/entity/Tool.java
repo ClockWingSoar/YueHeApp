@@ -3,6 +3,7 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
@@ -46,8 +47,8 @@ public class Tool implements Serializable{
 	 */
 	@Id
 	private String id;
-	 @JsonManagedReference
-	@OneToMany(targetEntity = Operation.class, mappedBy = "toolId", orphanRemoval = false, fetch = FetchType.LAZY)
+	@JsonManagedReference
+	@OneToMany(targetEntity = Operation.class, mappedBy = "toolId", orphanRemoval = false, fetch = FetchType.LAZY, cascade=CascadeType.ALL)
 	private Set<Operation> operations;
 	private String name;
 	private String major;

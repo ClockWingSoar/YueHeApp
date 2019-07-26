@@ -3,11 +3,13 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotBlank;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
@@ -45,15 +47,16 @@ public class Employee implements Serializable{
 	 * 
 	 */
 	@Id
+	@NotBlank(message = "请输入正确的员工ID")
 	private String id;
 	 @JsonManagedReference
-	@OneToMany(targetEntity = Sale.class, mappedBy = "sellerId", orphanRemoval = false, fetch = FetchType.LAZY)
+	@OneToMany(targetEntity = Sale.class, mappedBy = "employee", orphanRemoval = false, fetch = FetchType.LAZY, cascade=CascadeType.ALL)
 	private Set<Sale> sales;
 	 @JsonManagedReference
-	@OneToMany(targetEntity = Duty.class, mappedBy = "employeeId", orphanRemoval = false, fetch = FetchType.LAZY)
+	@OneToMany(targetEntity = Duty.class, mappedBy = "employeeId", orphanRemoval = false, fetch = FetchType.LAZY, cascade=CascadeType.ALL)
 	private Set<Duty> duties;
 	 @JsonManagedReference
-	@OneToMany(targetEntity = Operation.class, mappedBy = "operatorId", orphanRemoval = false, fetch = FetchType.LAZY)
+	@OneToMany(targetEntity = Operation.class, mappedBy = "operatorId", orphanRemoval = false, fetch = FetchType.LAZY, cascade=CascadeType.ALL)
 	private Set<Operation> operations;
 	
 	public Set<Operation> getOperations() {

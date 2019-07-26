@@ -2,6 +2,7 @@ package com.yuehe.app.entity;
 import java.io.Serializable;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -44,7 +45,7 @@ public class CosmeticShop implements Serializable{
 	private float shopPremium;//例如肤语港，总业绩超过50万时，需要返还5万给店家
 	private String description;
 	@JsonManagedReference
-	@OneToMany(targetEntity = Client.class, mappedBy = "shopId", orphanRemoval = false, fetch = FetchType.LAZY)
+	@OneToMany(targetEntity = Client.class, mappedBy = "shopId", orphanRemoval = false, fetch = FetchType.LAZY, cascade=CascadeType.ALL)
 	private Set<Client> clients;
 	
 	// Constructors

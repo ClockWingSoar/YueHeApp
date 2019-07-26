@@ -1,4 +1,5 @@
 package com.yuehe.app;
+
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
@@ -15,6 +16,8 @@ public class YueHeMain  extends SpringBootServletInitializer {
 		// TODO Auto-generated method stub
 		 SpringApplication.run(YueHeMain.class, args);
 	}
+	
+
 //	@Bean
 //	public WebMvcConfigurer corsConfigurer() {
 //	    return new WebMvcConfigurer() {

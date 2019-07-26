@@ -1,7 +1,7 @@
 package com.yuehe.app.entity;
 import java.io.Serializable;
-import java.util.Date;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -10,10 +10,10 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
-
-import com.fasterxml.jackson.annotation.JsonBackReference;
 
 /**
  * Operation entity. @author Soveran Zhong
@@ -49,7 +49,7 @@ public class Operation implements Serializable{
 	@Column(name="sale_id")
 	private String saleId;
 	 @JsonBackReference
-	@ManyToOne(fetch = FetchType.LAZY) 
+	@ManyToOne(fetch = FetchType.LAZY, cascade=CascadeType.PERSIST) 
 	@JoinColumn(name = "sale_id",insertable = false, updatable = false)
 	@Fetch(FetchMode.JOIN)
 	private Sale sale;
@@ -60,7 +60,7 @@ public class Operation implements Serializable{
 	@Column(name="operator_id")
 	private String operatorId;
 	 @JsonBackReference
-	@ManyToOne(fetch = FetchType.LAZY) 
+	@ManyToOne(fetch = FetchType.LAZY, cascade=CascadeType.PERSIST) 
 	@JoinColumn(name = "operator_id",insertable = false, updatable = false)
 	@Fetch(FetchMode.JOIN)
 	private Employee employee;
@@ -69,7 +69,7 @@ public class Operation implements Serializable{
 	@Column(name="tool_id")
 	private String toolId;
 	 @JsonBackReference
-	@ManyToOne(fetch = FetchType.LAZY) 
+	@ManyToOne(fetch = FetchType.LAZY, cascade=CascadeType.PERSIST) 
 	@JoinColumn(name = "tool_id",insertable = false, updatable = false)
 	@Fetch(FetchMode.JOIN)
 	private Tool tool;

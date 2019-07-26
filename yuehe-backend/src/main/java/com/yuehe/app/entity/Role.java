@@ -3,6 +3,7 @@ package com.yuehe.app.entity;
 import java.io.Serializable;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
@@ -39,7 +40,7 @@ public class Role implements Serializable {
 	@Id
 	private String id;
 	 @JsonManagedReference
-	@OneToMany(targetEntity = Duty.class, mappedBy = "roleId", orphanRemoval = false, fetch = FetchType.LAZY)
+	@OneToMany(targetEntity = Duty.class, mappedBy = "roleId", orphanRemoval = false, fetch = FetchType.LAZY, cascade=CascadeType.ALL)
 	private Set<Duty> duties;
 
 	public Set<Duty> getDuties() {

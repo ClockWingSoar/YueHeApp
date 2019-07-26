@@ -1,6 +1,7 @@
 package com.yuehe.app.entity;
 import java.io.Serializable;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -9,10 +10,10 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
-
-import com.fasterxml.jackson.annotation.JsonBackReference;
 
 /**
  * Organization entity. @author Soveran Zhong
@@ -36,12 +37,12 @@ public class Duty implements Serializable{
 	private int welfare;
 	private String description;
 	@JsonBackReference
-	@ManyToOne(fetch = FetchType.LAZY) 
+	@ManyToOne(fetch = FetchType.LAZY, cascade=CascadeType.PERSIST) 
 	@JoinColumn(name = "employee_id",insertable = false, updatable = false)
 	@Fetch(FetchMode.JOIN)
 	private Employee employee;
 	@JsonBackReference
-	@ManyToOne(fetch = FetchType.LAZY) 
+	@ManyToOne(fetch = FetchType.LAZY, cascade=CascadeType.PERSIST) 
 	@JoinColumn(name = "role_id",insertable = false, updatable = false)
 	@Fetch(FetchMode.JOIN)
 	private Role role;

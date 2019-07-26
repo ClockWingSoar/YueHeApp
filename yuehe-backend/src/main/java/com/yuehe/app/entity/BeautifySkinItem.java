@@ -2,11 +2,13 @@ package com.yuehe.app.entity;
 import java.io.Serializable;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotBlank;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
@@ -25,9 +27,10 @@ public class BeautifySkinItem implements Serializable{
 	 */
 	private static final long serialVersionUID = -6638046999127630014L;
 	 @Id
+	 @NotBlank(message = "请输入正确的美肤套餐ID")
 	private String id;
 	 @JsonBackReference
-	@OneToMany(targetEntity = Sale.class, mappedBy = "beautifySkinItemId", orphanRemoval = false, fetch = FetchType.LAZY)
+	@OneToMany(targetEntity = Sale.class, mappedBy = "beautifySkinItem", orphanRemoval = false, fetch = FetchType.LAZY, cascade=CascadeType.ALL)
 	private Set<Sale> sales;
 	private String name;
 	

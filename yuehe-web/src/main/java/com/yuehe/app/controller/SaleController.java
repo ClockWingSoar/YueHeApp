@@ -8,15 +8,20 @@ import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 
 import com.mysql.cj.util.StringUtils;
 import com.yuehe.app.dto.ClientAllSalesPerformanceDetailDTO;
-import com.yuehe.app.dto.SaleClientItemSellerDTO;
+import com.yuehe.app.dto.DutyEmployeeRoleDTO;
 import com.yuehe.app.dto.SaleClientItemSellerForDBDTO;
 import com.yuehe.app.dto.SalePerformanceDetailDTO;
 import com.yuehe.app.dto.ShopAllSalesPerformanceDetailDTO;
 import com.yuehe.app.dto.YueHeAllSalesPerformanceDetailDTO;
+import com.yuehe.app.entity.BeautifySkinItem;
+import com.yuehe.app.entity.CosmeticShop;
 import com.yuehe.app.entity.Sale;
+import com.yuehe.app.property.BaseProperty;
+import com.yuehe.app.service.ClientService;
 import com.yuehe.app.service.SaleService;
 import com.yuehe.app.service.YueHeCommonService;
 import com.yuehe.app.util.YueHeUtil;
@@ -31,13 +36,16 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 
 
@@ -54,9 +62,12 @@ public class SaleController{
 	@Autowired
 	private final SaleService saleService;
 	@Autowired
+	private final ClientService clientService;
+	@Autowired
 	private final YueHeCommonService yueHeCommonService;
-	public SaleController(SaleService saleService, YueHeCommonService yueHeCommonService) {
+	public SaleController(SaleService saleService, YueHeCommonService yueHeCommonService,ClientService clientService) {
 		this.saleService = saleService;
+		this.clientService = clientService;
 		this.yueHeCommonService = yueHeCommonService;
 	}
 
@@ -140,16 +151,70 @@ public class SaleController{
 
 	@GetMapping("/getSaleNewItem")
 	public  String saleNewItem(Model model){
-		yueHeCommonService.getAllCosmeticShops(model);
-		yueHeCommonService.getAllPersonByRoleName(model,"专家");
-		yueHeCommonService.getAllBeautifySkinItems(model);
+		getSaleNewItemDropDownDataList(model);
 		model.addAttribute("subModule", "saleNewItem");
 		
 		return "user/saleNewItem.html";
 	}
+	@GetMapping("/sale/edit/{id}")
+	public  String saleEditItem(Model model,	@PathVariable("id") String id ){
+		getSaleDetail(model,id);
+		return "user/saleUpdateItem.html";
+	}
+	/**
+	 * 
+	 * get the initial data for cosmeticshop, seller and beautify skin item list to create a new sale item.
+	 * 
+	 */
+	public void getSaleNewItemDropDownDataList(Model model){
+		List<CosmeticShop> cosmeticShopList =  yueHeCommonService.getAllCosmeticShops();
+		List<DutyEmployeeRoleDTO> dutyList = yueHeCommonService.getAllPersonByRoleName(BaseProperty.YUEHE_ROLE_EXPERT);
+		List<BeautifySkinItem> beautifySkinItemList = yueHeCommonService.getAllBeautifySkinItems();
+		
+		model.addAttribute("cosmeticShopList", cosmeticShopList);
+		model.addAttribute("beautifySkinItemList", beautifySkinItemList);
+		model.addAttribute("dutyList", dutyList);
+	}
+	public void getSaleDetail(Model model, String id){
+		getSaleNewItemDropDownDataList(model);
+		Sale sale = saleService.getSaleById(id);
+		model.addAttribute("sale",sale);
+	}
+	@PostMapping("/sale/update/{id}")
+	public  String saleUpdateItem(Model model,	@PathVariable("id") String id ,@Valid Sale sale, BindingResult result, RedirectAttributes attr){
+		if (result.hasErrors()) {
+			// sale.setId(id);
+			
+			List<CosmeticShop> cosmeticShopList =  yueHeCommonService.getAllCosmeticShops();
+			List<DutyEmployeeRoleDTO> dutyList = yueHeCommonService.getAllPersonByRoleName(BaseProperty.YUEHE_ROLE_EXPERT);
+			List<BeautifySkinItem> beautifySkinItemList = yueHeCommonService.getAllBeautifySkinItems();
+			//to add back the initial data of sale edit item and the error message
+			attr.addFlashAttribute("org.springframework.validation.BindingResult.sale", result);
+			//  attr.addFlashAttribute("sale", sale);
+			// attr.addFlashAttribute("cosmeticShopList", cosmeticShopList);
+			// attr.addFlashAttribute("dutyList", dutyList);
+			// attr.addFlashAttribute("beautifySkinItemList", beautifySkinItemList);
+			//to set back the sale client name for client list dropdown since form object "sale" won't save client name
+			//only save the client id to the object "sale"
+			sale.setClient(clientService.getById(sale.getClient().getId()));
+			model.addAttribute("sale",sale);
+			model.addAttribute("cosmeticShopList", cosmeticShopList);
+			model.addAttribute("beautifySkinItemList", beautifySkinItemList);
+			model.addAttribute("dutyList", dutyList);
+			 return "user/saleUpdateItem.html";
+		}
+		LOGGER.debug("update sale:",sale);
+
+        if (sale != null) {
+            LOGGER.info("updated {}", saleService.create(sale));
+        }
+
+		return "redirect:/getSaleList";
+	}
 	@GetMapping("/getSaleSummary")
 	public  String saleSummary(Model model){
-		yueHeCommonService.getAllCosmeticShops(model);
+		List<CosmeticShop> cosmeticShopList =  	yueHeCommonService.getAllCosmeticShops();
+		model.addAttribute("cosmeticShopList", cosmeticShopList);
 		model.addAttribute("subModule", "saleSummary");
 		
 		return "user/saleSummary.html";
@@ -158,7 +223,6 @@ public class SaleController{
 	@PostMapping("/createSale")
     public String createSale( @RequestParam(name = "clientId", required = false) String clientId,
     								@RequestParam(name = "beautifySkinItemId", required = false) String beautifySkinItemId,
-//                                       @RequestParam(name = "cosmeticShopId", required = false) String cosmeticShopId,
                                        @RequestParam(name = "itemNumber", required = false) int itemNumber,
                                        @RequestParam(name = "createCardTotalAmount", required = false) long createCardTotalAmount,
                                        @RequestParam(name = "receivedAmount", required = false) long receivedAmount,
@@ -174,9 +238,9 @@ public class SaleController{
         String id = YueHeUtil.getId(6,Math.toIntExact(idNums));
         Sale sale =new Sale();
         sale.setId(id);
-        sale.setClientId(clientId);
-        sale.setSellerId(sellerId);
-        sale.setBeautifySkinItemId(beautifySkinItemId);
+        sale.setClient(yueHeCommonService.getClientById(clientId));
+        sale.setEmployee(yueHeCommonService.getEmployeeById(sellerId));
+        sale.setBeautifySkinItem(yueHeCommonService.getBeautifySkinItemById(beautifySkinItemId));
         sale.setItemNumber(itemNumber);
         sale.setCreateCardTotalAmount(createCardTotalAmount);
         sale.setReceivedAmount(receivedAmount);

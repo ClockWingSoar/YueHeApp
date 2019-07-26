@@ -154,7 +154,7 @@ public class OperationService {
     
     public ClientDetailDTO getClientSaleDetailByClientId(String clientId) {
     	List<SaleDetailDTO> saleDetailDTOList = getAllSalesDetailByClientId(clientId);
-    	String clientName = clientService.getClientById(clientId).getName();
+    	String clientName = clientService.getById(clientId).getName();
     	ClientDetailDTO clientDetailDTO = new ClientDetailDTO();
     	long allSalesConsumedAmount = 0;//for one client's all sales
 		long allSalesAdvancedEarnedAmount = 0;//for one client's all sales

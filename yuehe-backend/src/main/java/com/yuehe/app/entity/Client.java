@@ -2,6 +2,7 @@ package com.yuehe.app.entity;
 import java.io.Serializable;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -10,12 +11,13 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
+import javax.validation.constraints.NotBlank;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 /**
  * Client entity. @author Soveran Zhong
@@ -30,9 +32,10 @@ public class Client implements Serializable{
 	 */
 	private static final long serialVersionUID = -6357133516380999542L;
 	@Id
+	@NotBlank(message = "请输入正确的客户ID")
 	private String id;
 	@JsonBackReference
-	@ManyToOne(fetch = FetchType.LAZY) 
+	@ManyToOne(fetch = FetchType.LAZY, cascade=CascadeType.PERSIST) 
 	@JoinColumn(name = "shop_id",insertable = false, updatable = false)
 	@Fetch(FetchMode.JOIN)
 	private CosmeticShop cosmeticShop;
@@ -45,7 +48,7 @@ public class Client implements Serializable{
 	private String gender;
 	private String symptom;
 	 @JsonManagedReference
-	@OneToMany(targetEntity = Sale.class, mappedBy = "clientId", orphanRemoval = false, fetch = FetchType.LAZY)
+	@OneToMany(targetEntity = Sale.class, mappedBy = "client", orphanRemoval = false, fetch = FetchType.LAZY, cascade=CascadeType.ALL)
 	private Set<Sale> sales;
 	// Constructors
 

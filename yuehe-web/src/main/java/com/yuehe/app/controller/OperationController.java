@@ -4,6 +4,24 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import com.yuehe.app.dto.ClientDetailDTO;
+import com.yuehe.app.dto.DutyEmployeeRoleDTO;
+import com.yuehe.app.dto.OperationDetailDTO;
+import com.yuehe.app.dto.SaleBeautifySkinItemForFilterDTO;
+import com.yuehe.app.dto.SaleDetailDTO;
+import com.yuehe.app.dto.ShopDetailDTO;
+import com.yuehe.app.dto.YueHeAllShopsDetailDTO;
+import com.yuehe.app.entity.Client;
+import com.yuehe.app.entity.CosmeticShop;
+import com.yuehe.app.entity.Operation;
+import com.yuehe.app.entity.Tool;
+import com.yuehe.app.property.BaseProperty;
+import com.yuehe.app.service.ClientService;
+import com.yuehe.app.service.OperationService;
+import com.yuehe.app.service.SaleService;
+import com.yuehe.app.service.YueHeCommonService;
+import com.yuehe.app.util.YueHeUtil;
+
 //import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,20 +34,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-
-import com.yuehe.app.dto.ClientDetailDTO;
-import com.yuehe.app.dto.OperationDetailDTO;
-import com.yuehe.app.dto.SaleBeautifySkinItemForFilterDTO;
-import com.yuehe.app.dto.SaleDetailDTO;
-import com.yuehe.app.dto.ShopDetailDTO;
-import com.yuehe.app.dto.YueHeAllShopsDetailDTO;
-import com.yuehe.app.entity.Client;
-import com.yuehe.app.entity.Operation;
-import com.yuehe.app.service.ClientService;
-import com.yuehe.app.service.OperationService;
-import com.yuehe.app.service.SaleService;
-import com.yuehe.app.service.YueHeCommonService;
-import com.yuehe.app.util.YueHeUtil;
 
 
 @Controller
@@ -71,16 +75,21 @@ public class OperationController{
 
 	@GetMapping("/getOperationNewItem")
 	public  String operationNewItemOverview(Model model){
-		yueHeCommonService.getAllCosmeticShops(model);
-		yueHeCommonService.getAllPersonByRoleName(model,"操作人");
-		yueHeCommonService.getAllTools(model);
+		List<CosmeticShop> cosmeticShopList =  yueHeCommonService.getAllCosmeticShops();
+		List<DutyEmployeeRoleDTO> dutyList = yueHeCommonService.getAllPersonByRoleName(BaseProperty.YUEHE_ROLE_OPERATOR);
+		List<Tool> toolList = yueHeCommonService.getAllTools();
+		
+		model.addAttribute("cosmeticShopList", cosmeticShopList);
+		model.addAttribute("toolList", toolList);
+		model.addAttribute("dutyList", dutyList);
 		model.addAttribute("subModule", "operationNewItem");
 		return "user/operationNewItem.html";
 	}
 	
 	@GetMapping("/getOperationSummary")
 	public  String operationSummary(Model model){
-		yueHeCommonService.getAllCosmeticShops(model);
+		List<CosmeticShop> cosmeticShopList =  yueHeCommonService.getAllCosmeticShops();
+		model.addAttribute("cosmeticShopList", cosmeticShopList);
 		model.addAttribute("subModule", "operationSummary");
 		return "user/operationSummary.html";
 	}

@@ -22,6 +22,7 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import com.yuehe.app.dto.ClientAllSalesPerformanceDetailDTO;
@@ -109,12 +110,12 @@ public class SaleService {
     public List<SaleBeautifySkinItemForFilterDTO> getByClientId(String ClientId) {
     	return saleRepository.findByClientId(ClientId);
     }
-    public Sale getSaleByClientNameAndShopNameAndItemNameAndCreateCardDate(String clientName, String cosmeticShopName,
-    																		String beautifySkinItemName, String createCardDate) {
-    	client = clientService.getClientByClientNameAndShopName(clientName,cosmeticShopName);
-    	beautifySkinItem = beautifySkinItemService.getBeautifySkinItemByName(beautifySkinItemName);
-    	return saleRepository.findByClientIdAndItemIdAndCreateCardDate(client.getId(),beautifySkinItem.getId(),createCardDate);
-    }
+    // public Sale getSaleByClientNameAndShopNameAndItemNameAndCreateCardDate(String clientName, String cosmeticShopName,
+    // 																		String beautifySkinItemName, String createCardDate) {
+    // 	client = clientService.getClientByClientNameAndShopName(clientName,cosmeticShopName);
+    // 	beautifySkinItem = beautifySkinItemService.getBeautifySkinItemByName(beautifySkinItemName);
+    // 	return saleRepository.findByClientIdAndItemIdAndCreateCardDate(client.getId(),beautifySkinItem.getId(),createCardDate);
+    // }
     @Transactional(rollbackFor = Exception.class)
     public List<Sale> saveAll(List<Sale> sale) {
         LOGGER.info("Saving {}", sale);
@@ -254,16 +255,17 @@ public class SaleService {
 	private void buildSalesDetailList(List<SaleClientItemSellerDTO> saleClientItemSellerDTOList,List<SaleClientItemSellerForDBDTO> saleClientItemSellerForDBDTOList){
 	
 		for(SaleClientItemSellerForDBDTO saleClientItemSellerForDBDTO : saleClientItemSellerForDBDTOList) {
-			long beautifySkinItemPrice = saleClientItemSellerForDBDTO.getBeautifySkinItemPrice();
-			float cosmeticShopDiscount = saleClientItemSellerForDBDTO.getCosmeticShopDiscount();
-			long createCardTotalAmount =  saleClientItemSellerForDBDTO.getCreateCardTotalAmount();
-			long receivedAmount = saleClientItemSellerForDBDTO.getReceivedAmount();
-			int itemNumber = saleClientItemSellerForDBDTO.getItemNumber();
-			long receivedEarnedAmount = saleClientItemSellerForDBDTO.getReceivedEarnedAmount();
+			Integer beautifySkinItemPrice = saleClientItemSellerForDBDTO.getBeautifySkinItemPrice();
+			Float cosmeticShopDiscount = saleClientItemSellerForDBDTO.getCosmeticShopDiscount();
+			Long createCardTotalAmount =  saleClientItemSellerForDBDTO.getCreateCardTotalAmount();
+			Long receivedAmount = saleClientItemSellerForDBDTO.getReceivedAmount();
+			Integer itemNumber = saleClientItemSellerForDBDTO.getItemNumber();
+			Long receivedEarnedAmount = saleClientItemSellerForDBDTO.getReceivedEarnedAmount();
 			Double discount = new Double(createCardTotalAmount)/new Double(beautifySkinItemPrice * itemNumber);
-			long employeePremium = new Float(saleClientItemSellerForDBDTO.getEmployeePremium()).longValue();
-		    long shopPremium = new Float(saleClientItemSellerForDBDTO.getShopPremium()).longValue();
-		    long earnedAmount = new Double(createCardTotalAmount*cosmeticShopDiscount).longValue() - employeePremium - shopPremium;
+			//using Optional orElse to handle null value of employeePremium and shopPremium, if null, assign 0 to it to avoid nullpointerexception
+			Float employeePremium = Optional.ofNullable(saleClientItemSellerForDBDTO.getEmployeePremium()).orElse(new Float(0));
+		    Float shopPremium = Optional.ofNullable(saleClientItemSellerForDBDTO.getShopPremium()).orElse(new Float(0));
+		    Float earnedAmount = createCardTotalAmount*cosmeticShopDiscount - employeePremium - shopPremium;
 			
 			SaleClientItemSellerDTO saleClientItemSellerDTO = new SaleClientItemSellerDTO();
 			saleClientItemSellerDTO.setBeautifySkinItemName(saleClientItemSellerForDBDTO.getBeautifySkinItemName());
@@ -371,7 +373,7 @@ public class SaleService {
 		 return shopAllSalesPerformanceDetailDTO;
 	 }
 	 public ClientAllSalesPerformanceDetailDTO getClientAllSalesPerformanceDetail(String clientId) {
-		 String clientName = clientService.getClientById(clientId).getName();
+		 String clientName = clientService.getById(clientId).getName();
 		 ClientAllSalesPerformanceDetailDTO clientAllSalesPerformanceDetailDTO = new ClientAllSalesPerformanceDetailDTO();
 		 List<SaleBeautifySkinItemForFilterDTO> saleListByClient = saleRepository.findByClientId(clientId);
 		 List<SalePerformanceDetailDTO> salePerformanceDetailDTOList = new ArrayList<SalePerformanceDetailDTO>();

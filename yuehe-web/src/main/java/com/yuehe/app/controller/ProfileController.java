@@ -1,4 +1,12 @@
 package com.yuehe.app.controller;
+import java.util.List;
+
+import com.yuehe.app.dto.ProfileDetailDTO;
+import com.yuehe.app.entity.CosmeticShop;
+import com.yuehe.app.service.ClientService;
+import com.yuehe.app.service.ProfileService;
+import com.yuehe.app.service.YueHeCommonService;
+
 //import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,12 +19,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-
-import com.yuehe.app.dto.ProfileDetailDTO;
-import com.yuehe.app.entity.CosmeticShop;
-import com.yuehe.app.service.ClientService;
-import com.yuehe.app.service.ProfileService;
-import com.yuehe.app.service.YueHeCommonService;
 
 
 @Controller
@@ -43,7 +45,8 @@ public class ProfileController{
 	@GetMapping("/getProfileOverview")
 	public  String getProfileOverview(Model model){
 		// TODO Auto-generated method stub
-		 yueHeCommonService.getAllCosmeticShops(model);
+		List<CosmeticShop> cosmeticShopList = yueHeCommonService.getAllCosmeticShops();
+		model.addAttribute("cosmeticShopList", cosmeticShopList);
 		
 		return "user/profile.html";
 	}

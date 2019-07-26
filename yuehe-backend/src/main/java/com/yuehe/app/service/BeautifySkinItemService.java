@@ -37,6 +37,9 @@ public class BeautifySkinItemService {
     public BeautifySkinItem getBeautifySkinItemByName(String name) {
     	return beautifySkinItemRepository.findByName(name);
     }
+    public BeautifySkinItem getById(String id) {
+    	return beautifySkinItemRepository.findById(id);
+    }
     public long getEntityNumber() {
     	return beautifySkinItemRepository.count();
     }
