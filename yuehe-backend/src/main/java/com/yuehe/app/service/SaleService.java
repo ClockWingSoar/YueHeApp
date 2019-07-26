@@ -102,7 +102,7 @@ public class SaleService {
     }
     
     public Sale getSaleById(String id) {
-    	return saleRepository.findById(id);
+    	return saleRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid sale Id:" + id));
     }
     public SaleDetailForDBDTO getSaleBasicDetailById(String id) {
     	return saleRepository.fetchSaleBasicDetailById(id);

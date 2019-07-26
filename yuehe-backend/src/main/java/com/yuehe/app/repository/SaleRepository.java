@@ -33,7 +33,7 @@ import org.springframework.data.jpa.repository.Query;
 /**
  * @author Soveran Zhong
  */
-public interface SaleRepository extends JpaRepository<Sale, Long> {
+public interface SaleRepository extends JpaRepository<Sale, String> {
 
 	@Query("SELECT new com.yuehe.app.dto.SaleClientItemSellerForDBDTO(s.id,c.name, b.name, p.name, "
 			+ "s.itemNumber,s.createCardTotalAmount,b.price,"
@@ -97,7 +97,7 @@ public interface SaleRepository extends JpaRepository<Sale, Long> {
 	SalePerformanceDetailForDBDTO fetchSalePerformanceDetailById(String id);
 	
 	
-    Sale findById(String id);
+    // Sale findById(String id);
     
     // @Query("select s from Sale s where s.clientId = ?1 AND s.beautifySkinItemId = ?2 AND s.createCardDate = ?3")
     // Sale findByClientIdAndItemIdAndCreateCardDate(String clientId, String beautifySkinItemId, String createCardDate);
