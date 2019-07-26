@@ -1,5 +1,7 @@
 package com.yuehe.app.entity;
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -248,7 +250,7 @@ public class Sale implements Serializable{
 		return "Sale [beautifySkinItemName=" + beautifySkinItem.getName() + ", clientName=" + client.getName() + ", createCardDate="
 				+ createCardDate + ", createCardTotalAmount=" + createCardTotalAmount + ", description=" + description
 				+ ", sellerName=" + employee.getName() + ", employeePremium=" + employeePremium + ", id=" + id + ", itemNumber="
-				+ itemNumber + ", operationNumber=" + operations.size() + ", receivedAmount=" + receivedAmount
+				+ itemNumber + ", operationNumber=" + Optional.ofNullable(operations).orElse(new HashSet<Operation>()).size() + ", receivedAmount=" + receivedAmount
 				+ ", receivedEarnedAmount=" + receivedEarnedAmount + ", shopPremium=" + shopPremium + "]";
 	}
 
