@@ -1,6 +1,7 @@
 package com.yuehe.app.entity;
 
 import java.io.Serializable;
+import java.util.Optional;
 import java.util.Set;
 
 import javax.persistence.Entity;
@@ -56,7 +57,7 @@ public class Client implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Client [id=" + id + ", cosmeticShopName=" + cosmeticShop.getName() + ", name=" + name + ", age=" + age
+		return "Client [id=" + id + ", cosmeticShopName=" + Optional.ofNullable(cosmeticShop).orElse(new CosmeticShop()).getName() + ", name=" + name + ", age=" + age
 				+ ", gender=" + gender + ", symptom=" + symptom + "]";
 	}
 

@@ -1,6 +1,7 @@
 package com.yuehe.app.entity;
 
 import java.io.Serializable;
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
@@ -108,5 +109,6 @@ public class Sale implements Serializable {
 				+ receivedAmount + ", receivedEarnedAmount=" + receivedEarnedAmount + ", shopPremium=" + shopPremium
 				+ "]";
 	}
+	public static Comparator<Sale> idComparator = Comparator.comparing(Sale::getId);
 
 }

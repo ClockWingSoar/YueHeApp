@@ -297,10 +297,17 @@ public class SaleService {
 		saleClientItemSellerForDBDTOList.forEach(l -> System.out.println(l));
 		saleClientItemSellerDTOList.forEach(l -> System.out.println(l));
 	}
-	// public void sort
+	/**
+	 * To get the biggest number of the current string id 
+	 */ 
 	 public long getEntityNumber() {
-	    	return saleRepository.count();
-	    }
+		List<Sale> saleList = saleRepository.findAll();
+		Collections.sort(saleList,Sale.idComparator.reversed());
+		String biggiestId = saleList.get(0).getId();
+		long bigestIdNum = new Long(biggiestId.substring(biggiestId.lastIndexOf("0")));
+		LOGGER.info("bigest Id Number-{}",bigestIdNum);
+	    return bigestIdNum;
+	}
 	 public YueHeAllSalesPerformanceDetailDTO getYueHeAllSalesPerformanceDetail() {
 		 YueHeAllSalesPerformanceDetailDTO yueHeAllSalesPerformanceDetailDTO = new YueHeAllSalesPerformanceDetailDTO();
 		 List<CosmeticShop> cosmeticShopList = cosmeticShopService.getAllCosmeticShopForFiltering();
