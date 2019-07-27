@@ -28,6 +28,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
 /**
@@ -96,8 +97,9 @@ public interface SaleRepository extends JpaRepository<Sale, String> {
 			+ "where s.id = ?1")
 	SalePerformanceDetailForDBDTO fetchSalePerformanceDetailById(String id);
 	
-	
-    // Sale findById(String id);
+	// @Modifying
+	// @Query("delete Sale s where s.id = ?1")
+    // void deleteById(String id);
     
     // @Query("select s from Sale s where s.clientId = ?1 AND s.beautifySkinItemId = ?2 AND s.createCardDate = ?3")
     // Sale findByClientIdAndItemIdAndCreateCardDate(String clientId, String beautifySkinItemId, String createCardDate);

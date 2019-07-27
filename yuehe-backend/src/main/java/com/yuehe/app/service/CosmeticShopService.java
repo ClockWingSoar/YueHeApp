@@ -30,7 +30,7 @@ import org.springframework.transaction.annotation.Transactional;
  * @author Shazin Sadakath
  */
 @Service
-@Transactional(readOnly = true)
+@Transactional(readOnly = false)
 public class CosmeticShopService {
     private static final Logger LOGGER = LoggerFactory.getLogger(CosmeticShopService.class);
     private final CosmeticShopRepository cosmeticShopRepository;

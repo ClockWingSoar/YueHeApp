@@ -14,7 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
  * @author Soveran Zhong
  */
 @Service
-@Transactional(readOnly = true)
+@Transactional(readOnly = false)
 public class BeautifySkinItemService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(BeautifySkinItemService.class);

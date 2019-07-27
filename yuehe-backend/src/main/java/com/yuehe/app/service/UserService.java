@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2018  Shazin Sadakath
+    Copyright (C) 2019 Yi Xiang Zhong
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -32,10 +32,10 @@ import com.yuehe.app.entity.User;
 import com.yuehe.app.repository.UserRepository;
 
 /**
- * @author Shazin Sadakath
+ * @author Soveran Zhong
  */
 @Service
-@Transactional(readOnly = true)
+@Transactional(readOnly = false)
 public class UserService implements UserDetailsService {
     private static final Logger LOGGER = LoggerFactory.getLogger(UserService.class);
     private final UserRepository userRepository;

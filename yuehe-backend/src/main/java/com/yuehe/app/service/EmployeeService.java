@@ -30,7 +30,7 @@ import com.yuehe.app.repository.EmployeeRepository;
  * @author soveran zhong
  */
 @Service
-@Transactional(readOnly = true)
+@Transactional(readOnly = false)
 public class EmployeeService {
     private static final Logger LOGGER = LoggerFactory.getLogger(EmployeeService.class);
     private final EmployeeRepository employeeRepository;

@@ -56,7 +56,7 @@ import org.springframework.transaction.annotation.Transactional;
  * @author Soveran Zhong
  */
 @Service
-@Transactional(readOnly = true)
+@Transactional(readOnly = false)//changed true to false to enable delete sale operation, otherwise it won't let it to modify the db
 public class SaleService {
     private static final Logger LOGGER = LoggerFactory.getLogger(SaleService.class);
 	private final SaleRepository saleRepository;

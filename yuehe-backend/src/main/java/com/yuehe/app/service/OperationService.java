@@ -42,7 +42,7 @@ import org.springframework.transaction.annotation.Transactional;
  * @author yi xiang zhong
  */
 @Service
-@Transactional(readOnly = true)
+@Transactional(readOnly = false)
 public class OperationService {
 	private static final Logger LOGGER = LoggerFactory.getLogger(OperationService.class);
 	private final OperationRepository operationRepository;

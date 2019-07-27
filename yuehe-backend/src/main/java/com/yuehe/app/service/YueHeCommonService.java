@@ -26,7 +26,7 @@ import org.springframework.ui.Model;
  * @author Soveran Zhong
  */
 @Service
-@Transactional(readOnly = true)
+@Transactional(readOnly = false)
 public class YueHeCommonService {
 	private static final Logger LOGGER = LoggerFactory.getLogger(YueHeCommonService.class);
 	@Autowired

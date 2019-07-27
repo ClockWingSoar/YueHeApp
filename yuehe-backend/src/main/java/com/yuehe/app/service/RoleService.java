@@ -30,7 +30,7 @@ import com.yuehe.app.repository.RoleRepository;
  * @author soveran zhong
  */
 @Service
-@Transactional(readOnly = true)
+@Transactional(readOnly = false)
 public class RoleService {
     private static final Logger LOGGER = LoggerFactory.getLogger(RoleService.class);
     private final RoleRepository roleRepository;

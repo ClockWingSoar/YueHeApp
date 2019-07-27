@@ -30,7 +30,7 @@ import org.springframework.transaction.annotation.Transactional;
  * @author soveran zhong
  */
 @Service
-@Transactional(readOnly = true)
+@Transactional(readOnly = false)
 public class ToolService {
     private static final Logger LOGGER = LoggerFactory.getLogger(ToolService.class);
     private final ToolRepository toolRepository;

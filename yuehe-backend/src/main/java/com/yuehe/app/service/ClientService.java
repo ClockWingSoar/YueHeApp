@@ -17,7 +17,7 @@ import com.yuehe.app.repository.ClientRepository;
  * @author Soveran Zhong
  */
 @Service
-@Transactional(readOnly = true)
+@Transactional(readOnly = false)
 public class ClientService {
     private static final Logger LOGGER = LoggerFactory.getLogger(ClientService.class);
     private final ClientRepository clientRepository;
