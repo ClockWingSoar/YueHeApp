@@ -1,14 +1,12 @@
 package com.yuehe.app.dto;
 
-import java.util.Date;
-
-import org.springframework.data.jpa.repository.Query;
-
 /**
  * 
- * This is DTO class which is to render the view of operation.html,using when it needs to join other tables
- * to get employee name by it's employee id, it's different with the entity
- * class {@link com.yuehe.app.entity.Operation} which is aim to symplify the data store volume
+ * This is DTO class which is to render the view of operation.html,using when it
+ * needs to join other tables to get employee name by it's employee id, it's
+ * different with the entity class {@link com.yuehe.app.entity.Operation} which
+ * is aim to symplify the data store volume
+ * 
  * @author YIXIANGZhong
  * @since 1.0
  */

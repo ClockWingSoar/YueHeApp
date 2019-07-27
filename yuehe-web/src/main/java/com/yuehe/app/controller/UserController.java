@@ -3,6 +3,11 @@ package com.yuehe.app.controller;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.yuehe.app.config.BeanConfigurations;
+import com.yuehe.app.entity.User;
+import com.yuehe.app.service.UserService;
+import com.yuehe.app.util.YueHeUtil;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,13 +16,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-
-import com.yuehe.app.config.BeanConfigurations;
-import com.yuehe.app.entity.User;
-import com.yuehe.app.service.UserService;
-import com.yuehe.app.util.YueHeUtil;
 
 @Controller
 public class UserController {

@@ -41,7 +41,6 @@ public class CsvView extends AbstractCsvView {
             //*=UTF-8 is necessary for firefox browser, or you'll get fileName like %E6%82%A6%E5%92%8C-%E9%94%80%E5%94%AE%E4%B8%9A%E7%BB%A9-20190722150036.csv
             response.setHeader("Content-Disposition","attachment; filename*=UTF-8''"+ fileName);//this fix the fileName showing random code issue for chinese characters
         } catch (Exception e1) {
-            // TODO Auto-generated catch block
             e1.printStackTrace();
         }
         // response.setHeader("Content-Disposition", "attachment; filename=\""+fileName+".csv\"");

@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2018  Shazin Sadakath
+    Copyright (C) 2019  Yi Xiang Zhong
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -17,73 +17,26 @@
 package com.yuehe.app.entity;
 
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
- * @author Shazin Sadakath
+ * @author Soveran Zhong
  */
 @Entity
 @Table(name = "user")
-//@Data
-//@AllArgsConstructor
-//@NoArgsConstructor
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class User {
-
-    public User() {
-		//super();
-	}
-
-	public User(String id, String username, String password, String role) {
-		super();
-		this.id = id;
-		this.username = username;
-		this.password = password;
-		this.role = role;
-	}
-
 	@Id
-   // @GeneratedValue
-    private String id;
-
-    private String username;
-
-    private String password;
-
-    private String role;
-
-	public String getId() {
-		return id;
-	}
-
-	public void setId(String id) {
-		this.id = id;
-	}
-
-	public String getUsername() {
-		return username;
-	}
-
-	public void setUsername(String username) {
-		this.username = username;
-	}
-
-	public String getPassword() {
-		return password;
-	}
-
-	public void setPassword(String password) {
-		this.password = password;
-	}
-
-	public String getRole() {
-		return role;
-	}
-
-	public void setRole(String role) {
-		this.role = role;
-	}
+	private String id;
+	private String username;
+	private String password;
+	private String role;
 
 }

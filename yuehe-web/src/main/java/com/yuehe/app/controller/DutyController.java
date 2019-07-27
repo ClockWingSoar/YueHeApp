@@ -63,8 +63,8 @@ public class DutyController{
         duty.setId(id);
         duty.setWelfare(welfare);
         duty.setDescription(description);
-        duty.setRoleId(roleId);
-        duty.setEmployeeId(employeeId);
+        duty.setRole(yueHeCommonService.getRoleById(roleId));
+        duty.setEmployee(yueHeCommonService.getEmployeeById(employeeId));
         LOGGER.debug("duty:",duty);
 
         if (duty != null) {

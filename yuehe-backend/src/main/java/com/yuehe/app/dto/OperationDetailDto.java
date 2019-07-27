@@ -1,11 +1,12 @@
 package com.yuehe.app.dto;
 
-import java.util.Date;
-
 /**
  * 
- * This is DTO class which is to render the view of operationSummary.html,to show the basic operation table view
- * class {@link com.yuehe.app.entity.Operation} which is aim to symplify the data store volume
+ * This is DTO class which is to render the view of operationSummary.html,to
+ * show the basic operation table view class
+ * {@link com.yuehe.app.entity.Operation} which is aim to symplify the data
+ * store volume
+ * 
  * @author YIXIANGZhong
  * @since 1.0
  */

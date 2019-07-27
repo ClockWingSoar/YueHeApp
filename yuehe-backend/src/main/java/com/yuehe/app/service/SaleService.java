@@ -107,6 +107,9 @@ public class SaleService {
     public void deleteById(String id) {
     	 saleRepository.deleteById(id);
     }
+    public void delete(Sale sale) {
+    	 saleRepository.delete(sale);
+    }
     public SaleDetailForDBDTO getSaleBasicDetailById(String id) {
     	return saleRepository.fetchSaleBasicDetailById(id);
     }
@@ -337,7 +340,7 @@ public class SaleService {
 		 return yueHeAllSalesPerformanceDetailDTO;
 	 }
 	 public ShopAllSalesPerformanceDetailDTO getShopAllSalesPerformanceDetail(String shopId) {
-		 String shopName = cosmeticShopService.getCosmeticShopById(shopId).getName();
+		 String shopName = cosmeticShopService.getById(shopId).getName();
 		 ShopAllSalesPerformanceDetailDTO shopAllSalesPerformanceDetailDTO = new ShopAllSalesPerformanceDetailDTO();
 		 List<Client> clientListByShop = clientService.getClientsByShopId(shopId);
 		 List<ClientAllSalesPerformanceDetailDTO> clientAllSalesPerformanceDetailDTOList = new ArrayList<ClientAllSalesPerformanceDetailDTO>();

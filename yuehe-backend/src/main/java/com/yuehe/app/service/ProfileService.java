@@ -1,19 +1,15 @@
 package com.yuehe.app.service;
 
-import java.util.ArrayList;
-import java.util.List;
+import com.yuehe.app.dto.ClientAllSalesPerformanceDetailDTO;
+import com.yuehe.app.dto.ClientDetailDTO;
+import com.yuehe.app.dto.ClientShopDTO;
+import com.yuehe.app.dto.ProfileDetailDTO;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import com.yuehe.app.dto.ClientAllSalesPerformanceDetailDTO;
-import com.yuehe.app.dto.ClientDetailDTO;
-import com.yuehe.app.dto.ClientShopDTO;
-import com.yuehe.app.dto.ProfileDetailDTO;
-import com.yuehe.app.entity.Client;
 
 /**
  * @author soveran zhong

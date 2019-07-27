@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2018  Shazin Sadakath
+    Copyright (C) 2019 Yi Xiang Zhong
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -54,12 +54,12 @@ public interface OperationRepository  extends JpaRepository<Operation, Long> {
 //	this.toolId = toolId;
 //	this.operationDate = operationDate;
 //	this.description = description;
-	@Query("select count(o) from Operation o where o.saleId = ?1")
+	@Query("select count(o) from Operation o where o.sale.id = ?1")
     int findOperationNumBySaleId(String saleId);
 	
 	
 	
-	@Query("select new com.yuehe.app.dto.OperationDetailDTO(o.saleId,o.id,o.operationDate, "
+	@Query("select new com.yuehe.app.dto.OperationDetailDTO(o.sale.id,o.id,o.operationDate, "
 			+ "e.name,t.name,t.operateExpense,o.description) "
 			+ "FROM Operation o INNER JOIN o.sale s "
 //			+ "INNER JOIN s.beautifySkinItem b "
@@ -67,10 +67,10 @@ public interface OperationRepository  extends JpaRepository<Operation, Long> {
 //			+ "INNER JOIN s.client c "
 //			+ "INNER JOIN c.cosmeticShop p "
 + "INNER JOIN o.tool t"
-+ " where o.saleId = ?1")
++ " where o.sale.id = ?1")
 	List<OperationDetailDTO> findBySaleId(String saleId);
 	
-	@Query("select new com.yuehe.app.dto.OperationDetailDTO(o.saleId,o.id,o.operationDate, "
+	@Query("select new com.yuehe.app.dto.OperationDetailDTO(o.sale.id,o.id,o.operationDate, "
 			+ "e.name,t.name,t.operateExpense,o.description) "
 			+ "FROM Operation o INNER JOIN o.sale s "
 			+ "INNER JOIN o.employee e "

@@ -109,9 +109,9 @@ public class OperationController{
         String id = YueHeUtil.getId(4,Math.toIntExact(idNums));
         Operation operation =new Operation();
         operation.setId(id);
-        operation.setSaleId(saleId);
-		operation.setOperatorId(operatorId);
-        operation.setToolId(toolId);
+        operation.setSale(yueHeCommonService.getSaleById(saleId));
+		operation.setEmployee(yueHeCommonService.getEmployeeById(operatorId));
+        operation.setTool(yueHeCommonService.getToolById(toolId));
         operation.setOperationDate(simpleDateFormat.format(operationDate));
         operation.setDescription(description);
         System.err.println("operation:"+operation);

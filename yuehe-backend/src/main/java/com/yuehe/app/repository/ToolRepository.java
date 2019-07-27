@@ -16,11 +16,9 @@
  */
 package com.yuehe.app.repository;
 
-import java.util.List;
+import com.yuehe.app.entity.Tool;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-
-import com.yuehe.app.entity.Tool;
 
 /**
  * @author Soveran Zhong

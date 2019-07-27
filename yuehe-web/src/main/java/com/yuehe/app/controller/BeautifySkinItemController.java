@@ -40,7 +40,6 @@ public class BeautifySkinItemController{
 
 	@GetMapping("/getBeautifySkinItemList")
 	public  String beautifySkinItemOverview(Model model){
-		// TODO Auto-generated method stub
 		List<BeautifySkinItem> beautifySkinItemList =new ArrayList<BeautifySkinItem>();
 		beautifySkinItemList = beautifySkinItemService.getAllBeautifySkinItem();
 		 LOGGER.info("beautifySkinItemList {}", beautifySkinItemList);

@@ -1,12 +1,12 @@
 package com.yuehe.app.dto;
 
-import java.util.Date;
-
 /**
  * 
- * This is DTO class which is to render the view of sale.html,using when it needs to join other tables
- * to get seller name by it's employee id, it's different with the entity
- * class {@link com.yuehe.app.entity.Client} which is aim to symplify the data store volume
+ * This is DTO class which is to render the view of sale.html,using when it
+ * needs to join other tables to get seller name by it's employee id, it's
+ * different with the entity class {@link com.yuehe.app.entity.Client} which is
+ * aim to symplify the data store volume
+ * 
  * @author YIXIANGZhong
  * @since 1.0
  */

@@ -18,14 +18,13 @@ package com.yuehe.app.service;
 
 import java.util.List;
 
+import com.yuehe.app.entity.CosmeticShop;
+import com.yuehe.app.repository.CosmeticShopRepository;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import com.yuehe.app.dto.SaleBeautifySkinItemForFilterDTO;
-import com.yuehe.app.entity.CosmeticShop;
-import com.yuehe.app.repository.CosmeticShopRepository;
 
 /**
  * @author Shazin Sadakath
@@ -54,7 +53,7 @@ public class CosmeticShopService {
     public long getEntityNumber() {
     	return cosmeticShopRepository.count();
     }
-    public CosmeticShop getCosmeticShopById(String id) {
+    public CosmeticShop getById(String id) {
     	return cosmeticShopRepository.findById(id);
     }
     public CosmeticShop getCosmeticShopByName(String name) {

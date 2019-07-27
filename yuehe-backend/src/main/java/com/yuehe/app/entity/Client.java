@@ -1,9 +1,8 @@
 package com.yuehe.app.entity;
+
 import java.io.Serializable;
 import java.util.Set;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
@@ -19,14 +18,21 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 /**
  * Client entity. @author Soveran Zhong
  */
 @Entity
 @Table(name = "client")
-public class Client implements Serializable{
-	//Fields
-	
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class Client implements Serializable {
+	// Fields
+
 	/**
 	 * 
 	 */
@@ -35,99 +41,30 @@ public class Client implements Serializable{
 	@NotBlank(message = "请输入正确的客户ID")
 	private String id;
 	@JsonBackReference
-	@ManyToOne(fetch = FetchType.LAZY, cascade=CascadeType.PERSIST) 
-	@JoinColumn(name = "shop_id",insertable = false, updatable = false)
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "shop_id", insertable = false, updatable = false)
 	@Fetch(FetchMode.JOIN)
 	private CosmeticShop cosmeticShop;
 
-	@Column(name="shop_id")
-	private String shopId;
-	
 	private String name;
 	private int age;
 	private String gender;
 	private String symptom;
-	 @JsonManagedReference
-	@OneToMany(targetEntity = Sale.class, mappedBy = "client", orphanRemoval = false, fetch = FetchType.LAZY, cascade=CascadeType.ALL)
+	@JsonManagedReference
+	@OneToMany(targetEntity = Sale.class, mappedBy = "client", orphanRemoval = false, fetch = FetchType.LAZY)
 	private Set<Sale> sales;
-	// Constructors
 
 	@Override
 	public String toString() {
-		return "Client [id=" + id + ", cosmeticShop=" + cosmeticShop + ", shopId=" + shopId + ", name=" + name
-				+ ", age=" + age + ", gender=" + gender + ", symptom=" + symptom + "]";
+		return "Client [id=" + id + ", cosmeticShopName=" + cosmeticShop.getName() + ", name=" + name + ", age=" + age
+				+ ", gender=" + gender + ", symptom=" + symptom + "]";
 	}
-	/** default constructor */
-	public Client() {
-		
-	}
-	/** use it for filtering to filter client for operationSummary.html*/
-	public Client(String id,String name) {
+
+	/** use it for filtering to filter client for operationSummary.html */
+	public Client(String id, String name) {
 		this.id = id;
 		this.name = name;
-		
+
 	}
-	/** full constructor */
-	public Client(String id, CosmeticShop cosmeticShop, String name, int age, String gender, String symptom) {
-		this.id = id;
-		this.cosmeticShop = cosmeticShop;
-		this.name = name;
-		this.age = age;
-		this.gender = gender;
-		this.symptom = symptom;
-	}
-	
-	// Property accessors
-	public String getId() {
-		return id;
-	}
-	public void setId(String id) {
-		this.id = id;
-	}
-	public CosmeticShop getCosmeticShop() {
-		return cosmeticShop;
-	}
-	public void setCosmeticShop(CosmeticShop cosmeticShop) {
-		this.cosmeticShop = cosmeticShop;
-	}
-	public String getName() {
-		return name;
-	}
-	public void setName(String name) {
-		this.name = name;
-	}
-	public int getAge() {
-		return age;
-	}
-	public void setAge(Integer age) {
-		this.age = age;
-	}
-	public String getGender() {
-		return gender;
-	}
-	public void setGender(String gender) {
-		this.gender = gender;
-	}
-	public String getSymptom() {
-		return symptom;
-	}
-	public void setSymptom(String symptom) {
-		this.symptom = symptom;
-	}
-	public String getShopId() {
-		return shopId;
-	}
-	public void setShopId(String shopId) {
-		this.shopId = shopId;
-	}
-	public Set<Sale> getSales() {
-		return sales;
-	}
-	public void setSales(Set<Sale> sales) {
-		this.sales = sales;
-	}
-	public void setAge(int age) {
-		this.age = age;
-	}
-	
+
 }

@@ -35,7 +35,6 @@ public class RoleController{
 
 	@GetMapping("/getRoleList")
 	public  String roleOverview(Model model){
-		// TODO Auto-generated method stub
 		List<Role> roleList =new ArrayList<Role>();
 		roleList = roleService.getAllRoles();
 		 LOGGER.info("roleList {}", roleList);

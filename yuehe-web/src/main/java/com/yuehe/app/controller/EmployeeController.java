@@ -1,8 +1,13 @@
 package com.yuehe.app.controller;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+
+import com.yuehe.app.entity.Employee;
+import com.yuehe.app.service.EmployeeService;
+import com.yuehe.app.util.YueHeUtil;
 
 //import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -15,67 +20,59 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.yuehe.app.entity.Employee;
-import com.yuehe.app.service.EmployeeService;
-import com.yuehe.app.util.YueHeUtil;
-
-
 @Controller
-public class EmployeeController{
-	 @ModelAttribute("module")
-	    String module() {
-	        return "employee";
-	    }
-	 private final static Logger LOGGER = LoggerFactory.getLogger(EmployeeController.class);
-	
+public class EmployeeController {
+	@ModelAttribute("module")
+	String module() {
+		return "employee";
+	}
+
+	private final static Logger LOGGER = LoggerFactory.getLogger(EmployeeController.class);
+
 	@Autowired
 	private final EmployeeService employeeService;
+
 	@Autowired
 	public EmployeeController(EmployeeService employeeService) {
 		this.employeeService = employeeService;
 	}
 
 	@GetMapping("/getEmployeeList")
-	public  String employeeOverview(Model model){
-		// TODO Auto-generated method stub
-		List<Employee> employeeList =new ArrayList<Employee>();
+	public String employeeOverview(Model model) {
+		List<Employee> employeeList = new ArrayList<Employee>();
 		employeeList = employeeService.getAllEmployees();
-		 LOGGER.info("employeeList {}", employeeList);
-		model.addAttribute("employeeList",employeeList);
-		
+		LOGGER.info("employeeList {}", employeeList);
+		model.addAttribute("employeeList", employeeList);
+
 		return "user/employee.html";
 	}
+
 	@PostMapping("/createEmployee")
-    public String createemployee( @RequestParam(name = "name", required = false) String name,
-                                       @RequestParam(name = "salary", required = false) int salary,
-                                       @RequestParam(name = "birthday", required = false) String birthday,
-                                       @RequestParam(name = "description", required = false) String description,
-                                       @RequestParam(name = "resigned", required = false) String resigned
-                                       ) 
-	{
-        long idNums = employeeService.getEntityNumber();
-        String id = YueHeUtil.getId(3,Math.toIntExact(idNums));
-        Employee employee =new Employee();
-        employee.setId(id);
-        employee.setName(name);
-        employee.setSalary(salary);
-        try {
+	public String createemployee(@RequestParam(name = "name", required = false) String name,
+			@RequestParam(name = "salary", required = false) int salary,
+			@RequestParam(name = "birthday", required = false) String birthday,
+			@RequestParam(name = "description", required = false) String description,
+			@RequestParam(name = "resigned", required = false) String resigned) {
+		long idNums = employeeService.getEntityNumber();
+		String id = YueHeUtil.getId(3, Math.toIntExact(idNums));
+		Employee employee = new Employee();
+		employee.setId(id);
+		employee.setName(name);
+		employee.setSalary(salary);
+		try {
 			employee.setBirthday(new SimpleDateFormat("dd/MM/yyyy").parse(birthday));
 		} catch (ParseException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-        employee.setDescription(description);
-        employee.setResigned(resigned);
-        LOGGER.debug("employee:",employee);
+		employee.setDescription(description);
+		employee.setResigned(resigned);
+		LOGGER.debug("employee:", employee);
 
-        if (employee != null) {
-            LOGGER.info("Saved {}", employeeService.create(employee));
-        }
+		if (employee != null) {
+			LOGGER.info("Saved {}", employeeService.create(employee));
+		}
 
-        return "redirect:/getEmployeeList";
-    }
-	
-    
+		return "redirect:/getEmployeeList";
+	}
 
 }

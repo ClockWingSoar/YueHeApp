@@ -1,8 +1,10 @@
 package com.yuehe.app.entity;
+
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
@@ -12,80 +14,37 @@ import javax.validation.constraints.NotBlank;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 /**
  * BeautifySkinItem entity. @author Soveran Zhong
  */
 @Entity
 @Table(name = "beautifyskinitem")
-public class BeautifySkinItem implements Serializable{
-	
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class BeautifySkinItem implements Serializable {
 
-	//Fields
-	
-	/**
-	 * 
-	 */
+	// Fields
 	private static final long serialVersionUID = -6638046999127630014L;
-	 @Id
-	 @NotBlank(message = "请输入正确的美肤套餐ID")
+	@Id
+	@NotBlank(message = "请输入正确的美肤套餐ID")
 	private String id;
-	 @JsonBackReference
-	@OneToMany(targetEntity = Sale.class, mappedBy = "beautifySkinItem", orphanRemoval = false, fetch = FetchType.LAZY, cascade=CascadeType.ALL)
+	@JsonBackReference
+	@OneToMany(targetEntity = Sale.class, mappedBy = "beautifySkinItem", orphanRemoval = false, fetch = FetchType.LAZY)
 	private Set<Sale> sales;
 	private String name;
-	
+
 	private int price;
 	private String description;
-	
-	// Constructors
 
-	/** default constructor */
-	public BeautifySkinItem() {
-		
-	}
-	public BeautifySkinItem(String id, String name, int price, String description) {
-		super();
-		this.id = id;
-		this.name = name;
-		this.price = price;
-		this.description = description;
-	}
-	public String getId() {
-		return id;
-	}
-	public void setId(String id) {
-		this.id = id;
-	}
-	public String getName() {
-		return name;
-	}
-	public void setName(String name) {
-		this.name = name;
-	}
-	public int getPrice() {
-		return price;
-	}
-	public void setPrice(int price) {
-		this.price = price;
-	}
-	public String getDescription() {
-		return description;
-	}
-	public void setDescription(String description) {
-		this.description = description;
-	}
-	public Set<Sale> getSales() {
-		return sales;
-	}
-	public void setSales(Set<Sale> sales) {
-		this.sales = sales;
-	}
 	@Override
 	public String toString() {
 		return "BeautifySkinItem [id=" + id + ", name=" + name + ", price=" + price + ", description=" + description
-				+ "]";
+				+ ", SaleNumber=" + Optional.ofNullable(sales).orElse(new HashSet<Sale>()).size() + "]";
 	}
 
-
-	
 }

@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2018  Shazin Sadakath
+    Copyright (C) 2019 Yi Xiang Zhong
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -18,13 +18,13 @@ package com.yuehe.app.service;
 
 import java.util.List;
 
+import com.yuehe.app.entity.Tool;
+import com.yuehe.app.repository.ToolRepository;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import com.yuehe.app.entity.Tool;
-import com.yuehe.app.repository.ToolRepository;
 
 /**
  * @author soveran zhong
@@ -39,26 +39,30 @@ public class ToolService {
         this.toolRepository = toolRepository;
     }
 
-
     @Transactional(rollbackFor = Exception.class)
     public Tool create(Tool tool) {
         return toolRepository.save(tool);
     }
+
     public List<Tool> getAllTools() {
         return toolRepository.findAll();
     }
-    public Tool getToolById(String id) {
-    	return toolRepository.findById(id);
+
+    public Tool getById(String id) {
+        return toolRepository.findById(id);
     }
+
     public Tool getToolByName(String name) {
-    	return toolRepository.findByName(name);
+        return toolRepository.findByName(name);
     }
+
     @Transactional(rollbackFor = Exception.class)
     public List<Tool> saveAll(List<Tool> tool) {
         LOGGER.info("Saving {}", tool);
         return toolRepository.saveAll(tool);
     }
-	 public long getEntityNumber() {
-	    	return toolRepository.count();
-	    }
+
+    public long getEntityNumber() {
+        return toolRepository.count();
+    }
 }
