@@ -11,6 +11,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
+import com.yuehe.app.property.BaseProperty;
 
 public class YueHeUtil {
 	 private final static Logger LOGGER = LoggerFactory.getLogger(YueHeUtil.class);
@@ -29,34 +30,34 @@ public class YueHeUtil {
 		LOGGER.debug("GetId-"+"-"+idType+"-"+idNumInDb);
 		switch(idType) {
 		case BEAUTIFY_SKIN_ITEM:
-			id = buildId("xm",calculateMidZeros(commonIdLen1,idFinalPart),idFinalPart);
+			id = buildId(BaseProperty.ID_TYPE_PREFIX_BEAUTIFYSKINITEM,calculateMidZeros(commonIdLen1,idFinalPart),idFinalPart);
 			break;
 		case CLIENT:
-			id = buildId("kh",calculateMidZeros(commonIdLen2,idFinalPart),idFinalPart);
+			id = buildId(BaseProperty.ID_TYPE_PREFIX_CLIENT,calculateMidZeros(commonIdLen2,idFinalPart),idFinalPart);
 			break;
 		case COSMETIC_SHOP:
-			id = buildId("mr",calculateMidZeros(commonIdLen1,idFinalPart),idFinalPart);
+			id = buildId(BaseProperty.ID_TYPE_PREFIX_COSMETICSHOP,calculateMidZeros(commonIdLen1,idFinalPart),idFinalPart);
 			break;
 		case EMPLOYEE:
-			id = buildId("yg",calculateMidZeros(commonIdLen1,idFinalPart),idFinalPart);
+			id = buildId(BaseProperty.ID_TYPE_PREFIX_EMPLOYEE,calculateMidZeros(commonIdLen1,idFinalPart),idFinalPart);
 			break;
 		case OPERATION:
-			id = buildId("cz",calculateMidZeros(commonIdLen3,idFinalPart),idFinalPart);
+			id = buildId(BaseProperty.ID_TYPE_PREFIX_OPERATION,calculateMidZeros(commonIdLen3,idFinalPart),idFinalPart);
 			break;
 		case ROLE:
-			id = buildId("js",calculateMidZeros(commonIdLen1,idFinalPart),idFinalPart);
+			id = buildId(BaseProperty.ID_TYPE_PREFIX_ROLE,calculateMidZeros(commonIdLen1,idFinalPart),idFinalPart);
 			break;
 		case SALE:
-			id = buildId("xs",calculateMidZeros(commonIdLen2,idFinalPart),idFinalPart);
+			id = buildId(BaseProperty.ID_TYPE_PREFIX_SALE,calculateMidZeros(commonIdLen2,idFinalPart),idFinalPart);
 			break;
 		case TOOL:
-			id = buildId("gj",calculateMidZeros(commonIdLen1,idFinalPart),idFinalPart);
+			id = buildId(BaseProperty.ID_TYPE_PREFIX_TOOL,calculateMidZeros(commonIdLen1,idFinalPart),idFinalPart);
 			break;
 		case USER:
-			id = buildId("yh",calculateMidZeros(commonIdLen1,idFinalPart),idFinalPart);
+			id = buildId(BaseProperty.ID_TYPE_PREFIX_USER,calculateMidZeros(commonIdLen1,idFinalPart),idFinalPart);
 			break;
 		case DUTY:
-			id = buildId("zz",calculateMidZeros(commonIdLen1,idFinalPart),idFinalPart);
+			id = buildId(BaseProperty.ID_TYPE_PREFIX_DUTY,calculateMidZeros(commonIdLen1,idFinalPart),idFinalPart);
 			break;
 		default:
 			break;
