@@ -13,7 +13,7 @@
 		   <link rel="stylesheet" href="/resources/demos/style.css">
 		   <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 		   <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-		   <script type="text/javascript"  th:src="@{/js/saleUpdateItem.js}"></script>
+		   <script type="text/javascript"  th:src="@{/js/saleEditItem.js}"></script>
            <script type="text/javascript"  th:src="@{/js/yueheCommon.js}"></script>
            <script type="text/javascript"  th:src="@{/js/fstdropdown.js}"></script>
     <meta http-equiv="refresh" content="600; URL=/"> <!-- this will redirect to / after 600s-->
@@ -29,7 +29,7 @@
      <div class="panel panel-default">
               <div class="panel-heading">  <h3>编辑销售卡</h3></div>
            
-            <div class="form-group">
+            <div class="yuehe-form-group">
 			    <form id="sale_edit_item" action="#" th:action="@{/sale/update/{id}(id=${sale.id})}" method="POST" th:object="${sale}">
 				<br>
 				<input type="hidden" id="saleId" th:value="${sale.id}">
@@ -49,8 +49,12 @@
 						  <span class="help-block">一般来讲，通过客户名可以确定哪家美容院，但是不排除重名的情况</span>
 						  </div>
 					  </div>
-					  <div class="form-group  row ">
+					  <div th:classappend="${#fields.hasErrors('client.cosmeticShop.id') ? 'form-group  row' : 'hidden'}">
+							<div class="col-sm-1" style="width: 1%;"></div>
+							<div class="col-md-4 alert alert-danger alert-dismissible"> 
+									<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
 							<span th:if="${#fields.hasErrors('client.cosmeticShop.id')}" th:errors="*{client.cosmeticShop.id}"></span>
+							</div>
 		       		 </div>
 					  <div class="form-group  row ">
 			    	<div class="col-md-1"> <span class="input-group-addon"><i class="glyphicon glyphicon-euro"></i>客户名</span> </div>
@@ -67,8 +71,12 @@
 	                		<span class="help-block">每个客户如果有不同的项目需分开写</span>
 	                	</div>
 	                </div> 
-		       		 <div class="form-group  row ">
+					<div th:classappend="${#fields.hasErrors('client.id') ? 'form-group  row' : 'hidden'}">
+							<div class="col-sm-1" style="width: 1%;"></div>
+							<div class="col-md-4 alert alert-danger alert-dismissible"> 
+									<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
 							<span th:if="${#fields.hasErrors('client.id')}" th:errors="*{client.id}"></span>
+							</div>
 		       		 </div>
 		       		 <div class="form-group  row ">
 			           	<div class="col-md-1"> 
@@ -88,8 +96,12 @@
 	              			  <span class="help-block">一般包括有真皮斑，代谢，表皮斑，水光，扫黄等等</span>
              			</div>
 					</div>
-					<div class="form-group  row ">
+					<div th:classappend="${#fields.hasErrors('beautifySkinItem.id') ? 'form-group  row' : 'hidden'}">
+							<div class="col-sm-1" style="width: 1%;"></div>
+							<div class="col-md-4 alert alert-danger alert-dismissible"> 
+									<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
 							<span th:if="${#fields.hasErrors('beautifySkinItem.id')}" th:errors="*{beautifySkinItem.id}"></span>
+							</div>
 		       		 </div>
 		       		<div class="form-group  row ">
 			            <div class="col-md-1"> 
@@ -102,8 +114,12 @@
 	               		 	<span class="help-block">通过开卡日期可以确定针对某个客户的单次某个项目的销售</span>
 	               		</div>
 					</div>
-					<div class="form-group  row ">
+					<div th:classappend="${#fields.hasErrors('createCardDate') ? 'form-group  row' : 'hidden'}">
+							<div class="col-sm-1" style="width: 1%;"></div>
+							<div class="col-md-4 alert alert-danger alert-dismissible"> 
+									<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
 							<span th:if="${#fields.hasErrors('createCardDate')}" th:errors="*{createCardDate}"></span>
+							</div>
 		       		 </div>
 		       		 <div class="form-group  row ">
 			       		 <div class="col-md-1"> 
@@ -116,8 +132,14 @@
 	               			 <span class="help-block">通过开卡次数和开卡金额可以计算某个项目给与客户的优惠力度，还可以计算消耗</span>
 	               		</div>
 					 </div>
-					 <div class="form-group  row ">
+					 <div th:classappend="${#fields.hasErrors('itemNumber') ? 'form-group  row' : 'hidden'}">
+						<div class="col-sm-1" style="width: 1%;"></div>
+						<div class="col-md-4 alert alert-danger alert-dismissible"> 
+								<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
 							<span th:if="${#fields.hasErrors('itemNumber')}" th:errors="*{itemNumber}"></span>
+						</div>
+						<div class="col-xs-6">
+						</div>
 		       		 </div>
 		       		 <div class="form-group  row ">
 		       		 	<div class="col-md-1"> 
@@ -130,9 +152,13 @@
 	                		<span class="help-block">开卡总金额一般由销售专家根据客户情况拟定，需跟标准价格进行计算得出优惠力度</span>
 		          		  </div>
 					</div>
-					<div class="form-group  row ">
+					<div th:classappend="${#fields.hasErrors('createCardTotalAmount') ? 'form-group  row' : 'hidden'}">
+							<div class="col-sm-1" style="width: 1%;"></div>
+							<div class="col-md-4 alert alert-danger alert-dismissible"> 
+									<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
 							<span th:if="${#fields.hasErrors('createCardTotalAmount')}" th:errors="*{createCardTotalAmount}"></span>
-		       		 </div>
+						</div>
+					</div>
 		       		<div class="form-group  row ">
 			       		 <div class="col-md-1">
 			            <span class="input-group-addon"><i class="glyphicon glyphicon-euro"></i>实收金额</span> 
@@ -144,8 +170,12 @@
 		               		 <span class="help-block">这个是指客户给到店家的金额，也就是通常意义的业绩收入，需要按店折扣计算回款</span>
 			            </div>
 					</div>
-					<div class="form-group  row ">
+					<div th:classappend="${#fields.hasErrors('receivedAmount') ? 'form-group  row' : 'hidden'}">
+							<div class="col-sm-1" style="width: 1%;"></div>
+							<div class="col-md-4 alert alert-danger alert-dismissible"> 
+									<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
 							<span th:if="${#fields.hasErrors('receivedAmount')}" th:errors="*{receivedAmount}"></span>
+							</div>
 		       		 </div>
 		       		<div class="form-group  row ">
 			       		 <div class="col-md-1">
@@ -158,8 +188,12 @@
 		               		 <span class="help-block">这个是指店家回给悦和的金额，按店折扣计算回款，并需减除员工奖励和店家回扣</span>
 			            </div>
 		            </div>
-					<div class="form-group  row ">
+					<div th:classappend="${#fields.hasErrors('receivedEarnedAmount') ? 'form-group  row' : 'hidden'}">
+							<div class="col-sm-1" style="width: 1%;"></div>
+							<div class="col-md-4 alert alert-danger alert-dismissible"> 
+									<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
 							<span th:if="${#fields.hasErrors('receivedEarnedAmount')}" th:errors="*{receivedEarnedAmount}"></span>
+							</div>
 		       		 </div>
 	                 <div class="form-group  row ">
 			       		 <div class="col-md-1">
@@ -172,8 +206,12 @@
 	             		   <span class="help-block">这个每个店可能都不一样，有些是开卡金额的百分之一，有些是满多少万给100或200</span>
              		   </div>
 					</div>
-					<div class="form-group  row ">
+					<div th:classappend="${#fields.hasErrors('employeePremium') ? 'form-group  row' : 'hidden'}">
+							<div class="col-sm-1" style="width: 1%;"></div>
+							<div class="col-md-4 alert alert-danger alert-dismissible"> 
+									<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
 							<span th:if="${#fields.hasErrors('employeePremium')}" th:errors="*{employeePremium}"></span>
+							</div>
 		       		 </div>
 		       		  <div class="form-group  row ">
 			       		 <div class="col-md-1">
@@ -186,8 +224,12 @@
 			                <span class="help-block">这是针对柳叶或者肤语港，满足一定条件需要返还店家一定额度的业绩</span>
 		                </div>
 		            </div>
-	                <div class="form-group  row ">
+					<div th:classappend="${#fields.hasErrors('shopPremium') ? 'form-group  row' : 'hidden'}">
+							<div class="col-sm-1" style="width: 1%;"></div>
+							<div class="col-md-4 alert alert-danger alert-dismissible"> 
+									<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
 							<span th:if="${#fields.hasErrors('shopPremium')}" th:errors="*{shopPremium}"></span>
+							</div>
 		       		 </div>
 	                 <div class="form-group  row ">
 			       		 <div class="col-md-1">
@@ -206,8 +248,12 @@
 		                <span class="help-block">目前专家只有钟悦旻和陈康健，需要按格式填写销售记录表</span>
 		                 </div>
 					 </div>
-					 <div class="form-group  row ">
+					 <div th:classappend="${#fields.hasErrors('employee.id') ? 'form-group  row' : 'hidden'}">
+							<div class="col-sm-1" style="width: 1%;"></div>
+							<div class="col-md-4 alert alert-danger alert-dismissible"> 
+									<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
 							<span th:if="${#fields.hasErrors('employee.id')}" th:errors="*{employee.id}"></span>
+							</div>
 		       		 </div>
 		       		   <div class="form-group  row ">
 		       		 <div class="col-md-1">
@@ -219,8 +265,12 @@
 		             <div class="col-xs-6">
 	              	  <span class="help-block">此处填写额外的说明情况</span>
 					</div>
-					<div class="form-group  row ">
+					<div th:classappend="${#fields.hasErrors('description') ? 'form-group  row' : 'hidden'}">
+							<div class="col-sm-1" style="width: 1%;"></div>
+							<div class="col-md-4 alert alert-danger alert-dismissible"> 
+									<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
 							<span th:if="${#fields.hasErrors('description')}" th:errors="*{description}"></span>
+							</div>
 		       		 </div>
 	                </div>
 		            <div class="form-group  row ">

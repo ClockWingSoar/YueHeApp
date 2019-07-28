@@ -63,7 +63,7 @@ public class CosmeticShopController{
         cosmeticShop.setSize(Integer.parseInt(size));
         cosmeticShop.setDiscount(Float.parseFloat(discount));
         cosmeticShop.setDescription(description);
-        LOGGER.debug("cosmeticShop:",cosmeticShop);
+        LOGGER.info("cosmeticShop:",cosmeticShop);
 
         if (cosmeticShop != null) {
             LOGGER.info("Saved {}", cosmeticShopService.create(cosmeticShop));

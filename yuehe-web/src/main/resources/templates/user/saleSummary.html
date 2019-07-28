@@ -5,11 +5,13 @@
     <title>销售表</title>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <link rel="stylesheet" th:href="@{/css/core.css}">
-    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+	<link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+	<link rel="stylesheet" th:href="@{/css/fstdropdown.css}">
     <script type="text/javascript"  th:src="@{/js/jquery.min.js}"></script>
     <script type="text/javascript"  th:src="@{/js/bootstrap.min.js}"></script>
     <script type="text/javascript"  th:src="@{/js/saleSummary.js}"></script>
-    <script type="text/javascript"  th:src="@{/js/yueheCommon.js}"></script>
+	<script type="text/javascript"  th:src="@{/js/yueheCommon.js}"></script>
+	<script type="text/javascript"  th:src="@{/js/fstdropdown.js}"></script>
     <meta http-equiv="refresh" content="600; URL=/"> <!-- this will redirect to / after 600s-->
 
 </head>
@@ -24,7 +26,7 @@
  <!-- 统计各个美容院的总消耗，总开卡金额，总回款，总预付款等 -->
 			<div class="form-group col-md-2 row ">
 		    <label for="cosmeticShopName">美容院:</label>
-		    <select  class="form-control" required="required"  name="cosmeticShop" id="cosmeticShop">
+		    <select   class="fstdropdown-select" required="required"  name="cosmeticShop" id="cosmeticShop">
 		      <option selected="selected" value="all"> --所有店 --
 		      </option>
 		      <option th:each="cosmeticShop : ${cosmeticShopList}" th:value="${cosmeticShop.id}" 
@@ -35,7 +37,7 @@
 	
 			<div class="form-group col-md-2 row col-md-offset-1"  style="margin-left:5px">
 		       <label for="client">客户姓名</label>
-		          <select class="form-control"  
+		          <select class="fstdropdown-select"  
 		          name="client" id="client" required="required">
 		              <option  selected="selected" value="all" > --所有客户 --</option>
 		          </select>
@@ -43,7 +45,7 @@
 	
 			<div class="form-group col-md-3 row col-md-offset-1" style="margin-left:5px">
 		       <label for="sale">美肤销售卡</label>
-		          <select class="form-control"  
+		          <select class="fstdropdown-select" 
 		          name="sale" id="sale" required="required">
 		              <option selected="selected" value="all"  > --所有美肤卡 --</option>
 		          </select>

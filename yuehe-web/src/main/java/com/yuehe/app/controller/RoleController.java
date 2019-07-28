@@ -56,7 +56,7 @@ public class RoleController{
         role.setName(name);
         role.setResponsibility(responsibility);
         role.setDescription(description);
-        LOGGER.debug("role:",role);
+        LOGGER.info("role:",role);
 
         if (role != null) {
             LOGGER.info("Saved {}", roleService.create(role));

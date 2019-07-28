@@ -67,7 +67,7 @@ public class EmployeeController {
 		}
 		employee.setDescription(description);
 		employee.setResigned(resigned);
-		LOGGER.debug("employee:", employee);
+		LOGGER.info("employee:", employee);
 
 		if (employee != null) {
 			LOGGER.info("Saved {}", employeeService.create(employee));

@@ -19,7 +19,12 @@
 
 	<div role="main" class="container">
 		<div th:replace="~{fragments/saleHeader.html :: header}">Sale Header</div>
+		<div th:classappend="${message != null ? 'alert alert-success alert-dismissible' : 'hidden'}">
+				<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+				<span class="yuehe-alert" th:text="${message}"></span>
+			</div>
 		<div class="panel panel-default">
+			
 			<div class="panel-heading" style="padding-bottom: 0px;padding-top: 0px;">
 				<div class="form-group  row " style="margin-bottom: 0px;">
 					<div class="col-md-11">
@@ -32,6 +37,7 @@
 				</div>
 
 			</div>
+		
 			<div class="panel-body my-panels table-wrapper-scroll-y my-custom-scrollbar">
 
 				<table id="saleRecordList" class="table table-hover  table-sm ">

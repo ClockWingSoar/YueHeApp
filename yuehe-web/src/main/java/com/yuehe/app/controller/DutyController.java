@@ -65,7 +65,7 @@ public class DutyController{
         duty.setDescription(description);
         duty.setRole(yueHeCommonService.getRoleById(roleId));
         duty.setEmployee(yueHeCommonService.getEmployeeById(employeeId));
-        LOGGER.debug("duty:",duty);
+        LOGGER.info("duty:",duty);
 
         if (duty != null) {
             LOGGER.info("Saved {}", dutyService.create(duty));

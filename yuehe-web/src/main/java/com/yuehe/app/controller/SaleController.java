@@ -229,19 +229,19 @@ public class SaleController {
 		if (sale != null) {
 			LOGGER.info("updated {}", saleService.create(sale));
 		}
-		model.addAttribute("message", "销售卡-" + id + " 更新成功");
+		attr.addFlashAttribute("message", "销售卡-" + id + " 更新成功");
 		return "redirect:/getSaleList";
 	}
 
 	@GetMapping("/sale/delete/{id}")
-	public String deleteSaleItem(@PathVariable("id") String id, Sale sale, Model model) {
+	public String deleteSaleItem(@PathVariable("id") String id, Sale sale, Model model,RedirectAttributes attr) {
 		System.err.println("delete sale item with id=" + id);
 		// Sale sale
 		LOGGER.info("deleting {}", saleService.getById(id));
 		LOGGER.info("deleting frontend sale{}", sale);
 		// saleService.delete(sale);
 		saleService.deleteById(id);
-		model.addAttribute("message", "销售卡-" + id + " 删除成功");
+		attr.addFlashAttribute("message", "销售卡-" + id + " 删除成功");
 		return "redirect:/getSaleList";
 	}
 
@@ -281,7 +281,7 @@ public class SaleController {
 		sale.setShopPremium(shopPremium);
 		sale.setCreateCardDate(simpleDateFormat.format(createCardDate));
 		sale.setDescription(description);
-		LOGGER.debug("sale:", sale);
+		LOGGER.info("sale:", sale);
 
 		if (sale != null) {
 			LOGGER.info("Saved {}", saleService.create(sale));

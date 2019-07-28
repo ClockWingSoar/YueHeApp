@@ -69,7 +69,7 @@ public class ToolController{
      		}
         tool.setBuyFrom(buyFrom);
         tool.setDescription(description);
-        LOGGER.debug("tool:",tool);
+        LOGGER.info("tool:",tool);
 
         if (tool != null) {
             LOGGER.info("Saved {}", toolService.create(tool));

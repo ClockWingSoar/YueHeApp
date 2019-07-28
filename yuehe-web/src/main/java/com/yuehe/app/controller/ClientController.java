@@ -68,7 +68,7 @@ public class ClientController {
 		client.setAge(age);
 		client.setGender(gender);
 		client.setSymptom(symptom);
-		LOGGER.debug("client:", client);
+		LOGGER.info("client:", client);
 
 		if (client != null) {
 			LOGGER.info("Saved {}", clientService.create(client));

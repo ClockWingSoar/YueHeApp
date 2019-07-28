@@ -62,7 +62,7 @@ public class BeautifySkinItemController{
         beautifySkinItem.setPrice(Integer.parseInt(price));
         beautifySkinItem.setDescription(description);
         beautifySkinItemList.add(beautifySkinItem);
-        LOGGER.debug("beautifySkinItem:",beautifySkinItem);
+        LOGGER.info("beautifySkinItem:",beautifySkinItem);
        // }
 
         if (!beautifySkinItemList.isEmpty()) {

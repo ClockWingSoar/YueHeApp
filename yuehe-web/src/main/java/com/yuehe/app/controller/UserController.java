@@ -64,7 +64,7 @@ public class UserController {
        user.setPassword(beanConfigurations.passwordEncoder().encode(password));
        user.setRole(role);
        userList.add(user);
-       LOGGER.debug("User:",user);
+       LOGGER.info("User:",user);
       // }
 
        if (!userList.isEmpty()) {
