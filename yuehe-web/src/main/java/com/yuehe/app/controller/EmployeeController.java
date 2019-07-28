@@ -54,8 +54,8 @@ public class EmployeeController {
 			@RequestParam(name = "birthday", required = false) String birthday,
 			@RequestParam(name = "description", required = false) String description,
 			@RequestParam(name = "resigned", required = false) String resigned) {
-		long idNums = employeeService.getEntityNumber();
-		String id = YueHeUtil.getId(IdType.EMPLOYEE, Math.toIntExact(idNums));
+		int idNums = employeeService.getBiggestIdNumber();
+		String id = YueHeUtil.getId(IdType.EMPLOYEE, idNums);
 		Employee employee = new Employee();
 		employee.setId(id);
 		employee.setName(name);

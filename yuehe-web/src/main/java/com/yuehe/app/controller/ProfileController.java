@@ -73,7 +73,7 @@ public class ProfileController {
 	// )
 	// {
 	// long idNums = profileService.getEntityNumber();
-	// String id = YueHeUtil.getId(1,Math.toIntExact(idNums));
+	// String id = YueHeUtil.getId(1,idNums);
 	// Client client =new Client();
 	// client.setId(id);
 	// client.setName(name);

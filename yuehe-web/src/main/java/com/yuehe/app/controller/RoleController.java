@@ -49,8 +49,8 @@ public class RoleController{
                                        @RequestParam(name = "description", required = false) String description
                                        ) 
 	{
-        long idNums = roleService.getEntityNumber();
-        String id = YueHeUtil.getId(IdType.ROLE,Math.toIntExact(idNums));
+        int idNums = roleService.getBiggestIdNumber();
+        String id = YueHeUtil.getId(IdType.ROLE,idNums);
         Role role =new Role();
         role.setId(id);
         role.setName(name);

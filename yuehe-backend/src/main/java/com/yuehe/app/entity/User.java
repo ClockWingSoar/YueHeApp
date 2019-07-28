@@ -16,6 +16,8 @@
  */
 package com.yuehe.app.entity;
 
+import java.util.Comparator;
+
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
@@ -37,6 +39,13 @@ public class User {
 	private String id;
 	private String username;
 	private String password;
-	private String role;
-
+    private String role;
+    /**
+	 * use it to get the biggest id column of table user 
+	 * @param id
+	 */
+	public User(String id){
+		this.id = id;
+	}
+	public static Comparator<User> idComparator = Comparator.comparing(User::getId);
 }

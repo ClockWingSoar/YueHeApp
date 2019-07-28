@@ -16,9 +16,12 @@
  */
 package com.yuehe.app.repository;
 
-import org.springframework.data.jpa.repository.JpaRepository;
+import java.util.List;
 
 import com.yuehe.app.entity.User;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 
 /**
  * @author yi xiang zhong
@@ -26,4 +29,10 @@ import com.yuehe.app.entity.User;
 public interface UserRepository extends JpaRepository<User, Long> {
 
     User findByUsername(String username);
+     /**
+	 * get all the ids from table user 
+	 * @return a list with all the user ids
+	 */
+	@Query("select new User(u.id) from User u")
+    List<User> findAllIds();
 }

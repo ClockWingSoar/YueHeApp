@@ -17,7 +17,11 @@
 package com.yuehe.app.service;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
+
+import com.yuehe.app.entity.User;
+import com.yuehe.app.repository.UserRepository;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,9 +31,6 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import com.yuehe.app.entity.User;
-import com.yuehe.app.repository.UserRepository;
 
 /**
  * @author Soveran Zhong
@@ -67,4 +68,15 @@ public class UserService implements UserDetailsService {
         LOGGER.info("Saving {}", user);
         return userRepository.saveAll(user);
     }
+    /**
+	 * To get the biggest number of the current string id 
+	 */ 
+	 public int getBiggestIdNumber() {
+		List<User> userList = userRepository.findAllIds();
+		Collections.sort(userList,User.idComparator.reversed());
+		String biggestId = userList.get(0).getId();
+		int biggestIdNum = new Integer(biggestId.substring(biggestId.lastIndexOf("0")));
+		LOGGER.info("biggest Id Number-{}",biggestIdNum);
+	    return biggestIdNum;
+	}
 }

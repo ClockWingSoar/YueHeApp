@@ -55,8 +55,8 @@ public class ToolController{
                                        @RequestParam(name = "description", required = false) String description
                                        ) 
 	{
-        long idNums = toolService.getEntityNumber();
-        String id = YueHeUtil.getId(IdType.TOOL,Math.toIntExact(idNums));
+        int idNums = toolService.getBiggestIdNumber();
+        String id = YueHeUtil.getId(IdType.TOOL,idNums);
         Tool tool =new Tool();
         tool.setId(id);
         tool.setName(name);

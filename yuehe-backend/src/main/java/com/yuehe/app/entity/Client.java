@@ -1,6 +1,7 @@
 package com.yuehe.app.entity;
 
 import java.io.Serializable;
+import java.util.Comparator;
 import java.util.Optional;
 import java.util.Set;
 
@@ -60,12 +61,18 @@ public class Client implements Serializable {
 		return "Client [id=" + id + ", cosmeticShopName=" + Optional.ofNullable(cosmeticShop).orElse(new CosmeticShop()).getName() + ", name=" + name + ", age=" + age
 				+ ", gender=" + gender + ", symptom=" + symptom + "]";
 	}
-
+    /**
+	 * use it to get the biggest id column of table client 
+	 * @param id
+	 */
+	public Client(String id){
+		this.id = id;
+	}
 	/** use it for filtering to filter client for operationSummary.html */
 	public Client(String id, String name) {
 		this.id = id;
 		this.name = name;
 
 	}
-
+	public static Comparator<Client> idComparator = Comparator.comparing(Client::getId);
 }

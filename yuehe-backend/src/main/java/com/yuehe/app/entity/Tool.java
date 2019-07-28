@@ -1,6 +1,7 @@
 package com.yuehe.app.entity;
 
 import java.io.Serializable;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Optional;
@@ -42,7 +43,13 @@ public class Tool implements Serializable {
 	private String buyFrom;
 	private int operateExpense;
 	private String description;
-
+    /**
+	 * use it to get the biggest id column of table tool 
+	 * @param id
+	 */
+	public Tool(String id){
+		this.id = id;
+	}
 	@Override
 	public String toString() {
 		return "Tool [id=" + id + ", name=" + name + ", operationNumber="
@@ -50,4 +57,5 @@ public class Tool implements Serializable {
 				+ ", price=" + price + ", buyDate=" + buyDate + ", buyFrom=" + buyFrom + ", operateExpense="
 				+ operateExpense + ", description=" + description + "]";
 	}
+	public static Comparator<Tool> idComparator = Comparator.comparing(Tool::getId);
 }

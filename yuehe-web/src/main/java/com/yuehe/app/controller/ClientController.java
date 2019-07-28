@@ -59,8 +59,8 @@ public class ClientController {
 			@RequestParam(name = "age", required = false) int age,
 			@RequestParam(name = "gender", required = false) String gender,
 			@RequestParam(name = "symptom", required = false) String symptom) {
-		long idNums = clientService.getEntityNumber();
-		String id = YueHeUtil.getId(IdType.CLIENT, Math.toIntExact(idNums));
+		int idNums = clientService.getBiggestIdNumber();
+		String id = YueHeUtil.getId(IdType.CLIENT, idNums);
 		Client client = new Client();
 		client.setId(id);
 		client.setName(name);

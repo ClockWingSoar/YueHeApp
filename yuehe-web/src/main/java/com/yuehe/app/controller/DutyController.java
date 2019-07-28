@@ -57,8 +57,8 @@ public class DutyController{
                                        @RequestParam(name = "description", required = false) String description
                                        ) 
 	{
-		 long idNums = dutyService.getEntityNumber();
-        String id = YueHeUtil.getId(IdType.DUTY,Math.toIntExact(idNums));
+		int idNums = dutyService.getBiggestIdNumber();
+        String id = YueHeUtil.getId(IdType.DUTY,idNums);
         Duty duty =new Duty();
         duty.setId(id);
         duty.setWelfare(welfare);

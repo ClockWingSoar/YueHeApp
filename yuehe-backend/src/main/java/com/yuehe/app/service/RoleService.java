@@ -16,15 +16,16 @@
  */
 package com.yuehe.app.service;
 
+import java.util.Collections;
 import java.util.List;
+
+import com.yuehe.app.entity.Role;
+import com.yuehe.app.repository.RoleRepository;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import com.yuehe.app.entity.Role;
-import com.yuehe.app.repository.RoleRepository;
 
 /**
  * @author soveran zhong
@@ -60,5 +61,16 @@ public class RoleService {
     }
 	 public long getEntityNumber() {
 	    	return roleRepository.count();
-	    }
+        }
+    /**
+	 * To get the biggest number of the current string id 
+	 */ 
+    public int getBiggestIdNumber() {
+		List<Role> roleList = roleRepository.findAllIds();
+		Collections.sort(roleList,Role.idComparator.reversed());
+		String biggestId = roleList.get(0).getId();
+		int biggestIdNum = new Integer(biggestId.substring(biggestId.lastIndexOf("0")));
+		LOGGER.info("biggest Id Number-{}",biggestIdNum);
+	    return biggestIdNum;
+	}
 }

@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2018  Shazin Sadakath
+    Copyright (C) 2019 Yi Xiang Zhong
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -18,11 +18,11 @@ package com.yuehe.app.repository;
 
 import java.util.List;
 
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
-
 import com.yuehe.app.dto.DutyEmployeeRoleDTO;
 import com.yuehe.app.entity.Duty;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 
 /**
  * @author Soveran Zhong
@@ -37,4 +37,11 @@ public interface DutyRepository extends JpaRepository<Duty, Long> {
 			+ "FROM Duty d INNER JOIN d.employee e  INNER JOIN d.role r")
     List<DutyEmployeeRoleDTO> fetchDutyData();
     Duty findById(String id);
+
+     /**
+	 * get all the ids from table duty 
+	 * @return a list with all the duty ids
+	 */
+	@Query("select new Duty(d.id) from Duty d")
+    List<Duty> findAllIds();
 }

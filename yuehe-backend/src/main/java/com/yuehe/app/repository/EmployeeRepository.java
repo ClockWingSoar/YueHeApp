@@ -16,9 +16,12 @@
  */
 package com.yuehe.app.repository;
 
-import org.springframework.data.jpa.repository.JpaRepository;
+import java.util.List;
 
 import com.yuehe.app.entity.Employee;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 
 /**
  * @author Soveran Zhong
@@ -27,4 +30,11 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long> {
 
     Employee findByName(String name);
     Employee findById(String id);
+
+    /**
+	 * get all the ids from table employee 
+	 * @return a list with all the employee ids
+	 */
+	@Query("select new Employee(e.id) from Employee e")
+    List<Employee> findAllIds();
 }

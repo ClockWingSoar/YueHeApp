@@ -17,6 +17,7 @@
 package com.yuehe.app.service;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import com.yuehe.app.dto.ClientDetailDTO;
@@ -257,5 +258,15 @@ public class OperationService {
 	public long getEntityNumber() {
 		return operationRepository.count();
 	}
-
+    /**
+	 * To get the biggest number of the current string id 
+	 */ 
+    public int getBiggestIdNumber() {
+		List<Operation> operationList = operationRepository.findAllIds();
+		Collections.sort(operationList,Operation.idComparator.reversed());
+		String biggestId = operationList.get(0).getId();
+		int biggestIdNum = new Integer(biggestId.substring(biggestId.lastIndexOf("0")));
+		LOGGER.info("biggest Id Number-{}",biggestIdNum);
+	    return biggestIdNum;
+	}
 }

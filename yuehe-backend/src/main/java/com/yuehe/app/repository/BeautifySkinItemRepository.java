@@ -1,11 +1,12 @@
 package com.yuehe.app.repository;
 
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
+import java.util.List;
 
 import com.yuehe.app.entity.BeautifySkinItem;
 
-import java.util.List;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.stereotype.Repository;
 
 @Repository
 public interface BeautifySkinItemRepository extends JpaRepository<BeautifySkinItem, Integer> {
@@ -13,7 +14,12 @@ public interface BeautifySkinItemRepository extends JpaRepository<BeautifySkinIt
 	List<BeautifySkinItem> findAll();
 	BeautifySkinItem findById(String id);
 	BeautifySkinItem findByName(String name);
-	//BeautifySkinItem save(BeautifySkinItem beautifySkinItem);
-//	void delete(String id);
+
+    /**
+    * get all the ids from table beautifySkinItem 
+    * @return a list with all the beautifySkinItem ids
+    */
+	@Query("select new BeautifySkinItem(b.id) from BeautifySkinItem b")
+	List<BeautifySkinItem> findAllIds();
 
 }

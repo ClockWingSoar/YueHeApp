@@ -1,5 +1,6 @@
 package com.yuehe.app.entity;
 import java.io.Serializable;
+import java.util.Comparator;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -33,5 +34,5 @@ public class Profile implements Serializable{
 	private Date createProfileDate;
 	private String description;
 
-	
+	public static Comparator<Profile> idComparator = Comparator.comparing(Profile::getSaleId);
 }

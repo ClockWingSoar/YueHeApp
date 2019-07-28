@@ -109,7 +109,7 @@ public interface SaleRepository extends JpaRepository<Sale, String> {
 
 	/**
 	 * get all the ids from table sale 
-	 * @return
+	 * @return a list with all the sale ids
 	 */
 	@Query("select new Sale(s.id) from Sale s")
     List<Sale> findAllIds();

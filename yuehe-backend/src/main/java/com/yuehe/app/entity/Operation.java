@@ -1,6 +1,7 @@
 package com.yuehe.app.entity;
 
 import java.io.Serializable;
+import java.util.Comparator;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -53,12 +54,18 @@ public class Operation implements Serializable {
 	@Column(name = "operation_date")
 	private String operationDate;
 	private String description;
-
+    /**
+	 * use it to get the biggest id column of table operation 
+	 * @param id
+	 */
+	public Operation(String id){
+		this.id = id;
+	}
 	@Override
 	public String toString() {
 		return "Operation [id=" + id + ", saleId=" + sale.getId() + ", operatorName=" + employee.getName()
 				+ ", toolName=" + tool.getName() + ", operationDate=" + operationDate + ", description=" + description
 				+ "]";
 	}
-
+	public static Comparator<Operation> idComparator = Comparator.comparing(Operation::getId);
 }

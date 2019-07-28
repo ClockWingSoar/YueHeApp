@@ -105,8 +105,8 @@ public class OperationController{
 						            @RequestParam(name = "description", required = false) String description
                                        ) 
 	{
-        long idNums = operationService.getEntityNumber();
-        String id = YueHeUtil.getId(IdType.OPERATION,Math.toIntExact(idNums));
+        int idNums = operationService.getBiggestIdNumber();
+        String id = YueHeUtil.getId(IdType.OPERATION,idNums);
         Operation operation =new Operation();
         operation.setId(id);
         operation.setSale(yueHeCommonService.getSaleById(saleId));

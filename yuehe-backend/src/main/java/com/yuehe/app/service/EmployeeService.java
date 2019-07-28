@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2018  Shazin Sadakath
+    Copyright (C) 2019 Yi Xiang Zhong
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -16,15 +16,16 @@
  */
 package com.yuehe.app.service;
 
+import java.util.Collections;
 import java.util.List;
+
+import com.yuehe.app.entity.Employee;
+import com.yuehe.app.repository.EmployeeRepository;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import com.yuehe.app.entity.Employee;
-import com.yuehe.app.repository.EmployeeRepository;
 
 /**
  * @author soveran zhong
@@ -60,5 +61,16 @@ public class EmployeeService {
     }
 	 public long getEntityNumber() {
 	    	return employeeRepository.count();
-	    }
+        }
+    /**
+	 * To get the biggest number of the current string id 
+	 */ 
+    public int getBiggestIdNumber() {
+		List<Employee> employeeList = employeeRepository.findAllIds();
+		Collections.sort(employeeList,Employee.idComparator.reversed());
+		String biggestId = employeeList.get(0).getId();
+		int biggestIdNum = new Integer(biggestId.substring(biggestId.lastIndexOf("0")));
+		LOGGER.info("biggest Id Number-{}",biggestIdNum);
+	    return biggestIdNum;
+	}
 }

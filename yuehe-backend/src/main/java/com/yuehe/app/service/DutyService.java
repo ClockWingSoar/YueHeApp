@@ -16,16 +16,17 @@
  */
 package com.yuehe.app.service;
 
+import java.util.Collections;
 import java.util.List;
+
+import com.yuehe.app.dto.DutyEmployeeRoleDTO;
+import com.yuehe.app.entity.Duty;
+import com.yuehe.app.repository.DutyRepository;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import com.yuehe.app.dto.DutyEmployeeRoleDTO;
-import com.yuehe.app.entity.Duty;
-import com.yuehe.app.repository.DutyRepository;
 
 /**
  * @author yi xiang zhong
@@ -57,15 +58,26 @@ public class DutyService {
     
     @Transactional(rollbackFor = Exception.class)
     public List<Duty> saveAll(List<Duty> duty) {
-        LOGGER.info("Saving {}", duty);
+        LOGGER.info("Saving duty {}", duty);
         return dutyRepository.saveAll(duty);
     }
 	public List<DutyEmployeeRoleDTO> getDutyDetailList() {
 		List<DutyEmployeeRoleDTO> list = dutyRepository.fetchDutyData();
-		list.forEach(l -> System.out.println(l));
+        LOGGER.info("duty list {}", list);
 		return list;
 	}
 	 public long getEntityNumber() {
 	    	return dutyRepository.count();
-	    }
+        }
+    /**
+	 * To get the biggest number of the current string id 
+	 */ 
+    public int getBiggestIdNumber() {
+		List<Duty> dutyList = dutyRepository.findAllIds();
+		Collections.sort(dutyList,Duty.idComparator.reversed());
+		String biggestId = dutyList.get(0).getId();
+		int biggestIdNum = new Integer(biggestId.substring(biggestId.lastIndexOf("0")));
+		LOGGER.info("biggest Id Number-{}",biggestIdNum);
+	    return biggestIdNum;
+	}
 }

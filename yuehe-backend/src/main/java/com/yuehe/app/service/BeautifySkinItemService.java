@@ -1,5 +1,6 @@
 package com.yuehe.app.service;
 
+import java.util.Collections;
 import java.util.List;
 
 import com.yuehe.app.entity.BeautifySkinItem;
@@ -43,5 +44,16 @@ public class BeautifySkinItemService {
     public long getEntityNumber() {
     	return beautifySkinItemRepository.count();
     }
+    /**
+	 * To get the biggest number of the current string id 
+	 */ 
+    public int getBiggestIdNumber() {
+		List<BeautifySkinItem> beautifySkinItemList = beautifySkinItemRepository.findAllIds();
+		Collections.sort(beautifySkinItemList,BeautifySkinItem.idComparator.reversed());
+		String biggestId = beautifySkinItemList.get(0).getId();
+		int biggestIdNum = new Integer(biggestId.substring(biggestId.lastIndexOf("0")));
+		LOGGER.info("biggest Id Number-{}",biggestIdNum);
+	    return biggestIdNum;
+	}    
 }
 

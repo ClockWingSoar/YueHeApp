@@ -1,6 +1,7 @@
 package com.yuehe.app.entity;
 
 import java.io.Serializable;
+import java.util.Comparator;
 
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -44,11 +45,17 @@ public class Duty implements Serializable {
 	@JoinColumn(name = "role_id", insertable = false, updatable = false)
 	@Fetch(FetchMode.JOIN)
 	private Role role;
-
+    /**
+	 * use it to get the biggest id column of table duty 
+	 * @param id
+	 */
+	public Duty(String id){
+		this.id = id;
+	}
 	@Override
 	public String toString() {
 		return "Duty [id=" + id + ", employeeName=" + employee.getName() + ", roleName=" + role.getName() + ", welfare="
 				+ welfare + ", description=" + description + "]";
 	}
-
+	public static Comparator<Duty> idComparator = Comparator.comparing(Duty::getId);
 }

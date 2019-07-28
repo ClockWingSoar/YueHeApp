@@ -19,10 +19,10 @@ package com.yuehe.app.repository;
 
 import java.util.List;
 
+import com.yuehe.app.entity.CosmeticShop;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
-
-import com.yuehe.app.entity.CosmeticShop;
 
 /**
  * @author Soveran Zhong
@@ -33,4 +33,11 @@ public interface CosmeticShopRepository extends JpaRepository<CosmeticShop, Long
     CosmeticShop findById(String id);
     @Query("select new CosmeticShop(c.id,c.name) from CosmeticShop c")
     List<CosmeticShop> findAllForFiltering();
+
+    /**
+    * get all the ids from table cosmeticShop 
+    * @return a list with all the cosmeticShop ids
+    */
+   @Query("select new CosmeticShop(c.id) from CosmeticShop c")
+   List<CosmeticShop> findAllIds();
 }

@@ -18,9 +18,12 @@ package com.yuehe.app.repository;
 
 
 
-import org.springframework.data.jpa.repository.JpaRepository;
+import java.util.List;
 
 import com.yuehe.app.entity.Role;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 
 /**
  * @author Soveran Zhong
@@ -29,4 +32,11 @@ public interface RoleRepository extends JpaRepository<Role, Long> {
 
     Role findByName(String name);
     Role findById(String id);
+
+    /**
+	 * get all the ids from table role 
+	 * @return a list with all the role ids
+	 */
+	@Query("select new Role(r.id) from Role r")
+    List<Role> findAllIds();
 }

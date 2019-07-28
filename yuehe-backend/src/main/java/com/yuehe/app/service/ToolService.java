@@ -16,6 +16,7 @@
  */
 package com.yuehe.app.service;
 
+import java.util.Collections;
 import java.util.List;
 
 import com.yuehe.app.entity.Tool;
@@ -62,7 +63,15 @@ public class ToolService {
         return toolRepository.saveAll(tool);
     }
 
-    public long getEntityNumber() {
-        return toolRepository.count();
-    }
+    /**
+	 * To get the biggest number of the current string id 
+	 */ 
+    public int getBiggestIdNumber() {
+		List<Tool> toolList = toolRepository.findAllIds();
+		Collections.sort(toolList,Tool.idComparator.reversed());
+		String biggestId = toolList.get(0).getId();
+		int biggestIdNum = new Integer(biggestId.substring(biggestId.lastIndexOf("0")));
+		LOGGER.info("biggest Id Number-{}",biggestIdNum);
+	    return biggestIdNum;
+	}
 }

@@ -29,31 +29,7 @@ import com.yuehe.app.entity.Operation;
  * @author Soveran Zhong
  */
 public interface OperationRepository  extends JpaRepository<Operation, Long> {
-//	private String operationId;//操作ID
-//	private String saleId;//销售卡ID
-//	private String createCardDate;//开卡日期
-//	private String operationDate;//操作日期
-//	private String clientName;//客户名
-//	private String cosmeticShopName;//美容院名===================
-//	private String cosmeticShopDiscount;//美容院名===================
-//	private String beautifySkinItemName;//美肤项目
-//	private long createCardTotalAmount;//开卡金额
-//	private long earnedTotalAmount;//回款金额------------------------------------------
-//	private int totalItemNumber;//开卡次数-疗程总次数
-//	private int restItemNumber;//剩余次数--------------------------------------------------
-//	private long consumedTotalAmount;//已消耗总数----------------------------------------
-//	private long consumedEarnedTotalAmount;//已消耗回款------------------------------
-//	private long advancedEarnedTotalAmount;//预付款总数----------------------------------
-//	private String operatorName;//操作人
-//	private String toolName;//操作仪器=======================
-//	private int operateExpense;//操作费用+++++++++++++++++++++
-//	private String description;//备注
-//	this.id = id;
-//	this.saleId = saleId;
-//	this.operatorId = operatorId;
-//	this.toolId = toolId;
-//	this.operationDate = operationDate;
-//	this.description = description;
+
 	@Query("select count(o) from Operation o where o.sale.id = ?1")
     int findOperationNumBySaleId(String saleId);
 	
@@ -62,12 +38,9 @@ public interface OperationRepository  extends JpaRepository<Operation, Long> {
 	@Query("select new com.yuehe.app.dto.OperationDetailDTO(o.sale.id,o.id,o.operationDate, "
 			+ "e.name,t.name,t.operateExpense,o.description) "
 			+ "FROM Operation o INNER JOIN o.sale s "
-//			+ "INNER JOIN s.beautifySkinItem b "
-+ "INNER JOIN o.employee e "
-//			+ "INNER JOIN s.client c "
-//			+ "INNER JOIN c.cosmeticShop p "
-+ "INNER JOIN o.tool t"
-+ " where o.sale.id = ?1")
+			+ "INNER JOIN o.employee e "
+			+ "INNER JOIN o.tool t"
+			+ " where o.sale.id = ?1")
 	List<OperationDetailDTO> findBySaleId(String saleId);
 	
 	@Query("select new com.yuehe.app.dto.OperationDetailDTO(o.sale.id,o.id,o.operationDate, "
@@ -92,5 +65,12 @@ public interface OperationRepository  extends JpaRepository<Operation, Long> {
 			)
     List<OperationOperatorToolForDBDTO> fetchOperationOpertatorToolData();
     
-    Operation findById(String id);
+	Operation findById(String id);
+	
+	/**
+	 * get all the ids from table operation 
+	 * @return a list with all the operation ids
+	 */
+	@Query("select new Operation(o.id) from Operation o")
+    List<Operation> findAllIds();
 }

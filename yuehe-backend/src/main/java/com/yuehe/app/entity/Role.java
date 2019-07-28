@@ -1,6 +1,7 @@
 package com.yuehe.app.entity;
 
 import java.io.Serializable;
+import java.util.Comparator;
 import java.util.Set;
 
 import javax.persistence.Entity;
@@ -37,12 +38,18 @@ public class Role implements Serializable {
 	private String responsibility;
 	private String description;
 
-	// Constructors
-
+    /**
+	 * use it to get the biggest id column of table role 
+	 * @param id
+	 */
+	public Role(String id){
+		this.id = id;
+	}
 	@Override
 	public String toString() {
 		return "Role [id=" + id + ", name=" + name + ", responsibility=" + responsibility + ", description="
 				+ description + "]";
 	}
+	public static Comparator<Role> idComparator = Comparator.comparing(Role::getId);
 
 }

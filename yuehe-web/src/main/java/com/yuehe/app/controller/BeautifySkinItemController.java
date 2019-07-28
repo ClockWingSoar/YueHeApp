@@ -54,8 +54,8 @@ public class BeautifySkinItemController{
                                        @RequestParam(name = "price", required = false) String price,
                                        @RequestParam(name = "description", required = false) String description) {
         List<BeautifySkinItem> beautifySkinItemList = new ArrayList<>();
-        long idNums = beautifySkinItemService.getEntityNumber();
-        String id = YueHeUtil.getId(IdType.BEAUTIFY_SKIN_ITEM,Math.toIntExact(idNums));
+        int idNums = beautifySkinItemService.getBiggestIdNumber();
+        String id = YueHeUtil.getId(IdType.BEAUTIFY_SKIN_ITEM,idNums);
         BeautifySkinItem beautifySkinItem =new BeautifySkinItem();
         beautifySkinItem.setId(id);
         beautifySkinItem.setName(name);

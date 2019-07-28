@@ -16,6 +16,7 @@
  */
 package com.yuehe.app.service;
 
+import java.util.Collections;
 import java.util.List;
 
 import com.yuehe.app.entity.CosmeticShop;
@@ -64,4 +65,16 @@ public class CosmeticShopService {
         LOGGER.info("Saving {}", cosmeticShop);
         return cosmeticShopRepository.saveAll(cosmeticShop);
     }
+
+    /**
+	 * To get the biggest number of the current string id 
+	 */ 
+    public int getBiggestIdNumber() {
+		List<CosmeticShop> cosmeticShopList = cosmeticShopRepository.findAllIds();
+		Collections.sort(cosmeticShopList,CosmeticShop.idComparator.reversed());
+		String biggestId = cosmeticShopList.get(0).getId();
+		int biggestIdNum = new Integer(biggestId.substring(biggestId.lastIndexOf("0")));
+		LOGGER.info("biggest Id Number-{}",biggestIdNum);
+	    return biggestIdNum;
+	}
 }

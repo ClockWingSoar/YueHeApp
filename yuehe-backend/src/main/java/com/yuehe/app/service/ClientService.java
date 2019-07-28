@@ -1,17 +1,18 @@
 package com.yuehe.app.service;
 
+import java.util.Collections;
 import java.util.List;
+
+import com.yuehe.app.dto.ClientShopDTO;
+import com.yuehe.app.entity.Client;
+import com.yuehe.app.entity.CosmeticShop;
+import com.yuehe.app.repository.ClientRepository;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import com.yuehe.app.dto.ClientShopDTO;
-import com.yuehe.app.entity.Client;
-import com.yuehe.app.entity.CosmeticShop;
-import com.yuehe.app.repository.ClientRepository;
 
 /**
  * @author Soveran Zhong
@@ -68,5 +69,16 @@ public class ClientService {
 	}
 	 public long getEntityNumber() {
 	    	return clientRepository.count();
-	    }
+        }
+    /**
+	 * To get the biggest number of the current string id 
+	 */ 
+    public int getBiggestIdNumber() {
+		List<Client> clientList = clientRepository.findAllIds();
+		Collections.sort(clientList,Client.idComparator.reversed());
+		String biggestId = clientList.get(0).getId();
+		int biggestIdNum = new Integer(biggestId.substring(biggestId.lastIndexOf("0")));
+		LOGGER.info("biggest Id Number-{}",biggestIdNum);
+	    return biggestIdNum;
+	}
 }

@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2018  Shazin Sadakath
+    Copyright (C) 2019 Yi Xiang Zhong
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -16,9 +16,12 @@
  */
 package com.yuehe.app.repository;
 
+import java.util.List;
+
 import com.yuehe.app.entity.Tool;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 
 /**
  * @author Soveran Zhong
@@ -27,4 +30,11 @@ public interface ToolRepository extends JpaRepository<Tool, Long> {
 
     Tool findByName(String name);
     Tool findById(String id);
+
+    /**
+	 * get all the ids from table tool 
+	 * @return a list with all the tool ids
+	 */
+	@Query("select new Tool(t.id) from Tool t")
+    List<Tool> findAllIds();
 }

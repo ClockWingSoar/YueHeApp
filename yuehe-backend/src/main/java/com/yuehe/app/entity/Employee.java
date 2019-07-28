@@ -1,6 +1,7 @@
 package com.yuehe.app.entity;
 
 import java.io.Serializable;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.Set;
 
@@ -47,11 +48,17 @@ public class Employee implements Serializable {
 	private Date birthday;
 	private String description;
 	private String resigned;
-
+    /**
+	 * use it to get the biggest id column of table employee 
+	 * @param id
+	 */
+	public Employee(String id){
+		this.id = id;
+	}
 	@Override
 	public String toString() {
 		return "Employee [id=" + id + ", name=" + name + ", salary=" + salary + ", birthday=" + birthday
 				+ ", description=" + description + ", resigned=" + resigned + "]";
 	}
-
+	public static Comparator<Employee> idComparator = Comparator.comparing(Employee::getId);
 }

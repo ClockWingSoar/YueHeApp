@@ -1,6 +1,7 @@
 package com.yuehe.app.entity;
 
 import java.io.Serializable;
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
@@ -52,7 +53,13 @@ public class CosmeticShop implements Serializable {
 		this.name = name;
 
 	}
-
+    /**
+	 * use it to get the biggest id column of table cosmeticShop 
+	 * @param id
+	 */
+	public CosmeticShop(String id){
+		this.id = id;
+	}
 	@Override
 	public String toString() {
 		return "CosmeticShop [id=" + id + ", name=" + name + ", owner=" + owner + ", contactMethod=" + contactMethod
@@ -60,4 +67,5 @@ public class CosmeticShop implements Serializable {
 				+ shopPremium + ", description=" + description + ", clientNumber="
 				+ Optional.ofNullable(clients).orElse(new HashSet<Client>()).size() + "]";
 	}
+	public static Comparator<CosmeticShop> idComparator = Comparator.comparing(CosmeticShop::getId);
 }

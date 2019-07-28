@@ -52,8 +52,8 @@ public class CosmeticShopController{
                                        @RequestParam(name = "description", required = false) String description
                                        ) 
 	{
-		long idNums = cosmeticShopService.getEntityNumber();
-        String id = YueHeUtil.getId(IdType.COSMETIC_SHOP,Math.toIntExact(idNums));
+		int idNums = cosmeticShopService.getBiggestIdNumber();
+        String id = YueHeUtil.getId(IdType.COSMETIC_SHOP,idNums);
         CosmeticShop cosmeticShop =new CosmeticShop();
         cosmeticShop.setId(id);
         cosmeticShop.setName(name);

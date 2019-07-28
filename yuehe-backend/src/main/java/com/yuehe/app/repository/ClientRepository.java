@@ -43,4 +43,11 @@ public interface ClientRepository extends JpaRepository<Client, Long> {
     
     @Query("select new Client(c.id,c.name) from Client c where c.cosmeticShop.id = ?1")
     List<Client> findByShopId(String cosmeticShopId);
+
+    /**
+    * get all the ids from table client 
+    * @return a list with all the client ids
+    */
+   @Query("select new Client(c.id) from Client c")
+   List<Client> findAllIds();
 }
