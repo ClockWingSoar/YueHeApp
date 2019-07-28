@@ -30,7 +30,7 @@ public class ProfileController {
 
 	private final static Logger LOGGER = LoggerFactory.getLogger(ProfileController.class);
 
-	private CosmeticShop cosmeticShop;
+	// private CosmeticShop cosmeticShop;
 	@Autowired
 	private final ProfileService profileService;
 	@Autowired
@@ -47,7 +47,6 @@ public class ProfileController {
 
 	@GetMapping("/getProfileOverview")
 	public String getProfileOverview(Model model) {
-		// TODO Auto-generated method stub
 		List<CosmeticShop> cosmeticShopList = yueHeCommonService.getAllCosmeticShops();
 		model.addAttribute("cosmeticShopList", cosmeticShopList);
 
@@ -59,6 +58,7 @@ public class ProfileController {
 			@RequestParam(value = "clientId", required = true) String clientId) {
 		ProfileDetailDTO profileDetailDTO = profileService.getProfileByClientId(clientId);
 		System.out.println(profileDetailDTO);
+		LOGGER.info("ProfileDetailDTO{}",profileDetailDTO);
 		return profileDetailDTO;
 	}
 

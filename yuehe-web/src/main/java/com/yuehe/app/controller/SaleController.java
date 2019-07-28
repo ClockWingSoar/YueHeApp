@@ -25,6 +25,7 @@ import com.yuehe.app.property.BaseProperty;
 import com.yuehe.app.service.ClientService;
 import com.yuehe.app.service.SaleService;
 import com.yuehe.app.service.YueHeCommonService;
+import com.yuehe.app.util.IdType;
 import com.yuehe.app.util.YueHeUtil;
 import com.yuehe.app.view.CsvView;
 
@@ -76,7 +77,6 @@ public class SaleController {
 	public String saleOverview(HttpServletRequest request, Model model) {
 		// public String saleOverview(@PageableDefault(size = 10,sort = "id") Pageable
 		// pageable,Model model){
-		// TODO Auto-generated method stub
 		Map<String, Object> saleMap = new HashMap<String, Object>();
 		// saleList = saleService.getSalesDetailList(pageable);
 		int pageNumber = 0; // default page number is 0 (yes it is weird)
@@ -128,7 +128,6 @@ public class SaleController {
 		try {
 			new CsvView().buildCsvDocument(saleMap, request, response);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		;
@@ -174,7 +173,7 @@ public class SaleController {
 	@GetMapping("/sale/edit/{id}")
 	public String saleEditItem(Model model, @PathVariable("id") String id) {
 		getSaleDetail(model, id);
-		return "user/saleUpdateItem.html";
+		return "user/saleEditItem.html";
 	}
 
 	/**
@@ -223,7 +222,7 @@ public class SaleController {
 			model.addAttribute("cosmeticShopList", cosmeticShopList);
 			model.addAttribute("beautifySkinItemList", beautifySkinItemList);
 			model.addAttribute("dutyList", dutyList);
-			return "user/saleUpdateItem.html";
+			return "user/saleEditItem.html";
 		}
 		LOGGER.debug("update sale:", sale);
 
@@ -267,8 +266,8 @@ public class SaleController {
 			@RequestParam(name = "createCardDate", required = false) Date createCardDate,
 			@RequestParam(name = "sellerId", required = false) String sellerId,
 			@RequestParam(name = "description", required = false) String description) {
-		long idNums = saleService.getEntityNumber();
-		String id = YueHeUtil.getId(6, Math.toIntExact(idNums));
+		int idNums = saleService.getBiggestIdNumber();
+		String id = YueHeUtil.getId(IdType.SALE, idNums);
 		Sale sale = new Sale();
 		sale.setId(id);
 		sale.setClient(yueHeCommonService.getClientById(clientId));

@@ -98,6 +98,13 @@ public class Sale implements Serializable {
 	private String createCardDate;
 	@Size(min = 0, max = 250)
 	private String description;
+	/**
+	 * use it to get the biggest id column of table sale 
+	 * @param id
+	 */
+	public Sale(String id){
+		this.id = id;
+	}
 
 	@Override
 	public String toString() {

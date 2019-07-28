@@ -17,6 +17,7 @@ import com.yuehe.app.dto.DutyEmployeeRoleDTO;
 import com.yuehe.app.entity.Duty;
 import com.yuehe.app.service.DutyService;
 import com.yuehe.app.service.YueHeCommonService;
+import com.yuehe.app.util.IdType;
 import com.yuehe.app.util.YueHeUtil;
 
 
@@ -39,7 +40,6 @@ public class DutyController{
 
 	@GetMapping("/getDutyList")
 	public  String dutyOverview(Model model){
-		// TODO Auto-generated method stub
 		List<DutyEmployeeRoleDTO> dutyList =new ArrayList<DutyEmployeeRoleDTO>();
 		dutyList = dutyService.getDutyDetailList();
 		 LOGGER.info("dutyList {}", dutyList);
@@ -58,7 +58,7 @@ public class DutyController{
                                        ) 
 	{
 		 long idNums = dutyService.getEntityNumber();
-        String id = YueHeUtil.getId(9,Math.toIntExact(idNums));
+        String id = YueHeUtil.getId(IdType.DUTY,Math.toIntExact(idNums));
         Duty duty =new Duty();
         duty.setId(id);
         duty.setWelfare(welfare);

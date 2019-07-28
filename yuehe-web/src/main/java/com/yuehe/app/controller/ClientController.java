@@ -8,6 +8,7 @@ import com.yuehe.app.entity.Client;
 import com.yuehe.app.entity.CosmeticShop;
 import com.yuehe.app.service.ClientService;
 import com.yuehe.app.service.YueHeCommonService;
+import com.yuehe.app.util.IdType;
 import com.yuehe.app.util.YueHeUtil;
 
 //import org.apache.commons.lang3.StringUtils;
@@ -30,7 +31,6 @@ public class ClientController {
 
 	private final static Logger LOGGER = LoggerFactory.getLogger(ClientController.class);
 
-	private CosmeticShop cosmeticShop;
 	@Autowired
 	private final ClientService clientService;
 	@Autowired
@@ -43,7 +43,6 @@ public class ClientController {
 
 	@GetMapping("/getClientList")
 	public String clientOverview(Model model) {
-		// TODO Auto-generated method stub
 		List<ClientShopDTO> clientList = new ArrayList<ClientShopDTO>();
 		clientList = clientService.getClientsDetailList();
 		LOGGER.info("clientList {}", clientList);
@@ -61,7 +60,7 @@ public class ClientController {
 			@RequestParam(name = "gender", required = false) String gender,
 			@RequestParam(name = "symptom", required = false) String symptom) {
 		long idNums = clientService.getEntityNumber();
-		String id = YueHeUtil.getId(1, Math.toIntExact(idNums));
+		String id = YueHeUtil.getId(IdType.CLIENT, Math.toIntExact(idNums));
 		Client client = new Client();
 		client.setId(id);
 		client.setName(name);

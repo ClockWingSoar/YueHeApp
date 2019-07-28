@@ -72,6 +72,7 @@ public class YueHeCommonService {
 	public List<DutyEmployeeRoleDTO> getAllPersonByRoleName(String roleName) {
 		List<DutyEmployeeRoleDTO> dutyList = dutyService.getAllPersonByRoleName(roleName);
 		dutyList.forEach(l -> System.out.println(l));
+		LOGGER.info("dutyList{}",dutyList);
 		return dutyList;
 	}
 

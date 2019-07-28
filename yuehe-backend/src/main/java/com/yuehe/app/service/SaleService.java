@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2018  Shazin Sadakath
+    Copyright (C) 2019 Yi Xiang Zhong
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -38,6 +38,7 @@ import com.yuehe.app.entity.BeautifySkinItem;
 import com.yuehe.app.entity.Client;
 import com.yuehe.app.entity.CosmeticShop;
 import com.yuehe.app.entity.Sale;
+import com.yuehe.app.property.BaseProperty;
 import com.yuehe.app.repository.SaleRepository;
 
 import org.apache.commons.lang3.StringUtils;
@@ -300,13 +301,13 @@ public class SaleService {
 	/**
 	 * To get the biggest number of the current string id 
 	 */ 
-	 public long getEntityNumber() {
-		List<Sale> saleList = saleRepository.findAll();
+	 public int getBiggestIdNumber() {
+		List<Sale> saleList = saleRepository.findAllIds();
 		Collections.sort(saleList,Sale.idComparator.reversed());
-		String biggiestId = saleList.get(0).getId();
-		long bigestIdNum = new Long(biggiestId.substring(biggiestId.lastIndexOf("0")));
-		LOGGER.info("bigest Id Number-{}",bigestIdNum);
-	    return bigestIdNum;
+		String biggestId = saleList.get(0).getId();
+		int biggestIdNum = new Integer(biggestId.substring(biggestId.lastIndexOf("0")));
+		LOGGER.info("biggest Id Number-{}",biggestIdNum);
+	    return biggestIdNum;
 	}
 	 public YueHeAllSalesPerformanceDetailDTO getYueHeAllSalesPerformanceDetail() {
 		 YueHeAllSalesPerformanceDetailDTO yueHeAllSalesPerformanceDetailDTO = new YueHeAllSalesPerformanceDetailDTO();
@@ -334,7 +335,7 @@ public class SaleService {
 			 shopAllSalesPerformanceDetailDTOList.add(shopAllSalesPerformanceDetailDTO);
 			 
 		 }
-		 yueHeAllSalesPerformanceDetailDTO.setCompanyName("悦和国际");
+		 yueHeAllSalesPerformanceDetailDTO.setCompanyName(BaseProperty.COMPANY_NAME);
 		 yueHeAllSalesPerformanceDetailDTO.setAllShopsSalesCreateCardTotalAmount(allShopsSalesCreateCardTotalAmount);
 		 yueHeAllSalesPerformanceDetailDTO.setAllShopsSalesReceivedAmount(allShopsSalesReceivedAmount);
 		 yueHeAllSalesPerformanceDetailDTO.setAllShopsSalesDebtAmount(allShopsSalesDebtAmount);

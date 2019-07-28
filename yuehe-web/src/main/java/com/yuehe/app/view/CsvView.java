@@ -45,6 +45,7 @@ public class CsvView extends AbstractCsvView {
         }
         // response.setHeader("Content-Disposition", "attachment; filename=\""+fileName+".csv\"");
         // response.setCharacterEncoding("UTF-8");
+        @SuppressWarnings("unchecked")
         List<SaleClientItemSellerDTO> objects = (List<SaleClientItemSellerDTO>) model.get("csvObjList");
         String[] header = (String[])model.get("headers");
         

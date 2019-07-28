@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.yuehe.app.entity.Tool;
 import com.yuehe.app.service.ToolService;
+import com.yuehe.app.util.IdType;
 import com.yuehe.app.util.YueHeUtil;
 
 
@@ -37,7 +38,6 @@ public class ToolController{
 
 	@GetMapping("/getToolList") 
 	public  String toolOverview(Model model){
-		// TODO Auto-generated method stub
 		List<Tool> toolList =new ArrayList<Tool>();
 		toolList = toolService.getAllTools();
 		 LOGGER.info("toolList {}", toolList);
@@ -56,7 +56,7 @@ public class ToolController{
                                        ) 
 	{
         long idNums = toolService.getEntityNumber();
-        String id = YueHeUtil.getId(7,Math.toIntExact(idNums));
+        String id = YueHeUtil.getId(IdType.TOOL,Math.toIntExact(idNums));
         Tool tool =new Tool();
         tool.setId(id);
         tool.setName(name);
@@ -65,7 +65,6 @@ public class ToolController{
         try {
         		tool.setBuyDate(new SimpleDateFormat("dd/MM/yyyy").parse(buyDate));
      		} catch (ParseException e) {
-     			// TODO Auto-generated catch block
      			e.printStackTrace();
      		}
         tool.setBuyFrom(buyFrom);

@@ -20,6 +20,7 @@ import com.yuehe.app.service.ClientService;
 import com.yuehe.app.service.OperationService;
 import com.yuehe.app.service.SaleService;
 import com.yuehe.app.service.YueHeCommonService;
+import com.yuehe.app.util.IdType;
 import com.yuehe.app.util.YueHeUtil;
 
 //import org.apache.commons.lang3.StringUtils;
@@ -62,7 +63,6 @@ public class OperationController{
 
 	@GetMapping("/getOperationList")
 	public  String operationOverview(Model model){
-		// TODO Auto-generated method stub
 		List<OperationDetailDTO> operationList =new ArrayList<OperationDetailDTO>();
 		operationList = operationService.getAllOperationForOperationList();
 		 LOGGER.info("operationList {}", operationList);
@@ -106,7 +106,7 @@ public class OperationController{
                                        ) 
 	{
         long idNums = operationService.getEntityNumber();
-        String id = YueHeUtil.getId(4,Math.toIntExact(idNums));
+        String id = YueHeUtil.getId(IdType.OPERATION,Math.toIntExact(idNums));
         Operation operation =new Operation();
         operation.setId(id);
         operation.setSale(yueHeCommonService.getSaleById(saleId));

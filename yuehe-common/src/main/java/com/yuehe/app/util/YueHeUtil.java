@@ -19,8 +19,8 @@ public class YueHeUtil {
 	private static int commonIdLen3 = 8;//for table operation
 	private static String zero = "0";// to build the mid part of the id
 	
-	public static String getId(int idTypeIndex, int idNumInDb) {
-		IdType idType = IdType.values()[idTypeIndex];//by the index find out the id Type
+	public static String getId(IdType idType, int idNumInDb) {
+		// IdType idType = IdType.values()[idTypeIndex];//by the index find out the id Type
 		String id = "";
 		//all yuehe table ids start with two characters, like "xm" for BeautifySkinItem table ,
 		//"kh" for Client table,"mr" for cosmeticShop table, "yg" for employee table,"js" for role table

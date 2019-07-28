@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.yuehe.app.entity.Role;
 import com.yuehe.app.service.RoleService;
+import com.yuehe.app.util.IdType;
 import com.yuehe.app.util.YueHeUtil;
 
 
@@ -49,7 +50,7 @@ public class RoleController{
                                        ) 
 	{
         long idNums = roleService.getEntityNumber();
-        String id = YueHeUtil.getId(5,Math.toIntExact(idNums));
+        String id = YueHeUtil.getId(IdType.ROLE,Math.toIntExact(idNums));
         Role role =new Role();
         role.setId(id);
         role.setName(name);

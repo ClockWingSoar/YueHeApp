@@ -6,6 +6,7 @@ import java.util.List;
 import com.yuehe.app.config.BeanConfigurations;
 import com.yuehe.app.entity.User;
 import com.yuehe.app.service.UserService;
+import com.yuehe.app.util.IdType;
 import com.yuehe.app.util.YueHeUtil;
 
 import org.slf4j.Logger;
@@ -43,7 +44,6 @@ public class UserController {
 
 	@GetMapping("/getUserList")
 	public  String UserOverview(Model model){
-		// TODO Auto-generated method stub
 		List<User> userList =new ArrayList<User>();
 		userList = userService.getAllUser();
 		 LOGGER.info("userList:{}", userList);
@@ -57,7 +57,7 @@ public class UserController {
                                       @RequestParam(name = "role", required = false) String role) {
        List<User> userList = new ArrayList<>();
        int idNums = userService.getAllUser().size();
-       String id = YueHeUtil.getId(8,idNums);
+       String id = YueHeUtil.getId(IdType.USER,idNums);
        User user =new User();
        user.setId(id);
        user.setUsername(username);

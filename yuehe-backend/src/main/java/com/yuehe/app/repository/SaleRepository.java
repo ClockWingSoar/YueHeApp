@@ -28,7 +28,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
 /**
@@ -106,6 +105,13 @@ public interface SaleRepository extends JpaRepository<Sale, String> {
     
     @Query("select new com.yuehe.app.dto.SaleBeautifySkinItemForFilterDTO(s.id, b.name, s.createCardDate) from Sale s "
     		+ "INNER JOIN s.beautifySkinItem b where s.client.id = ?1")
-    List<SaleBeautifySkinItemForFilterDTO> findByClientId(String clientId);
+	List<SaleBeautifySkinItemForFilterDTO> findByClientId(String clientId);
+
+	/**
+	 * get all the ids from table sale 
+	 * @return
+	 */
+	@Query("select new Sale(s.id) from Sale s")
+    List<Sale> findAllIds();
 }
 

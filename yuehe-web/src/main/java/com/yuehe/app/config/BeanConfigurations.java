@@ -12,6 +12,7 @@ import org.springframework.security.web.authentication.AuthenticationSuccessHand
 
 import com.yuehe.app.entity.User;
 import com.yuehe.app.service.UserService;
+import com.yuehe.app.util.IdType;
 import com.yuehe.app.util.YueHeUtil;
 
 @Configuration
@@ -39,7 +40,7 @@ public class BeanConfigurations {
     public ApplicationRunner applicationRunner() {
         return args -> {
         	   int idNums = userService.getAllUser().size();
-               String id = YueHeUtil.getId(8,idNums);
+               String id = YueHeUtil.getId(IdType.USER,idNums);
                if(idNums == 0)
             	   userService.create(new User(id, "admin", passwordEncoder().encode("admin"), "ROLE_ADMIN"));
         };

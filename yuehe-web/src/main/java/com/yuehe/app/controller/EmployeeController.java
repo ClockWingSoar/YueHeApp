@@ -7,6 +7,7 @@ import java.util.List;
 
 import com.yuehe.app.entity.Employee;
 import com.yuehe.app.service.EmployeeService;
+import com.yuehe.app.util.IdType;
 import com.yuehe.app.util.YueHeUtil;
 
 //import org.apache.commons.lang3.StringUtils;
@@ -54,7 +55,7 @@ public class EmployeeController {
 			@RequestParam(name = "description", required = false) String description,
 			@RequestParam(name = "resigned", required = false) String resigned) {
 		long idNums = employeeService.getEntityNumber();
-		String id = YueHeUtil.getId(3, Math.toIntExact(idNums));
+		String id = YueHeUtil.getId(IdType.EMPLOYEE, Math.toIntExact(idNums));
 		Employee employee = new Employee();
 		employee.setId(id);
 		employee.setName(name);

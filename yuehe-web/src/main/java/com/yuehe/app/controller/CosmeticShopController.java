@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.yuehe.app.entity.CosmeticShop;
 import com.yuehe.app.service.CosmeticShopService;
+import com.yuehe.app.util.IdType;
 import com.yuehe.app.util.YueHeUtil;
 
 
@@ -34,7 +35,6 @@ public class CosmeticShopController{
 
 	@GetMapping("/getCosmeticShopList")
 	public  String cosmeticShopOverview(Model model){
-		// TODO Auto-generated method stub
 		List<CosmeticShop> cosmeticShopList =new ArrayList<CosmeticShop>();
 		cosmeticShopList = cosmeticShopService.getAllCosmeticShop();
 		 LOGGER.info("cosmeticShopList {}", cosmeticShopList);
@@ -53,7 +53,7 @@ public class CosmeticShopController{
                                        ) 
 	{
 		long idNums = cosmeticShopService.getEntityNumber();
-        String id = YueHeUtil.getId(2,Math.toIntExact(idNums));
+        String id = YueHeUtil.getId(IdType.COSMETIC_SHOP,Math.toIntExact(idNums));
         CosmeticShop cosmeticShop =new CosmeticShop();
         cosmeticShop.setId(id);
         cosmeticShop.setName(name);

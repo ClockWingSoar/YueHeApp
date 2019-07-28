@@ -18,7 +18,7 @@ public class PdfView extends AbstractPdfView {
         // change the file name
         response.setHeader("Content-Disposition", "attachment; filename=\"my-pdf-file.pdf\"");
 
-        List<Object> objects = (List<Object>) model.get("pdfObjList");
+        // List<Object> objects = (List<Object>) model.get("pdfObjList");
         document.add(new Paragraph("Generated Users " + LocalDate.now()));
 
         // PdfPTable table = new PdfPTable(users.stream().findAny().get().getColumnCount());

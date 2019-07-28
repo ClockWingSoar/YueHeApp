@@ -3,6 +3,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 import com.yuehe.app.entity.BeautifySkinItem;
 import com.yuehe.app.service.BeautifySkinItemService;
+import com.yuehe.app.util.IdType;
 import com.yuehe.app.util.YueHeUtil;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,7 +55,7 @@ public class BeautifySkinItemController{
                                        @RequestParam(name = "description", required = false) String description) {
         List<BeautifySkinItem> beautifySkinItemList = new ArrayList<>();
         long idNums = beautifySkinItemService.getEntityNumber();
-        String id = YueHeUtil.getId(0,Math.toIntExact(idNums));
+        String id = YueHeUtil.getId(IdType.BEAUTIFY_SKIN_ITEM,Math.toIntExact(idNums));
         BeautifySkinItem beautifySkinItem =new BeautifySkinItem();
         beautifySkinItem.setId(id);
         beautifySkinItem.setName(name);
