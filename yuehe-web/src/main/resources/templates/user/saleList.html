@@ -10,6 +10,7 @@
 	<script type="text/javascript" th:src="@{/js/jquery.min.js}"></script>
 	<script type="text/javascript" th:src="@{/js/bootstrap.min.js}"></script>
 	<script type="text/javascript" th:src="@{/js/saleList.js}"></script>
+	<script type="text/javascript" th:src="@{/js/yueheCommon.js}"></script>
 	<meta http-equiv="refresh" content="600; URL=/"> <!-- this will redirect to / after 600s-->
 
 </head>
@@ -63,8 +64,27 @@
 						</tr>
 					</thead>
 
-					<tbody class="clickable-row">
-						<tr data-th-each="sale : ${saleList}">
+					<tbody>
+						<tr>
+							<td><input class="yuehe-filter-Input" id="sale_id" placeholder="搜ID"></td>
+							<td><input class="yuehe-filter-Input" id="seller_name" placeholder="搜专家"></td>
+							<td><input class="yuehe-filter-Input" id="cosmeticshop_name" placeholder="搜美容院"></td>
+							<td><input class="yuehe-filter-Input" id="client_name" placeholder="搜客户"></td>
+							<td><input class="yuehe-filter-Input" id="beautifyskinitem_name" placeholder="搜项目"></td>
+							<td><input class="yuehe-filter-Input" id="create_card_date" placeholder="搜日期"></td>
+							<td><input class="yuehe-filter-Input" id="item_number" placeholder="搜次数"></td>
+							<td><input class="yuehe-filter-Input" id="create_card_total_amount" placeholder="搜总金额"></td>
+							<td><input class="yuehe-filter-Input" id="received_amount" placeholder="搜实收"></td>
+							<td><input class="yuehe-filter-Input" id="discount" placeholder="搜折扣"></td>
+							<td><input class="yuehe-filter-Input" id="unpaid_amount" placeholder="搜欠款"></td>
+							<td><input class="yuehe-filter-Input" id="earned_amount" placeholder="搜回款"></td>
+							<td><input class="yuehe-filter-Input" id="received_earned_amount" placeholder="搜实收回款"></td>
+							<td><input class="yuehe-filter-Input" id="unpaid_earned_amount" placeholder="搜欠收回款"></td>
+							<td><input class="yuehe-filter-Input" id="employee_premium" placeholder="搜员工回扣"></td>
+							<td><input class="yuehe-filter-Input" id="shop_premium" placeholder="搜店家回扣"></td>
+							<td><input class="yuehe-filter-Input" id="description" placeholder="搜备注"></td>
+						</tr>
+						<tr  class="clickable-row" data-th-each="sale : ${saleList}">
 							<td data-th-text="${sale.saleId}">...</td>
 							<td data-th-text="${sale.sellerName}">...</td>
 							<td data-th-text="${sale.cosmeticShopName}">...</td>

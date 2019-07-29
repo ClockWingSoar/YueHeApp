@@ -265,7 +265,7 @@ public class SaleController {
 			@RequestParam(name = "shopPremium", required = false) float shopPremium,
 			@RequestParam(name = "createCardDate", required = false) Date createCardDate,
 			@RequestParam(name = "sellerId", required = false) String sellerId,
-			@RequestParam(name = "description", required = false) String description) {
+			@RequestParam(name = "description", required = false) String description,RedirectAttributes attr) {
 		int idNums = saleService.getBiggestIdNumber();
 		String id = YueHeUtil.getId(IdType.SALE, idNums);
 		Sale sale = new Sale();
@@ -286,7 +286,7 @@ public class SaleController {
 		if (sale != null) {
 			LOGGER.info("Saved {}", saleService.create(sale));
 		}
-
+		attr.addFlashAttribute("message", "销售卡-" + id + " 创建成功");
 		return "redirect:/getSaleList";
 	}
 

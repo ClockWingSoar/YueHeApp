@@ -51,3 +51,38 @@ function getClientAllSalesList() {
         document.getElementById("sale").fstdropdown.rebind();
 	});
 }
+function filterTable(table, filter, index) {
+		// var index = null;
+		// this.find("thead > tr:first > th").each(function(i) {
+		// 	if ($.trim($(this).text()) == columnname) {
+		// 		index = i;
+		// 		return false;
+		// 	}
+		// });
+		// if (index == null)
+		// 	throw ("filter columnname: " + columnname + " not found");
+
+		table.find("tbody:first > tr").each(function() {
+            var row = $(this);
+            var rowIndex =  $(this).index();
+            if(rowIndex > 0){
+
+                if (filter == "") {
+                    row.show();
+                }
+                else {
+                    var cellText = row.find("td:eq(" + index + ")").find('option:selected').text();
+                    if (cellText == "") {
+                        cellText = $(row.find(("td:eq(" + index + ")"))).text();
+                    }
+                    if (cellText.indexOf(filter) == -1) {
+                        row.hide();
+                    }
+                    else {
+                        row.show();
+                    }
+                }
+            }
+		});
+		return this;
+	}
