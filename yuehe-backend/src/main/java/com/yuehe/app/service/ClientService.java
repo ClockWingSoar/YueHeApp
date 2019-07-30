@@ -7,6 +7,7 @@ import com.yuehe.app.dto.ClientShopDTO;
 import com.yuehe.app.entity.Client;
 import com.yuehe.app.entity.CosmeticShop;
 import com.yuehe.app.repository.ClientRepository;
+import com.yuehe.app.util.YueHeUtil;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -77,7 +78,7 @@ public class ClientService {
 		List<Client> clientList = clientRepository.findAllIds();
 		Collections.sort(clientList,Client.idComparator.reversed());
 		String biggestId = clientList.get(0).getId();
-		int biggestIdNum = new Integer(biggestId.substring(biggestId.lastIndexOf("0")));
+		int biggestIdNum = YueHeUtil.extractIdDigitalNumber(biggestId);
 		LOGGER.info("biggest Id Number-{}",biggestIdNum);
 	    return biggestIdNum;
 	}

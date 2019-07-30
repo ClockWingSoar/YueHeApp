@@ -31,6 +31,7 @@ import com.yuehe.app.entity.Client;
 import com.yuehe.app.entity.CosmeticShop;
 import com.yuehe.app.entity.Operation;
 import com.yuehe.app.repository.OperationRepository;
+import com.yuehe.app.util.YueHeUtil;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -265,7 +266,7 @@ public class OperationService {
 		List<Operation> operationList = operationRepository.findAllIds();
 		Collections.sort(operationList,Operation.idComparator.reversed());
 		String biggestId = operationList.get(0).getId();
-		int biggestIdNum = new Integer(biggestId.substring(biggestId.lastIndexOf("0")));
+		int biggestIdNum = YueHeUtil.extractIdDigitalNumber(biggestId);
 		LOGGER.info("biggest Id Number-{}",biggestIdNum);
 	    return biggestIdNum;
 	}

@@ -13,7 +13,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -34,7 +34,7 @@ public class BeautifySkinItem implements Serializable {
 	@Id
 	@NotBlank(message = "请输入正确的美肤套餐ID")
 	private String id;
-	@JsonBackReference
+	@JsonManagedReference
 	@OneToMany(targetEntity = Sale.class, mappedBy = "beautifySkinItem", orphanRemoval = false, fetch = FetchType.LAZY)
 	private Set<Sale> sales;
 	private String name;

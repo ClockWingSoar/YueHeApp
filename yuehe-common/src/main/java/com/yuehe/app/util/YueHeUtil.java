@@ -88,7 +88,15 @@ public class YueHeUtil {
 		LOGGER.debug("getZeros-"+num+"-"+zeros);
 		return zeros.toString();
 	}
-
+	/**
+	 * to extract the digital number of a String id, to be able to increase it based on it
+	 * @param id
+	 * @return
+	 */
+	public static int extractIdDigitalNumber(String id){
+		int IdNum = new Integer(id.substring(2));
+		return IdNum;
+	}
 	
 	public static final String START_ARRAY = "[";
 	public static final String END_ARRAY = "]";

@@ -15,6 +15,9 @@ import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -45,6 +48,8 @@ public class CosmeticShop implements Serializable {
 	private String description;
 	@JsonManagedReference
 	@OneToMany(targetEntity = Client.class, mappedBy = "cosmeticShop", orphanRemoval = false, fetch = FetchType.LAZY)
+	@Fetch(value=FetchMode.SELECT)//to fix the Spring Boot Fail-safe cleanup (collections) issue,this can happen if it trys to retreive many data
+	// see https://stackoverflow.com/questions/53540056/what-casuses-spring-boot-fail-safe-cleanup-collections-to-occur
 	private Set<Client> clients;
 
 	/** use it for filtering to filter client for operationSummary.html */

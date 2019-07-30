@@ -21,6 +21,7 @@ import java.util.List;
 
 import com.yuehe.app.entity.Role;
 import com.yuehe.app.repository.RoleRepository;
+import com.yuehe.app.util.YueHeUtil;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -69,7 +70,7 @@ public class RoleService {
 		List<Role> roleList = roleRepository.findAllIds();
 		Collections.sort(roleList,Role.idComparator.reversed());
 		String biggestId = roleList.get(0).getId();
-		int biggestIdNum = new Integer(biggestId.substring(biggestId.lastIndexOf("0")));
+        int biggestIdNum = YueHeUtil.extractIdDigitalNumber(biggestId);
 		LOGGER.info("biggest Id Number-{}",biggestIdNum);
 	    return biggestIdNum;
 	}

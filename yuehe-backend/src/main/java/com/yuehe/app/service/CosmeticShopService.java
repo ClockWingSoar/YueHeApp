@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2018  Shazin Sadakath
+    Copyright (C) 2019 Yi Xiang Zhong
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -21,6 +21,7 @@ import java.util.List;
 
 import com.yuehe.app.entity.CosmeticShop;
 import com.yuehe.app.repository.CosmeticShopRepository;
+import com.yuehe.app.util.YueHeUtil;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,7 +29,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
- * @author Shazin Sadakath
+ * @author Soveran Zhong
  */
 @Service
 @Transactional(readOnly = false)
@@ -73,7 +74,7 @@ public class CosmeticShopService {
 		List<CosmeticShop> cosmeticShopList = cosmeticShopRepository.findAllIds();
 		Collections.sort(cosmeticShopList,CosmeticShop.idComparator.reversed());
 		String biggestId = cosmeticShopList.get(0).getId();
-		int biggestIdNum = new Integer(biggestId.substring(biggestId.lastIndexOf("0")));
+		int biggestIdNum = YueHeUtil.extractIdDigitalNumber(biggestId);
 		LOGGER.info("biggest Id Number-{}",biggestIdNum);
 	    return biggestIdNum;
 	}

@@ -21,6 +21,7 @@ import java.util.List;
 
 import com.yuehe.app.entity.Employee;
 import com.yuehe.app.repository.EmployeeRepository;
+import com.yuehe.app.util.YueHeUtil;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -69,7 +70,7 @@ public class EmployeeService {
 		List<Employee> employeeList = employeeRepository.findAllIds();
 		Collections.sort(employeeList,Employee.idComparator.reversed());
 		String biggestId = employeeList.get(0).getId();
-		int biggestIdNum = new Integer(biggestId.substring(biggestId.lastIndexOf("0")));
+        int biggestIdNum = YueHeUtil.extractIdDigitalNumber(biggestId);
 		LOGGER.info("biggest Id Number-{}",biggestIdNum);
 	    return biggestIdNum;
 	}

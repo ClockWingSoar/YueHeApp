@@ -40,6 +40,8 @@ import com.yuehe.app.entity.CosmeticShop;
 import com.yuehe.app.entity.Sale;
 import com.yuehe.app.property.BaseProperty;
 import com.yuehe.app.repository.SaleRepository;
+import com.yuehe.app.util.YueHeUtil;
+import com.yuehe.app.util.YueHeUtil;
 
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -305,7 +307,7 @@ public class SaleService {
 		List<Sale> saleList = saleRepository.findAllIds();
 		Collections.sort(saleList,Sale.idComparator.reversed());
 		String biggestId = saleList.get(0).getId();
-		int biggestIdNum = new Integer(biggestId.substring(biggestId.lastIndexOf("0")));
+		int biggestIdNum = YueHeUtil.extractIdDigitalNumber(biggestId);
 		LOGGER.info("biggest Id Number-{}",biggestIdNum);
 	    return biggestIdNum;
 	}

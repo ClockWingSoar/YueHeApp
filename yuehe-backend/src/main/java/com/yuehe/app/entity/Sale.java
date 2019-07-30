@@ -20,6 +20,7 @@ import javax.validation.constraints.PositiveOrZero;
 import javax.validation.constraints.Size;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
@@ -62,7 +63,8 @@ public class Sale implements Serializable {
 	@JoinColumn(name = "seller_id", nullable = false)
 	@Fetch(FetchMode.JOIN)
 	private Employee employee;
-
+	
+	@JsonManagedReference
 	@OneToMany(targetEntity = Operation.class, mappedBy = "sale", orphanRemoval = false, fetch = FetchType.LAZY)
 	private Set<Operation> operations;
 

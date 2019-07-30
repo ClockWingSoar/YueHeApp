@@ -22,6 +22,7 @@ import java.util.List;
 
 import com.yuehe.app.entity.User;
 import com.yuehe.app.repository.UserRepository;
+import com.yuehe.app.util.YueHeUtil;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -75,7 +76,7 @@ public class UserService implements UserDetailsService {
 		List<User> userList = userRepository.findAllIds();
 		Collections.sort(userList,User.idComparator.reversed());
 		String biggestId = userList.get(0).getId();
-		int biggestIdNum = new Integer(biggestId.substring(biggestId.lastIndexOf("0")));
+	    int biggestIdNum = YueHeUtil.extractIdDigitalNumber(biggestId);
 		LOGGER.info("biggest Id Number-{}",biggestIdNum);
 	    return biggestIdNum;
 	}
