@@ -44,7 +44,7 @@ public class Client implements Serializable {
 	private String id;
 	@JsonBackReference
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "shop_id", insertable = false, updatable = false)
+	@JoinColumn(name = "shop_id", nullable = false)//need to insert data to shop_id column
 	@Fetch(FetchMode.JOIN)
 	private CosmeticShop cosmeticShop;
 

@@ -36,18 +36,18 @@ public class Operation implements Serializable {
 	private String id;
 	@JsonBackReference
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "sale_id", insertable = false, updatable = false)
+	@JoinColumn(name = "sale_id", nullable = false)
 	@Fetch(FetchMode.JOIN)
 	private Sale sale;
 
 	@JsonBackReference
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "operator_id", insertable = false, updatable = false)
+	@JoinColumn(name = "operator_id", nullable = false)
 	@Fetch(FetchMode.JOIN)
 	private Employee employee;
 	@JsonBackReference
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "tool_id", insertable = false, updatable = false)
+	@JoinColumn(name = "tool_id", nullable = false)
 	@Fetch(FetchMode.JOIN)
 	private Tool tool;
 

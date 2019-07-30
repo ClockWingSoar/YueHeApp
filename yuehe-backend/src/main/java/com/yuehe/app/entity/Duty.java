@@ -37,12 +37,12 @@ public class Duty implements Serializable {
 	private String description;
 	@JsonBackReference
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "employee_id", insertable = false, updatable = false)
+	@JoinColumn(name = "employee_id", nullable = false)
 	@Fetch(FetchMode.JOIN)
 	private Employee employee;
 	@JsonBackReference
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "role_id", insertable = false, updatable = false)
+	@JoinColumn(name = "role_id", nullable = false)
 	@Fetch(FetchMode.JOIN)
 	private Role role;
     /**
