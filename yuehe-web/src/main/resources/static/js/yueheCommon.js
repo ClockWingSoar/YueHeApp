@@ -85,4 +85,7 @@ function filterTable(table, filter, index) {
             }
 		});
 		return this;
-	}
+    }
+    function isEmpty(value) {
+        return typeof value == 'string' && !value.trim() || typeof value == 'undefined' || value === null;
+      }

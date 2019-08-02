@@ -54,6 +54,7 @@ public class Client implements Serializable {
 	private String symptom;
 	@JsonManagedReference
 	@OneToMany(targetEntity = Sale.class, mappedBy = "client", orphanRemoval = false, fetch = FetchType.LAZY)
+	@Fetch(value=FetchMode.SELECT)
 	private Set<Sale> sales;
 
 	@Override

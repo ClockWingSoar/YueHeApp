@@ -19,11 +19,7 @@
             <artifactId>yuehe-common</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
-        <!-- JPA Data (We are going to use Repositories, Entities, Hibernate, etc...) -->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-data-jpa</artifactId>
-        </dependency>
+       
 
         <!-- Use MySQL Connector-J -->
         <dependency>

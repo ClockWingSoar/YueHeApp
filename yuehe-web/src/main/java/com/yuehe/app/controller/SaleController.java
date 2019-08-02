@@ -60,6 +60,8 @@ public class SaleController {
 	private SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
 	String sortProperty = "id"; // default sort column is sale id
 	Direction sortDirection = Direction.ASC; // default sort direction is ascending
+	int pageNumber = 0; // default page number is 0 (yes it is weird)
+	int pageSize = 10; // default page size is 10
 	@Autowired
 	private final SaleService saleService;
 	@Autowired
@@ -77,30 +79,27 @@ public class SaleController {
 	public String saleOverview(HttpServletRequest request, Model model) {
 		// public String saleOverview(@PageableDefault(size = 10,sort = "id") Pageable
 		// pageable,Model model){
-		Map<String, Object> saleMap = new HashMap<String, Object>();
-		// saleList = saleService.getSalesDetailList(pageable);
-		int pageNumber = 0; // default page number is 0 (yes it is weird)
-		int pageSize = 10; // default page size is 10
 
-		if (!StringUtils.isNullOrEmpty(request.getParameter("page"))) {
-			pageNumber = Integer.parseInt(request.getParameter("page"));
-		}
+		buildSortOrderBeforeDBQuerying(request);
+		Map<String, Object> saleMap = saleService.getSalesDetailListWithPaginationAndSort(pageNumber, pageSize,
+				this.sortDirection, this.sortProperty);
+		buildModelAfterDBQuerying(saleMap, model, sortProperty, sortDirection);
 
-		if (!StringUtils.isNullOrEmpty(request.getParameter("size"))) {
-			pageSize = Integer.parseInt(request.getParameter("size"));
+		return "user/saleList.html";
+	}
+
+	@GetMapping(value = "/sales/search")
+	public String getSalesWithFiltering(HttpServletRequest request, Model model) {
+		String searchParameters = "";
+		if (!StringUtils.isNullOrEmpty(request.getParameter("searchParameters"))) {
+			searchParameters = request.getParameter("searchParameters");
 		}
 		buildSortOrderBeforeDBQuerying(request);
-		saleMap = saleService.getSalesDetailListWithPaginationAndSort(pageNumber, pageSize, this.sortDirection,
-				this.sortProperty);
-		@SuppressWarnings("unchecked")
-		Page<SaleClientItemSellerForDBDTO> saleMapPage = (Page<SaleClientItemSellerForDBDTO>) saleMap.get("salePage");
-		List<Sort.Order> sortOrders = saleMapPage.getSort().stream().collect(Collectors.toList());
-		sortOrders.forEach(l -> System.out.println(l));
-		setBackSortOrderAfterDBQuerying(sortOrders, model, sortProperty, sortDirection);
-		LOGGER.info("saleMap {}", saleMap);
-		model.addAllAttributes(saleMap);
-		model.addAttribute("subModule", "saleList");
-		// model.addAttribute("saleListPage",saleList);
+		// String search = "id:xs000~,'itemNumber>5";
+		Map<String, Object> saleMap = saleService.getSalesDetailListWithPaginationAndSortAndFiltering(pageNumber, pageSize,
+				this.sortDirection, this.sortProperty, searchParameters);
+		buildModelAfterDBQuerying(saleMap, model, sortProperty, sortDirection);
+		model.addAttribute("searchParameters", searchParameters);
 
 		return "user/saleList.html";
 	}
@@ -138,17 +137,38 @@ public class SaleController {
 	}
 
 	private void buildSortOrderBeforeDBQuerying(HttpServletRequest request) {
+
+		if (!StringUtils.isNullOrEmpty(request.getParameter("page"))) {
+			pageNumber = Integer.parseInt(request.getParameter("page"));
+		}
+
+		if (!StringUtils.isNullOrEmpty(request.getParameter("size"))) {
+			pageSize = Integer.parseInt(request.getParameter("size"));
+		}
 		String sort = "id,asc"; // default sort column is sale id and in ascending order
 		if (!StringUtils.isNullOrEmpty(request.getParameter("sort"))) {
 			sort = request.getParameter("sort");
 		}
 		String[] sortStr = sort.split(",");
-		this.sortProperty = sortStr[0];
-		this.sortDirection = Direction.fromString(sortStr[1]);
+		sortProperty = sortStr[0];
+		sortDirection = Direction.fromString(sortStr[1]);
+	}
+
+	private void buildModelAfterDBQuerying(Map<String, Object> saleMap, Model model, String sortProperty,
+			Direction sortDirection) {
+		@SuppressWarnings("unchecked")
+		Page<SaleClientItemSellerForDBDTO> saleMapPage = (Page<SaleClientItemSellerForDBDTO>) saleMap.get("salePage");
+		List<Sort.Order> sortOrders = saleMapPage.getSort().stream().collect(Collectors.toList());
+		setBackSortOrderAfterDBQuerying(sortOrders, model, sortProperty, sortDirection);
+		sortOrders.forEach(l -> System.out.println(l));
+		LOGGER.info("saleMap {}", saleMap);
+		model.addAllAttributes(saleMap);
+		model.addAttribute("subModule", "saleList");
 	}
 
 	private void setBackSortOrderAfterDBQuerying(List<Sort.Order> sortOrders, Model model, String sortProperty,
 			Direction sortDirection) {
+
 		if (sortOrders != null && !sortOrders.isEmpty()) {
 			int sortOrdersLen = sortOrders.size();
 			Sort.Order order = sortOrders.get(sortOrdersLen - 1);
@@ -234,7 +254,7 @@ public class SaleController {
 	}
 
 	@GetMapping("/sale/delete/{id}")
-	public String deleteSaleItem(@PathVariable("id") String id, Sale sale, Model model,RedirectAttributes attr) {
+	public String deleteSaleItem(@PathVariable("id") String id, Sale sale, Model model, RedirectAttributes attr) {
 		System.err.println("delete sale item with id=" + id);
 		// Sale sale
 		LOGGER.info("deleting {}", saleService.getById(id));
@@ -265,7 +285,7 @@ public class SaleController {
 			@RequestParam(name = "shopPremium", required = false) float shopPremium,
 			@RequestParam(name = "createCardDate", required = false) Date createCardDate,
 			@RequestParam(name = "sellerId", required = false) String sellerId,
-			@RequestParam(name = "description", required = false) String description,RedirectAttributes attr) {
+			@RequestParam(name = "description", required = false) String description, RedirectAttributes attr) {
 		int idNums = saleService.getBiggestIdNumber();
 		String id = YueHeUtil.getId(IdType.SALE, idNums);
 		Sale sale = new Sale();

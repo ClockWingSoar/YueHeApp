@@ -2,8 +2,6 @@ package com.yuehe.app.entity;
 
 import java.io.Serializable;
 import java.util.Comparator;
-import java.util.HashSet;
-import java.util.Optional;
 import java.util.Set;
 
 import javax.persistence.Entity;
@@ -14,6 +12,9 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -36,6 +37,7 @@ public class BeautifySkinItem implements Serializable {
 	private String id;
 	@JsonManagedReference
 	@OneToMany(targetEntity = Sale.class, mappedBy = "beautifySkinItem", orphanRemoval = false, fetch = FetchType.LAZY)
+	@Fetch(value=FetchMode.SELECT)
 	private Set<Sale> sales;
 	private String name;
 
@@ -51,7 +53,7 @@ public class BeautifySkinItem implements Serializable {
 	@Override
 	public String toString() {
 		return "BeautifySkinItem [id=" + id + ", name=" + name + ", price=" + price + ", description=" + description
-				+ ", SaleNumber=" + Optional.ofNullable(sales).orElse(new HashSet<Sale>()).size() + "]";
+				+ "]";
 	}
 	public static Comparator<BeautifySkinItem> idComparator = Comparator.comparing(BeautifySkinItem::getId);
 }

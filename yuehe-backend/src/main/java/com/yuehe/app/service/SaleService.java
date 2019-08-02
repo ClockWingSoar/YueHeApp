@@ -40,7 +40,7 @@ import com.yuehe.app.entity.CosmeticShop;
 import com.yuehe.app.entity.Sale;
 import com.yuehe.app.property.BaseProperty;
 import com.yuehe.app.repository.SaleRepository;
-import com.yuehe.app.util.YueHeUtil;
+import com.yuehe.app.specification.SpecificationsBuilder;
 import com.yuehe.app.util.YueHeUtil;
 
 import org.apache.commons.lang3.StringUtils;
@@ -53,6 +53,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.domain.Sort.Order;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 /**
@@ -131,18 +132,39 @@ public class SaleService {
         return saleRepository.saveAll(sale);
     }
 	public Map<String,Object> getSalesDetailListWithPaginationAndSort(int pageNumber, int pageSize,Direction sortDirection,String sortProperty ) {
-	
-		Pageable pageable = null;
-		buildSort(this.sort, this.sortByJPA, this.comparator, sortDirection, sortProperty);
-		if(this.sortByJPA){
-
-			 pageable = PageRequest.of(pageNumber, pageSize,this.sort);
-		}
-		else{
-			 pageable = PageRequest.of(pageNumber, pageSize);
-
-		}
+		Pageable pageable = buildPaginationAndSort(pageNumber,pageSize,sortDirection,sortProperty);
+		
 		Page<SaleClientItemSellerForDBDTO> saleClientItemSellerForDBDTOPage = saleRepository.fetchSaleClientItemSellerData(pageable);
+		Map<String,Object> saleMap = buildSalesDetailList(saleClientItemSellerForDBDTOPage,sortDirection);
+		
+		return saleMap;
+	}
+	/**
+	 * to get all the sales detail with pagination and sort and filtering,  can't use @query to do the dynamic query
+	 * can't use a DTO class to store the dynamic querired result, so use findAll method
+	 */
+	public Map<String,Object> getSalesDetailListWithPaginationAndSortAndFiltering(int pageNumber, int pageSize,Direction sortDirection,String sortProperty,String searchParameters ) {
+		Pageable pageable = buildPaginationAndSort(pageNumber,pageSize,sortDirection,sortProperty);
+		SpecificationsBuilder<Sale> specificationsBuilder = new SpecificationsBuilder<>();
+		Specification<Sale> spec = specificationsBuilder.resolveSpecification(searchParameters);
+		LOGGER.info("spec {}",spec);
+		// Page<SaleClientItemSellerForDBDTO> saleClientItemSellerForDBDTOPage = saleRepository.fetchSaleClientItemSellerDataWithFiltering(spec,pageable);
+		Page<Sale> salePage = saleRepository.findAll(spec,pageable);
+
+		Map<String,Object> saleMap = buildFilteredSalesDetailList(salePage,sortDirection);
+		
+		return saleMap;
+	}
+	// public void  buildFilteringPredicate(String searchParameters){
+	// 		String operationSetExper = Joiner.on("|")
+	// 		.join(SearchOperation.SIMPLE_OPERATION_SET);
+	// 	Pattern pattern = Pattern.compile("(\\p{Punct}?)(\\w+?)(" + operationSetExper + ")(\\p{Punct}?)(\\w+?)(\\p{Punct}?),");
+	// 	Matcher matcher = pattern.matcher(searchParameters + ",");
+	// 	while (matcher.find()) {
+	// 		builder.with(matcher.group(1), matcher.group(2), matcher.group(3), matcher.group(5), matcher.group(4), matcher.group(6));
+	// 	}
+	// }
+	public Map<String,Object> buildSalesDetailList(Page<SaleClientItemSellerForDBDTO> saleClientItemSellerForDBDTOPage,Direction sortDirection){
 		List<SaleClientItemSellerForDBDTO> saleClientItemSellerForDBDTOList = new ArrayList<SaleClientItemSellerForDBDTO>();
 		Map<String,Object> saleMap = new HashMap<String,Object>();
 		 if(saleClientItemSellerForDBDTOPage.hasContent()) {
@@ -154,6 +176,36 @@ public class SaleService {
 		saleMap.put("saleList",saleClientItemSellerDTOList);
 		saleMap.put("salePage",saleClientItemSellerForDBDTOPage);
 		return saleMap;
+	}
+	/**
+	 *  can't use a DTO class to store the dynamic querired result, need to do the manual mapping from Sale to saleClientItemSellerDTO
+	 * 
+	 */
+	public Map<String,Object> buildFilteredSalesDetailList(Page<Sale> salePage,Direction sortDirection){
+		List<Sale> saleList = new ArrayList<Sale>();
+		Map<String,Object> saleMap = new HashMap<String,Object>();
+		 if(salePage.hasContent()) {
+			saleList =  salePage.getContent();
+	        }
+		List<SaleClientItemSellerDTO> saleClientItemSellerDTOList = new ArrayList<SaleClientItemSellerDTO>();
+		buildFilteredSalesDetailList(saleClientItemSellerDTOList, saleList);
+		sortByCollectionsIfPropertyNotInDB(sortByJPA, sortDirection, comparator, saleClientItemSellerDTOList);
+		saleMap.put("saleList",saleClientItemSellerDTOList);
+		saleMap.put("salePage",salePage);
+		return saleMap;
+	}
+	public Pageable buildPaginationAndSort(int pageNumber, int pageSize,Direction sortDirection,String sortProperty){
+		Pageable pageable = null;
+		buildSort(this.sort, this.sortByJPA, this.comparator, sortDirection, sortProperty);
+		if(this.sortByJPA){
+
+			 pageable = PageRequest.of(pageNumber, pageSize,this.sort);
+		}
+		else{
+			 pageable = PageRequest.of(pageNumber, pageSize);
+
+		}
+		return pageable;
 	}
 	/**
 	 * Get the sales detail list for downloading as csv, excel or pdf
@@ -207,28 +259,28 @@ public class SaleService {
 				this.sort = Sort.by(new Order(sortDirection,sortProperty));
 				this.sortByJPA = true;
 				break;
-				case CLIENTCOSMETICSHOPNAME:
-				this.sort = Sort.by(new Order(sortDirection,"client.cosmeticShop.name"));
-				this.sortByJPA = true;
-				break;
-				case CLIENTNAME:
-				this.sort = Sort.by(new Order(sortDirection,"client.cosmeticShop.name")
-				,new Order(sortDirection,"client.name"));
-				this.sortByJPA = true;
-				break;
-				//below are a special sorting group, it's due to the relationship of entity "client","cosmeticShop" and "beautifySkinItem"
-				//first you sort all the cosmeticShop, then group by the shop, sort all the clients, then group by the client, sort all the
-				//beautifyskinitems.
-				case BEAUTIFYSKINITEMNAME:
-				this.sort = Sort.by(new Order(sortDirection,"client.cosmeticShop.name"),
-				new Order(sortDirection,"client.name"),
-				new Order(sortDirection,"beautifySkinItem.name"));
-				this.sortByJPA = true;
-				break;
-				case EMPLOYEENAME:
-				this.sort = Sort.by(new Order(sortDirection,"employee.name"));
-				this.sortByJPA = true;
-				break;
+			case CLIENTCOSMETICSHOPNAME:
+			this.sort = Sort.by(new Order(sortDirection,"client.cosmeticShop.name"));
+			this.sortByJPA = true;
+			break;
+			case CLIENTNAME:
+			this.sort = Sort.by(new Order(sortDirection,"client.cosmeticShop.name")
+			,new Order(sortDirection,"client.name"));
+			this.sortByJPA = true;
+			break;
+			//below are a special sorting group, it's due to the relationship of entity "client","cosmeticShop" and "beautifySkinItem"
+			//first you sort all the cosmeticShop, then group by the shop, sort all the clients, then group by the client, sort all the
+			//beautifyskinitems.
+			case BEAUTIFYSKINITEMNAME:
+			this.sort = Sort.by(new Order(sortDirection,"client.cosmeticShop.name"),
+			new Order(sortDirection,"client.name"),
+			new Order(sortDirection,"beautifySkinItem.name"));
+			this.sortByJPA = true;
+			break;
+			case EMPLOYEENAME:
+			this.sort = Sort.by(new Order(sortDirection,"employee.name"));
+			this.sortByJPA = true;
+			break;
 			case DISCOUNT:
 				this.comparator = SaleClientItemSellerDTO.discountComparator;
 				this.sortByJPA = false;
@@ -298,6 +350,48 @@ public class SaleService {
 			saleClientItemSellerDTOList.add(saleClientItemSellerDTO);
 		}
 		saleClientItemSellerForDBDTOList.forEach(l -> System.out.println(l));
+		saleClientItemSellerDTOList.forEach(l -> System.out.println(l));
+	}
+	/**
+	 * To build the sale list page with entity "Sale" while using dynamic query
+	 */
+	private void buildFilteredSalesDetailList(List<SaleClientItemSellerDTO> saleClientItemSellerDTOList,List<Sale> saleList){
+	
+		for(Sale sale : saleList) {
+			Integer beautifySkinItemPrice = sale.getBeautifySkinItem().getPrice();
+			Float cosmeticShopDiscount = sale.getClient().getCosmeticShop().getDiscount();
+			Long createCardTotalAmount =  sale.getCreateCardTotalAmount();
+			Long receivedAmount = sale.getReceivedAmount();
+			Integer itemNumber = sale.getItemNumber();
+			Long receivedEarnedAmount = sale.getReceivedEarnedAmount();
+			Double discount = new Double(createCardTotalAmount)/new Double(beautifySkinItemPrice * itemNumber);
+			//using Optional orElse to handle null value of employeePremium and shopPremium, if null, assign 0 to it to avoid nullpointerexception
+			Float employeePremium = Optional.ofNullable(sale.getEmployeePremium()).orElse(new Float(0));
+		    Float shopPremium = Optional.ofNullable(sale.getShopPremium()).orElse(new Float(0));
+		    Float earnedAmount = createCardTotalAmount*cosmeticShopDiscount - employeePremium - shopPremium;
+			
+			SaleClientItemSellerDTO saleClientItemSellerDTO = new SaleClientItemSellerDTO();
+			saleClientItemSellerDTO.setBeautifySkinItemName(sale.getBeautifySkinItem().getName());
+			saleClientItemSellerDTO.setClientName(sale.getClient().getName());
+			saleClientItemSellerDTO.setCosmeticShopName(sale.getClient().getCosmeticShop().getName());
+			saleClientItemSellerDTO.setCreateCardDate(sale.getCreateCardDate());
+			saleClientItemSellerDTO.setCreateCardTotalAmount(createCardTotalAmount);
+			saleClientItemSellerDTO.setDescription(sale.getDescription());
+			saleClientItemSellerDTO.setDiscount((float)(Math.round(discount*100.0)/100.0));
+			saleClientItemSellerDTO.setEarnedAmount(earnedAmount);
+			saleClientItemSellerDTO.setEmployeePremium(employeePremium);
+			saleClientItemSellerDTO.setItemNumber(itemNumber);
+			saleClientItemSellerDTO.setReceivedAmount(receivedAmount);
+			saleClientItemSellerDTO.setReceivedEarnedAmount(receivedEarnedAmount);
+			saleClientItemSellerDTO.setSaleId(sale.getId());
+			saleClientItemSellerDTO.setSellerName(sale.getEmployee().getName());
+			saleClientItemSellerDTO.setShopPremium(shopPremium);
+			saleClientItemSellerDTO.setUnpaidAmount(createCardTotalAmount - receivedAmount);
+			saleClientItemSellerDTO.setUnpaidEarnedAmount(earnedAmount - receivedEarnedAmount);
+			
+			saleClientItemSellerDTOList.add(saleClientItemSellerDTO);
+		}
+		saleList.forEach(l -> System.out.println(l));
 		saleClientItemSellerDTOList.forEach(l -> System.out.println(l));
 	}
 	/**

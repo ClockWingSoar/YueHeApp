@@ -2,8 +2,6 @@ package com.yuehe.app.entity;
 
 import java.io.Serializable;
 import java.util.Comparator;
-import java.util.HashSet;
-import java.util.Optional;
 import java.util.Set;
 
 import javax.persistence.Column;
@@ -69,8 +67,8 @@ public class CosmeticShop implements Serializable {
 	public String toString() {
 		return "CosmeticShop [id=" + id + ", name=" + name + ", owner=" + owner + ", contactMethod=" + contactMethod
 				+ ", location=" + location + ", size=" + size + ", discount=" + discount + ", shopPremium="
-				+ shopPremium + ", description=" + description + ", clientNumber="
-				+ Optional.ofNullable(clients).orElse(new HashSet<Client>()).size() + "]";
+				+ shopPremium + ", description=" + description + "]";//+ ", clientNumber="
+				// + Optional.ofNullable(clients).orElse(new HashSet<Client>()).size() + "]";
 	}
 	public static Comparator<CosmeticShop> idComparator = Comparator.comparing(CosmeticShop::getId);
 }

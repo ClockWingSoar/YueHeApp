@@ -3,8 +3,6 @@ package com.yuehe.app.entity;
 import java.io.Serializable;
 import java.util.Comparator;
 import java.util.Date;
-import java.util.HashSet;
-import java.util.Optional;
 import java.util.Set;
 
 import javax.persistence.Entity;
@@ -52,10 +50,10 @@ public class Tool implements Serializable {
 	}
 	@Override
 	public String toString() {
-		return "Tool [id=" + id + ", name=" + name + ", operationNumber="
-				+ Optional.ofNullable(operations).orElse(new HashSet<Operation>()).size() + ", major=" + major
+		return "Tool [id=" + id + ", name=" + name +", major=" + major
 				+ ", price=" + price + ", buyDate=" + buyDate + ", buyFrom=" + buyFrom + ", operateExpense="
 				+ operateExpense + ", description=" + description + "]";
+				// ", operationNumber="+ Optional.ofNullable(operations).orElse(new HashSet<Operation>()).size() + 
 	}
 	public static Comparator<Tool> idComparator = Comparator.comparing(Tool::getId);
 }

@@ -110,20 +110,23 @@
 			<input id="salePageSize" type="hidden" th:value="${salePage.size}">
 			<input id="sortProperty" type="hidden" th:value="${sortProperty}">
 			<input id="sortDirectionFlag" type="hidden" th:value="${sortDirectionFlag}">
+			<input id="searchParameters" type="hidden" th:value="${searchParameters}">
 			<!-- using th:with to declare a local variable for sorting query param -->
-			<ul class="pagination pull-right" th:with="sortParam=${sortProperty+','+(sortDirectionFlag?'desc':'asc')}">
+			<ul  id="sale_list_pagination" class="pagination pull-right" th:with="sortParam=${sortProperty+','+(sortDirectionFlag?'desc':'asc')}">
 				<li th:if="${salePage.hasPrevious()}">
-					<a
-						th:href="@{/getSaleList(page=${salePage.number-1},size=${salePage.size},sort=${sortParam})}">上一页</a>
+					<a th:if="${searchParameters} == null" th:href="@{/getSaleList(page=${salePage.number-1},size=${salePage.size},sort=${sortParam})}">上一页</a>
+					<a th:if="${searchParameters} != null" th:href="@{/sales/search/(page=${salePage.number-1},size=${salePage.size},sort=${sortParam},searchParameters=${searchParameters})}">上一页</a>
 				</li>
 				<th:block th:each="i: ${#numbers.sequence(0, salePage.totalPages - 1)}">
 					<li th:if="${salePage.number == i}" class="active"><a href="#" >[[${i}+1]]</a></li>
 					<li th:unless="${salePage.number == i}">
-						<a th:href="@{/getSaleList(page=${i},size=${salePage.size},sort=${sortParam})}">[[${i}+1]]</a>
+						<a th:if="${searchParameters} == null" th:href="@{/getSaleList(page=${i},size=${salePage.size},sort=${sortParam})}">[[${i}+1]]</a>
+						<a th:if="${searchParameters} != null" th:href="@{/sales/search/(page=${i},size=${salePage.size},sort=${sortParam},searchParameters=${searchParameters})}">[[${i}+1]]</a>
 					</li>
 				</th:block>
 				<li th:if="${salePage.hasNext()}">
-					<a th:href="@{/getSaleList(page=${salePage.number+1},size=${salePage.size},sort=${sortParam})}">下一页</a>
+					<a  th:if="${searchParameters} == null" th:href="@{/getSaleList(page=${salePage.number+1},size=${salePage.size},sort=${sortParam})}">下一页</a>
+					<a  th:if="${searchParameters} != null" th:href="@{/sales/search/(page=${salePage.number+1},size=${salePage.size},sort=${sortParam},searchParameters=${searchParameters})}">下一页</a>
 				</li>
 			</ul>
 <!-- Sales pagination -->

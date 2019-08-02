@@ -27,13 +27,15 @@ import com.yuehe.app.entity.Sale;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
 
 /**
  * @author Soveran Zhong
  */
-public interface SaleRepository extends JpaRepository<Sale, String> {
+public interface SaleRepository extends JpaRepository<Sale, String>,JpaSpecificationExecutor<Sale> {
 
 	@Query("SELECT new com.yuehe.app.dto.SaleClientItemSellerForDBDTO(s.id,c.name, b.name, p.name, "
 			+ "s.itemNumber,s.createCardTotalAmount,b.price,"
@@ -44,6 +46,16 @@ public interface SaleRepository extends JpaRepository<Sale, String> {
 			+ "INNER JOIN s.employee e "
 			+ "INNER JOIN c.cosmeticShop p")
 	Page<SaleClientItemSellerForDBDTO> fetchSaleClientItemSellerData(Pageable pageable);
+
+	@Query("SELECT new com.yuehe.app.dto.SaleClientItemSellerForDBDTO(s.id,c.name, b.name, p.name, "
+			+ "s.itemNumber,s.createCardTotalAmount,b.price,"
+			+ "s.receivedAmount,s.receivedEarnedAmount,p.discount ,s.employeePremium,s.shopPremium,"
+			+ "s.createCardDate, e.name,s.description) "
+			+ "FROM Sale s INNER JOIN s.client c "
+			+ "INNER JOIN s.beautifySkinItem b "
+			+ "INNER JOIN s.employee e "
+			+ "INNER JOIN c.cosmeticShop p")
+	Page<SaleClientItemSellerForDBDTO> fetchSaleClientItemSellerDataWithFiltering(Specification<Sale> spec,Pageable pageable);
 	
 	@Query("SELECT new com.yuehe.app.dto.SaleClientItemSellerForDBDTO(s.id,c.name, b.name, p.name, "
 			+ "s.itemNumber,s.createCardTotalAmount,b.price,"
