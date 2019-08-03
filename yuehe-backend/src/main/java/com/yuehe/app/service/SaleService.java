@@ -42,6 +42,7 @@ import com.yuehe.app.property.BaseProperty;
 import com.yuehe.app.repository.SaleRepository;
 import com.yuehe.app.specification.SpecificationsBuilder;
 import com.yuehe.app.util.YueHeUtil;
+import com.yuehe.app.yuehecommon.SaleColumnsEnum;
 
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -67,13 +68,7 @@ public class SaleService {
 	Sort sort = null;
 	boolean sortByJPA = true;
 	Comparator<SaleClientItemSellerDTO> comparator = null;
-	private static enum SaleSortBy{
 
-		ID, EMPLOYEENAME, CLIENTCOSMETICSHOPNAME, CLIENTNAME, BEAUTIFYSKINITEMNAME, CREATECARDDATE, CREATECARDTOTALAMOUNT,
-		ITEMNUMBER,RECEIVEDAMOUNT, DISCOUNT, UNPAIDAMOUNT, EARNEDAMOUNT, RECEIVEDEARNEDAMOUNT, UNPAIDEARNEDAMOUNT,
-		EMPLOYEEPREMIUM, SHOPPREMIUM;
- 
-	}
 	@Autowired
 	private final ClientService clientService;
 //	@Autowired
@@ -246,7 +241,7 @@ public class SaleService {
 		//Below code is using the table field to do the sorting, when it comes to the foreign table, you need to use the foreign
 		//relationship to refer to it, like through entity "sale" to "client" to "cosmeticShop", you got "client.cosmeticshop.name"
 		//but you can't have any "." inside a enum class, so you have to remove all the ".", then do the comparing
-		SaleSortBy saleSortBy = SaleSortBy.valueOf(StringUtils.remove(sortProperty.toUpperCase(),'.'));
+		SaleColumnsEnum saleSortBy = SaleColumnsEnum.valueOf(StringUtils.remove(sortProperty.toUpperCase(),'.'));
 		switch(saleSortBy){
 			case ID:
 			case CREATECARDDATE:

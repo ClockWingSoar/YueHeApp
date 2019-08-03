@@ -3,9 +3,9 @@ package com.yuehe.app.specification;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.yuehe.app.util.search.ColumnsNotInSaleTableSearchBy;
 import com.yuehe.app.util.search.SearchOperation;
 import com.yuehe.app.util.search.SpecSearchCriteria;
+import com.yuehe.app.yuehecommon.SaleColumnsEnum;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.jpa.domain.Specification;
@@ -31,7 +31,7 @@ public final class YueHeSpecificationsBuilder<T> {
     public final YueHeSpecificationsBuilder<T> with(final String orPredicate, final String key, final String operation, final Object value, final String prefix, final String suffix) {
         SearchOperation op = SearchOperation.getSimpleOperation(operation.charAt(0));
         if (op != null) {
-            if (op == SearchOperation.EQUALITY) { // the operation may be complex operation
+            if (op == SearchOperation.CONTAINS) { // the operation may be complex operation
                 final boolean startWithAsterisk = prefix != null && prefix.contains(SearchOperation.ZERO_OR_MORE_REGEX);
                 final boolean endWithAsterisk = suffix != null && suffix.contains(SearchOperation.ZERO_OR_MORE_REGEX);
 
@@ -57,7 +57,7 @@ public final class YueHeSpecificationsBuilder<T> {
      
         for (int i = 0; i < params.size(); i++) {
             String key = params.get(i).getKey();
-            ColumnsNotInSaleTableSearchBy columnsNotInSaleTableSearchBy = ColumnsNotInSaleTableSearchBy.valueOf(StringUtils.remove(key.toUpperCase(),'.'));
+            SaleColumnsEnum columnsNotInSaleTableSearchBy = SaleColumnsEnum.valueOf(StringUtils.remove(key.toUpperCase(),'.'));
             switch(columnsNotInSaleTableSearchBy){
                 case EMPLOYEENAME:
                 case CLIENTCOSMETICSHOPNAME:
@@ -69,6 +69,24 @@ public final class YueHeSpecificationsBuilder<T> {
                     : Specification.where(result).and(new SaleSpecification<T>(params.get(i)));
                     break;
 
+
+
+                case DISCOUNT:
+                case UNPAIDAMOUNT:
+                case EARNEDAMOUNT:
+                case UNPAIDEARNEDAMOUNT:
+                   // throw new Exception("cannot search by this column yet!");
+                     break;
+
+                case ID:
+                case CREATECARDDATE:
+                case CREATECARDTOTALAMOUNT:
+                case ITEMNUMBER:
+                case RECEIVEDAMOUNT:
+                case RECEIVEDEARNEDAMOUNT:
+                case EMPLOYEEPREMIUM:
+                case SHOPPREMIUM:
+                case DESCRIPTION:
                 default:
                     result = params.get(i).isOrPredicate()
                     ? Specification.where(result).or(new YueHeSpecification<T>(params.get(i))) 

@@ -80,7 +80,7 @@ $(function ($) {
 			var employeePremium = $('#employee_premium').val();
 			var shopPremium = $('#shop_premium').val();
 			var description = $('#description').val();
-			var regex = new RegExp('[:><!~$^]');
+			var regex = new RegExp('[:><!~$-]');
 			if(!isEmpty(saleId)){
 				if(regex.test(saleId)){
 
@@ -219,7 +219,7 @@ $(function ($) {
 					searchParameters +="unpaidEarnedAmount;"+unpaidEarnedAmount+",";//default to equality
 				}
 			}
-			alert(searchParameters);
+			// alert(searchParameters);
 			return searchParameters;
 		}
 

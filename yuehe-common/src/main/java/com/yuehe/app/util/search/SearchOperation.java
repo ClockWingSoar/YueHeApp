@@ -3,7 +3,7 @@ package com.yuehe.app.util.search;
 public enum SearchOperation {
     EQUALITY, NEGATION, GREATER_THAN, LESS_THAN, LIKE, STARTS_WITH, ENDS_WITH, CONTAINS;
 
-    public static final String[] SIMPLE_OPERATION_SET = { ":", "!", ">", "<", "~",";","\\^","\\$" };
+    public static final String[] SIMPLE_OPERATION_SET = { ":", "!", ">", "<", "~",";","-","\\$" };
 
     public static final String OR_PREDICATE_FLAG = "'";
 
@@ -31,7 +31,7 @@ public enum SearchOperation {
             return LIKE;
         case ';':
             return CONTAINS;
-        case '^':
+        case '-':
             return STARTS_WITH;
         case '$':
             return ENDS_WITH;

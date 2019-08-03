@@ -10,8 +10,8 @@ import com.yuehe.app.entity.BeautifySkinItem;
 import com.yuehe.app.entity.CosmeticShop;
 import com.yuehe.app.entity.Employee;
 import com.yuehe.app.entity.Sale;
-import com.yuehe.app.util.search.ColumnsNotInSaleTableSearchBy;
 import com.yuehe.app.util.search.SpecSearchCriteria;
+import com.yuehe.app.yuehecommon.SaleColumnsEnum;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -30,7 +30,7 @@ public class SaleSpecification<T> extends YueHeSpecification<T> {
 			// SetJoin join1 = root.join(T.embeddedEntity);
 		// predicates.add(builder.equal(join1.get(EmbeddedEntity_.field1), value);
 		String key = criteria.getKey();
-		ColumnsNotInSaleTableSearchBy columnsNotInSaleTableSearchBy = ColumnsNotInSaleTableSearchBy.valueOf(StringUtils.remove(key.toUpperCase(),'.'));
+		SaleColumnsEnum columnsNotInSaleTableSearchBy = SaleColumnsEnum.valueOf(StringUtils.remove(key.toUpperCase(),'.'));
 		Join<Sale,Employee> saleJoinEmployee = root.join("employee");
 		Join<Sale,Client> saleJoinClient = root.join("client");
 		Join<Sale,CosmeticShop> saleJoinCosmeticShop = saleJoinClient.join("cosmeticShop");
