@@ -24,7 +24,7 @@ $(function ($) {
 
 function getYueHeAllShopsSales(){
 
-	$.getJSON("http://localhost:9090/getYueHeAllShopsSales", {
+	$.getJSON("http://"+window.location.host+"/getYueHeAllShopsSales", {
 		ajax : 'true'
 	}, function(data) {
 		var html = '';
@@ -58,7 +58,7 @@ function getYueHeAllShopsSales(){
 	});
 }
 function getShopAllClientsSales(shopId){
-	$.getJSON("http://localhost:9090/getShopAllClientsSales", {
+	$.getJSON("http://"+window.location.host+"/getShopAllClientsSales", {
 		shopId:shopId,
 		ajax : 'true'
 	}, function(data) {
@@ -93,7 +93,7 @@ function getShopAllClientsSales(shopId){
 	});
 }
 function getClientAllSales(clientId){
-	$.getJSON("http://localhost:9090/getClientAllSales", {
+	$.getJSON("http://"+window.location.host+"/getClientAllSales", {
 		clientId:clientId,
 		ajax : 'true'
 	}, function(data) {
@@ -130,7 +130,7 @@ function getClientAllSales(clientId){
 }
 function getSalePerformanceDetail(saleId){
 
-	$.getJSON("http://localhost:9090/getSalePerformanceDetail", {
+	$.getJSON("http://"+window.location.host+"/getSalePerformanceDetail", {
 		saleId : saleId,
 		ajax : 'true'
 	}, function(data) {

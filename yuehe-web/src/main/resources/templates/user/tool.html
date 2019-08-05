@@ -7,7 +7,11 @@
        <link rel="stylesheet" th:href="@{/css/core.css}">
        <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
         <script type="text/javascript"  th:src="@{/js/jquery.min.js}"></script>
-           <script type="text/javascript"  th:src="@{/js/bootstrap.min.js}"></script>
+		   <script type="text/javascript"  th:src="@{/js/bootstrap.min.js}"></script>
+		   
+	<script type="text/javascript" th:src="@{/js/tool.js}"></script>
+	<script type="text/javascript" th:src="@{/js/jquery.validate.min.js}"></script>
+	<script type="text/javascript" th:src="@{/js/additional-methods.min.js}"></script>
     <meta http-equiv="refresh" content="600; URL=/"> <!-- this will redirect to / after 600s-->
 
 </head>
@@ -52,46 +56,46 @@
                <div class="panel-heading"> <h3>创建新的工具</h3>
             </div>
            <div class="form-group row">
-			    <form th:action="@{/createTool}"  method="POST">
+			    <form id="tool_new_item" th:action="@{/createTool}"  method="POST">
 			        <div class="input-group col-xs-4">
 			            <span class="input-group-addon"><i class="glyphicon glyphicon-plus"></i>工具名称</span> 
-		                <input id="name" name="name" type=text class="form-control input-sm" ></input>
+		                <input id="name" name="name" type=text class="form-control input-sm" required></input>
 		            </div>
 	                <span class="help-block">可以指各种光美肤仪器，也可以指产品比如面膜，花青素等</span>
 			    
 			        <div class="input-group col-xs-4">
 			            <span class="input-group-addon"><i class="glyphicon glyphicon-plus"></i>主治</span> 
-		                <input id="major" name="major" type=text class="form-control input-sm" ></input>
+		                <input id="major" name="major" type=text class="form-control input-sm" required></input>
 		            </div>
 	                <span class="help-block">可以治疗的皮肤问题及主治方向</span>
 			    
 			        <div class="input-group col-xs-4">
 			            <span class="input-group-addon"><i class="glyphicon glyphicon-plus"></i>价格</span> 
-		                <input id="price" name="price" type=text class="form-control input-sm" ></input>
+		                <input id="price" name="price" type=text class="form-control input-sm" required></input>
 		            </div>
 	                <span class="help-block">仪器购买的价格留作参考或者用于计算每年的仪器耗损费用</span>
 	                
 			        <div class="input-group col-xs-4">
 			            <span class="input-group-addon"><i class="glyphicon glyphicon-plus"></i>购买日期</span> 
-		                <input id="buyDate" name="buyDate" type=text class="form-control input-sm" ></input>
+		                <input id="buyDate" name="buyDate" type=text class="form-control input-sm" required></input>
 		            </div>
 	                <span class="help-block">购买的时间，方便计算折旧费</span>
 	                
 			        <div class="input-group col-xs-4">
 			            <span class="input-group-addon"><i class="glyphicon glyphicon-plus"></i> 购买厂家</span> 
-		                <input id="buyFrom" name="buyFrom" type=text class="form-control input-sm" ></input>
+		                <input id="buyFrom" name="buyFrom" type=text class="form-control input-sm" required></input>
 		            </div>
 	                <span class="help-block">大部分仪器和产品都来自广州</span>
 	                
 			        <div class="input-group col-xs-4">
 			            <span class="input-group-addon"><i class="glyphicon glyphicon-plus"></i> 操作费用</span> 
-		                <input id="operateExpense" name="operateExpense" type=text class="form-control input-sm" ></input>
+		                <input id="operateExpense" name="operateExpense" type=text class="form-control input-sm" required></input>
 		            </div>
 	                <span class="help-block">这个可以用来计算操作医生的操作费用，现在暂时不计算</span>
 	                
 			        <div class="input-group col-xs-4">
 			            <span class="input-group-addon"><i class="glyphicon glyphicon-plus"></i> 备注</span> 
-		                <input id="description" name="description" type=text class="form-control input-sm" ></input>
+		                <input id="description" name="description" type=text class="form-control input-sm" required></input>
 		            </div>
 	                <span class="help-block">其他信息</span>
 			        <br>
@@ -100,7 +104,34 @@
 			                <input type="submit" class="btn  btn-lg" value="提交"/>
 			            </div>
 			        </div>
-			    </form>
+				</form>
+				<!-- <form class="cmxform" id="commentForm" method="get" action="">
+					<fieldset>
+					  <legend>Please provide your name, email address (won't be published) and a comment</legend>
+					  <p>
+						<label for="cname">Name (required, at least 2 characters)</label>
+						<input id="cname" name="name" minlength="2" type="text" required>
+					  </p>
+					  <p>
+						<label for="cemail">E-Mail (required)</label>
+						<input id="cemail" type="email" name="email" required>
+					  </p>
+					  <p>
+						<label for="curl">URL (optional)</label>
+						<input id="curl" type="url" name="url">
+					  </p>
+					  <p>
+						<label for="ccomment">Your comment (required)</label>
+						<textarea id="ccomment" name="comment" required></textarea>
+					  </p>
+					  <p>
+						<input class="submit" type="submit" value="Submit">
+					  </p>
+					</fieldset>
+				  </form>
+				  <script>
+				  $("#commentForm").validate();
+				  </script> -->
 			    </div>
 		    </div>
    		<div th:replace="~{fragments/footer.html :: footer}">footer</div>

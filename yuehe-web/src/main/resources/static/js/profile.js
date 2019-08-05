@@ -10,7 +10,7 @@ $(function ($) {
 	
 });
 function getClientProfile(clientId){
-	$.getJSON("http://localhost:9090/getProfileDetail", {
+	$.getJSON("http://"+window.location.host+"/getProfileDetail", {
 		clientId:clientId,
 		ajax : 'true'
 	}, function(data) {

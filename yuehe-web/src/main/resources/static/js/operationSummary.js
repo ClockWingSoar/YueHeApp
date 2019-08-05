@@ -22,7 +22,7 @@ $(function ($) {jQuery(function() {
 });
 
 function getClientAllSalesOperations(clientId){
-	$.getJSON("http://localhost:9090/getClientAllSalesOperations", {
+	$.getJSON("http://"+window.location.host+"/getClientAllSalesOperations", {
 		clientId:clientId,
 		ajax : 'true'
 	}, function(data) {
@@ -57,7 +57,7 @@ function getClientAllSalesOperations(clientId){
 }
 function getSaleAllOperations(saleId){
 
-	$.getJSON("http://localhost:9090/getSaleAllOperations", {
+	$.getJSON("http://"+window.location.host+"/getSaleAllOperations", {
 		saleId : saleId,
 		ajax : 'true'
 	}, function(data) {
@@ -93,7 +93,7 @@ function getSaleAllOperations(saleId){
 }
 
 function getShopAllClientsOperations(shopId){
-	$.getJSON("http://localhost:9090/getShopAllClientsOperations", {
+	$.getJSON("http://"+window.location.host+"/getShopAllClientsOperations", {
 		shopId:shopId,
 		ajax : 'true'
 	}, function(data) {
@@ -123,7 +123,7 @@ function getShopAllClientsOperations(shopId){
 }
 
 function getYueHeAllShopsOperations(){
-	$.getJSON("http://localhost:9090/getYueHeAllShopsOperations", {
+	$.getJSON("http://"+window.location.host+"/getYueHeAllShopsOperations", {
 		ajax : 'true'
 	}, function(data) {
 		var html = '';

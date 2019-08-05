@@ -1,5 +1,5 @@
 function getShopAllClientsList(removeFirstOptionFlag) {
-    $.getJSON("http://localhost:9090/getShopAllClientsForFiltering", {
+    $.getJSON("http://"+window.location.host+"/getShopAllClientsForFiltering", {
         cosmeticShopId : $(this).val(),
         ajax : 'true'
     }, function(data) {
@@ -35,7 +35,7 @@ function getShopAllClientsList(removeFirstOptionFlag) {
 }
 
 function getClientAllSalesList() {
-	$.getJSON("http://localhost:9090/getClientAllSalesForFiltering", {
+	$.getJSON("http://"+window.location.host+"/getClientAllSalesForFiltering", {
 		clientId : $(this).val(),
 		ajax : 'true'
 	}, function(data) {

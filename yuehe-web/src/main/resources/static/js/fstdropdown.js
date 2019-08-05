@@ -22,7 +22,7 @@ function setFstDropdown() {
         var dropdown = createFstElement("div", "fstdropdown" + (opened != null && opened == "true" ? " open" : "") 
                         + (disabled != null && disabled == "true" ? " disabled" : ""), div,
             opened == null || opened != "true" ? { "click": openSelect, "blur": openSelect } : null);
-        dropdown.select = select;
+        dropdown.select = select;//add the original select dropdown to created div dropdown's select attribute
         dropdown.setAttribute("tabindex", "0");
         if (opened == null || opened != "true")
             createFstElement("div", "fstselected", dropdown, null);
@@ -73,11 +73,13 @@ function setFstDropdown() {
 
     function changeSelect(event) {
         var select = event.target.closest(".fstdropdown").select;
-        var dd = select.fstdropdown.dd;
+        var dd = select.fstdropdown.dd;//refer to the newly created div dropdown to the original select dropdown list
         var selectAll = dd.querySelector(".fstAll");
         var opened = select.dataset["opened"] == null || select.dataset["opened"] != "true";
         if (select.value != event.target.dataset["value"] && !select.multiple) {
-            select.value = event.target.dataset["value"];
+            // alert("before--"+select.value);
+            select.value = event.target.dataset["value"];//set back the selected value to the original select dropdown list to be able to submit
+            // alert("after--"+select.value)
             if (dd.querySelector(".fstlist>.selected") != null)
                 dd.querySelector(".fstlist>.selected").classList.remove("selected");
             event.target.classList.add("selected");
@@ -112,6 +114,7 @@ function setFstDropdown() {
         while (ddList.lastChild)
             ddList.removeChild(ddList.lastChild);
         for (var opt in optList) {
+           
             if (optList.hasOwnProperty(opt)) {
                 var listEl = document.createElement("div");
                 listEl.textContent = optList[opt].text;
