@@ -3,7 +3,7 @@
 
 <head>
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-	<title>销售表</title>
+	<title>销售表详情</title>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 	<link rel="stylesheet" th:href="@{/css/core.css}">
 	<link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
@@ -11,7 +11,7 @@
 	<script type="text/javascript" th:src="@{/js/bootstrap.min.js}"></script>
 	<script type="text/javascript" th:src="@{/js/saleList.js}"></script>
 	<script type="text/javascript" th:src="@{/js/yueheCommon.js}"></script>
-	<meta http-equiv="refresh" content="600; URL=/"> <!-- this will redirect to / after 600s-->
+	<!-- <meta http-equiv="refresh" content="600; URL=/"> this will redirect to / after 600s -->
 
 </head>
 
@@ -39,9 +39,9 @@
 
 			</div>
 		
-			<div class="panel-body my-panels table-wrapper-scroll-y my-custom-scrollbar">
+			<div class="panel-body table-wrapper-scroll-y my-custom-scrollbar">
 
-				<table id="saleRecordList" class="table table-hover  table-sm ">
+				<table id="saleRecordList" class="table tableList table-hover  table-sm ">
 					<thead>
 						<tr class="info">
 							<th data-sort-prop="id">ID</th>

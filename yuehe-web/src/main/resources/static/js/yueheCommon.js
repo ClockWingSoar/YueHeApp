@@ -143,7 +143,7 @@ function filterTable(table, filter, index) {
                   required: true
               },
               description: {
-                  maxlength: 20
+                  maxlength: 100
               }
             },
             messages : {
@@ -191,7 +191,7 @@ function filterTable(table, filter, index) {
                 required: "请选择销售专家的名字",
               },
               description: {
-                maxlength: "备注不能超过20个字符"
+                maxlength: "备注不能超过100个字符"
               }
             }, 
           //   submitHandler: function(form) {

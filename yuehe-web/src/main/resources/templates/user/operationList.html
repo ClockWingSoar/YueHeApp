@@ -3,13 +3,15 @@
 
 <head>
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-	<title>操作表</title>
+	<title>操作表详情</title>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 	<link rel="stylesheet" th:href="@{/css/core.css}">
 	<link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
 	<script type="text/javascript" th:src="@{/js/jquery.min.js}"></script>
 	<script type="text/javascript" th:src="@{/js/bootstrap.min.js}"></script>
-	<meta http-equiv="refresh" content="600; URL=/"> <!-- this will redirect to / after 600s-->
+	<script type="text/javascript" th:src="@{/js/operationList.js}"></script>
+	<script type="text/javascript" th:src="@{/js/yueheCommon.js}"></script>
+	<!-- <meta http-equiv="refresh" content="600; URL=/"> this will redirect to / after 600s -->
 
 </head>
 
@@ -18,26 +20,47 @@
 
 	<div role="main" class="container">
 		<div th:replace="~{fragments/operationHeader.html :: header}">Operation Header</div>
+		<div th:classappend="${message != null ? 'alert alert-success alert-dismissible' : 'hidden'}">
+			<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+			<span class="yuehe-alert" th:text="${message}"></span>
+		</div>
 		<div class="panel panel-default">
-			<div class="panel-heading">
-				<h4>以下为现有的操作记录:</h4>
+			<div class="panel-heading" style="padding-bottom: 0px;padding-top: 0px;">
+				<div class="form-group  row " style="margin-bottom: 0px;">
+					<div class="col-md-11">
+						<h3>以下为现有的操作记录:</h3>
+					</div>
+
+					<div class="col-md-1">
+						<h3><button id="operation_csv_export" type="submit" class="btn btn-primary">导出csv</button></h3>
+					</div>
+				</div>
 			</div>
 			<div class="panel-body  table-wrapper-scroll-y my-custom-scrollbar">
-				<table id="operationRecordList" class="table table-hover  table-sm ">
+				<table id="operationRecordList" class="table tableList table-hover  table-sm ">
 					<thead>
 						<tr class="info">
-							<th>销售ID</th>
-							<th>操作ID</th>
-							<th>操作日期</th>
-							<th>操作人</th>
-							<th>仪器</th>
-							<th>操作费用</th>
+							<th data-sort-prop="sale.id">销售ID</th>
+							<th data-sort-prop="id">操作ID</th>
+							<th data-sort-prop="operationDate">操作日期</th>
+							<th data-sort-prop="employee.name">操作人</th>
+							<th data-sort-prop="tool.name">仪器</th>
+							<th data-sort-prop="operateExpense">操作费用</th>
 							<th>备注</th>
 						</tr>
 					</thead>
 
 					<tbody>
-						<tr data-th-each="operation : ${operationList}">
+						<tr>
+							<td><input class="yuehe-filter-Input" id="sale_id" placeholder="搜销售ID"></td>
+							<td><input class="yuehe-filter-Input" id="id" placeholder="搜操作ID"></td>
+							<td><input class="yuehe-filter-Input" id="operation_date" placeholder="搜操作日期"></td>
+							<td><input class="yuehe-filter-Input" id="operator_name" placeholder="搜操作人"></td>
+							<td><input class="yuehe-filter-Input" id="tool_name" placeholder="搜操作仪器"></td>
+							<td><input class="yuehe-filter-Input" id="operation_expense" placeholder="搜操作费用"></td>
+							<td><input class="yuehe-filter-Input" id="description" placeholder="搜备注"></td>
+						</tr>
+						<tr class="clickable-row" data-th-each="operation : ${operationList}">
 							<td data-th-text="${operation.saleId}">...</td>
 							<td data-th-text="${operation.operationId}">...</td>
 							<!-- 			<td data-th-text="${operation.createCardDate}">...</td> -->
@@ -60,7 +83,29 @@
 					</tbody>
 				</table>
 			</div>
-
+			<input id="operationPageNumber" type="hidden" th:value="${operationPage.number}">
+			<input id="operationPageSize" type="hidden" th:value="${operationPage.size}">
+			<input id="sortProperty" type="hidden" th:value="${sortProperty}">
+			<input id="sortDirectionFlag" type="hidden" th:value="${sortDirectionFlag}">
+			<input id="searchParameters" type="hidden" th:value="${searchParameters}">
+			<!-- using th:with to declare a local variable for sorting query param -->
+			<ul  id="operation_list_pagination" class="pagination pull-right" th:with="sortParam=${sortProperty+','+(sortDirectionFlag?'desc':'asc')}">
+				<li th:if="${operationPage.hasPrevious()}">
+					<a th:if="${searchParameters} == null" th:href="@{/getOperationList(page=${operationPage.number-1},size=${operationPage.size},sort=${sortParam})}">上一页</a>
+					<a th:if="${searchParameters} != null" th:href="@{/operations/search/(page=${operationPage.number-1},size=${operationPage.size},sort=${sortParam},searchParameters=${searchParameters})}">上一页</a>
+				</li>
+				<th:block th:each="i: ${#numbers.sequence(0, operationPage.totalPages - 1)}">
+					<li th:if="${operationPage.number == i}" class="active"><a href="#" >[[${i}+1]]</a></li>
+					<li th:unless="${operationPage.number == i}">
+						<a th:if="${searchParameters} == null" th:href="@{/getOperationList(page=${i},size=${operationPage.size},sort=${sortParam})}">[[${i}+1]]</a>
+						<a th:if="${searchParameters} != null" th:href="@{/operations/search/(page=${i},size=${operationPage.size},sort=${sortParam},searchParameters=${searchParameters})}">[[${i}+1]]</a>
+					</li>
+				</th:block>
+				<li th:if="${operationPage.hasNext()}">
+					<a  th:if="${searchParameters} == null" th:href="@{/getOperationList(page=${operationPage.number+1},size=${operationPage.size},sort=${sortParam})}">下一页</a>
+					<a  th:if="${searchParameters} != null" th:href="@{/operations/search/(page=${operationPage.number+1},size=${operationPage.size},sort=${sortParam},searchParameters=${searchParameters})}">下一页</a>
+				</li>
+			</ul>
 
 		</div>
 		<div th:replace="~{fragments/footer.html :: footer}">footer</div>

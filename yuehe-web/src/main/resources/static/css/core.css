@@ -44,11 +44,11 @@ thead th {
   background: lemonchiffon;
   position: sticky; top: 0; 
 }
-.saleRecordList {
-max-width: 800px;
+.tableList {
+max-width: auto;
 margin: 0 auto;
 }
-#saleRecordList th, td {
+#tableList th, td {
 white-space: nowrap;
 }
 table.dataTable thead .sorting:after,
