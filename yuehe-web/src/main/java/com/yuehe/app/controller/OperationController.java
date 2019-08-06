@@ -1,8 +1,11 @@
 package com.yuehe.app.controller;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+
+import javax.servlet.http.HttpServletRequest;
 
 import com.yuehe.app.dto.ClientDetailDTO;
 import com.yuehe.app.dto.DutyEmployeeRoleDTO;
@@ -27,9 +30,13 @@ import com.yuehe.app.util.YueHeUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -39,13 +46,17 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
 public class OperationController{
-//	 @ModelAttribute("module")
-//	    String module() {
-//	        return "operation";
-//	    }
+	 @ModelAttribute("module")
+	    String module() {
+	        return "operation";
+	    }
 	 private final static Logger LOGGER = LoggerFactory.getLogger(OperationController.class);
 	  private SimpleDateFormat simpleDateFormat =  new SimpleDateFormat("yyyy-MM-dd");
-	@Autowired
+	  String sortProperty = "id"; // default sort column is sale id
+	  Direction sortDirection = Direction.ASC; // default sort direction is ascending
+	  int pageNumber = 0; // default page number is 0 (yes it is weird)
+	  int pageSize = 10; // default page size is 10
+	  @Autowired
 	private final OperationService operationService;
 	@Autowired
 	private final SaleService saleService;
@@ -62,17 +73,32 @@ public class OperationController{
 	}
 
 	@GetMapping("/getOperationList")
-	public  String operationOverview(Model model){
-		List<OperationDetailDTO> operationList =new ArrayList<OperationDetailDTO>();
-		operationList = operationService.getAllOperationForOperationList();
-		 LOGGER.info("operationList {}", operationList);
-		model.addAttribute("operationList",operationList);
-		model.addAttribute("subModule", "operationList");
-		model.addAttribute("module", "operation");
+	public  String operationOverview(HttpServletRequest request, Model model){
+		
+		yueHeCommonService.buildSortOrderBeforeDBQuerying(request,pageNumber,pageSize,sortProperty,sortDirection);
+		Map<String, Object> operationMap = operationService.getOperationsDetailListWithPaginationAndSort(pageNumber, pageSize,
+				sortDirection, sortProperty);
+		buildModelAfterDBQuerying(operationMap, model, sortProperty, sortDirection);
+		// List<OperationDetailDTO> operationList =new ArrayList<OperationDetailDTO>();
+		// operationList = operationService.getAllOperationForOperationList();
+		//  LOGGER.info("operationList {}", operationList);
+		// model.addAttribute("operationList",operationList);
+		// model.addAttribute("subModule", "operationList");
+		// model.addAttribute("module", "operation");
 		
 		return "user/operationList.html";
 	}
-
+	private void buildModelAfterDBQuerying(Map<String, Object> operationMap, Model model, String sortProperty,
+	Direction sortDirection) {
+		@SuppressWarnings("unchecked")
+		Page<OperationDetailDTO> operationMapPage = (Page<OperationDetailDTO>) operationMap.get("operationPage");
+		List<Sort.Order> sortOrders = operationMapPage.getSort().stream().collect(Collectors.toList());
+		yueHeCommonService.setBackSortOrderAfterDBQuerying(sortOrders, model, sortProperty, sortDirection);
+		sortOrders.forEach(l -> System.out.println(l));
+		LOGGER.info("operationMap {}", operationMap);
+		model.addAllAttributes(operationMap);
+		model.addAttribute("subModule", "operationList");
+	}
 	@GetMapping("/getOperationNewItem")
 	public  String operationNewItemOverview(Model model){
 		List<CosmeticShop> cosmeticShopList =  yueHeCommonService.getAllCosmeticShops();

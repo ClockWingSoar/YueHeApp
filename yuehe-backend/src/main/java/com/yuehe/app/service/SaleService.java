@@ -71,19 +71,11 @@ public class SaleService {
 
 	@Autowired
 	private final ClientService clientService;
-//	@Autowired
-//	private final EmployeeService employeeService;
-	private  Client client;
-	private  BeautifySkinItem beautifySkinItem;
-	@Autowired
-	private final BeautifySkinItemService beautifySkinItemService;
 	@Autowired
 	private final CosmeticShopService cosmeticShopService;
 
-    public SaleService(SaleRepository saleRepository,ClientService clientService,
-    							BeautifySkinItemService beautifySkinItemService,CosmeticShopService cosmeticShopService) {
+    public SaleService(SaleRepository saleRepository,ClientService clientService,CosmeticShopService cosmeticShopService) {
         this.saleRepository = saleRepository;
-        this.beautifySkinItemService = beautifySkinItemService;
         this.clientService = clientService;
         this.cosmeticShopService = cosmeticShopService;
     }
@@ -167,7 +159,7 @@ public class SaleService {
 	        }
 		List<SaleClientItemSellerDTO> saleClientItemSellerDTOList = new ArrayList<SaleClientItemSellerDTO>();
 		buildSalesDetailList(saleClientItemSellerDTOList, saleClientItemSellerForDBDTOList);
-		sortByCollectionsIfPropertyNotInDB(sortByJPA, sortDirection, comparator, saleClientItemSellerDTOList);
+		sortByCollectionsIfPropertyNotInDB(sortDirection, saleClientItemSellerDTOList);
 		saleMap.put("saleList",saleClientItemSellerDTOList);
 		saleMap.put("salePage",saleClientItemSellerForDBDTOPage);
 		return saleMap;
@@ -184,17 +176,17 @@ public class SaleService {
 	        }
 		List<SaleClientItemSellerDTO> saleClientItemSellerDTOList = new ArrayList<SaleClientItemSellerDTO>();
 		buildFilteredSalesDetailList(saleClientItemSellerDTOList, saleList);
-		sortByCollectionsIfPropertyNotInDB(sortByJPA, sortDirection, comparator, saleClientItemSellerDTOList);
+		sortByCollectionsIfPropertyNotInDB( sortDirection, saleClientItemSellerDTOList);
 		saleMap.put("saleList",saleClientItemSellerDTOList);
 		saleMap.put("salePage",salePage);
 		return saleMap;
 	}
 	public Pageable buildPaginationAndSort(int pageNumber, int pageSize,Direction sortDirection,String sortProperty){
 		Pageable pageable = null;
-		buildSort(this.sort, this.sortByJPA, this.comparator, sortDirection, sortProperty);
-		if(this.sortByJPA){
+		buildSort(sortDirection, sortProperty);
+		if(sortByJPA){
 
-			 pageable = PageRequest.of(pageNumber, pageSize,this.sort);
+			 pageable = PageRequest.of(pageNumber, pageSize,sort);
 		}
 		else{
 			 pageable = PageRequest.of(pageNumber, pageSize);
@@ -209,7 +201,7 @@ public class SaleService {
 	 * @return
 	 */
 	public Map<String, Object>  getSalesDetailListForDownload(Direction sortDirection,String sortProperty){
-		this.sort = Sort.by(sortDirection, sortProperty);
+		sort = Sort.by(sortDirection, sortProperty);
 		List<SaleClientItemSellerForDBDTO> 	saleClientItemSellerForDBDTOList = new ArrayList<SaleClientItemSellerForDBDTO>();
 		List<SaleClientItemSellerDTO> saleClientItemSellerDTOList = new ArrayList<SaleClientItemSellerDTO>();
 		
@@ -217,26 +209,25 @@ public class SaleService {
 		// Comparator<SaleClientItemSellerDTO> comparator = null;
 	
 		Map<String, Object> saleMap = new HashMap<String, Object>();
-		buildSort(this.sort, this.sortByJPA, this.comparator, sortDirection, sortProperty);
-		if(this.sortByJPA){
+		buildSort(sortDirection, sortProperty);
+		if(sortByJPA){
 
-			sortOrders = this.sort.get().collect(Collectors.toList());
-			saleClientItemSellerForDBDTOList = saleRepository.fetchSaleClientItemSellerDataForDownloadWithSort(this.sort);
+			sortOrders = sort.get().collect(Collectors.toList());
+			saleClientItemSellerForDBDTOList = saleRepository.fetchSaleClientItemSellerDataForDownloadWithSort(sort);
 		}else{
 			saleClientItemSellerForDBDTOList = saleRepository.fetchSaleClientItemSellerDataForDownload();
 
 		}
 		
 		buildSalesDetailList(saleClientItemSellerDTOList, saleClientItemSellerForDBDTOList);
-		sortByCollectionsIfPropertyNotInDB(sortByJPA, sortDirection, comparator, saleClientItemSellerDTOList);
+		sortByCollectionsIfPropertyNotInDB(sortDirection,saleClientItemSellerDTOList);
 		saleMap.put("csvObjList",saleClientItemSellerDTOList);
 		saleMap.put("sortOrders", sortOrders);
 		return saleMap;
 
 	}
 	
-	private void buildSort(Sort sort, boolean sortByJPA, Comparator<SaleClientItemSellerDTO> comparator,
-							Direction sortDirection,String sortProperty ){
+	private void buildSort(	Direction sortDirection,String sortProperty ){
 		
 		//Below code is using the table field to do the sorting, when it comes to the foreign table, you need to use the foreign
 		//relationship to refer to it, like through entity "sale" to "client" to "cosmeticShop", you got "client.cosmeticshop.name"
@@ -251,53 +242,52 @@ public class SaleService {
 			case RECEIVEDEARNEDAMOUNT:
 			case EMPLOYEEPREMIUM:
 			case SHOPPREMIUM:
-				this.sort = Sort.by(new Order(sortDirection,sortProperty));
-				this.sortByJPA = true;
+				sort = Sort.by(new Order(sortDirection,sortProperty));
+				sortByJPA = true;
 				break;
 			case CLIENTCOSMETICSHOPNAME:
-			this.sort = Sort.by(new Order(sortDirection,"client.cosmeticShop.name"));
-			this.sortByJPA = true;
+			sort = Sort.by(new Order(sortDirection,"client.cosmeticShop.name"));
+			sortByJPA = true;
 			break;
 			case CLIENTNAME:
-			this.sort = Sort.by(new Order(sortDirection,"client.cosmeticShop.name")
+			sort = Sort.by(new Order(sortDirection,"client.cosmeticShop.name")
 			,new Order(sortDirection,"client.name"));
-			this.sortByJPA = true;
+			sortByJPA = true;
 			break;
 			//below are a special sorting group, it's due to the relationship of entity "client","cosmeticShop" and "beautifySkinItem"
 			//first you sort all the cosmeticShop, then group by the shop, sort all the clients, then group by the client, sort all the
 			//beautifyskinitems.
 			case BEAUTIFYSKINITEMNAME:
-			this.sort = Sort.by(new Order(sortDirection,"client.cosmeticShop.name"),
+			sort = Sort.by(new Order(sortDirection,"client.cosmeticShop.name"),
 			new Order(sortDirection,"client.name"),
 			new Order(sortDirection,"beautifySkinItem.name"));
-			this.sortByJPA = true;
+			sortByJPA = true;
 			break;
 			case EMPLOYEENAME:
-			this.sort = Sort.by(new Order(sortDirection,"employee.name"));
-			this.sortByJPA = true;
+			sort = Sort.by(new Order(sortDirection,"employee.name"));
+			sortByJPA = true;
 			break;
 			case DISCOUNT:
-				this.comparator = SaleClientItemSellerDTO.discountComparator;
-				this.sortByJPA = false;
+				comparator = SaleClientItemSellerDTO.discountComparator;
+				sortByJPA = false;
 				break;
 			case UNPAIDAMOUNT:
-				this.comparator = SaleClientItemSellerDTO.unpaidAmountComparator;
-				this.sortByJPA = false;
+				comparator = SaleClientItemSellerDTO.unpaidAmountComparator;
+				sortByJPA = false;
 				break;
 			case EARNEDAMOUNT:
-				this.comparator = SaleClientItemSellerDTO.earnedAmountComparator;
-				this.sortByJPA = false;
+				comparator = SaleClientItemSellerDTO.earnedAmountComparator;
+				sortByJPA = false;
 				break;
 			case UNPAIDEARNEDAMOUNT:
-				this.comparator = SaleClientItemSellerDTO.unpaidEarnedAmountComparator;
-				this.sortByJPA = false;
+				comparator = SaleClientItemSellerDTO.unpaidEarnedAmountComparator;
+				sortByJPA = false;
 				break;
 			default:break;
 			
 		}
 	}
-	private void sortByCollectionsIfPropertyNotInDB(boolean sortByJPA, Direction sortDirection, Comparator<SaleClientItemSellerDTO> comparator,
-									 List<SaleClientItemSellerDTO> saleClientItemSellerDTOList){
+	private void sortByCollectionsIfPropertyNotInDB( Direction sortDirection,List<SaleClientItemSellerDTO> saleClientItemSellerDTOList){
 		if(!sortByJPA){
 			if(sortDirection == Direction.ASC){
 

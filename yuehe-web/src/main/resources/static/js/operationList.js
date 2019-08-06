@@ -67,6 +67,7 @@ $(function ($) {
 			var saleId = $('#sale_id').val();
 			var operationDate = $('#operation_date').val();
 			var operatorName = $('#operator_name').val();
+			var toolName = $('#tool_name').val();
 			var description = $('#description').val();
 			var regex = new RegExp('[:><!~$-]');
 			if(!isEmpty(id)){
@@ -100,6 +101,14 @@ $(function ($) {
 					searchParameters +="employee.name"+operatorName+",";
 				}else{
 					searchParameters +="employee.name;"+operatorName+",";//default to equality
+				}
+			}
+			if(!isEmpty(toolName)){
+				if(regex.test(toolName)){
+
+					searchParameters +="tool.name"+toolName+",";
+				}else{
+					searchParameters +="tool.name;"+toolName+",";//default to equality
 				}
 			}
 			if(!isEmpty(description)){

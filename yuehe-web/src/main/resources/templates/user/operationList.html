@@ -40,8 +40,8 @@
 				<table id="operationRecordList" class="table tableList table-hover  table-sm ">
 					<thead>
 						<tr class="info">
-							<th data-sort-prop="sale.id">销售ID</th>
 							<th data-sort-prop="id">操作ID</th>
+							<th data-sort-prop="sale.id">销售ID</th>
 							<th data-sort-prop="operationDate">操作日期</th>
 							<th data-sort-prop="employee.name">操作人</th>
 							<th data-sort-prop="tool.name">仪器</th>
@@ -52,8 +52,8 @@
 
 					<tbody>
 						<tr>
-							<td><input class="yuehe-filter-Input" id="sale_id" placeholder="搜销售ID"></td>
 							<td><input class="yuehe-filter-Input" id="id" placeholder="搜操作ID"></td>
+							<td><input class="yuehe-filter-Input" id="sale_id" placeholder="搜销售ID"></td>
 							<td><input class="yuehe-filter-Input" id="operation_date" placeholder="搜操作日期"></td>
 							<td><input class="yuehe-filter-Input" id="operator_name" placeholder="搜操作人"></td>
 							<td><input class="yuehe-filter-Input" id="tool_name" placeholder="搜操作仪器"></td>
@@ -61,8 +61,8 @@
 							<td><input class="yuehe-filter-Input" id="description" placeholder="搜备注"></td>
 						</tr>
 						<tr class="clickable-row" data-th-each="operation : ${operationList}">
-							<td data-th-text="${operation.saleId}">...</td>
 							<td data-th-text="${operation.operationId}">...</td>
+							<td data-th-text="${operation.saleId}">...</td>
 							<!-- 			<td data-th-text="${operation.createCardDate}">...</td> -->
 							<td data-th-text="${operation.operationDate}">...</td>
 							<!-- 			<td data-th-text="${operation.clientName}">...</td> -->

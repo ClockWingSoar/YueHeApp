@@ -80,9 +80,9 @@ public class SaleController {
 		// public String saleOverview(@PageableDefault(size = 10,sort = "id") Pageable
 		// pageable,Model model){
 
-		buildSortOrderBeforeDBQuerying(request);
+		yueHeCommonService.buildSortOrderBeforeDBQuerying(request,pageNumber,pageSize,sortProperty,sortDirection);
 		Map<String, Object> saleMap = saleService.getSalesDetailListWithPaginationAndSort(pageNumber, pageSize,
-				this.sortDirection, this.sortProperty);
+				sortDirection, sortProperty);
 		buildModelAfterDBQuerying(saleMap, model, sortProperty, sortDirection);
 
 		return "user/saleList.html";
@@ -94,7 +94,7 @@ public class SaleController {
 		if (!StringUtils.isNullOrEmpty(request.getParameter("searchParameters"))) {
 			searchParameters = request.getParameter("searchParameters");
 		}
-		buildSortOrderBeforeDBQuerying(request);
+		yueHeCommonService.buildSortOrderBeforeDBQuerying(request,pageNumber,pageSize,sortProperty,sortDirection);
 		// String search = "id:xs000~,'itemNumber>5";
 		Map<String, Object> saleMap = saleService.getSalesDetailListWithPaginationAndSortAndFiltering(pageNumber, pageSize,
 				this.sortDirection, this.sortProperty, searchParameters);
@@ -111,7 +111,7 @@ public class SaleController {
 	public void saleCsvDownload(Model model, HttpServletRequest request, HttpServletResponse response) {
 		Map<String, Object> saleMap = new HashMap<String, Object>();
 
-		buildSortOrderBeforeDBQuerying(request);
+		yueHeCommonService.buildSortOrderBeforeDBQuerying(request,pageNumber,pageSize,sortProperty,sortDirection);
 		saleMap = saleService.getSalesDetailListForDownload(this.sortDirection, this.sortProperty);
 		// List<SaleClientItemSellerDTO> saleClientItemSellerDTOList =
 		// (List<SaleClientItemSellerDTO>)saleMap.get("saleList");
@@ -123,7 +123,7 @@ public class SaleController {
 		saleMap.put("headers", headers);
 		@SuppressWarnings("unchecked")
 		List<Sort.Order> sortOrders = (List<Sort.Order>) saleMap.get("sortOrders");
-		setBackSortOrderAfterDBQuerying(sortOrders, model, sortProperty, sortDirection);
+		yueHeCommonService.setBackSortOrderAfterDBQuerying(sortOrders, model, sortProperty, sortDirection);
 		try {
 			new CsvView().buildCsvDocument(saleMap, request, response);
 		} catch (Exception e) {
@@ -136,51 +136,21 @@ public class SaleController {
 		// called for this response
 	}
 
-	private void buildSortOrderBeforeDBQuerying(HttpServletRequest request) {
 
-		if (!StringUtils.isNullOrEmpty(request.getParameter("page"))) {
-			pageNumber = Integer.parseInt(request.getParameter("page"));
-		}
-
-		if (!StringUtils.isNullOrEmpty(request.getParameter("size"))) {
-			pageSize = Integer.parseInt(request.getParameter("size"));
-		}
-		String sort = "id,asc"; // default sort column is sale id and in ascending order
-		if (!StringUtils.isNullOrEmpty(request.getParameter("sort"))) {
-			sort = request.getParameter("sort");
-		}
-		String[] sortStr = sort.split(",");
-		sortProperty = sortStr[0];
-		sortDirection = Direction.fromString(sortStr[1]);
-	}
 
 	private void buildModelAfterDBQuerying(Map<String, Object> saleMap, Model model, String sortProperty,
 			Direction sortDirection) {
 		@SuppressWarnings("unchecked")
 		Page<SaleClientItemSellerForDBDTO> saleMapPage = (Page<SaleClientItemSellerForDBDTO>) saleMap.get("salePage");
 		List<Sort.Order> sortOrders = saleMapPage.getSort().stream().collect(Collectors.toList());
-		setBackSortOrderAfterDBQuerying(sortOrders, model, sortProperty, sortDirection);
+		yueHeCommonService.setBackSortOrderAfterDBQuerying(sortOrders, model, sortProperty, sortDirection);
 		sortOrders.forEach(l -> System.out.println(l));
 		LOGGER.info("saleMap {}", saleMap);
 		model.addAllAttributes(saleMap);
 		model.addAttribute("subModule", "saleList");
 	}
 
-	private void setBackSortOrderAfterDBQuerying(List<Sort.Order> sortOrders, Model model, String sortProperty,
-			Direction sortDirection) {
 
-		if (sortOrders != null && !sortOrders.isEmpty()) {
-			int sortOrdersLen = sortOrders.size();
-			Sort.Order order = sortOrders.get(sortOrdersLen - 1);
-			model.addAttribute("sortProperty", order.getProperty());
-			model.addAttribute("sortDirectionFlag", order.getDirection() == Sort.Direction.DESC);
-		} else {// set back sortProperty and sortDirectionFlag for the column that not in
-				// table,like discount, unpaidAmount,etc.
-			model.addAttribute("sortProperty", sortProperty);
-			model.addAttribute("sortDirectionFlag", sortDirection == Sort.Direction.DESC);
-
-		}
-	}
 
 	@GetMapping("/getSaleNewItem")
 	public String saleNewItem(Model model) {

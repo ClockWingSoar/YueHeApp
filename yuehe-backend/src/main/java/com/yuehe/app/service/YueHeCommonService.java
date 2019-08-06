@@ -2,6 +2,8 @@ package com.yuehe.app.service;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import com.yuehe.app.dto.DutyEmployeeRoleDTO;
 import com.yuehe.app.entity.BeautifySkinItem;
 import com.yuehe.app.entity.Client;
@@ -12,9 +14,12 @@ import com.yuehe.app.entity.Role;
 import com.yuehe.app.entity.Sale;
 import com.yuehe.app.entity.Tool;
 
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
@@ -123,5 +128,38 @@ public class YueHeCommonService {
 
 	public BeautifySkinItem getBeautifySkinItemById(String beautifySkinItemId) {
 		return beautifySkinItemService.getById(beautifySkinItemId);
+	}
+	public void buildSortOrderBeforeDBQuerying(HttpServletRequest request, int pageNumber, int pageSize,
+												String sortProperty, Direction sortDirection) {
+
+		if (!StringUtils.isEmpty(request.getParameter("page"))) {
+			pageNumber = Integer.parseInt(request.getParameter("page"));
+		}
+
+		if (!StringUtils.isEmpty(request.getParameter("size"))) {
+			pageSize = Integer.parseInt(request.getParameter("size"));
+		}
+		String sort = "id,asc"; // default sort column is sale id and in ascending order
+		if (!StringUtils.isEmpty(request.getParameter("sort"))) {
+			sort = request.getParameter("sort");
+		}
+		String[] sortStr = sort.split(",");
+		sortProperty = sortStr[0];
+		sortDirection = Direction.fromString(sortStr[1]);
+	}
+	public void setBackSortOrderAfterDBQuerying(List<Sort.Order> sortOrders, Model model, String sortProperty,
+	Direction sortDirection) {
+
+		if (sortOrders != null && !sortOrders.isEmpty()) {
+			int sortOrdersLen = sortOrders.size();
+			Sort.Order order = sortOrders.get(sortOrdersLen - 1);
+			model.addAttribute("sortProperty", order.getProperty());
+			model.addAttribute("sortDirectionFlag", order.getDirection() == Sort.Direction.DESC);
+		} else {// set back sortProperty and sortDirectionFlag for the column that not in
+				// table,like discount, unpaidAmount,etc.
+			model.addAttribute("sortProperty", sortProperty);
+			model.addAttribute("sortDirectionFlag", sortDirection == Sort.Direction.DESC);
+
+		}
 	}
 }

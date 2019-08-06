@@ -18,17 +18,20 @@ package com.yuehe.app.repository;
 
 import java.util.List;
 
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
-
 import com.yuehe.app.dto.OperationDetailDTO;
 import com.yuehe.app.dto.OperationOperatorToolForDBDTO;
 import com.yuehe.app.entity.Operation;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import org.springframework.data.jpa.repository.Query;
+
 /**
  * @author Soveran Zhong
  */
-public interface OperationRepository  extends JpaRepository<Operation, Long> {
+public interface OperationRepository  extends JpaRepository<Operation, String>,JpaSpecificationExecutor<Operation>  {
 
 	@Query("select count(o) from Operation o where o.sale.id = ?1")
     int findOperationNumBySaleId(String saleId);
@@ -48,7 +51,7 @@ public interface OperationRepository  extends JpaRepository<Operation, Long> {
 			+ "FROM Operation o INNER JOIN o.sale s "
 			+ "INNER JOIN o.employee e "
 			+ "INNER JOIN o.tool t")
-	List<OperationDetailDTO> findAllOperationList();
+	Page<OperationDetailDTO> findAllOperationList(Pageable pageable);
 	
 
 	
@@ -63,9 +66,9 @@ public interface OperationRepository  extends JpaRepository<Operation, Long> {
 			+ "INNER JOIN c.cosmeticShop p "
 			+ "INNER JOIN o.tool t"
 			)
-    List<OperationOperatorToolForDBDTO> fetchOperationOpertatorToolData();
+    Page<OperationOperatorToolForDBDTO> fetchOperationOpertatorToolData(Pageable pageable);
     
-	Operation findById(String id);
+	// Operation findById(String id);
 	
 	/**
 	 * get all the ids from table operation 

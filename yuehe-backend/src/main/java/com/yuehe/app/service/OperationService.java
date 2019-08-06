@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2018  Shazin Sadakath
+    Copyright (C) 2019 Yi Xiang Zhong
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -18,7 +18,10 @@ package com.yuehe.app.service;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.yuehe.app.dto.ClientDetailDTO;
 import com.yuehe.app.dto.OperationDetailDTO;
@@ -30,12 +33,21 @@ import com.yuehe.app.dto.YueHeAllShopsDetailDTO;
 import com.yuehe.app.entity.Client;
 import com.yuehe.app.entity.CosmeticShop;
 import com.yuehe.app.entity.Operation;
+import com.yuehe.app.property.BaseProperty;
 import com.yuehe.app.repository.OperationRepository;
 import com.yuehe.app.util.YueHeUtil;
+import com.yuehe.app.yuehecommon.OperationColumnsEnum;
 
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
+import org.springframework.data.domain.Sort.Order;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -47,7 +59,9 @@ import org.springframework.transaction.annotation.Transactional;
 public class OperationService {
 	private static final Logger LOGGER = LoggerFactory.getLogger(OperationService.class);
 	private final OperationRepository operationRepository;
-	// private SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+	Sort sort = null;
+	boolean sortByJPA = true;
+	Comparator<OperationDetailDTO> comparator = null;
 	@Autowired
 	private final SaleService saleService;
 	@Autowired
@@ -72,12 +86,76 @@ public class OperationService {
 		return operationRepository.findAll();
 	}
 
-	public List<OperationDetailDTO> getAllOperationForOperationList() {
-		return operationRepository.findAllOperationList();
+	public Map<String, Object> getOperationsDetailListWithPaginationAndSort(int pageNumber, int pageSize,
+			Direction sortDirection, String sortProperty) {
+		Pageable pageable = buildPaginationAndSort(pageNumber, pageSize, sortDirection, sortProperty);
+
+		Page<OperationDetailDTO> operationDetailDTOPage = operationRepository.findAllOperationList(pageable);
+		Map<String, Object> operationMap = buildOperationsDetailList(operationDetailDTOPage, sortDirection);
+
+		return operationMap;
+	}
+
+	public Pageable buildPaginationAndSort(int pageNumber, int pageSize, Direction sortDirection, String sortProperty) {
+		Pageable pageable = null;
+		buildSort(sortDirection, sortProperty);
+		if (this.sortByJPA) {
+
+			pageable = PageRequest.of(pageNumber, pageSize, sort);
+		} else {
+			pageable = PageRequest.of(pageNumber, pageSize);
+
+		}
+		return pageable;
+	}
+
+	private void buildSort(Direction sortDirection, String sortProperty) {
+
+		// Below code is using the table field to do the sorting, when it comes to the
+		// foreign table, you need to use the foreign
+		// relationship to refer to it, like through entity "sale" to "client" to
+		// "cosmeticShop", you got "client.cosmeticshop.name"
+		// but you can't have any "." inside a enum class, so you have to remove all the
+		// ".", then do the comparing
+		OperationColumnsEnum operationSortBy = OperationColumnsEnum
+				.valueOf(StringUtils.remove(sortProperty.toUpperCase(), '.'));
+		switch (operationSortBy) {
+		case ID:
+		case SALEID:
+		case OPERATIONDATE:
+		case DESCRIPTION:
+			sort = Sort.by(new Order(sortDirection, sortProperty));
+			sortByJPA = true;
+			break;
+		case EMPLOYEENAME:
+			sort = Sort.by(new Order(sortDirection, "employee.name"));
+			sortByJPA = true;
+			break;
+		case TOOLNAME:
+			sort = Sort.by(new Order(sortDirection, "tool.name"));
+			sortByJPA = true;
+			break;
+		default:
+			break;
+
+		}
+	}
+
+	public Map<String, Object> buildOperationsDetailList(Page<OperationDetailDTO> operationDetailDTOPage,
+			Direction sortDirection) {
+		List<OperationDetailDTO> operationDetailDTOList = new ArrayList<OperationDetailDTO>();
+		Map<String, Object> operationMap = new HashMap<String, Object>();
+		if (operationDetailDTOPage.hasContent()) {
+			operationDetailDTOList = operationDetailDTOPage.getContent();
+		}
+		operationMap.put("operationList", operationDetailDTOList);
+		operationMap.put("operationPage", operationDetailDTOPage);
+		return operationMap;
 	}
 
 	public Operation getById(String id) {
-		return operationRepository.findById(id);
+		return operationRepository.findById(id)
+				.orElseThrow(() -> new IllegalArgumentException("Invalid operation Id:" + id));
 	}
 
 	public int getOperationNumberBySaleId(String saleId) {
@@ -115,7 +193,7 @@ public class OperationService {
 			allShopsEarnedAmount += allClientsEarnedAmount;
 			allShopsConsumedEarnedAmount += allClientsConsumedEarnedAmount;
 		}
-		yueHeAllShopsDetailDTO.setYueheCompanyName("悦和国际");
+		yueHeAllShopsDetailDTO.setYueheCompanyName(BaseProperty.COMPANY_NAME);
 		yueHeAllShopsDetailDTO.setShopDetailDTOs(shopDetailDTOList);
 		yueHeAllShopsDetailDTO.setAllShopsAdvancedEarnedAmount(allShopsAdvancedEarnedAmount);
 		yueHeAllShopsDetailDTO.setAllShopsConsumedAmount(allShopsConsumedAmount);
@@ -259,15 +337,16 @@ public class OperationService {
 	public long getEntityNumber() {
 		return operationRepository.count();
 	}
-    /**
-	 * To get the biggest number of the current string id 
-	 */ 
-    public int getBiggestIdNumber() {
+
+	/**
+	 * To get the biggest number of the current string id
+	 */
+	public int getBiggestIdNumber() {
 		List<Operation> operationList = operationRepository.findAllIds();
-		Collections.sort(operationList,Operation.idComparator.reversed());
+		Collections.sort(operationList, Operation.idComparator.reversed());
 		String biggestId = operationList.get(0).getId();
 		int biggestIdNum = YueHeUtil.extractIdDigitalNumber(biggestId);
-		LOGGER.info("biggest Id Number-{}",biggestIdNum);
-	    return biggestIdNum;
+		LOGGER.info("biggest Id Number-{}", biggestIdNum);
+		return biggestIdNum;
 	}
 }
