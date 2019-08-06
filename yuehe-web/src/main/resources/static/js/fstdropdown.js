@@ -17,6 +17,8 @@ function setFstDropdown() {
         var searchDisable = select.dataset["searchdisable"];
         var placeholder = select.dataset["placeholder"];
         var opened = select.dataset["opened"];
+        var selName = select.name.toString();
+        // alert(typeof(selName))
         var disabled = select.dataset["disabled"];//to disable the div if the dropdown is depend on another dropdown, it needs to be activated after the dependent dropdown is selected
         var div = createFstElement("div", "fstdiv", select.parentNode, null);
         var dropdown = createFstElement("div", "fstdropdown" + (opened != null && opened == "true" ? " open" : "") 
@@ -24,8 +26,13 @@ function setFstDropdown() {
             opened == null || opened != "true" ? { "click": openSelect, "blur": openSelect } : null);
         dropdown.select = select;//add the original select dropdown to created div dropdown's select attribute
         dropdown.setAttribute("tabindex", "0");
+      
         if (opened == null || opened != "true")
-            createFstElement("div", "fstselected", dropdown, null);
+        var selected = createFstElement("div", "fstselected", dropdown, null);
+        selected.setAttribute("name", selName.substring(0,selName.length-2));//give the dropdown div a name attribute to do the validation
+        // select.removeAttribute("name");
+        selected.setAttribute("contenteditable", true);
+        selected.innerHTML="";//set the default dropdown div's textContent to empty to do the validation
         if (searchDisable == null || searchDisable != "true") {
             var search = createFstElement("div", "fstsearch", dropdown, null);
             var e = { "keyup": getSearch, "paste": getSearch };
@@ -50,6 +57,7 @@ function setFstDropdown() {
         var select = event.target.classList.contains("fstdropdown") ? event.target.select : event.target.closest(".fstdropdown").select;
         open = open == null ? event.type != "blur" : open;
         var el = select.fstdropdown.dd;
+        
         if (checkEvent(event, force)) return;
         if (!open || el.classList.contains("open")) {
             el.classList.remove("open");
@@ -58,8 +66,12 @@ function setFstDropdown() {
         }
         el.classList.add("open");
         el.parentNode.classList.add("open");
+        var text = "";
+        var sOption = select.options[select.selectedIndex];
+        checkDivSelected(select,text, sOption);
         if(select.dataset["searchdisable"] == null && select.dataset["searchdisable"] != "true")
             el.querySelector(".fstsearchinput").focus();
+      
     }
 
     function checkEvent(event, force) {
@@ -76,17 +88,34 @@ function setFstDropdown() {
         var dd = select.fstdropdown.dd;//refer to the newly created div dropdown to the original select dropdown list
         var selectAll = dd.querySelector(".fstAll");
         var opened = select.dataset["opened"] == null || select.dataset["opened"] != "true";
+      
         if (select.value != event.target.dataset["value"] && !select.multiple) {
             // alert("before--"+select.value);
             select.value = event.target.dataset["value"];//set back the selected value to the original select dropdown list to be able to submit
-            // alert("after--"+select.value)
             if (dd.querySelector(".fstlist>.selected") != null)
-                dd.querySelector(".fstlist>.selected").classList.remove("selected");
+            dd.querySelector(".fstlist>.selected").classList.remove("selected");
             event.target.classList.add("selected");
-            if (opened)
-                dd.querySelector(".fstselected").textContent = event.target.textContent;
-            initNewEvent("change", select);
+            // alert(select.value)
+            if (opened){
+                var divSelected = dd.querySelector(".fstselected");
+
+                divSelected.textContent = event.target.textContent;
+                // alert( divSelected.textContent)
+                var sOption = select.options[select.selectedIndex];
+                var text = "";
+                checkDivSelected(select,text, sOption);
+                if(divSelected.textContent!=""){//remove the error lable if the div selected isn't empty
+                    var errorLable = document.getElementById(divSelected.name +"-error");
+                    // alert(errorLable.id)
+                    errorLable.remove();
+                }
+                // alert( dd.querySelector(".fstselected").textContent)
+            }
+           
+           
         }
+       
+        initNewEvent("change", select);
         if (select.multiple) {
             changeMultipleSelect(select, event, dd, selectAll, opened);
         }
@@ -201,10 +230,20 @@ function setFstDropdown() {
                         count++;
                 text = count == 1 ? sOption.text : count + " options selected";
             }
-            select.fstdropdown.dd.querySelector(".fstselected").textContent = select.multiple ? text : sOption != undefined ? sOption.text : "";
+          
+            checkDivSelected(select,text, sOption);
             if(event != null)
                 openSelect(event, false, true);
         }
+    }
+    function checkDivSelected(select,text, sOption){
+        if(sOption.text.includes("--") ){
+            select.fstdropdown.dd.querySelector(".fstselected").setAttribute("data-text",sOption.text);//data-text works like placeholder of input box for div
+        }
+        // select.fstdropdown.dd.querySelector(".fstselected").textContent = select.multiple ? text : sOption != undefined ? sOption.text : "";
+        select.fstdropdown.dd.querySelector(".fstselected").textContent = select.multiple ? text : sOption.text.includes("--") ? "" :sOption.text;
+                
+
     }
 }
 

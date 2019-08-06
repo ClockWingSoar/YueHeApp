@@ -152,3 +152,7 @@
 .open .fstAll {
     display: block;
 }
+/* Below css is to show the placeholder which is a data-txt of a div to enable form validation */
+[contentEditable=true]:empty:not(:focus):before{
+    content:attr(data-text)
+}

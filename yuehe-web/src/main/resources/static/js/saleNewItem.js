@@ -59,7 +59,7 @@ $(document).ready(function($) {
 		// 	number: true,
 		// 	min: 0
 		// },
-		sellerId: {
+		seller: {
 			required: true
 		},
 		description: {
@@ -99,13 +99,13 @@ $(document).ready(function($) {
 		// },
 		employeePremium: {
 		  min: "奖励应该至少为0",
-		  number: "请输入一个数字字符"
+		  number: "仅允许输入数字,请检查是否输入了空格"
 		},
 		// shopPremium: {
 		//   required: "请输入该销售卡返还给店家的回扣",
 		//   number: "请输入一个数字字符"
 		// },
-		sellerId: {
+		seller: {
 		  required: "请选择销售专家的名字",
 		},
 		description: {
