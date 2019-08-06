@@ -1,55 +1,64 @@
 <!DOCTYPE HTML>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
+
 <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>编辑销售卡</title>
-	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-       <link rel="stylesheet" th:href="@{/css/core.css}">
-       <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
-       <link rel="stylesheet" th:href="@{/css/fstdropdown.css}">
-        <script type="text/javascript"  th:src="@{/js/jquery.min.js}"></script>
-           <script type="text/javascript"  th:src="@{/js/bootstrap.min.js}"></script>
-		   <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-		   <link rel="stylesheet" href="/resources/demos/style.css">
-		   <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-		   <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-		   <script type="text/javascript"  th:src="@{/js/saleEditItem.js}"></script>
-           <script type="text/javascript"  th:src="@{/js/yueheCommon.js}"></script>
-           <script type="text/javascript"  th:src="@{/js/fstdropdown.js}"></script>
-    <meta http-equiv="refresh" content="600; URL=/"> <!-- this will redirect to / after 600s-->
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<title>编辑销售卡</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<link rel="stylesheet" th:href="@{/css/core.css}">
+	<link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+	<link rel="stylesheet" th:href="@{/css/fstdropdown.css}">
+	<script type="text/javascript" th:src="@{/js/jquery.min.js}"></script>
+	<script type="text/javascript" th:src="@{/js/bootstrap.min.js}"></script>
+	<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+	<link rel="stylesheet" href="/resources/demos/style.css">
+	<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+	<script type="text/javascript" th:src="@{/js/saleEditItem.js}"></script>
+	<script type="text/javascript" th:src="@{/js/yueheCommon.js}"></script>
+	<script type="text/javascript" th:src="@{/js/fstdropdown.js}"></script>
+	<script type="text/javascript" th:src="@{/js/jquery.validate.js}"></script>
+	<script type="text/javascript" th:src="@{/js/additional-methods.js}"></script>
+	<meta http-equiv="refresh" content="600; URL=/"> <!-- this will redirect to / after 600s-->
 
 </head>
 
 <body>
-<div th:replace="~{fragments/header.html :: header}">Header</div>
+	<div th:replace="~{fragments/header.html :: header}">Header</div>
 
-<div role="main" class="container">
-<!-- <div th:replace="~{fragments/saleHeader.html :: header}">Sale Header</div> -->
+	<div role="main" class="container">
+		<!-- <div th:replace="~{fragments/saleHeader.html :: header}">Sale Header</div> -->
 
-     <div class="panel panel-default">
-              <div class="panel-heading">  <h3>编辑销售卡</h3></div>
-           
-            <div class="yuehe-form-group">
-			    <form id="sale_edit_item" action="#" th:action="@{/sale/update/{id}(id=${sale.id})}" method="POST" th:object="${sale}">
-				<br>
-				<input type="hidden" id="saleId" th:value="${sale.id}">
-			    <div class="form-group  row ">
-                		<div class="col-md-1"> <span class="input-group-addon"><i class="glyphicon glyphicon-euro"></i>美容院</span> </div>
-					    
-						<div class="col-xs-3">    
-							<select  class="fstdropdown-select" th:field="*{client.cosmeticShop.id}" required="required"  name="cosmeticShopId" id="cosmeticShop" data-placeholder="请输入美容院名搜索">
-					      <option selected="selected"  th:value="${sale.client.cosmeticShop.id}" th:text="${sale.client.cosmeticShop.name}">
-					      </option>
-					      <option th:each="cosmeticShop : ${cosmeticShopList}" th:value="${cosmeticShop.id}" 
-					       th:text="${cosmeticShop.name}" >
-					      </option>
-					    </select>
-					    </div>
-						<div class="col-xs-6"> 
-						  <span class="help-block">一般来讲，通过客户名可以确定哪家美容院，但是不排除重名的情况</span>
-						  </div>
-					  </div>
-					  <div th:classappend="${#fields.hasErrors('client.cosmeticShop.id') ? 'form-group  row' : 'hidden'}">
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h3>编辑销售卡</h3>
+			</div>
+
+			<div class="yuehe-form-group">
+				<form id="sale_edit_item" action="#" th:action="@{/sale/update/{id}(id=${sale.id})}" method="POST"
+					th:object="${sale}">
+					<br>
+					<input type="hidden" id="saleId" th:value="${sale.id}">
+					<div class="form-group  row ">
+						<div class="col-md-1"> <span class="input-group-addon"><i
+									class="glyphicon glyphicon-euro"></i>美容院</span> </div>
+
+						<div class="col-xs-3">
+							<select class="fstdropdown-select" th:field="*{client.cosmeticShop.id}" required="required"
+								name="cosmeticShopId" id="cosmeticShop" data-placeholder="请输入美容院名搜索">
+								<option selected="selected" th:value="${sale.client.cosmeticShop.id}"
+									th:text="${sale.client.cosmeticShop.name}">
+								</option>
+								<option th:each="cosmeticShop : ${cosmeticShopList}" th:value="${cosmeticShop.id}"
+									th:text="${cosmeticShop.name}">
+								</option>
+							</select>
+						</div>
+						<div class="col-xs-6">
+							<span class="help-block">一般来讲，通过客户名可以确定哪家美容院，但是不排除重名的情况</span>
+						</div>
+					</div>
+					<div th:classappend="${#fields.hasErrors('client.cosmeticShop.id') ? 'form-group  row' : 'hidden'}">
 							<div class="col-sm-1" style="width: 1%;"></div>
 							<div class="col-md-4 alert alert-danger alert-dismissible"> 
 									<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>

@@ -89,3 +89,112 @@ function filterTable(table, filter, index) {
     function isEmpty(value) {
         return typeof value == 'string' && !value.trim() || typeof value == 'undefined' || value === null;
       }
+//common validator for saleNewItem and saleEditItem page
+    var saleItemValidtor= {
+            rules: {
+              cosmeticShop : {
+                required: true,
+              },
+              client: {
+                required: {
+                  depends: function(elem) {
+                    return $("#cosmeticShop") != null
+                  }
+                },
+              },
+              beautifySkinItem: {
+                required: true,
+              },
+              createCardDate: {
+                required: true,
+              //   dateISO: true,
+              //   min: 0
+              },
+              itemNumber: {
+                required: true,
+                number: true,
+                min: 1,
+                max: 36
+              },
+              createCardTotalAmount: {
+                required: true,
+                number: true,
+                min: 100
+              },
+              receivedAmount: {
+                required: true,
+                number: true,
+                min: 0
+              },
+              receivedEarnedAmount: {
+                  required: true,
+                  number: true,
+                  min: 0
+              },
+              employeePremium: {
+                  number: true,
+                  min: 0
+              },
+              shopPremium: {
+                  number: true,
+                  min: 0
+              },
+              seller: {
+                  required: true
+              },
+              description: {
+                  maxlength: 20
+              }
+            },
+            messages : {
+              cosmeticShop: {
+                required: "请选择美容院",
+              },
+              client: {
+                required: "请选择客户姓名",
+              },
+              beautifySkinItem: {
+                required: "请选择美肤套餐",
+              },
+              createCardDate: {
+                required: "请选择开卡日期",
+              //   dateISO:"请输入正确的日期格式"
+              },
+              itemNumber: {
+                required: "请选择开卡次数",
+                number: "仅允许输入数字,禁止输入字母或空格",
+                min:"最小开卡次数为1",
+                max:"最大开卡次数为36"
+              },
+              createCardTotalAmount: {
+                required: "请输入开卡金额",
+                number: "仅允许输入数字,禁止输入字母或空格",
+                min: "最小金额不能低于100"
+              },
+              receivedAmount: {
+                  required: "请输入美容院实际收到的金额",
+                  number: "仅允许输入数字,禁止输入字母或空格"
+              },
+              receivedEarnedAmount: {
+                required: "请输入悦和实际收到的回款",
+                number: "仅允许输入数字,禁止输入字母或空格"
+              },
+              employeePremium: {
+                min: "奖励应该大于等于0",
+                number: "仅允许输入数字,禁止输入字母或空格"
+              },
+              shopPremium: {
+                min: "奖励应该大于等于0",
+                number: "仅允许输入数字,禁止输入字母或空格"
+              },
+              seller: {
+                required: "请选择销售专家的名字",
+              },
+              description: {
+                maxlength: "备注不能超过20个字符"
+              }
+            }, 
+          //   submitHandler: function(form) {
+          // 	form.submit();
+          //   }
+    }

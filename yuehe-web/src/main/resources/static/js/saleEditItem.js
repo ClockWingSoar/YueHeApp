@@ -22,7 +22,7 @@ $(function ($) {
 			$('#sale_edit_item').attr('method', 'get');
 			$('#sale_edit_item').attr('action', actionPage);
 		});
-
+		$('form[id="sale_edit_item"]').validate(saleItemValidtor);
 
 
 	});
