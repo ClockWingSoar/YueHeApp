@@ -22,9 +22,12 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import com.yuehe.app.dto.ClientDetailDTO;
 import com.yuehe.app.dto.OperationDetailDTO;
+import com.yuehe.app.dto.OperationOperatorToolDTO;
+import com.yuehe.app.dto.OperationOperatorToolForDBDTO;
 import com.yuehe.app.dto.SaleBeautifySkinItemForFilterDTO;
 import com.yuehe.app.dto.SaleDetailDTO;
 import com.yuehe.app.dto.SaleDetailForDBDTO;
@@ -35,19 +38,22 @@ import com.yuehe.app.entity.CosmeticShop;
 import com.yuehe.app.entity.Operation;
 import com.yuehe.app.property.BaseProperty;
 import com.yuehe.app.repository.OperationRepository;
+import com.yuehe.app.specification.SpecificationsBuilder;
+import com.yuehe.app.util.ServiceUtil;
 import com.yuehe.app.util.YueHeUtil;
 import com.yuehe.app.yuehecommon.OperationColumnsEnum;
+import com.yuehe.app.yuehecommon.PaginationAndSortModel;
 
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.domain.Sort.Order;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -86,28 +92,71 @@ public class OperationService {
 		return operationRepository.findAll();
 	}
 
-	public Map<String, Object> getOperationsDetailListWithPaginationAndSort(int pageNumber, int pageSize,
-			Direction sortDirection, String sortProperty) {
-		Pageable pageable = buildPaginationAndSort(pageNumber, pageSize, sortDirection, sortProperty);
+	public Page<Operation> getOperationsDetailListWithPaginationAndSort(PaginationAndSortModel paginationAndSortModel) {
+		Pageable pageable = buildPaginationAndSort(paginationAndSortModel);
 
-		Page<OperationDetailDTO> operationDetailDTOPage = operationRepository.findAllOperationList(pageable);
-		Map<String, Object> operationMap = buildOperationsDetailList(operationDetailDTOPage, sortDirection);
+		// Page<OperationDetailDTO> operationDetailDTOPage = operationRepository.findAllOperationList(pageable);
+		// Map<String, Object> operationMap = buildOperationsDetailList(operationDetailDTOPage, paginationAndSortModel.getSortDirection());
+		Page<Operation> operationPage = operationRepository.findAll(pageable);
+		// Map<String, Object> operationMap = buildOperationsDetailList(operationPage, paginationAndSortModel.getSortDirection());
 
-		return operationMap;
+		return operationPage;
 	}
 
-	public Pageable buildPaginationAndSort(int pageNumber, int pageSize, Direction sortDirection, String sortProperty) {
-		Pageable pageable = null;
-		buildSort(sortDirection, sortProperty);
-		if (this.sortByJPA) {
+	public Pageable buildPaginationAndSort(PaginationAndSortModel paginationAndSortModel) {
+		buildSort(paginationAndSortModel.getSortDirection(), paginationAndSortModel.getSortProperty());
+		return ServiceUtil.buildPageableObj(sortByJPA, sort, paginationAndSortModel);
+	}
+	/**
+	 * to get all the operations detail with pagination and sort and filtering,  can't use @query to do the dynamic query
+	 * can't use a DTO class to store the dynamic querired result, so use findAll method
+	 */
+	public Page<Operation> getOperationsDetailListWithPaginationAndSortAndFiltering(PaginationAndSortModel paginationAndSortModel, String searchParameters) {
+		Pageable pageable = buildPaginationAndSort(paginationAndSortModel);
+		SpecificationsBuilder<Operation> specificationsBuilder = new SpecificationsBuilder<>();
+		Specification<Operation> spec = specificationsBuilder.resolveSpecification(searchParameters);
+		LOGGER.info("spec {}",spec);
+		// Page<OperationDetailsDTO> operationClientItemSellerForDBDTOPage = operationRepository.fetchOperationClientItemSellerDataWithFiltering(spec,pageable);
+		Page<Operation> operationPage = operationRepository.findAll(spec,pageable);
 
-			pageable = PageRequest.of(pageNumber, pageSize, sort);
-		} else {
-			pageable = PageRequest.of(pageNumber, pageSize);
+		// Map<String,Object> operationMap = buildFilteredOperationsDetailList(operationPage,sortDirection);
+		
+		return operationPage;
+	}
+	
+	/**
+	 * Get the operations detail list for downloading as csv, excel or pdf
+	 * @param sortDirection
+	 * @param sortProperty
+	 * @return
+	 */
+	public Map<String, Object>  getOperationsDetailListForDownload(Direction sortDirection,String sortProperty){
+		sort = Sort.by(sortDirection, sortProperty);
+		List<OperationOperatorToolDTO> operationOperatorToolDTOList = new ArrayList<OperationOperatorToolDTO>();
+		List<OperationOperatorToolForDBDTO> operationOperatorToolForDBDTOList = new ArrayList<OperationOperatorToolForDBDTO>();
+		
+		List<Sort.Order> sortOrders = null;
+		// Comparator<OperationClientItemSellerDTO> comparator = null;
+	
+		Map<String, Object> operationMap = new HashMap<String, Object>();
+		buildSort(sortDirection, sortProperty);
+		if(sortByJPA){
+
+			sortOrders = sort.get().collect(Collectors.toList());
+			operationOperatorToolForDBDTOList = operationRepository.fetchOperationOperatorToolDataForDownloadWithSort(sort);
+		}else{
+			operationOperatorToolForDBDTOList = operationRepository.fetchOperationOperatorToolDataForDownload();
 
 		}
-		return pageable;
+		
+		buildOperationsDetailList(operationOperatorToolDTOList, operationOperatorToolForDBDTOList);
+		// sortByCollectionsIfPropertyNotInDB(sortDirection,operationClientItemSellerDTOList);
+		operationMap.put("csvObjList",operationOperatorToolDTOList);
+		operationMap.put("sortOrders", sortOrders);
+		return operationMap;
+
 	}
+	
 
 	private void buildSort(Direction sortDirection, String sortProperty) {
 
@@ -135,22 +184,74 @@ public class OperationService {
 			sort = Sort.by(new Order(sortDirection, "tool.name"));
 			sortByJPA = true;
 			break;
+		case OPERATEEXPENSE:
+			sort = Sort.by(new Order(sortDirection, "tool.operateExpense"));
+			sortByJPA = true;
+			break;
 		default:
 			break;
 
 		}
 	}
 
-	public Map<String, Object> buildOperationsDetailList(Page<OperationDetailDTO> operationDetailDTOPage,
-			Direction sortDirection) {
-		List<OperationDetailDTO> operationDetailDTOList = new ArrayList<OperationDetailDTO>();
-		Map<String, Object> operationMap = new HashMap<String, Object>();
-		if (operationDetailDTOPage.hasContent()) {
-			operationDetailDTOList = operationDetailDTOPage.getContent();
+	/**
+	 * To build the operation list page for csv download
+	 */
+	private void buildOperationsDetailList(List<OperationOperatorToolDTO> operationOperatorToolDTOList,
+											List<OperationOperatorToolForDBDTO> operationOperatorToolForDBDTOList){
+	
+		for(OperationOperatorToolForDBDTO operationOperatorToolForDBDTO : operationOperatorToolForDBDTOList) {
+			String operationId = operationOperatorToolForDBDTO.getOperationId();//操作ID
+			String saleId = operationOperatorToolForDBDTO.getSaleId();//销售卡ID
+			String createCardDate = operationOperatorToolForDBDTO.getCreateCardDate();//开卡日期
+			String operationDate = operationOperatorToolForDBDTO.getOperationDate();//操作日期
+			String clientName = operationOperatorToolForDBDTO.getClientName();//客户名
+			String cosmeticShopName = operationOperatorToolForDBDTO.getCosmeticShopName();//美容院名
+			Float cosmeticShopDiscount = operationOperatorToolForDBDTO.getDiscount();//美容院的折扣点
+			Long employeePremium = operationOperatorToolForDBDTO.getEmployeePremium().longValue();//员工奖励
+			Long shopPremium = operationOperatorToolForDBDTO.getShopPremium().longValue();//美容院回扣
+			String beautifySkinItemName = operationOperatorToolForDBDTO.getBeautifySkinItemName();//美肤项目
+			Long createCardTotalAmount = operationOperatorToolForDBDTO.getCreateCardTotalAmount();//开卡金额
+			Integer itemNumber = operationOperatorToolForDBDTO.getItemNumber();//开卡次数-疗程总次数
+				// 回给公司的回款计算方法为：开卡金额 * 店家折扣点 - 给员工的奖励 - 给店家的回扣（柳叶需扣除业绩的1%）
+			long earnedAmount = new Double(createCardTotalAmount * cosmeticShopDiscount).longValue() - employeePremium
+			- shopPremium;
+			int operationNumber = getOperationNumberBySaleId(saleId);// 操作次数
+			float unitPrice = createCardTotalAmount / itemNumber;// 美肤卡单次价格
+			int restItemNumber = itemNumber - operationNumber;// 剩余次数
+			long consumedAmount = new Double(operationNumber * unitPrice).longValue();// 已消耗总数
+			long consumedEarnedAmount = new Double(operationNumber * unitPrice * cosmeticShopDiscount).longValue();// 已消耗回款
+			long advancedEarnedAmount = earnedAmount - consumedEarnedAmount;// 预付款只计算回款的部分，不包括美容院的
+			String operatorName = operationOperatorToolForDBDTO.getOperatorName();//操作人
+			String toolName = operationOperatorToolForDBDTO.getToolName();//操作仪器
+			Integer operateExpense = operationOperatorToolForDBDTO.getOperateExpense();//操作费用
+			String description = operationOperatorToolForDBDTO.getDescription();//备注
+			
+			OperationOperatorToolDTO operationOperatorToolDTO = new OperationOperatorToolDTO();
+			operationOperatorToolDTO.setBeautifySkinItemName(beautifySkinItemName);
+			operationOperatorToolDTO.setClientName(clientName);
+			operationOperatorToolDTO.setCosmeticShopName(cosmeticShopName);
+			operationOperatorToolDTO.setCreateCardDate(createCardDate);
+			operationOperatorToolDTO.setCreateCardTotalAmount(createCardTotalAmount);
+			operationOperatorToolDTO.setDescription(description);
+			operationOperatorToolDTO.setDiscount((float)(Math.round(cosmeticShopDiscount*100.0)/100.0));
+			operationOperatorToolDTO.setEarnedAmount(earnedAmount);
+			operationOperatorToolDTO.setItemNumber(itemNumber);
+			operationOperatorToolDTO.setOperationId(operationId);
+			operationOperatorToolDTO.setSaleId(saleId);
+			operationOperatorToolDTO.setOperationDate(operationDate);
+			operationOperatorToolDTO.setOperatorName(operatorName);
+			operationOperatorToolDTO.setToolName(toolName);
+			operationOperatorToolDTO.setOperateExpense(operateExpense);
+		    operationOperatorToolDTO.setRestItemNumber(restItemNumber);
+			operationOperatorToolDTO.setConsumedAmount(consumedAmount);
+			operationOperatorToolDTO.setConsumedEarnedAmount(consumedEarnedAmount);
+			operationOperatorToolDTO.setAdvancedEarnedAmount(advancedEarnedAmount);
+			
+			operationOperatorToolDTOList.add(operationOperatorToolDTO);
 		}
-		operationMap.put("operationList", operationDetailDTOList);
-		operationMap.put("operationPage", operationDetailDTOPage);
-		return operationMap;
+		// operationList.forEach(l -> System.out.println(l));
+		// operationDetailDTOList.forEach(l -> System.out.println(l));
 	}
 
 	public Operation getById(String id) {
@@ -337,7 +438,9 @@ public class OperationService {
 	public long getEntityNumber() {
 		return operationRepository.count();
 	}
-
+	public void deleteById(String id) {
+		operationRepository.deleteById(id);
+   }
 	/**
 	 * To get the biggest number of the current string id
 	 */

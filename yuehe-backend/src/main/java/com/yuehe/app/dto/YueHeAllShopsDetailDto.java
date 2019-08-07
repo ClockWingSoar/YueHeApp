@@ -2,6 +2,10 @@ package com.yuehe.app.dto;
 
 import java.util.List;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 /**
  * 
  * This is DTO class which is to render the view of operationSummary.html,to show the basic operation table view
@@ -9,10 +13,10 @@ import java.util.List;
  * @author YIXIANGZhong
  * @since 1.0
  */
-public class YueHeAllShopsDetailDTO extends ShopDetailDTO{
-	public YueHeAllShopsDetailDTO() {
-		//super();
-	}
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class YueHeAllShopsDetailDTO {
 	private String yueheCompanyName;//悦和国际的大名
 	private long allShopsCreateCardTotalAmount;//悦和所有店的总开卡金额
 	private long allShopsEarnedAmount;//悦和所有店的总回款金额
@@ -20,67 +24,5 @@ public class YueHeAllShopsDetailDTO extends ShopDetailDTO{
 	private long allShopsConsumedEarnedAmount;//悦和所有店的总消耗回款
 	private long allShopsAdvancedEarnedAmount;//悦和所有店的总预付款
 	private List<ShopDetailDTO> shopDetailDTOs;//悦和下面所有的店的信息
-	public String getYueheCompanyName() {
-		return yueheCompanyName;
-	}
-	public void setYueheCompanyName(String yueheCompanyName) {
-		this.yueheCompanyName = yueheCompanyName;
-	}
-	public long getAllShopsCreateCardTotalAmount() {
-		return allShopsCreateCardTotalAmount;
-	}
-	public void setAllShopsCreateCardTotalAmount(long allShopsCreateCardTotalAmount) {
-		this.allShopsCreateCardTotalAmount = allShopsCreateCardTotalAmount;
-	}
-	public long getAllShopsEarnedAmount() {
-		return allShopsEarnedAmount;
-	}
-	public void setAllShopsEarnedAmount(long allShopsEarnedAmount) {
-		this.allShopsEarnedAmount = allShopsEarnedAmount;
-	}
-	public long getAllShopsConsumedAmount() {
-		return allShopsConsumedAmount;
-	}
-	public void setAllShopsConsumedAmount(long allShopsConsumedAmount) {
-		this.allShopsConsumedAmount = allShopsConsumedAmount;
-	}
-	public long getAllShopsConsumedEarnedAmount() {
-		return allShopsConsumedEarnedAmount;
-	}
-	public void setAllShopsConsumedEarnedAmount(long allShopsConsumedEarnedAmount) {
-		this.allShopsConsumedEarnedAmount = allShopsConsumedEarnedAmount;
-	}
-	public long getAllShopsAdvancedEarnedAmount() {
-		return allShopsAdvancedEarnedAmount;
-	}
-	public void setAllShopsAdvancedEarnedAmount(long allShopsAdvancedEarnedAmount) {
-		this.allShopsAdvancedEarnedAmount = allShopsAdvancedEarnedAmount;
-	}
-	
-	public List<ShopDetailDTO> getShopDetailDTOs() {
-		return shopDetailDTOs;
-	}
-	public void setShopDetailDTOs(List<ShopDetailDTO> shopDetailDTOs) {
-		this.shopDetailDTOs = shopDetailDTOs;
-	}
-	public YueHeAllShopsDetailDTO(String yueheCompanyName, long allShopsCreateCardTotalAmount,
-			long allShopsEarnedAmount, long allShopsConsumedAmount, long allShopsConsumedEarnedAmount,
-			long allShopsAdvancedEarnedAmount) {
-		super();
-		this.yueheCompanyName = yueheCompanyName;
-		this.allShopsCreateCardTotalAmount = allShopsCreateCardTotalAmount;
-		this.allShopsEarnedAmount = allShopsEarnedAmount;
-		this.allShopsConsumedAmount = allShopsConsumedAmount;
-		this.allShopsConsumedEarnedAmount = allShopsConsumedEarnedAmount;
-		this.allShopsAdvancedEarnedAmount = allShopsAdvancedEarnedAmount;
-	}
-	@Override
-	public String toString() {
-		return "YueHeAllShopsDetailDTO [yueheCompanyName=" + yueheCompanyName + ", allShopsCreateCardTotalAmount="
-				+ allShopsCreateCardTotalAmount + ", allShopsEarnedAmount=" + allShopsEarnedAmount
-				+ ", allShopsConsumedAmount=" + allShopsConsumedAmount
-				+ ", allShopsConsumedEarnedAmount=" + allShopsConsumedEarnedAmount
-				+ ", allShopsAdvancedEarnedAmount=" + allShopsAdvancedEarnedAmount + "]";
-	}
 	
 }

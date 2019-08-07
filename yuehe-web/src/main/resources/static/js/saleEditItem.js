@@ -18,7 +18,6 @@ $(function ($) {
 
 		$('#sale_delete_btn').click(function(){
 			var actionPage = "/sale/delete/"+$('#saleId').val();
-			alert(actionPage);
 			$('#sale_edit_item').attr('method', 'get');
 			$('#sale_edit_item').attr('action', actionPage);
 		});

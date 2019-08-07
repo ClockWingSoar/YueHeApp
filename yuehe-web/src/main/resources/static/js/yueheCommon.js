@@ -42,13 +42,16 @@ function getClientAllSalesList() {
 		var html = '<option value="all">--所有美肤卡--</option>';
 		var len = data.length;
 		for ( var i = 0; i < len; i++) {
-			//alert(data[i].saleId);
+			// alert(data[i].saleId);
 			html += '<option value="' + data[i].saleId + '">'
 			+ data[i].beautifySkinItemName + '-' + data[i].createCardDate+ '</option>';
 		}
 		html += '</option>';
         $('#sale').html(html);
-        document.getElementById("sale").fstdropdown.rebind();
+        var saleSelector = document.getElementById("sale");
+        $('#sale').removeAttr("data-disabled");
+        saleSelector.fstdropdown.rebind();
+        saleSelector.fstdropdown.activated();
 	});
 }
 function filterTable(table, filter, index) {
@@ -161,7 +164,7 @@ function filterTable(table, filter, index) {
               //   dateISO:"请输入正确的日期格式"
               },
               itemNumber: {
-                required: "请选择开卡次数",
+                required: "请输入开卡次数",
                 number: "仅允许输入数字,禁止输入字母或空格",
                 min:"最小开卡次数为1",
                 max:"最大开卡次数为36"
@@ -189,6 +192,63 @@ function filterTable(table, filter, index) {
               },
               seller: {
                 required: "请选择销售专家的名字",
+              },
+              description: {
+                maxlength: "备注不能超过100个字符"
+              }
+            }, 
+          //   submitHandler: function(form) {
+          // 	form.submit();
+          //   }
+    }
+//common validator for operationNewItem and operationEditItem page
+    var operationItemValidtor= {
+            rules: {
+              cosmeticShop : {
+                required: true,
+              },
+              client: {
+                required: {
+                  depends: function(elem) {
+                    return $("#cosmeticShop") != null
+                  }
+                },
+              },
+              sale: {
+                required: {
+                  depends: function(elem) {
+                    return $("#client") != null
+                  }
+                },
+              },
+              operator: {
+                required: true,
+              },
+              
+              operationDate: {
+                required: true,
+              },
+              
+              description: {
+                  maxlength: 100
+              }
+            },
+            messages : {
+              cosmeticShop: {
+                required: "请选择美容院",
+              },
+              client: {
+                required: "请选择客户姓名",
+              },
+              sale: {
+                required: "请选择美肤卡",
+              },
+              operationDate: {
+                required: "请输入操作日期",
+              //   dateISO:"请输入正确的日期格式"
+              },
+              operator: {
+                required: "请选择操作医生的名字",
               },
               description: {
                 maxlength: "备注不能超过100个字符"

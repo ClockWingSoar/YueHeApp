@@ -2,6 +2,10 @@ package com.yuehe.app.dto;
 
 import java.util.List;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 /**
  * 
  * This is DTO class which is to render the view of operationSummary.html,to show the basic operation table view
@@ -9,9 +13,10 @@ import java.util.List;
  * @author YIXIANGZhong
  * @since 1.0
  */
-public class SaleDetailDTO extends OperationDetailDTO{
-	public SaleDetailDTO() {
-	}
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class SaleDetailDTO{
 	private String saleId;//销售卡ID
 	private String createCardDate;//开卡日期
 	private String beautifySkinItemName;//美肤项目
@@ -24,114 +29,6 @@ public class SaleDetailDTO extends OperationDetailDTO{
 	private long advancedEarnedAmount;//预付款总数
 	private String description;//备注
 	private List<OperationDetailDTO> operationDetailDTOs;//单张美肤卡下面所有的操作的信息
-	public String getSaleId() {
-		return saleId;
-	}
-	public void setSaleId(String saleId) {
-		this.saleId = saleId;
-	}
-	public String getCreateCardDate() {
-		return createCardDate;
-	}
-	public void setCreateCardDate(String createCardDate) {
-		this.createCardDate = createCardDate;
-	}
-	public String getBeautifySkinItemName() {
-		return beautifySkinItemName;
-	}
-	public void setBeautifySkinItemName(String beautifySkinItemName) {
-		this.beautifySkinItemName = beautifySkinItemName;
-	}
-	public long getCreateCardTotalAmount() {
-		return createCardTotalAmount;
-	}
-	public void setCreateCardTotalAmount(long createCardTotalAmount) {
-		this.createCardTotalAmount = createCardTotalAmount;
-	}
-	public int getItemNumber() {
-		return itemNumber;
-	}
-	public void setItemNumber(int itemNumber) {
-		this.itemNumber = itemNumber;
-	}
-	public String getDescription() {
-		return description;
-	}
-	public void setDescription(String description) {
-		this.description = description;
-	}
-	public int getRestItemNumber() {
-		return restItemNumber;
-	}
-	public void setRestItemNumber(int restItemNumber) {
-		this.restItemNumber = restItemNumber;
-	}
-	public long getConsumedAmount() {
-		return consumedAmount;
-	}
-	public void setConsumedAmount(long consumedAmount) {
-		this.consumedAmount = consumedAmount;
-	}
-	public long getConsumedEarnedAmount() {
-		return consumedEarnedAmount;
-	}
-	public void setConsumedEarnedAmount(long consumedEarnedAmount) {
-		this.consumedEarnedAmount = consumedEarnedAmount;
-	}
-	public long getAdvancedEarnedAmount() {
-		return advancedEarnedAmount;
-	}
-	public void setAdvancedEarnedAmount(long advancedEarnedAmount) {
-		this.advancedEarnedAmount = advancedEarnedAmount;
-	}
-	
-	
-	public long getEarnedAmount() {
-		return earnedAmount;
-	}
-	public void setEarnedAmount(long earnedAmount) {
-		this.earnedAmount = earnedAmount;
-	}
-	
-	
-	public List<OperationDetailDTO> getOperationDetailDTOs() {
-		return operationDetailDTOs;
-	}
-	public void setOperationDetailDTOs(List<OperationDetailDTO> operationDetailDTOs) {
-		this.operationDetailDTOs = operationDetailDTOs;
-	}
-	public SaleDetailDTO(String saleId, String createCardDate, String beautifySkinItemName, long createCardTotalAmount,
-			long earnedAmount,int itemNumber, String description, int restItemNumber, long consumedAmount, long consumedEarnedAmount,
-			long advancedEarnedAmount) {
-		super();
-		this.saleId = saleId;
-		this.createCardDate = createCardDate;
-		this.beautifySkinItemName = beautifySkinItemName;
-		this.createCardTotalAmount = createCardTotalAmount;
-		this.earnedAmount = earnedAmount;
-		this.itemNumber = itemNumber;
-		this.description = description;
-		this.restItemNumber = restItemNumber;
-		this.consumedAmount = consumedAmount;
-		this.consumedEarnedAmount = consumedEarnedAmount;
-		this.advancedEarnedAmount = advancedEarnedAmount;
-	}
-	public SaleDetailDTO(String saleId, String createCardDate, String beautifySkinItemName, long createCardTotalAmount,
-			long earnedAmount,int itemNumber, String description, int restItemNumber, long consumedAmount, long consumedEarnedAmount,
-			long advancedEarnedAmount,String operationId, String operationDate, String operatorName, String toolName,
-			int operateExpense, String operationDescription) {
-		this.saleId = saleId;
-		this.createCardDate = createCardDate;
-		this.beautifySkinItemName = beautifySkinItemName;
-		this.createCardTotalAmount = createCardTotalAmount;
-		this.earnedAmount = earnedAmount;
-		this.itemNumber = itemNumber;
-		this.description = description;
-		this.restItemNumber = restItemNumber;
-		this.consumedAmount = consumedAmount;
-		this.consumedEarnedAmount = consumedEarnedAmount;
-		this.advancedEarnedAmount = advancedEarnedAmount;
-	}
 	@Override
 	public String toString() {
 		return "SaleDetailDTO [saleId=" + saleId + ", createCardDate=" + createCardDate + ", beautifySkinItemName="

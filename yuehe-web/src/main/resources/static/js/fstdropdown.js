@@ -107,7 +107,10 @@ function setFstDropdown() {
                 if(divSelected.textContent!=""){//remove the error lable if the div selected isn't empty
                     var errorLable = document.getElementById(divSelected.name +"-error");
                     // alert(errorLable.id)
-                    errorLable.remove();
+                    if(!isEmpty(errorLable )){
+
+                        errorLable.remove();
+                    }
                 }
                 // alert( dd.querySelector(".fstselected").textContent)
             }

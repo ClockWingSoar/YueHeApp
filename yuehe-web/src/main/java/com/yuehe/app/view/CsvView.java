@@ -12,10 +12,10 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.mysql.cj.util.StringUtils;
 import com.yuehe.app.dto.SaleClientItemSellerDTO;
 import com.yuehe.app.property.BaseProperty;
 
+import org.apache.commons.lang3.StringUtils;
 import org.supercsv.io.CsvBeanWriter;
 import org.supercsv.io.ICsvBeanWriter;
 import org.supercsv.prefs.CsvPreference;
@@ -28,7 +28,7 @@ public class CsvView extends AbstractCsvView {
     public void buildCsvDocument(Map<String, Object> model, HttpServletRequest request, HttpServletResponse
             response) throws Exception {
         String tableName = new StringBuilder(BaseProperty.TBALE_NAME_SALE).append(BaseProperty.TABLE_EXPORT_DELIMITER).toString(); //default to sale table, other tables like operation, can pass table name here           
-        if (!StringUtils.isNullOrEmpty(request.getParameter("tableName"))) {
+        if (!StringUtils.isEmpty(request.getParameter("tableName"))) {
             tableName = request.getParameter("tableName");
         }
         String DateNowString = sdf.format(new Timestamp(System.currentTimeMillis()));

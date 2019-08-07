@@ -45,8 +45,8 @@
 							<th data-sort-prop="operationDate">操作日期</th>
 							<th data-sort-prop="employee.name">操作人</th>
 							<th data-sort-prop="tool.name">仪器</th>
-							<th data-sort-prop="operateExpense">操作费用</th>
-							<th>备注</th>
+							<th data-sort-prop="tool.operateExpense">操作费用</th>
+							<th data-sort-prop="description">备注</th>
 						</tr>
 					</thead>
 
@@ -61,23 +61,12 @@
 							<td><input class="yuehe-filter-Input" id="description" placeholder="搜备注"></td>
 						</tr>
 						<tr class="clickable-row" data-th-each="operation : ${operationList}">
-							<td data-th-text="${operation.operationId}">...</td>
-							<td data-th-text="${operation.saleId}">...</td>
-							<!-- 			<td data-th-text="${operation.createCardDate}">...</td> -->
+							<td data-th-text="${operation.id}">...</td>
+							<td data-th-text="${operation.sale.id}">...</td>
 							<td data-th-text="${operation.operationDate}">...</td>
-							<!-- 			<td data-th-text="${operation.clientName}">...</td> -->
-							<!-- 			<td data-th-text="${operation.cosmeticShopName}">...</td> -->
-							<!-- 			<td data-th-text="${operation.beautifySkinItemName}">...</td> -->
-							<!-- 			<td data-th-text="${operation.createCardTotalAmount}">...</td> -->
-							<!-- 			<td data-th-text="${operation.earnedTotalAmount}">...</td> -->
-							<!-- 			<td data-th-text="${operation.totalItemNumber}">...</td> -->
-							<!-- 			<td data-th-text="${operation.restItemNumber}">...</td> -->
-							<!-- 			<td data-th-text="${operation.consumedTotalAmount}">...</td> -->
-							<!-- 			<td data-th-text="${operation.consumedEarnedTotalAmount}">...</td> -->
-							<!-- 			<td data-th-text="${operation.advancedEarnedTotalAmount}">...</td> -->
-							<td data-th-text="${operation.operatorName}">...</td>
-							<td data-th-text="${operation.toolName}">...</td>
-							<td data-th-text="${operation.operateExpense}">...</td>
+							<td data-th-text="${operation.employee.name}">...</td>
+							<td data-th-text="${operation.tool.name}">...</td>
+							<td data-th-text="${operation.tool.operateExpense}">...</td>
 							<td data-th-text="${operation.description}">...</td>
 						</tr>
 					</tbody>

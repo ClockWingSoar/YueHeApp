@@ -66,9 +66,9 @@
 								data-placeholder="请输入客户姓名搜索" data-disabled="true">
 								<option value="" selected="selected"> --选择美容院确定客户列表--
 								</option>
-								<option th:each="client : ${clientList}" th:value="${client.id}"
+								<!-- <option th:each="client : ${clientList}" th:value="${client.id}"
 									th:text="${client.name}">
-								</option>
+								</option> -->
 							</select>
 						</div>
 						<div class="col-xs-6">
@@ -208,7 +208,7 @@
 					<div class="form-group  row ">
 						<div class="content">
 							<div class="input-group col-xs-4">
-								<input type="submit" class="btn  btn-lg submit" value="提交" />
+								<input type="submit" class="btn-primary  btn-lg submit" value="提交" />
 							</div>
 						</div>
 					</div>

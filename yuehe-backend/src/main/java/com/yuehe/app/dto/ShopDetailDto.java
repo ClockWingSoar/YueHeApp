@@ -2,6 +2,10 @@ package com.yuehe.app.dto;
 
 import java.util.List;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 /**
  * 
  * This is DTO class which is to render the view of operationSummary.html,to show the basic operation table view
@@ -9,9 +13,10 @@ import java.util.List;
  * @author YIXIANGZhong
  * @since 1.0
  */
-public class ShopDetailDTO extends ClientDetailDTO{
-	public ShopDetailDTO() {
-	}
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class ShopDetailDTO {
 	private String cosmeticShopName;//美容院名
 	private long allClientsCreateCardAmount;//单店所有顾客的总开卡金额
 	private long allClientsEarnedAmount;//单店所有顾客的总回款金额
@@ -19,66 +24,5 @@ public class ShopDetailDTO extends ClientDetailDTO{
 	private long allClientsConsumedEarnedAmount;//单店所有顾客的总消耗回款
 	private long allClientsAdvancedEarnedAmount;//单店所有顾客的总预付款
 	private List<ClientDetailDTO> clientDetailDTOs;//单店下面所有的客户的信息
-	public String getCosmeticShopName() {
-		return cosmeticShopName;
-	}
-	public void setCosmeticShopName(String cosmeticShopName) {
-		this.cosmeticShopName = cosmeticShopName;
-	}
-	public long getAllClientsCreateCardAmount() {
-		return allClientsCreateCardAmount;
-	}
-	public void setAllClientsCreateCardAmount(long totalClientCreateCardAmount) {
-		allClientsCreateCardAmount = totalClientCreateCardAmount;
-	}
-	public long getAllClientsEarnedAmount() {
-		return allClientsEarnedAmount;
-	}
-	public void setAllClientsEarnedAmount(long totalClientEarnedAmount) {
-		allClientsEarnedAmount = totalClientEarnedAmount;
-	}
-	public long getAllClientsConsumedAmount() {
-		return allClientsConsumedAmount;
-	}
-	public void setAllClientsConsumedAmount(long totalClientConsumedAmount) {
-		allClientsConsumedAmount = totalClientConsumedAmount;
-	}
-	public long getAllClientsConsumedEarnedAmount() {
-		return allClientsConsumedEarnedAmount;
-	}
-	public void setAllClientsConsumedEarnedAmount(long totalClientConsumedEarnedAmount) {
-		allClientsConsumedEarnedAmount = totalClientConsumedEarnedAmount;
-	}
-	public long getAllClientsAdvancedEarnedAmount() {
-		return allClientsAdvancedEarnedAmount;
-	}
-	public void setAllClientsAdvancedEarnedAmount(long totalClientAdvancedEarnedAmount) {
-		allClientsAdvancedEarnedAmount = totalClientAdvancedEarnedAmount;
-	}
-	
-	public List<ClientDetailDTO> getClientDetailDTOs() {
-		return clientDetailDTOs;
-	}
-	public void setClientDetailDTOs(List<ClientDetailDTO> clientDetailDTOs) {
-		this.clientDetailDTOs = clientDetailDTOs;
-	}
-	public ShopDetailDTO(String cosmeticShopName, long allClientsCreateCardAmount, long allClientsEarnedAmount,
-			long allClientsConsumedAmount, long allClientsConsumedEarnedAmount, long allClientsAdvancedEarnedAmount) {
-		super();
-		this.cosmeticShopName = cosmeticShopName;
-		this.allClientsCreateCardAmount = allClientsCreateCardAmount;
-		this.allClientsEarnedAmount = allClientsEarnedAmount;
-		this.allClientsConsumedAmount = allClientsConsumedAmount;
-		this.allClientsConsumedEarnedAmount = allClientsConsumedEarnedAmount;
-		this.allClientsAdvancedEarnedAmount = allClientsAdvancedEarnedAmount;
-	}
-	@Override
-	public String toString() {
-		return "ShopDetailDTO [cosmeticShopName=" + cosmeticShopName + ", allClientsCreateCardAmount="
-				+ allClientsCreateCardAmount + ", allClientsEarnedAmount=" + allClientsEarnedAmount
-				+ ", allClientsConsumedAmount=" + allClientsConsumedAmount + ", allClientsConsumedEarnedAmount="
-				+ allClientsConsumedEarnedAmount + ", allClientsAdvancedEarnedAmount=" + allClientsAdvancedEarnedAmount
-				+ ", clientDetailDTOs=" + clientDetailDTOs + "]";
-	}
 	
 }

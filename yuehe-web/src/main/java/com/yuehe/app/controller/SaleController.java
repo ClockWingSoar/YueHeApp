@@ -11,7 +11,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
-import com.mysql.cj.util.StringUtils;
 import com.yuehe.app.dto.ClientAllSalesPerformanceDetailDTO;
 import com.yuehe.app.dto.DutyEmployeeRoleDTO;
 import com.yuehe.app.dto.SaleClientItemSellerForDBDTO;
@@ -26,9 +25,12 @@ import com.yuehe.app.service.ClientService;
 import com.yuehe.app.service.SaleService;
 import com.yuehe.app.service.YueHeCommonService;
 import com.yuehe.app.util.IdType;
+import com.yuehe.app.util.ServiceUtil;
 import com.yuehe.app.util.YueHeUtil;
 import com.yuehe.app.view.CsvView;
+import com.yuehe.app.yuehecommon.PaginationAndSortModel;
 
+import org.apache.commons.lang3.StringUtils;
 // import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -58,10 +60,7 @@ public class SaleController {
 
 	private final static Logger LOGGER = LoggerFactory.getLogger(SaleController.class);
 	private SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
-	String sortProperty = "id"; // default sort column is sale id
-	Direction sortDirection = Direction.ASC; // default sort direction is ascending
-	int pageNumber = 0; // default page number is 0 (yes it is weird)
-	int pageSize = 10; // default page size is 10
+	private PaginationAndSortModel paginationAndSortModel = new PaginationAndSortModel();
 	@Autowired
 	private final SaleService saleService;
 	@Autowired
@@ -80,7 +79,11 @@ public class SaleController {
 		// public String saleOverview(@PageableDefault(size = 10,sort = "id") Pageable
 		// pageable,Model model){
 
-		yueHeCommonService.buildSortOrderBeforeDBQuerying(request,pageNumber,pageSize,sortProperty,sortDirection);
+		ServiceUtil.buildSortOrderBeforeDBQuerying(request,paginationAndSortModel);
+		String sortProperty = paginationAndSortModel.getSortProperty();
+		Direction sortDirection = paginationAndSortModel.getSortDirection();
+		Integer pageSize = paginationAndSortModel.getPageSize();
+		Integer pageNumber = paginationAndSortModel.getPageNumber();
 		Map<String, Object> saleMap = saleService.getSalesDetailListWithPaginationAndSort(pageNumber, pageSize,
 				sortDirection, sortProperty);
 		buildModelAfterDBQuerying(saleMap, model, sortProperty, sortDirection);
@@ -91,13 +94,17 @@ public class SaleController {
 	@GetMapping(value = "/sales/search")
 	public String getSalesWithFiltering(HttpServletRequest request, Model model) {
 		String searchParameters = "";
-		if (!StringUtils.isNullOrEmpty(request.getParameter("searchParameters"))) {
+		if (!StringUtils.isEmpty(request.getParameter("searchParameters"))) {
 			searchParameters = request.getParameter("searchParameters");
 		}
-		yueHeCommonService.buildSortOrderBeforeDBQuerying(request,pageNumber,pageSize,sortProperty,sortDirection);
+		ServiceUtil.buildSortOrderBeforeDBQuerying(request,paginationAndSortModel);
+		String sortProperty = paginationAndSortModel.getSortProperty();
+		Direction sortDirection = paginationAndSortModel.getSortDirection();
+		Integer pageSize = paginationAndSortModel.getPageSize();
+		Integer pageNumber = paginationAndSortModel.getPageNumber();
 		// String search = "id:xs000~,'itemNumber>5";
 		Map<String, Object> saleMap = saleService.getSalesDetailListWithPaginationAndSortAndFiltering(pageNumber, pageSize,
-				this.sortDirection, this.sortProperty, searchParameters);
+				sortDirection, sortProperty, searchParameters);
 		buildModelAfterDBQuerying(saleMap, model, sortProperty, sortDirection);
 		model.addAttribute("searchParameters", searchParameters);
 
@@ -111,8 +118,12 @@ public class SaleController {
 	public void saleCsvDownload(Model model, HttpServletRequest request, HttpServletResponse response) {
 		Map<String, Object> saleMap = new HashMap<String, Object>();
 
-		yueHeCommonService.buildSortOrderBeforeDBQuerying(request,pageNumber,pageSize,sortProperty,sortDirection);
-		saleMap = saleService.getSalesDetailListForDownload(this.sortDirection, this.sortProperty);
+		ServiceUtil.buildSortOrderBeforeDBQuerying(request,paginationAndSortModel);
+		String sortProperty = paginationAndSortModel.getSortProperty();
+		Direction sortDirection = paginationAndSortModel.getSortDirection();
+		// Integer pageSize = paginationAndSortModel.getPageSize();
+		// Integer pageNumber = paginationAndSortModel.getPageNumber();
+		saleMap = saleService.getSalesDetailListForDownload(sortDirection, sortProperty);
 		// List<SaleClientItemSellerDTO> saleClientItemSellerDTOList =
 		// (List<SaleClientItemSellerDTO>)saleMap.get("saleList");
 		// model.addAttribute("csvObjList", saleClientItemSellerDTOList);
@@ -123,7 +134,7 @@ public class SaleController {
 		saleMap.put("headers", headers);
 		@SuppressWarnings("unchecked")
 		List<Sort.Order> sortOrders = (List<Sort.Order>) saleMap.get("sortOrders");
-		yueHeCommonService.setBackSortOrderAfterDBQuerying(sortOrders, model, sortProperty, sortDirection);
+		ServiceUtil.setBackSortOrderAfterDBQuerying(sortOrders, model, sortProperty, sortDirection);
 		try {
 			new CsvView().buildCsvDocument(saleMap, request, response);
 		} catch (Exception e) {
@@ -143,7 +154,7 @@ public class SaleController {
 		@SuppressWarnings("unchecked")
 		Page<SaleClientItemSellerForDBDTO> saleMapPage = (Page<SaleClientItemSellerForDBDTO>) saleMap.get("salePage");
 		List<Sort.Order> sortOrders = saleMapPage.getSort().stream().collect(Collectors.toList());
-		yueHeCommonService.setBackSortOrderAfterDBQuerying(sortOrders, model, sortProperty, sortDirection);
+		ServiceUtil.setBackSortOrderAfterDBQuerying(sortOrders, model, sortProperty, sortDirection);
 		sortOrders.forEach(l -> System.out.println(l));
 		LOGGER.info("saleMap {}", saleMap);
 		model.addAllAttributes(saleMap);

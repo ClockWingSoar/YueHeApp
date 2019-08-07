@@ -24,6 +24,7 @@ import com.yuehe.app.entity.Operation;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
@@ -52,11 +53,37 @@ public interface OperationRepository  extends JpaRepository<Operation, String>,J
 			+ "INNER JOIN o.employee e "
 			+ "INNER JOIN o.tool t")
 	Page<OperationDetailDTO> findAllOperationList(Pageable pageable);
-	
+
+    @Query("SELECT new com.yuehe.app.dto.OperationOperatorToolForDBDTO(o.id,s.id, s.createCardDate, o.operationDate, "
+			+ "c.name,p.name,p.discount,s.employeePremium,s.shopPremium,b.name,s.createCardTotalAmount,s.itemNumber,"
+			+ "e.name,t.name,t.operateExpense,"
+			+ "o.description) "
+			+ "FROM Operation o INNER JOIN o.sale s "
+			+ "INNER JOIN s.beautifySkinItem b "
+			+ "INNER JOIN o.employee e "
+			+ "INNER JOIN s.client c "
+			+ "INNER JOIN c.cosmeticShop p "
+			+ "INNER JOIN o.tool t"
+			)
+    List<OperationOperatorToolForDBDTO> fetchOperationOperatorToolDataForDownloadWithSort(Sort sort);
 
 	
     @Query("SELECT new com.yuehe.app.dto.OperationOperatorToolForDBDTO(o.id,s.id, s.createCardDate, o.operationDate, "
-			+ "c.id,c.name,p.id,p.name,p.discount,b.name,s.createCardTotalAmount,s.itemNumber,"
+			+ "c.name,p.name,p.discount,s.employeePremium,s.shopPremium,b.name,s.createCardTotalAmount,s.itemNumber,"
+			+ "e.name,t.name,t.operateExpense,"
+			+ "o.description) "
+			+ "FROM Operation o INNER JOIN o.sale s "
+			+ "INNER JOIN s.beautifySkinItem b "
+			+ "INNER JOIN o.employee e "
+			+ "INNER JOIN s.client c "
+			+ "INNER JOIN c.cosmeticShop p "
+			+ "INNER JOIN o.tool t"
+			)
+    List<OperationOperatorToolForDBDTO> fetchOperationOperatorToolDataForDownload();
+
+	
+    @Query("SELECT new com.yuehe.app.dto.OperationOperatorToolForDBDTO(o.id,s.id, s.createCardDate, o.operationDate, "
+			+ "c.name,p.name,p.discount,s.employeePremium,s.shopPremium,b.name,s.createCardTotalAmount,s.itemNumber,"
 			+ "e.name,t.name,t.operateExpense,"
 			+ "o.description) "
 			+ "FROM Operation o INNER JOIN o.sale s "

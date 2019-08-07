@@ -1,0 +1,171 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<title>编辑操作记录</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<link rel="stylesheet" th:href="@{/css/core.css}">
+	<link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+	<script type="text/javascript" th:src="@{/js/jquery.min.js}"></script>
+	<link rel="stylesheet" th:href="@{/css/fstdropdown.css}">
+	<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+	<link rel="stylesheet" href="/resources/demos/style.css">
+	<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+	<script type="text/javascript" th:src="@{/js/operationEditItem.js}"></script>
+	<script type="text/javascript" th:src="@{/js/yueheCommon.js}"></script>
+	<script type="text/javascript" th:src="@{/js/fstdropdown.js}"></script>
+	<script type="text/javascript" th:src="@{/js/jquery.validate.js}"></script>
+	<script type="text/javascript" th:src="@{/js/additional-methods.js}"></script>
+	<!--<meta http-equiv="refresh" content="600; URL=/">  this will redirect to / after 600s-->
+
+</head>
+
+<body>
+	<div th:replace="~{fragments/header.html :: header}">Header</div>
+
+	<div role="main" class="container">
+		<div th:replace="~{fragments/operationHeader.html :: header}">Operation Header</div>
+
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h3>编辑操作记录</h3>
+			</div>
+			<div class="yuehe-form-group">
+				<div class="form-group">
+					<form id="operation_edit_item" action="#" th:action="@{/operation/update/{id}(id=${operation.id})}" method="POST" th:object="${operation}">
+						<br>
+						<input type="hidden" id="operationId" th:value="${operation.id}">
+						<div class="form-group  row ">
+							<div class="col-md-1"> <span class="input-group-addon"><i
+										class="glyphicon glyphicon-pencil"></i>美容院</span> </div>
+
+							<div class="col-xs-3"> 
+								<select  class="fstdropdown-select"  th:field="*{sale.client.cosmeticShop.id}"  data-placeholder="请输入美容院名搜索"
+									name="cosmeticShopId" id="cosmeticShop">
+									<option selected="selected" th:value="${operation.sale.client.cosmeticShop.id}"
+									th:text="${operation.sale.client.cosmeticShop.name}"> 
+									</option>
+									<option th:each="cosmeticShop : ${cosmeticShopList}" th:value="${cosmeticShop.id}"
+										th:text="${cosmeticShop.name}">
+									</option>
+								</select>
+							</div>
+							<div class="col-xs-6">
+								<span class="help-block">一般来讲，通过客户名可以确定哪家美容院，但是不排除重名的情况</span>
+							</div>
+						</div>
+						<div class="form-group  row ">
+							<div class="col-md-1"> <span class="input-group-addon"><i
+										class="glyphicon glyphicon-pencil"></i>客户名</span> </div>
+							<div class="col-xs-3">
+									<select class="fstdropdown-select "  th:field="*{sale.client.id}"  name="clientId" id="client"
+									data-placeholder="请输入客户姓名搜索" data-disabled="true">
+									<option  selected="selected" th:value="${operation.sale.client.id}"
+									th:text="${operation.sale.client.name}"> 
+									</option>
+								</select>
+							</div>
+							<div class="col-xs-6">
+								<span class="help-block">每个客户如果有不同的项目需分开写</span>
+							</div>
+						</div>
+						<div class="form-group  row ">
+							<div class="col-md-1">
+								<span class="input-group-addon"><i class="glyphicon glyphicon-pencil"></i>销售卡</span>
+							</div>
+							<div class="col-xs-3"> <select class="fstdropdown-select "  th:field="*{sale.id}"   name="saleId" data-placeholder="请输入销售卡搜索"
+								data-disabled="true" id="sale">
+									<option selected="" th:value="${operation.sale.id}"
+									th:text="${operation.sale.beautifySkinItem.name}+'--'+${operation.sale.createCardDate}">
+									</option>
+								</select>
+							</div>
+							<div class="col-xs-6">
+								<span class="help-block">销售卡可以通过美肤卡项目名+开卡日期来区分</span>
+							</div>
+						</div>
+						<div class="form-group  row ">
+							<div class="col-md-1">
+								<span class="input-group-addon"><i class="glyphicon glyphicon-pencil"></i>操作人</span>
+							</div>
+							<div class="col-xs-3">
+								<select class="fstdropdown-select "  th:field="*{employee.id}" name="operatorId" id="operator"  data-placeholder="请输入操作人搜索">
+									<option selected="selected" th:value="${operation.employee.id}"
+									th:text="${operation.employee.name}"> 
+									</option>
+									<option th:each="operator : ${dutyList}" th:value="${operator.employeeId}"
+										th:text="${operator.employeeName}">
+									</option>
+								</select>
+							</div>
+							<div class="col-xs-6">
+								<span class="help-block">操作医生，后期如果要计算操作费用的话，以此区分</span>
+							</div>
+						</div>
+						<div class="form-group  row ">
+							<div class="col-md-1">
+								<span class="input-group-addon"><i class="glyphicon glyphicon-pencil"></i>操作仪器</span>
+							</div>
+							<div class="col-xs-3">
+								<select class="fstdropdown-select "  th:field="*{tool.id}"   name="toolId" id="tool" data-placeholder="请输入操作仪器搜索">
+									<option selected="selected" th:value="${operation.tool.id}"
+									th:text="${operation.tool.name}">
+									</option>
+									<option th:each="tool : ${toolList}" th:value="${tool.id}" th:text="${tool.name}">
+									</option>
+								</select>
+							</div>
+							<div class="col-xs-6">
+								<span class="help-block">通过操作仪器可以确认操作医生的操作费用</span>
+							</div>
+						</div>
+						<div class="form-group  row ">
+							<div class="col-md-1">
+								<span class="input-group-addon"><i class="glyphicon glyphicon-pencil"></i>操作日期</span>
+							</div>
+							<div class="col-xs-3">
+								<input id="operationDate" name="operationDate" type=text
+									class="form-control input-sm" th:value="${operation.operationDate}"></input>
+
+							</div>
+							<div class="col-xs-6">
+								<span class="help-block">通过操作日期来计算一个销售卡的一次消耗</span>
+							</div>
+						</div>
+						<div class="form-group  row ">
+							<div class="col-md-1">
+								<span class="input-group-addon"><i class="glyphicon glyphicon-pencil"></i>备注</span>
+							</div>
+							<div class="col-xs-3">
+								<input id="description" name="description" type=text
+									class="form-control input-sm" th:value="${operation.description}"></input>
+							</div>
+							<div class="col-xs-6">
+								<span class="help-block">此处填写额外的说明情况</span>
+							</div>
+						</div>
+						<div class="form-group  row ">
+							<div class="content">
+								<div class="input-group col-xs-1">
+										<input type="submit" class="btn-primary  btn-lg" name="operationUpdateItem" value="更新"/>
+									</div>
+									<div class="input-group col-xs-1">
+										<input id="operation_delete_btn" type="submit" name="operationDeleteItem" class="btn-primary  btn-lg" value="删除"/>
+								</div>
+							</div>
+						</div>
+
+
+					</form>
+				</div>
+			</div>
+		</div>
+		<div th:replace="~{fragments/footer.html :: footer}">footer</div>
+		<!-- /.container -->
+	</div>
+
+</body>
+
+</html>

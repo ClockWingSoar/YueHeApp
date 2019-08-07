@@ -34,7 +34,6 @@ import com.yuehe.app.dto.SalePerformanceDetailDTO;
 import com.yuehe.app.dto.SalePerformanceDetailForDBDTO;
 import com.yuehe.app.dto.ShopAllSalesPerformanceDetailDTO;
 import com.yuehe.app.dto.YueHeAllSalesPerformanceDetailDTO;
-import com.yuehe.app.entity.BeautifySkinItem;
 import com.yuehe.app.entity.Client;
 import com.yuehe.app.entity.CosmeticShop;
 import com.yuehe.app.entity.Sale;
@@ -175,7 +174,7 @@ public class SaleService {
 			saleList =  salePage.getContent();
 	        }
 		List<SaleClientItemSellerDTO> saleClientItemSellerDTOList = new ArrayList<SaleClientItemSellerDTO>();
-		buildFilteredSalesDetailList(saleClientItemSellerDTOList, saleList);
+		buildFilteredSalesDetailListForFrontEnd(saleClientItemSellerDTOList, saleList);
 		sortByCollectionsIfPropertyNotInDB( sortDirection, saleClientItemSellerDTOList);
 		saleMap.put("saleList",saleClientItemSellerDTOList);
 		saleMap.put("salePage",salePage);
@@ -242,6 +241,7 @@ public class SaleService {
 			case RECEIVEDEARNEDAMOUNT:
 			case EMPLOYEEPREMIUM:
 			case SHOPPREMIUM:
+			case DESCRIPTION:
 				sort = Sort.by(new Order(sortDirection,sortProperty));
 				sortByJPA = true;
 				break;
@@ -334,13 +334,13 @@ public class SaleService {
 			
 			saleClientItemSellerDTOList.add(saleClientItemSellerDTO);
 		}
-		saleClientItemSellerForDBDTOList.forEach(l -> System.out.println(l));
-		saleClientItemSellerDTOList.forEach(l -> System.out.println(l));
+		// saleClientItemSellerForDBDTOList.forEach(l -> System.out.println(l));
+		// saleClientItemSellerDTOList.forEach(l -> System.out.println(l));
 	}
 	/**
 	 * To build the sale list page with entity "Sale" while using dynamic query
 	 */
-	private void buildFilteredSalesDetailList(List<SaleClientItemSellerDTO> saleClientItemSellerDTOList,List<Sale> saleList){
+	private void buildFilteredSalesDetailListForFrontEnd(List<SaleClientItemSellerDTO> saleClientItemSellerDTOList,List<Sale> saleList){
 	
 		for(Sale sale : saleList) {
 			Integer beautifySkinItemPrice = sale.getBeautifySkinItem().getPrice();
@@ -376,8 +376,8 @@ public class SaleService {
 			
 			saleClientItemSellerDTOList.add(saleClientItemSellerDTO);
 		}
-		saleList.forEach(l -> System.out.println(l));
-		saleClientItemSellerDTOList.forEach(l -> System.out.println(l));
+		// saleList.forEach(l -> System.out.println(l));
+		// saleClientItemSellerDTOList.forEach(l -> System.out.println(l));
 	}
 	/**
 	 * To get the biggest number of the current string id 
