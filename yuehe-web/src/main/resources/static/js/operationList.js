@@ -67,9 +67,10 @@ $(function ($) {
 			var saleId = $('#sale_id').val();
 			var operationDate = $('#operation_date').val();
 			var operatorName = $('#operator_name').val();
+			var operationExpense = $('#operation_expense').val();
 			var toolName = $('#tool_name').val();
 			var description = $('#description').val();
-			var regex = new RegExp('[:><!~$-]');
+			var regex = new RegExp('[:><!~$_]');
 			if(!isEmpty(id)){
 				if(regex.test(id)){
 
@@ -92,6 +93,15 @@ $(function ($) {
 					searchParameters +="operationDate"+operationDate+",";
 				}else{
 					searchParameters +="operationDate;"+operationDate+",";//default to equality
+				}
+				
+			}
+			if(!isEmpty(operationExpense)){
+				if(regex.test(operationExpense)){
+
+					searchParameters +="operationExpense"+operationExpense+",";
+				}else{
+					searchParameters +="operationExpense:"+operationExpense+",";//default to equality
 				}
 				
 			}

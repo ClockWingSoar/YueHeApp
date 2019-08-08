@@ -80,7 +80,7 @@ $(function ($) {
 			var employeePremium = $('#employee_premium').val();
 			var shopPremium = $('#shop_premium').val();
 			var description = $('#description').val();
-			var regex = new RegExp('[:><!~$-]');
+			var regex = new RegExp('[:><!~$_]');
 			if(!isEmpty(saleId)){
 				if(regex.test(saleId)){
 
