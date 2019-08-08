@@ -2,6 +2,8 @@ package com.yuehe.app.dto;
 
 import java.util.Comparator;
 
+import com.yuehe.app.interfaces.Downloadable;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -19,7 +21,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class SaleClientItemSellerDTO implements Comparable<SaleClientItemSellerDTO>{
+public class SaleClientItemSellerDTO implements Comparable<SaleClientItemSellerDTO>, Downloadable{
 	private String saleId;
 	private String clientName;
 	private String beautifySkinItemName;

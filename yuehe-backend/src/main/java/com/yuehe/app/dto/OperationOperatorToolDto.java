@@ -1,5 +1,7 @@
 package com.yuehe.app.dto;
 
+import com.yuehe.app.interfaces.Downloadable;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -17,7 +19,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class OperationOperatorToolDTO {
+public class OperationOperatorToolDTO implements Downloadable{
 	private String operationId;//操作ID
 	private String saleId;//销售卡ID
 	private String createCardDate;//开卡日期

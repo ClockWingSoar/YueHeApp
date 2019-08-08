@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.yuehe.app.dto.SaleClientItemSellerDTO;
+import com.yuehe.app.interfaces.Downloadable;
 import com.yuehe.app.property.BaseProperty;
 
 import org.apache.commons.lang3.StringUtils;
@@ -46,7 +47,7 @@ public class CsvView extends AbstractCsvView {
         // response.setHeader("Content-Disposition", "attachment; filename=\""+fileName+".csv\"");
         // response.setCharacterEncoding("UTF-8");
         @SuppressWarnings("unchecked")
-        List<SaleClientItemSellerDTO> objects = (List<SaleClientItemSellerDTO>) model.get("csvObjList");
+        List<? extends Downloadable> objects = (List<Downloadable>) model.get("csvObjList");
         String[] header = (String[])model.get("headers");
         
         Writer writer = new OutputStreamWriter(response.getOutputStream(), StandardCharsets.UTF_8);//this fix the content showing random code issue for chinese characters
@@ -55,8 +56,8 @@ public class CsvView extends AbstractCsvView {
 
         csvWriter.writeHeader(header);
 
-        for (SaleClientItemSellerDTO saleClientItemSellerDTO : objects) {
-            csvWriter.write(saleClientItemSellerDTO, header);
+        for (Downloadable downloadable : objects) {
+            csvWriter.write(downloadable, header);
         }
         csvWriter.close();
 

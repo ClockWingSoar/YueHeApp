@@ -159,16 +159,11 @@ public class OperationController{
 		ServiceUtil.buildSortOrderBeforeDBQuerying(request,paginationAndSortModel);
 		String sortProperty = paginationAndSortModel.getSortProperty();
 		Direction sortDirection = paginationAndSortModel.getSortDirection();
-		// Integer pageSize = paginationAndSortModel.getPageSize();
-		// Integer pageNumber = paginationAndSortModel.getPageNumber();
 		Map<String, Object> operationMap = operationService.getOperationsDetailListForDownload(sortDirection, sortProperty);
-		// List<OperationClientItemSellerDTO> operationClientItemSellerDTOList =
-		// (List<OperationClientItemSellerDTO>)operationMap.get("operationList");
-		// model.addAttribute("csvObjList", operationClientItemSellerDTOList);
-		String[] headers = { "operationId", "sellerName", "cosmeticShopName", "clientName", "beautifySkinItemName",
-				"createCardDate", "itemNumber", "createCardTotalAmount", "receivedAmount", "discount", "unpaidAmount",
-				"earnedAmount", "receivedEarnedAmount", "unpaidEarnedAmount", "employeePremium", "shopPremium",
-				"description" };
+
+		String[] headers = { "cosmeticShopName","discount", "clientName","saleId", "beautifySkinItemName","createCardDate", 
+		 "createCardTotalAmount", "itemNumber","restItemNumber",  "employeePremium", "shopPremium","earnedAmount", "consumedAmount", "consumedEarnedAmount",  "advancedEarnedAmount",
+				"operationId",  "operatorName", "toolName","operationDate", "operateExpense","description" };
 		operationMap.put("headers", headers);
 		@SuppressWarnings("unchecked")
 		List<Sort.Order> sortOrders = (List<Sort.Order>) operationMap.get("sortOrders");
