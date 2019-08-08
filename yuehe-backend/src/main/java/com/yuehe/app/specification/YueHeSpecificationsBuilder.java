@@ -3,6 +3,7 @@ package com.yuehe.app.specification;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.yuehe.app.common.ClientColumnsEnum;
 import com.yuehe.app.common.OperationColumnsEnum;
 import com.yuehe.app.common.SaleColumnsEnum;
 import com.yuehe.app.common.YueHeEntitiesEnum;
@@ -71,6 +72,10 @@ public final class YueHeSpecificationsBuilder<T> {
                     OperationColumnsEnum operationColumnsEnum = OperationColumnsEnum.valueOf(keyToEntityColumns);
                     result = getSpecificationResult(operationColumnsEnum, i);
                     break;
+                case CLIENT:
+                    ClientColumnsEnum clientColumnsEnum = ClientColumnsEnum.valueOf(keyToEntityColumns);
+                    result = getSpecificationResult(clientColumnsEnum, i);
+                    break;
                     //add other entity here
                 default:
                 break;
@@ -135,6 +140,30 @@ public final class YueHeSpecificationsBuilder<T> {
 
             case ID:
             case DESCRIPTION:
+            default:
+                result = params.get(paramIndex).isOrPredicate()
+                ? Specification.where(result).or(new YueHeSpecification<T>(params.get(paramIndex))) 
+                : Specification.where(result).and(new YueHeSpecification<T>(params.get(paramIndex)));
+                break;
+            
+        }
+        return result;
+    }
+    private final  Specification<T> getSpecificationResult(ClientColumnsEnum clientColumnsEnum, int paramIndex){
+        Specification<T> result = null;
+        switch(clientColumnsEnum){
+            case COSMETICSHOPNAME:
+
+                result = params.get(paramIndex).isOrPredicate()
+                ? Specification.where(result).or(new ClientSpecification<T>(params.get(paramIndex))) 
+                : Specification.where(result).and(new ClientSpecification<T>(params.get(paramIndex)));
+                break;
+
+            case ID:
+            case NAME:
+            case AGE:
+            case GENDER:
+            case SYMPTOM:
             default:
                 result = params.get(paramIndex).isOrPredicate()
                 ? Specification.where(result).or(new YueHeSpecification<T>(params.get(paramIndex))) 

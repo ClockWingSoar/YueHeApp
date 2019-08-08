@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2018  Shazin Sadakath
+    Copyright (C) 2019 Yi Xiang Zhong
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -18,26 +18,32 @@ package com.yuehe.app.repository;
 
 import java.util.List;
 
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
 import com.yuehe.app.dto.ClientShopDTO;
 import com.yuehe.app.entity.Client;
+
+import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import org.springframework.data.jpa.repository.Query;
 
 /**
  * @author Soveran Zhong
  */
-public interface ClientRepository extends JpaRepository<Client, Long> {
+public interface ClientRepository extends JpaRepository<Client, String>,JpaSpecificationExecutor<Client>  {
 
     List<Client> findByName(String name);
 	@Query("SELECT new com.yuehe.app.dto.ClientShopDTO(c.id,c.name, s.name, c.age, c.gender,c.symptom) "
 			+ "FROM Client c INNER JOIN c.cosmeticShop s")
-    List<ClientShopDTO> fetchClientShopDataList();
+    List<ClientShopDTO> fetchClientShopDataListForDownloadWithSort(Sort sort);
+	
+	@Query("SELECT new com.yuehe.app.dto.ClientShopDTO(c.id,c.name, s.name, c.age, c.gender,c.symptom) "
+			+ "FROM Client c INNER JOIN c.cosmeticShop s")
+    List<ClientShopDTO> fetchClientShopDataListForDownload();
 	
 	@Query("SELECT new com.yuehe.app.dto.ClientShopDTO(c.id,c.name, s.name, c.age, c.gender,c.symptom) "
 			+ "FROM Client c INNER JOIN c.cosmeticShop s where c.id = ?1")
 	ClientShopDTO fetchClientDetailById(String id);
 	
-    Client findById(String id);
     @Query("select c from Client c where c.name = ?1 AND c.cosmeticShop.id =?2")
     Client findByClientNameAndShopId(String clientName, String cosmeticShopId);
     

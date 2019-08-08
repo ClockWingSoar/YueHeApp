@@ -278,3 +278,53 @@ function filterTable(table, filter, index) {
           // 	form.submit();
           //   }
     }
+//common validator for operationNewItem and operationEditItem page
+    var clientItemValidtor= {
+            rules: {
+              name: {
+                required: true,
+              },
+              cosmeticShop : {
+                required: true,
+              },
+             
+              age: {
+                required: true,
+                number: true,
+                min: 0,
+                max: 100
+              },
+              gender: {
+                required: true,
+              },
+              
+              symptom: {
+                required: true,
+              },
+              
+            },
+            messages : {
+              name: {
+                required: "请输入客户姓名",
+              },
+              cosmeticShop: {
+                required: "请选择美容院",
+              },
+              age: {
+                required: "请输入年龄",
+                number: "仅允许输入数字,禁止输入字母或空格",
+                min: "年龄应该大于0",
+                max: "年龄应该小于100"
+              },
+              gender: {
+                required: "请输入性别",
+              //   dateISO:"请输入正确的日期格式"
+              },
+              symptom: {
+                required: "请输入客户皮肤症状",
+              },
+            }, 
+          //   submitHandler: function(form) {
+          // 	form.submit();
+          //   }
+    }

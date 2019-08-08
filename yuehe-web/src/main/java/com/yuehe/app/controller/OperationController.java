@@ -31,7 +31,6 @@ import com.yuehe.app.util.YueHeUtil;
 import com.yuehe.app.view.CsvView;
 
 import org.apache.commons.lang3.StringUtils;
-//import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -83,17 +82,8 @@ public class OperationController{
 		ServiceUtil.buildSortOrderBeforeDBQuerying(request,paginationAndSortModel);
 		String sortProperty = paginationAndSortModel.getSortProperty();
 		Direction sortDirection = paginationAndSortModel.getSortDirection();
-		// Integer pageSize = paginationAndSortModel.getPageSize();
-		// Integer pageNumber = paginationAndSortModel.getPageNumber();
-		// Map<String, Object> operationMap = operationService.getOperationsDetailListWithPaginationAndSort(paginationAndSortModel);
 		Page<Operation> operationPage = operationService.getOperationsDetailListWithPaginationAndSort(paginationAndSortModel);
 		buildModelAfterDBQuerying(operationPage, model, sortProperty, sortDirection);
-		// List<OperationDetailDTO> operationList =new ArrayList<OperationDetailDTO>();
-		// operationList = operationService.getAllOperationForOperationList();
-		//  LOGGER.info("operationList {}", operationList);
-		// model.addAttribute("operationList",operationList);
-		// model.addAttribute("subModule", "operationList");
-		// model.addAttribute("module", "operation");
 		
 		return "user/operationList.html";
 	}

@@ -30,7 +30,7 @@
 					</div>
 				</div>
 				<div class="panel-body table-wrapper-scroll-y my-custom-scrollbar">
-					<table class="table tableList table-hover  table-sm  ">
+					<table id="clientRecordList" class="table tableList table-hover  table-sm  ">
 						<thead class="thead-dark">
 							<tr class="info">
 								<th data-sort-prop="id">ID</th>
@@ -50,7 +50,7 @@
 								<td><input class="yuehe-filter-Input" id="gender" placeholder="搜性别"></td>
 								<td><input class="yuehe-filter-Input" id="symptom" placeholder="搜皮肤症状"></td>
 							</tr>
-							<tr data-th-each="client : ${clientList}">
+							<tr class="clickable-row"  data-th-each="client : ${clientList}">
 								<td data-th-text="${client.clientId}">...</td>
 								<td data-th-text="${client.clientName}">...</td>
 								<td data-th-text="${client.cosmeticShop.name}">...</td>
@@ -61,6 +61,29 @@
 						</tbody>
 					</table>
 				</div>
+			<input id="clientPageNumber" type="hidden" th:value="${clientPage.number}">
+			<input id="clientPageSize" type="hidden" th:value="${clientPage.size}">
+			<input id="sortProperty" type="hidden" th:value="${sortProperty}">
+			<input id="sortDirectionFlag" type="hidden" th:value="${sortDirectionFlag}">
+			<input id="searchParameters" type="hidden" th:value="${searchParameters}">
+			<!-- using th:with to declare a local variable for sorting query param -->
+			<ul  id="client_list_pagination" class="pagination pull-right" th:with="sortParam=${sortProperty+','+(sortDirectionFlag?'desc':'asc')}">
+				<li th:if="${clientPage.hasPrevious()}">
+					<a th:if="${searchParameters} == null" th:href="@{/getClientList(page=${clientPage.number-1},size=${clientPage.size},sort=${sortParam})}">上一页</a>
+					<a th:if="${searchParameters} != null" th:href="@{/clients/search/(page=${clientPage.number-1},size=${clientPage.size},sort=${sortParam},searchParameters=${searchParameters})}">上一页</a>
+				</li>
+				<th:block th:each="i: ${#numbers.sequence(0, clientPage.totalPages - 1)}">
+					<li th:if="${clientPage.number == i}" class="active"><a href="#" >[[${i}+1]]</a></li>
+					<li th:unless="${clientPage.number == i}">
+						<a th:if="${searchParameters} == null" th:href="@{/getClientList(page=${i},size=${clientPage.size},sort=${sortParam})}">[[${i}+1]]</a>
+						<a th:if="${searchParameters} != null" th:href="@{/clients/search/(page=${i},size=${clientPage.size},sort=${sortParam},searchParameters=${searchParameters})}">[[${i}+1]]</a>
+					</li>
+				</th:block>
+				<li th:if="${clientPage.hasNext()}">
+					<a  th:if="${searchParameters} == null" th:href="@{/getClientList(page=${clientPage.number+1},size=${clientPage.size},sort=${sortParam})}">下一页</a>
+					<a  th:if="${searchParameters} != null" th:href="@{/clients/search/(page=${clientPage.number+1},size=${clientPage.size},sort=${sortParam},searchParameters=${searchParameters})}">下一页</a>
+				</li>
+			</ul>
 			</div>
 
 			<div th:replace="fragments/footer.html :: footer">footer</div>
