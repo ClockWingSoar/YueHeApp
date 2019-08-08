@@ -41,8 +41,9 @@ import com.yuehe.app.repository.OperationRepository;
 import com.yuehe.app.specification.SpecificationsBuilder;
 import com.yuehe.app.util.ServiceUtil;
 import com.yuehe.app.util.YueHeUtil;
-import com.yuehe.app.yuehecommon.OperationColumnsEnum;
-import com.yuehe.app.yuehecommon.PaginationAndSortModel;
+import com.yuehe.app.common.OperationColumnsEnum;
+import com.yuehe.app.common.PaginationAndSortModel;
+import com.yuehe.app.common.YueHeEntitiesEnum;
 
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -114,7 +115,7 @@ public class OperationService {
 	public Page<Operation> getOperationsDetailListWithPaginationAndSortAndFiltering(PaginationAndSortModel paginationAndSortModel, String searchParameters) {
 		Pageable pageable = buildPaginationAndSort(paginationAndSortModel);
 		SpecificationsBuilder<Operation> specificationsBuilder = new SpecificationsBuilder<>();
-		Specification<Operation> spec = specificationsBuilder.resolveSpecification(searchParameters);
+		Specification<Operation> spec = specificationsBuilder.resolveSpecification(searchParameters,YueHeEntitiesEnum.OPERATION);
 		LOGGER.info("spec {}",spec);
 		// Page<OperationDetailsDTO> operationClientItemSellerForDBDTOPage = operationRepository.fetchOperationClientItemSellerDataWithFiltering(spec,pageable);
 		Page<Operation> operationPage = operationRepository.findAll(spec,pageable);

@@ -5,6 +5,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import com.google.common.base.Joiner;
+import com.yuehe.app.common.YueHeEntitiesEnum;
 import com.yuehe.app.util.search.SearchOperation;
 import com.yuehe.app.util.search.SpecSearchCriteria;
 
@@ -12,9 +13,9 @@ import org.springframework.data.jpa.domain.Specification;
 
 public final class SpecificationsBuilder<T> {
 
-    public  Specification<T> resolveSpecification(String searchParameters) {
+    public  Specification<T> resolveSpecification(String searchParameters,YueHeEntitiesEnum entityType) {
 
-        YueHeSpecificationsBuilder<T> builder = new YueHeSpecificationsBuilder<>();
+        YueHeSpecificationsBuilder<T> builder = new YueHeSpecificationsBuilder<>(entityType);
         String operationSetExper = Joiner.on("|")
             .join(SearchOperation.SIMPLE_OPERATION_SET);
             // "(\\p{Punct}?)(\\w+(\\.?\\w+)*)(:|!|>|<|~)(\\p{Punct}?)(\\p{L}+|\\w+)(\\p{Punct}?),"

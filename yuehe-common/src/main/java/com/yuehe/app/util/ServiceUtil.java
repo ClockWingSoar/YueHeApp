@@ -4,7 +4,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
-import com.yuehe.app.yuehecommon.PaginationAndSortModel;
+import com.yuehe.app.common.PaginationAndSortModel;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.domain.PageRequest;

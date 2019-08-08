@@ -3,9 +3,11 @@ package com.yuehe.app.specification;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.yuehe.app.common.OperationColumnsEnum;
+import com.yuehe.app.common.SaleColumnsEnum;
+import com.yuehe.app.common.YueHeEntitiesEnum;
 import com.yuehe.app.util.search.SearchOperation;
 import com.yuehe.app.util.search.SpecSearchCriteria;
-import com.yuehe.app.yuehecommon.SaleColumnsEnum;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.jpa.domain.Specification;
@@ -13,9 +15,11 @@ import org.springframework.data.jpa.domain.Specification;
 public final class YueHeSpecificationsBuilder<T> {
 
     private final List<SpecSearchCriteria> params;
+    private final YueHeEntitiesEnum entityType;
 
-    public YueHeSpecificationsBuilder() {
+    public YueHeSpecificationsBuilder(YueHeEntitiesEnum entityType) {
         params = new ArrayList<>();
+        this.entityType = entityType;
     }
     public final List<SpecSearchCriteria> getParams()
     {
@@ -57,47 +61,91 @@ public final class YueHeSpecificationsBuilder<T> {
      
         for (int i = 0; i < params.size(); i++) {
             String key = params.get(i).getKey();
-            SaleColumnsEnum columnsNotInSaleTableSearchBy = SaleColumnsEnum.valueOf(StringUtils.remove(key.toUpperCase(),'.'));
-            switch(columnsNotInSaleTableSearchBy){
-                case EMPLOYEENAME:
-                case CLIENTCOSMETICSHOPNAME:
-                case CLIENTNAME:
-                case BEAUTIFYSKINITEMNAME:
-
-                    result = params.get(i).isOrPredicate()
-                    ? Specification.where(result).or(new SaleSpecification<T>(params.get(i))) 
-                    : Specification.where(result).and(new SaleSpecification<T>(params.get(i)));
+            String keyToEntityColumns = StringUtils.remove(key.toUpperCase(),'.');
+            switch(entityType){
+                case SALE:
+                    SaleColumnsEnum saleColumnsEnum = SaleColumnsEnum.valueOf(keyToEntityColumns);
+                    result = getSpecificationResult(saleColumnsEnum, i);
                     break;
-
-
-
-                case DISCOUNT:
-                case UNPAIDAMOUNT:
-                case EARNEDAMOUNT:
-                case UNPAIDEARNEDAMOUNT:
-                   // throw new Exception("cannot search by this column yet!");
-                     break;
-
-                case ID:
-                case CREATECARDDATE:
-                case CREATECARDTOTALAMOUNT:
-                case ITEMNUMBER:
-                case RECEIVEDAMOUNT:
-                case RECEIVEDEARNEDAMOUNT:
-                case EMPLOYEEPREMIUM:
-                case SHOPPREMIUM:
-                case DESCRIPTION:
+                case OPERATION:
+                    OperationColumnsEnum operationColumnsEnum = OperationColumnsEnum.valueOf(keyToEntityColumns);
+                    result = getSpecificationResult(operationColumnsEnum, i);
+                    break;
+                    //add other entity here
                 default:
-                    result = params.get(i).isOrPredicate()
-                    ? Specification.where(result).or(new YueHeSpecification<T>(params.get(i))) 
-                    : Specification.where(result).and(new YueHeSpecification<T>(params.get(i)));
-                    break;
-                  
-            }
+                break;
+           }
+            
         }
         return result;
         
     }
+    private final  Specification<T> getSpecificationResult(SaleColumnsEnum saleColumnsEnum, int paramIndex){
+        Specification<T> result = null;
+        switch(saleColumnsEnum){
+            case EMPLOYEENAME:
+            case CLIENTCOSMETICSHOPNAME:
+            case CLIENTNAME:
+            case BEAUTIFYSKINITEMNAME:
+
+                result = params.get(paramIndex).isOrPredicate()
+                ? Specification.where(result).or(new SaleSpecification<T>(params.get(paramIndex))) 
+                : Specification.where(result).and(new SaleSpecification<T>(params.get(paramIndex)));
+                break;
+
+
+
+            case DISCOUNT:
+            case UNPAIDAMOUNT:
+            case EARNEDAMOUNT:
+            case UNPAIDEARNEDAMOUNT:
+            // throw new Exception("cannot search by this column yet!");
+                break;
+
+            case ID:
+            case CREATECARDDATE:
+            case CREATECARDTOTALAMOUNT:
+            case ITEMNUMBER:
+            case RECEIVEDAMOUNT:
+            case RECEIVEDEARNEDAMOUNT:
+            case EMPLOYEEPREMIUM:
+            case SHOPPREMIUM:
+            case DESCRIPTION:
+            default:
+                result = params.get(paramIndex).isOrPredicate()
+                ? Specification.where(result).or(new YueHeSpecification<T>(params.get(paramIndex))) 
+                : Specification.where(result).and(new YueHeSpecification<T>(params.get(paramIndex)));
+                break;
+            
+        }
+        return result;
+    }
+    private final  Specification<T> getSpecificationResult(OperationColumnsEnum operationColumnsEnum, int paramIndex){
+        Specification<T> result = null;
+        switch(operationColumnsEnum){
+            case EMPLOYEENAME:
+            case TOOLNAME:
+            case OPERATEEXPENSE:
+            case SALEID:
+
+                result = params.get(paramIndex).isOrPredicate()
+                ? Specification.where(result).or(new OperationSpecification<T>(params.get(paramIndex))) 
+                : Specification.where(result).and(new OperationSpecification<T>(params.get(paramIndex)));
+                break;
+
+            case ID:
+            case DESCRIPTION:
+            default:
+                result = params.get(paramIndex).isOrPredicate()
+                ? Specification.where(result).or(new YueHeSpecification<T>(params.get(paramIndex))) 
+                : Specification.where(result).and(new YueHeSpecification<T>(params.get(paramIndex)));
+                break;
+            
+        }
+        return result;
+    }
+
+
 
     public final  YueHeSpecificationsBuilder<T> with(YueHeSpecification<T> spec) {
         params.add(spec.getCriteria());

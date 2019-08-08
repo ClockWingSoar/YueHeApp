@@ -1,4 +1,4 @@
-package com.yuehe.app.yuehecommon;
+package com.yuehe.app.common;
 
 import org.springframework.data.domain.Sort.Direction;
 

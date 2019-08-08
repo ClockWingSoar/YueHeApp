@@ -11,7 +11,7 @@ import com.yuehe.app.entity.CosmeticShop;
 import com.yuehe.app.entity.Employee;
 import com.yuehe.app.entity.Sale;
 import com.yuehe.app.util.search.SpecSearchCriteria;
-import com.yuehe.app.yuehecommon.SaleColumnsEnum;
+import com.yuehe.app.common.SaleColumnsEnum;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -165,6 +165,21 @@ public class SaleSpecification<T> extends YueHeSpecification<T> {
 					predicate =  null;
 					break;
 				}
+				break;
+			case DISCOUNT:
+			case UNPAIDAMOUNT:
+			case EARNEDAMOUNT:
+			case UNPAIDEARNEDAMOUNT:
+			case ID:
+			case CREATECARDDATE:
+			case CREATECARDTOTALAMOUNT:
+			case ITEMNUMBER:
+			case RECEIVEDAMOUNT:
+			case RECEIVEDEARNEDAMOUNT:
+			case EMPLOYEEPREMIUM:
+			case SHOPPREMIUM:
+			case DESCRIPTION:
+			default:
 				break;
 			}
 			return predicate;

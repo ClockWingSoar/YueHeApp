@@ -41,7 +41,8 @@ import com.yuehe.app.property.BaseProperty;
 import com.yuehe.app.repository.SaleRepository;
 import com.yuehe.app.specification.SpecificationsBuilder;
 import com.yuehe.app.util.YueHeUtil;
-import com.yuehe.app.yuehecommon.SaleColumnsEnum;
+import com.yuehe.app.common.SaleColumnsEnum;
+import com.yuehe.app.common.YueHeEntitiesEnum;
 
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -132,7 +133,7 @@ public class SaleService {
 	public Map<String,Object> getSalesDetailListWithPaginationAndSortAndFiltering(int pageNumber, int pageSize,Direction sortDirection,String sortProperty,String searchParameters ) {
 		Pageable pageable = buildPaginationAndSort(pageNumber,pageSize,sortDirection,sortProperty);
 		SpecificationsBuilder<Sale> specificationsBuilder = new SpecificationsBuilder<>();
-		Specification<Sale> spec = specificationsBuilder.resolveSpecification(searchParameters);
+		Specification<Sale> spec = specificationsBuilder.resolveSpecification(searchParameters,YueHeEntitiesEnum.SALE);
 		LOGGER.info("spec {}",spec);
 		// Page<SaleClientItemSellerForDBDTO> saleClientItemSellerForDBDTOPage = saleRepository.fetchSaleClientItemSellerDataWithFiltering(spec,pageable);
 		Page<Sale> salePage = saleRepository.findAll(spec,pageable);

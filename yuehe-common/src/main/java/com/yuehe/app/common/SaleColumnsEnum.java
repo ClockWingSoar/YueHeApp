@@ -1,6 +1,8 @@
-package com.yuehe.app.yuehecommon;
+package com.yuehe.app.common;
 
-public  enum SaleColumnsEnum {
+import com.yuehe.app.interfaces.CustomizedSpecificationRequired;
+
+public enum SaleColumnsEnum implements CustomizedSpecificationRequired {
 
     ID, EMPLOYEENAME, CLIENTCOSMETICSHOPNAME, CLIENTNAME, BEAUTIFYSKINITEMNAME, CREATECARDDATE, CREATECARDTOTALAMOUNT,
     ITEMNUMBER,RECEIVEDAMOUNT, DISCOUNT, UNPAIDAMOUNT, EARNEDAMOUNT, RECEIVEDEARNEDAMOUNT, UNPAIDEARNEDAMOUNT,

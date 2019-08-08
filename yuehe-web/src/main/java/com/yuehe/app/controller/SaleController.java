@@ -28,7 +28,7 @@ import com.yuehe.app.util.IdType;
 import com.yuehe.app.util.ServiceUtil;
 import com.yuehe.app.util.YueHeUtil;
 import com.yuehe.app.view.CsvView;
-import com.yuehe.app.yuehecommon.PaginationAndSortModel;
+import com.yuehe.app.common.PaginationAndSortModel;
 
 import org.apache.commons.lang3.StringUtils;
 // import org.apache.commons.lang3.StringUtils;

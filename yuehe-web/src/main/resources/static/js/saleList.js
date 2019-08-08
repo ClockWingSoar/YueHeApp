@@ -135,7 +135,7 @@ $(function ($) {
 
 					searchParameters +="itemNumber"+itemNumber+",";
 				}else{
-					searchParameters +="itemNumber;"+itemNumber+",";//default to equality
+					searchParameters +="itemNumber:"+itemNumber+",";//default to equality
 				}
 			}
 			if(!isEmpty(createCardTotalAmount)){
@@ -143,7 +143,7 @@ $(function ($) {
 
 					searchParameters +="createCardTotalAmount"+createCardTotalAmount+",";
 				}else{
-					searchParameters +="createCardTotalAmount;"+createCardTotalAmount+",";//default to equality
+					searchParameters +="createCardTotalAmount:"+createCardTotalAmount+",";//default to equality
 				}
 			}
 			if(!isEmpty(receivedAmount)){
@@ -151,7 +151,7 @@ $(function ($) {
 
 					searchParameters +="receivedAmount"+receivedAmount+",";
 				}else{
-					searchParameters +="receivedAmount;"+receivedAmount+",";//default to equality
+					searchParameters +="receivedAmount:"+receivedAmount+",";//default to equality
 				}
 			}
 			if(!isEmpty(receivedEarnedAmount)){
@@ -159,7 +159,7 @@ $(function ($) {
 
 					searchParameters +="receivedEarnedAmount"+receivedEarnedAmount+",";
 				}else{
-					searchParameters +="receivedEarnedAmount;"+receivedEarnedAmount+",";//default to equality
+					searchParameters +="receivedEarnedAmount:"+receivedEarnedAmount+",";//default to equality
 				}
 			}
 			if(!isEmpty(employeePremium)){
@@ -167,7 +167,7 @@ $(function ($) {
 
 					searchParameters +="employeePremium"+employeePremium+",";
 				}else{
-					searchParameters +="employeePremium;"+saleemployeePremiumId+",";//default to equality
+					searchParameters +="employeePremium:"+employeePremium+",";//default to equality
 				}
 			}
 			if(!isEmpty(shopPremium)){
@@ -175,7 +175,7 @@ $(function ($) {
 
 					searchParameters +="shopPremium"+shopPremium+",";
 				}else{
-					searchParameters +="shopPremium;"+shopPremium+",";//default to equality
+					searchParameters +="shopPremium:"+shopPremium+",";//default to equality
 				}
 			}
 			if(!isEmpty(description)){
@@ -192,7 +192,7 @@ $(function ($) {
 
 					searchParameters +="discount"+discount+",";
 				}else{
-					searchParameters +="discount;"+discount+",";//default to equality
+					searchParameters +="discount:"+discount+",";//default to equality
 				}
 			}
 			if(!isEmpty(unpaidAmount)){
@@ -200,7 +200,7 @@ $(function ($) {
 
 					searchParameters +="unpaidAmount"+unpaidAmount+",";
 				}else{
-					searchParameters +="unpaidAmount;"+unpaidAmount+",";//default to equality
+					searchParameters +="unpaidAmount:"+unpaidAmount+",";//default to equality
 				}
 			}
 			if(!isEmpty(earnedAmount)){
@@ -208,7 +208,7 @@ $(function ($) {
 
 					searchParameters +="earnedAmount"+earnedAmount+",";
 				}else{
-					searchParameters +="earnedAmount;"+earnedAmount+",";//default to equality
+					searchParameters +="earnedAmount:"+earnedAmount+",";//default to equality
 				}
 			}
 			if(!isEmpty(unpaidEarnedAmount)){
@@ -216,7 +216,7 @@ $(function ($) {
 
 					searchParameters +="unpaidEarnedAmount"+unpaidEarnedAmount+",";
 				}else{
-					searchParameters +="unpaidEarnedAmount;"+unpaidEarnedAmount+",";//default to equality
+					searchParameters +="unpaidEarnedAmount:"+unpaidEarnedAmount+",";//default to equality
 				}
 			}
 			// alert(searchParameters);
