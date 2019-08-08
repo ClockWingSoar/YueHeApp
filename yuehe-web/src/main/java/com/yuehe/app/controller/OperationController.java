@@ -294,7 +294,7 @@ public class OperationController{
 						            @RequestParam(name = "operatorId", required = false) String operatorId,
 						            @RequestParam(name = "toolId", required = false) String toolId,
 						            @RequestParam(name = "operationDate", required = false) Date operationDate,
-						            @RequestParam(name = "description", required = false) String description
+						            @RequestParam(name = "description", required = false) String description, RedirectAttributes attr
                                        ) 
 	{
         int idNums = operationService.getBiggestIdNumber();
@@ -312,7 +312,7 @@ public class OperationController{
         if (operation != null) {
             LOGGER.info("Saved {}", operationService.create(operation));
         }
-
+		attr.addFlashAttribute("message", "操作记录-" + id + " 创建成功");
         return "redirect:/getOperationList";
     }
 	

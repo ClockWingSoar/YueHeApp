@@ -34,7 +34,7 @@ function getShopAllClientsList(removeFirstOptionFlag) {
     });
 }
 
-function getClientAllSalesList() {
+function getClientAllSalesList(removeFirstOptionFlag) {
 	$.getJSON("http://"+window.location.host+"/getClientAllSalesForFiltering", {
 		clientId : $(this).val(),
 		ajax : 'true'
@@ -50,6 +50,20 @@ function getClientAllSalesList() {
         $('#sale').html(html);
         var saleSelector = document.getElementById("sale");
         $('#sale').removeAttr("data-disabled");
+        if(removeFirstOptionFlag.data){
+          var saleList = Array.from(document.getElementById("sale").querySelectorAll("option"));
+          for(var i = 0; i < saleList.length; i++)
+          {
+              console.log(saleList[i]);
+          }
+          saleList[0].remove();//remove the first option if it's for Sale or Operation New Item page
+          //change the first option if it's for Sale or Operation New Item page
+          var opt = document.createElement("option");
+          opt.value = "";
+          opt.text = "--输入销售卡信息搜索--";
+          opt.selected = true;
+          saleSelector.add(opt,0);
+      }
         saleSelector.fstdropdown.rebind();
         saleSelector.fstdropdown.activated();
 	});

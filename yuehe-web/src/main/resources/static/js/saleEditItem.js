@@ -2,7 +2,7 @@ $(function ($) {
 	var removeFirstOptionFlag = true;
 	$( "#createCardDate" ).datepicker();
 	$('#cosmeticShop').change(removeFirstOptionFlag,getShopAllClientsList);
-	$('#client').change(getClientAllSalesList);
+	$('#client').change(removeFirstOptionFlag,getClientAllSalesList);
 	$(document).ready(function(){
 		var shopList = Array.from(document.getElementById("cosmeticShop").querySelectorAll("option"));
 		var beautifySkinItemList = Array.from(document.getElementById("beautifySkinItem").querySelectorAll("option"));
