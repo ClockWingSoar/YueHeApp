@@ -238,6 +238,9 @@ function filterTable(table, filter, index) {
               operator: {
                 required: true,
               },
+              tool: {
+                required: true,
+              },
               
               operationDate: {
                 required: true,
@@ -263,6 +266,9 @@ function filterTable(table, filter, index) {
               },
               operator: {
                 required: "请选择操作医生的名字",
+              },
+              tool: {
+                required: "请选择操作仪器",
               },
               description: {
                 maxlength: "备注不能超过100个字符"
