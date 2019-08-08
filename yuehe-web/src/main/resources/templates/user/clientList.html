@@ -1,0 +1,70 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<title>客户表</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<link rel="stylesheet" th:href="@{/css/core.css}">
+	<link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+	<script type="text/javascript" th:src="@{/js/jquery.min.js}"></script>
+	<script type="text/javascript" th:src="@{/js/bootstrap.min.js}"></script>
+	<script type="text/javascript" th:src="@{/js/clientList.js}"></script>
+	<script type="text/javascript" th:src="@{/js/yueheCommon.js}"></script>
+	<!-- <meta http-equiv="refresh" content="600; URL=/"> this will redirect to / after 600s-->
+</head>
+
+<body>
+	<div th:replace="fragments/header.html :: header">Header</div>
+	<div th:replace="~{fragments/alert.html :: alert}">alert div</div>
+	<div role="main" class="container">
+		<div class="panel panel-default">
+			<div class="panel-heading" style="padding-bottom: 0px;padding-top: 0px;">
+				<div class="form-group  row " style="margin-bottom: 0px;">
+					<div class="col-md-11">
+						<h3>以下为现有的客户:</h3>
+					</div>
+
+					<div class="col-md-1">
+						<h3><button id="client_csv_export" type="submit" class="btn btn-primary">导出csv</button></h3>
+					</div>
+				</div>
+				<div class="panel-body table-wrapper-scroll-y my-custom-scrollbar">
+					<table class="table tableList table-hover  table-sm  ">
+						<thead class="thead-dark">
+							<tr class="info">
+								<th data-sort-prop="id">ID</th>
+								<th data-sort-prop="name">姓名</th>
+								<th data-sort-prop="cosemticShop.name">美容院</th>
+								<th data-sort-prop="age">年龄</th>
+								<th data-sort-prop="gender">性别</th>
+								<th data-sort-prop="symptom">症状</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td><input class="yuehe-filter-Input" id="id" placeholder="搜ID"></td>
+								<td><input class="yuehe-filter-Input" id="name" placeholder="搜客户姓名"></td>
+								<td><input class="yuehe-filter-Input" id="cosemticShop_name" placeholder="搜美容院"></td>
+								<td><input class="yuehe-filter-Input" id="age" placeholder="搜年龄"></td>
+								<td><input class="yuehe-filter-Input" id="gender" placeholder="搜性别"></td>
+								<td><input class="yuehe-filter-Input" id="symptom" placeholder="搜皮肤症状"></td>
+							</tr>
+							<tr data-th-each="client : ${clientList}">
+								<td data-th-text="${client.clientId}">...</td>
+								<td data-th-text="${client.clientName}">...</td>
+								<td data-th-text="${client.cosmeticShop.name}">...</td>
+								<td data-th-text="${client.clientAge}">...</td>
+								<td data-th-text="${client.clientGender}">...</td>
+								<td data-th-text="${client.clientSymptom}">...</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+
+			<div th:replace="fragments/footer.html :: footer">footer</div>
+		</div>
+</body>
+
+</html>

@@ -20,10 +20,7 @@
 
 	<div role="main" class="container">
 		<div th:replace="~{fragments/operationHeader.html :: header}">Operation Header</div>
-		<div th:classappend="${message != null ? 'alert alert-success alert-dismissible' : 'hidden'}">
-			<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-			<span class="yuehe-alert" th:text="${message}"></span>
-		</div>
+		<div th:replace="~{fragments/alert.html :: alert}">alert div</div>
 		<div class="panel panel-default">
 			<div class="panel-heading" style="padding-bottom: 0px;padding-top: 0px;">
 				<div class="form-group  row " style="margin-bottom: 0px;">
