@@ -215,5 +215,13 @@ public class ClientController {
 		attr.addFlashAttribute("message", "客户-" + id + " 创建成功");
 		return "redirect:/getClientList";
 	}
+	@GetMapping("/getClientSummary")
+	public  String clientSummary(Model model){
+		List<CosmeticShop> cosmeticShopList =  yueHeCommonService.getAllCosmeticShops();
+		model.addAttribute("cosmeticShopList", cosmeticShopList);
+		model.addAttribute("subModule", "clientSummary");
+		return "user/clientSummary.html";
+	}
+	
 
 }

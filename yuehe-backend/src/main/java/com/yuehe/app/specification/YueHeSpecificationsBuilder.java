@@ -66,15 +66,15 @@ public final class YueHeSpecificationsBuilder<T> {
             switch(entityType){
                 case SALE:
                     SaleColumnsEnum saleColumnsEnum = SaleColumnsEnum.valueOf(keyToEntityColumns);
-                    result = getSpecificationResult(saleColumnsEnum, i);
+                    result = getSpecificationResult(saleColumnsEnum, i, result);
                     break;
                 case OPERATION:
                     OperationColumnsEnum operationColumnsEnum = OperationColumnsEnum.valueOf(keyToEntityColumns);
-                    result = getSpecificationResult(operationColumnsEnum, i);
+                    result = getSpecificationResult(operationColumnsEnum, i, result);
                     break;
                 case CLIENT:
                     ClientColumnsEnum clientColumnsEnum = ClientColumnsEnum.valueOf(keyToEntityColumns);
-                    result = getSpecificationResult(clientColumnsEnum, i);
+                    result = getSpecificationResult(clientColumnsEnum, i, result);
                     break;
                     //add other entity here
                 default:
@@ -85,8 +85,7 @@ public final class YueHeSpecificationsBuilder<T> {
         return result;
         
     }
-    private final  Specification<T> getSpecificationResult(SaleColumnsEnum saleColumnsEnum, int paramIndex){
-        Specification<T> result = null;
+    private final  Specification<T> getSpecificationResult(SaleColumnsEnum saleColumnsEnum, int paramIndex, Specification<T> result){
         switch(saleColumnsEnum){
             case EMPLOYEENAME:
             case CLIENTCOSMETICSHOPNAME:
@@ -125,8 +124,7 @@ public final class YueHeSpecificationsBuilder<T> {
         }
         return result;
     }
-    private final  Specification<T> getSpecificationResult(OperationColumnsEnum operationColumnsEnum, int paramIndex){
-        Specification<T> result = null;
+    private final  Specification<T> getSpecificationResult(OperationColumnsEnum operationColumnsEnum, int paramIndex, Specification<T> result){
         switch(operationColumnsEnum){
             case EMPLOYEENAME:
             case TOOLNAME:
@@ -149,8 +147,7 @@ public final class YueHeSpecificationsBuilder<T> {
         }
         return result;
     }
-    private final  Specification<T> getSpecificationResult(ClientColumnsEnum clientColumnsEnum, int paramIndex){
-        Specification<T> result = null;
+    private final  Specification<T> getSpecificationResult(ClientColumnsEnum clientColumnsEnum, int paramIndex, Specification<T> result){
         switch(clientColumnsEnum){
             case COSMETICSHOPNAME:
 
