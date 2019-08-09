@@ -56,7 +56,7 @@ $(function ($) {
 			 var searchParameters = "";
 			if(event.which == 13) {
 				searchParameters = getCurrentFilterArray();
-				window.location.href = '/sales/search'+'?page='+currentPage+'&size='+pageSize+
+				window.location.href = '/sales/search'+'?page=0&size='+pageSize+
 					'&sort='+ sortProperty+','+ ((sortDirectionFlag=="false")?'asc':'desc')+'&searchParameters='+ searchParameters;
 			}
 		});
