@@ -1,119 +1,138 @@
 <!DOCTYPE HTML>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
+
 <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>编辑客户</title>
-	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-       <link rel="stylesheet" th:href="@{/css/core.css}">
-       <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
-        <script type="text/javascript"  th:src="@{/js/jquery.min.js}"></script>
-           <script type="text/javascript"  th:src="@{/js/bootstrap.min.js}"></script>
-		   <script type="text/javascript" th:src="@{/js/clientNewItem.js}"></script>
-		   <script type="text/javascript" th:src="@{/js/yueheCommon.js}"></script>
-		   <script type="text/javascript" th:src="@{/js/fstdropdown.js}"></script>
-		   <script type="text/javascript" th:src="@{/js/jquery.validate.js}"></script>
-		   <script type="text/javascript" th:src="@{/js/additional-methods.js}"></script>
-			  
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<title>编辑客户</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<link rel="stylesheet" th:href="@{/css/core.css}">
+	<link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+	<link rel="stylesheet" th:href="@{/css/fstdropdown.css}">
+	<script type="text/javascript" th:src="@{/js/jquery.min.js}"></script>
+	<script type="text/javascript" th:src="@{/js/bootstrap.min.js}"></script>
+	<script type="text/javascript" th:src="@{/js/clientEditItem.js}"></script>
+	<script type="text/javascript" th:src="@{/js/yueHeCommon.js}"></script>
+	<script type="text/javascript" th:src="@{/js/fstdropdown.js}"></script>
+	<script type="text/javascript" th:src="@{/js/jquery.validate.js}"></script>
+	<script type="text/javascript" th:src="@{/js/additional-methods.js}"></script>
+
 	<!-- <meta http-equiv="refresh" content="600; URL=/"> this will redirect to / after 600s-->
 </head>
 
 <body>
-<div th:replace="fragments/header.html :: header">Header</div>
+	<div th:replace="fragments/header.html :: header">Header</div>
 
-<div role="main" class="container">
+	<div role="main" class="container">
 		<div th:replace="~{fragments/clientHeader.html :: header}">Client Header</div>
 
-	<div class="panel panel-default">
-			   <div class="panel-heading"><h3>编辑客户信息</h3></div>
-			   <div class="yuehe-form-group">
-             <div class="form-group">
-			    <form id="client_edit_item" action="#" th:action="@{/client/update/{id}(id=${client.id})}"  method="POST">
-				<br>
-				<input type="hidden" id="clientId" th:value="${client.id}">
-			     <div class="form-group  row ">
-               		<div class="col-md-1"> 
-			            <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i>客户名称</span> 
-		            </div>
-				    
-					<div class="col-xs-3">   
-		                <input id="name" name="name" type=text  th:field="*{client.name}" class="form-control input-sm" ></input>
-	                 </div>
-					<div class="col-xs-6"> 
-	                <span class="help-block">一般指各项美肤疗程和项目，如表皮斑，真皮斑，混合斑，代谢，也可以包括产品面膜等</span>
-		            </div>
-	            </div>
-                <div class="form-group  row ">
-               		<div class="col-md-1"> 
-               			<span class="input-group-addon"><i class="glyphicon glyphicon-user"></i>美容院</span> 
-               		</div>
-				    
-					<div class="col-xs-3">    
-						<select   class="fstdropdown-select"  th:field="*{client.cosmeticShop.id}" data-placeholder="请输入美容院名搜索"  name="cosmeticShopId" id="cosmeticShop">
-					      <option selected="selected" value="all"> --请选择美容院 --
-					      </option>
-					      <option th:each="cosmeticShop : ${cosmeticShopList}" th:value="${cosmeticShop.id}" 
-					       th:text="${cosmeticShop.name}" >
-					      </option>
-					    </select>
-				    </div>
-					<div class="col-xs-6"> 
-					  <span class="help-block">不同美容院可能存在客户同名的情况，所以需要填写清楚</span>
-					</div>
-				  </div>
-			     <div class="form-group  row ">
-               		<div class="col-md-1"> 
-			            <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i>年龄</span> 
-			         </div>
-				    
-					<div class="col-xs-3">    
-		                <input id="age" name="age" type=text th:field="*{client.age}" class="form-control input-sm" ></input>
-		            </div>
-		            <div class="col-xs-6"> 
-	                <span class="help-block">客户年龄，方便了解客户的皮肤情况</span>
-	                </div>
-	                       
-	             </div>
-	                
-			      <div class="form-group  row ">
-               		<div class="col-md-1"> 
-			            <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i>性别</span> 
-			        </div>
-					<div class="col-xs-3">  
-		                <input id="gender" name="gender" th:field="*{client.gender}" type=text class="form-control input-sm" ></input>
-                    </div>
-		            <div class="col-xs-6"> 
-	                	<span class="help-block">大部分情况下为女性，少数为男性</span>
-		            </div>
-		           </div>
-			       <div class="form-group  row ">
-               		<div class="col-md-1"> 
-			            <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i>症状</span> 
-			              </div>
-					<div class="col-xs-3"> 
-		                <input id="symptom" name="symptom" th:field="*{client.symptom}" type=text class="form-control input-sm" ></input>
-		                 </div>
-		            <div class="col-xs-6"> 
-	                <span class="help-block">了解清楚客户之前的情况，用过什么产品，做过什么治疗，现在皮肤的问题</span>
-		            </div>
-		            </div>
-			        <br>
-			           <div class="form-group  row ">
-		            <div class="content">
-						<div class="content">
-							<div class="input-group col-xs-1">
-									<input type="submit" class="btn-primary  btn-lg" name="operationUpdateItem" value="更新"/>
-								</div>
-								<div class="input-group col-xs-1">
-									<input id="client_delete_btn" type="submit" name="operationDeleteItem" class="btn-primary  btn-lg" value="删除"/>
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h3>编辑客户信息</h3>
+			</div>
+			<div class="yuehe-form-group">
+				<div class="form-group">
+					<form id="client_edit_item" action="#" th:action="@{/client/update/{id}(id=${client.id})}"
+						method="POST">
+						<br>
+						<input type="hidden" id="clientId" th:value="${client.id}">
+						<div class="form-group  row ">
+							<div class="col-md-1">
+								<span class="input-group-addon"><i class="glyphicon glyphicon-user"></i>客户名称</span>
+							</div>
+
+							<div class="col-xs-3">
+								<input id="name" name="name" type=text th:field="*{client.name}"
+									class="form-control input-sm"></input>
+							</div>
+							<div class="col-xs-6">
+								<span class="help-block">一般指各项美肤疗程和项目，如表皮斑，真皮斑，混合斑，代谢，也可以包括产品面膜等</span>
 							</div>
 						</div>
-		            </div>
-		            </div>
-			    </form>
+						<div class="form-group  row ">
+							<div class="col-md-1">
+								<span class="input-group-addon"><i class="glyphicon glyphicon-user"></i>美容院</span>
+							</div>
+
+							<div class="col-xs-3">
+								<select class="fstdropdown-select" th:field="*{client.cosmeticShop.id}"
+									data-placeholder="请输入美容院名搜索" name="cosmeticShopId" id="cosmeticShop">
+									<option selected="selected" value="all"> --请选择美容院 --
+									</option>
+									<option th:each="cosmeticShop : ${cosmeticShopList}" th:value="${cosmeticShop.id}"
+										th:text="${cosmeticShop.name}">
+									</option>
+								</select>
+							</div>
+							<div class="col-xs-6">
+								<span class="help-block">不同美容院可能存在客户同名的情况，所以需要填写清楚</span>
+							</div>
+						</div>
+						<div class="form-group  row ">
+							<div class="col-md-1">
+								<span class="input-group-addon"><i class="glyphicon glyphicon-user"></i>年龄</span>
+							</div>
+
+							<div class="col-xs-3">
+								<input id="age" name="age" type=text th:field="*{client.age}"
+									class="form-control input-sm"></input>
+							</div>
+							<div class="col-xs-6">
+								<span class="help-block">客户年龄，方便了解客户的皮肤情况</span>
+							</div>
+
+						</div>
+
+						<div class="form-group  row ">
+							<div class="col-md-1">
+								<span class="input-group-addon"><i class="glyphicon glyphicon-user"></i>性别</span>
+							</div>
+							<div class="col-xs-3">
+									<select  class="form-control input-sm"  th:field="*{client.gender}"
+									name="gender" id="gender">
+									<option selected="selected" value=""> --请选择性别 --
+									</option>
+									<option value="female">女性</option>
+									<option value="male">男性</option>
+								</select>
+								<!-- <input id="gender" name="gender" th:field="*{client.gender}" type=text
+									class="form-control input-sm"></input> -->
+							</div>
+							<div class="col-xs-6">
+								<span class="help-block">大部分情况下为女性，少数为男性</span>
+							</div>
+						</div>
+						<div class="form-group  row ">
+							<div class="col-md-1">
+								<span class="input-group-addon"><i class="glyphicon glyphicon-user"></i>症状</span>
+							</div>
+							<div class="col-xs-3">
+								<input id="symptom" name="symptom" th:field="*{client.symptom}" type=text
+									class="form-control input-sm"></input>
+							</div>
+							<div class="col-xs-6">
+								<span class="help-block">了解清楚客户之前的情况，用过什么产品，做过什么治疗，现在皮肤的问题</span>
+							</div>
+						</div>
+						<br>
+						<div class="form-group  row ">
+							<div class="content">
+								<div class="content">
+									<div class="input-group col-xs-1">
+										<input type="submit" class="btn-primary  btn-lg" name="operationUpdateItem"
+											value="更新" />
+									</div>
+									<div class="input-group col-xs-1">
+										<input id="client_delete_btn" type="submit" name="operationDeleteItem"
+											class="btn-primary  btn-lg" value="删除" />
+									</div>
+								</div>
+							</div>
+						</div>
+					</form>
 				</div>
 			</div>
-			  </div>
-	   <div th:replace="fragments/footer.html :: footer">footer</div>
+		</div>
+		<div th:replace="fragments/footer.html :: footer">footer</div>
 	</div>
 </body>
 

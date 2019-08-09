@@ -105,11 +105,17 @@ $(function ($) {
 				
 			}
 			if(!isEmpty(gender)){
+				if (gender.includes("男")){
+					gender = "male";
+				}
+				if (gender.includes("女")){
+					gender = "female";
+				}
 				if(regex.test(gender)){
 
 					searchParameters +="gender"+gender+",";
 				}else{
-					searchParameters +="gender;"+gender+",";//default to equality
+					searchParameters +="gender:"+gender+",";//default to equality
 				}
 			}
 			if(!isEmpty(symptom)){

@@ -10,14 +10,15 @@
 	<script type="text/javascript" th:src="@{/js/jquery.min.js}"></script>
 	<script type="text/javascript" th:src="@{/js/bootstrap.min.js}"></script>
 	<script type="text/javascript" th:src="@{/js/clientList.js}"></script>
-	<script type="text/javascript" th:src="@{/js/yueheCommon.js}"></script>
+	<script type="text/javascript" th:src="@{/js/yueHeCommon.js}"></script>
 	<!-- <meta http-equiv="refresh" content="600; URL=/"> this will redirect to / after 600s-->
 </head>
 
 <body>
 	<div th:replace="fragments/header.html :: header">Header</div>
-	<div th:replace="~{fragments/alert.html :: alert}">alert div</div>
 	<div role="main" class="container">
+		<div th:replace="~{fragments/clientHeader.html :: header}">Client Header</div>
+		<div th:replace="~{fragments/alert.html :: alert}">alert div</div>
 		<div class="panel panel-default">
 			<div class="panel-heading" style="padding-bottom: 0px;padding-top: 0px;">
 				<div class="form-group  row " style="margin-bottom: 0px;">
@@ -29,48 +30,54 @@
 						<h3><button id="client_csv_export" type="submit" class="btn btn-primary">导出csv</button></h3>
 					</div>
 				</div>
-				<div class="panel-body table-wrapper-scroll-y my-custom-scrollbar">
-					<table id="clientRecordList" class="table tableList table-hover  table-sm  ">
-						<thead class="thead-dark">
-							<tr class="info">
-								<th data-sort-prop="id">ID</th>
-								<th data-sort-prop="name">姓名</th>
-								<th data-sort-prop="cosemticShop.name">美容院</th>
-								<th data-sort-prop="age">年龄</th>
-								<th data-sort-prop="gender">性别</th>
-								<th data-sort-prop="symptom">症状</th>
-							</tr>
-						</thead>
-						<tbody>
-							<tr>
-								<td><input class="yuehe-filter-Input" id="id" placeholder="搜ID"></td>
-								<td><input class="yuehe-filter-Input" id="name" placeholder="搜客户姓名"></td>
-								<td><input class="yuehe-filter-Input" id="cosemticShop_name" placeholder="搜美容院"></td>
-								<td><input class="yuehe-filter-Input" id="age" placeholder="搜年龄"></td>
-								<td><input class="yuehe-filter-Input" id="gender" placeholder="搜性别"></td>
-								<td><input class="yuehe-filter-Input" id="symptom" placeholder="搜皮肤症状"></td>
-							</tr>
-							<tr class="clickable-row"  data-th-each="client : ${clientList}">
-								<td data-th-text="${client.clientId}">...</td>
-								<td data-th-text="${client.clientName}">...</td>
-								<td data-th-text="${client.cosmeticShop.name}">...</td>
-								<td data-th-text="${client.clientAge}">...</td>
-								<td data-th-text="${client.clientGender}">...</td>
-								<td data-th-text="${client.clientSymptom}">...</td>
-							</tr>
-						</tbody>
-					</table>
-				</div>
+			</div>
+			<div class="panel-body table-wrapper-scroll-y my-custom-scrollbar">
+				<table id="clientRecordList" class="table tableList table-hover  table-sm  ">
+					<thead class="thead-dark">
+						<tr class="info">
+							<th data-sort-prop="id">ID</th>
+							<th data-sort-prop="name">姓名</th>
+							<th data-sort-prop="cosmeticShop.name">美容院</th>
+							<th data-sort-prop="age">年龄</th>
+							<th data-sort-prop="gender">性别</th>
+							<th data-sort-prop="symptom">症状</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td><input class="yuehe-filter-Input" id="id" placeholder="搜ID"></td>
+							<td><input class="yuehe-filter-Input" id="name" placeholder="搜客户姓名"></td>
+							<td><input class="yuehe-filter-Input" id="cosmeticShop_name" placeholder="搜美容院"></td>
+							<td><input class="yuehe-filter-Input" id="age" placeholder="搜年龄"></td>
+							<td><input class="yuehe-filter-Input" id="gender" placeholder="搜性别"></td>
+							<td><input class="yuehe-filter-Input" id="symptom" placeholder="搜皮肤症状"></td>
+						</tr>
+						<tr class="clickable-row" data-th-each="client : ${clientList}">
+							<td data-th-text="${client.id}">...</td>
+							<td data-th-text="${client.name}">...</td>
+							<td data-th-text="${client.cosmeticShop.name}">...</td>
+							<td data-th-text="${client.age}">...</td>
+							<!-- <td data-th-text="${client.gender}">...</td> -->
+							<td  th:if="${client.gender} == female">女性</td>
+							<td  th:if="${client.gender} == male">男性</td>
+							<td data-th-text="${client.symptom}">...</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
 			<input id="clientPageNumber" type="hidden" th:value="${clientPage.number}">
 			<input id="clientPageSize" type="hidden" th:value="${clientPage.size}">
 			<input id="sortProperty" type="hidden" th:value="${sortProperty}">
 			<input id="sortDirectionFlag" type="hidden" th:value="${sortDirectionFlag}">
 			<input id="searchParameters" type="hidden" th:value="${searchParameters}">
 			<!-- using th:with to declare a local variable for sorting query param -->
-			<ul  id="client_list_pagination" class="pagination pull-right" th:with="sortParam=${sortProperty+','+(sortDirectionFlag?'desc':'asc')}">
+			<ul id="client_list_pagination" class="pagination pull-right"
+				th:with="sortParam=${sortProperty+','+(sortDirectionFlag?'desc':'asc')}">
 				<li th:if="${clientPage.hasPrevious()}">
-					<a th:if="${searchParameters} == null" th:href="@{/getClientList(page=${clientPage.number-1},size=${clientPage.size},sort=${sortParam})}">上一页</a>
-					<a th:if="${searchParameters} != null" th:href="@{/clients/search/(page=${clientPage.number-1},size=${clientPage.size},sort=${sortParam},searchParameters=${searchParameters})}">上一页</a>
+					<a th:if="${searchParameters} == null"
+						th:href="@{/getClientList(page=${clientPage.number-1},size=${clientPage.size},sort=${sortParam})}">上一页</a>
+					<a th:if="${searchParameters} != null"
+						th:href="@{/clients/search/(page=${clientPage.number-1},size=${clientPage.size},sort=${sortParam},searchParameters=${searchParameters})}">上一页</a>
 				</li>
 				<th:block th:each="i: ${#numbers.sequence(0, clientPage.totalPages - 1)}">
 					<li th:if="${clientPage.number == i}" class="active"><a href="#" >[[${i}+1]]</a></li>

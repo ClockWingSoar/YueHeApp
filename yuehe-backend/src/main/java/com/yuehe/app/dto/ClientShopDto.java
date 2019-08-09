@@ -1,5 +1,7 @@
 package com.yuehe.app.dto;
 
+import com.yuehe.app.interfaces.Downloadable;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -17,12 +19,12 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class ClientShopDTO {
-	private String clientId;
-	private String clientName;
+public class ClientShopDTO implements Downloadable{
+	private String id;
+	private String name;
 	private String cosmeticShopName;
-	private int clientAge;
-	private String clientGender;
-	private String clientSymptom;
+	private int age;
+	private String gender;
+	private String symptom;
 
 }

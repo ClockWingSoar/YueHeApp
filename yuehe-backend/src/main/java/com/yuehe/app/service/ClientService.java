@@ -142,6 +142,14 @@ public class ClientService {
 			clientShopDTOList = clientRepository.fetchClientShopDataListForDownload();
 
 		}
+		for (ClientShopDTO clientShopDTO : clientShopDTOList) {
+			String gender = clientShopDTO.getGender();
+			if(gender.equals("female"))
+				clientShopDTO.setGender("女性");
+			else
+				clientShopDTO.setGender("男性");
+
+		}
 		clientMap.put("csvObjList",clientShopDTOList);
 		clientMap.put("sortOrders", sortOrders);
 		return clientMap;
