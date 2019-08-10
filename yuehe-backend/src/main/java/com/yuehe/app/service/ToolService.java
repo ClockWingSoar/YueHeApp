@@ -51,12 +51,15 @@ public class ToolService {
     }
 
     public Tool getById(String id) {
-        return toolRepository.findById(id);
+        return toolRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid client Id:" + id));
     }
 
     public Tool getToolByName(String name) {
         return toolRepository.findByName(name);
     }
+    public void deleteById(String id) {
+		toolRepository.deleteById(id);
+   }
 
     @Transactional(rollbackFor = Exception.class)
     public List<Tool> saveAll(List<Tool> tool) {

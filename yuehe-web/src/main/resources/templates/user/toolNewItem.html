@@ -1,0 +1,133 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<title>仪器表</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<link rel="stylesheet" th:href="@{/css/core.css}">
+	<link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+	<script type="text/javascript" th:src="@{/js/jquery.min.js}"></script>
+	<script type="text/javascript" th:src="@{/js/bootstrap.min.js}"></script>
+	<script type="text/javascript" th:src="@{/js/toolNewItem.js}"></script>
+	<script type="text/javascript" th:src="@{/js/jquery.validate.js}"></script>
+	<script type="text/javascript" th:src="@{/js/additional-methods.js}"></script>
+	<script type="text/javascript" th:src="@{/js/yueHeCommon.js}"></script>
+	<!-- <meta http-equiv="refresh" content="600; URL=/">  this will redirect to / after 600s-->
+
+</head>
+
+<body>
+	<div th:replace="~{fragments/header.html :: header}">Header</div>
+
+	<div role="main" class="container">
+		<div th:replace="~{fragments/toolHeader.html :: header}">Tool Header</div>
+	
+	<div class="panel panel-default">
+		<div class="panel-heading"> <h3>创建新的仪器</h3>
+		</div>
+		<div class="yuehe-form-group">
+           <div class="form-group">
+			    <form id="tool_new_item" th:action="@{/createTool}"  method="POST">
+					<br>
+					<div class="form-group  row ">
+						<div class="col-md-1">
+							<span class="input-group-addon"><i class="glyphicon glyphicon-plus"></i>仪器名称</span> 
+						</div>
+						<div class="col-xs-3">
+							<input id="name" name="name" type=text class="form-control input-sm" ></input>
+						</div>
+						<div class="col-xs-6">
+						<span class="help-block">可以指各种光美肤仪器，也可以指产品比如面膜，花青素等</span>
+						</div>
+					</div>
+					<div class="form-group  row ">
+						<div class="col-md-1">
+							<span class="input-group-addon"><i class="glyphicon glyphicon-plus"></i>主治</span> 
+						</div>
+
+						<div class="col-xs-3">
+							<input id="major" name="major" type=text class="form-control input-sm" ></input>
+						</div>
+						<div class="col-xs-6">
+							<span class="help-block">可以治疗的皮肤问题及主治方向</span>
+						</div>
+					</div>
+			    
+					<div class="form-group  row ">
+						<div class="col-md-1">
+							<span class="input-group-addon"><i class="glyphicon glyphicon-plus"></i>价格</span> 
+						</div>
+
+						<div class="col-xs-3">
+							<input id="price" name="price" type=text class="form-control input-sm" ></input>
+						</div>
+						<div class="col-xs-6">
+							<span class="help-block">仪器购买的价格留作参考或者用于计算每年的仪器耗损费用</span>
+						</div>
+					</div>
+
+					<div class="form-group  row ">
+						<div class="col-md-1">
+							<span class="input-group-addon"><i class="glyphicon glyphicon-plus"></i>购买日期</span> 
+						</div>
+						<div class="col-xs-3">
+							<input id="buyDate" name="buyDate" type=text class="form-control input-sm" ></input>
+						</div>
+						<div class="col-xs-6">
+							<span class="help-block">购买的时间，方便计算折旧费</span>
+						</div>
+					</div>
+				<div class="form-group  row ">
+					<div class="col-md-1">
+						<span class="input-group-addon"><i class="glyphicon glyphicon-plus"></i> 购买厂家</span> 
+					</div>
+					<div class="col-xs-3">
+						<input id="buyFrom" name="buyFrom" type=text class="form-control input-sm" ></input>
+					</div>
+					<div class="col-xs-6">
+						<span class="help-block">大部分仪器和产品都来自广州</span>
+					</div>
+				</div>
+				<div class="form-group  row ">
+					<div class="col-md-1">
+						<span class="input-group-addon"><i class="glyphicon glyphicon-plus"></i> 操作费用</span> 
+					</div>
+					<div class="col-xs-3">
+		                <input id="operateExpense" name="operateExpense" type=text class="form-control input-sm" ></input>
+					</div>
+					<div class="col-xs-6">
+						<span class="help-block">这个可以用来计算操作医生的操作费用，现在暂时不计算</span>
+					</div>
+				</div>
+				<div class="form-group  row ">
+					<div class="col-md-1">
+						<span class="input-group-addon"><i class="glyphicon glyphicon-plus"></i> 备注</span> 
+					</div>
+					<div class="col-xs-3">
+		                <input id="description" name="description" type=text class="form-control input-sm" ></input>
+					</div>
+					
+					<div class="col-xs-6">
+						<span class="help-block">其他信息</span>
+					</div>
+				</div>
+				<br>
+				<div class="form-group  row ">
+					<div class="content">
+						<div class="input-group col-xs-4">
+							<input type="submit" class="btn-primary  btn-lg" value="提交"/>
+						</div>
+					</div>
+				</div>
+			</form>
+			</div>
+		</div>
+	</div>
+				
+		</div>
+	<div th:replace="~{fragments/footer.html :: footer}">footer</div>
+<!-- /.container -->
+</div>
+</body>
+</html>

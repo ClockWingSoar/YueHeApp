@@ -1,4 +1,6 @@
 package com.yuehe.app.controller;
+
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -241,7 +243,11 @@ public class OperationController{
 			return "user/operationEditItem.html";
 		}
 		LOGGER.debug("update operation:", operation);
-
+		try {
+			operation.setOperationDate(simpleDateFormat.format(simpleDateFormat.parse(operation.getOperationDate())));
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
 		if (operation != null) {
 			LOGGER.info("updated {}", operationService.create(operation));
 		}

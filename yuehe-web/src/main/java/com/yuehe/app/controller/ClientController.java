@@ -1,6 +1,5 @@
 package com.yuehe.app.controller;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -10,7 +9,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 import com.yuehe.app.common.PaginationAndSortModel;
-import com.yuehe.app.dto.ClientShopDTO;
 import com.yuehe.app.dto.DutyEmployeeRoleDTO;
 import com.yuehe.app.entity.Client;
 import com.yuehe.app.entity.CosmeticShop;
@@ -197,7 +195,8 @@ public class ClientController {
 			@RequestParam(name = "cosmeticShopId", required = false) String cosmeticShopId,
 			@RequestParam(name = "age", required = false) int age,
 			@RequestParam(name = "gender", required = false) String gender,
-			@RequestParam(name = "symptom", required = false) String symptom, RedirectAttributes attr) {
+			@RequestParam(name = "symptom", required = false) String symptom, 
+			RedirectAttributes attr) {
 		int idNums = clientService.getBiggestIdNumber();
 		String id = YueHeUtil.getId(IdType.CLIENT, idNums);
 		Client client = new Client();

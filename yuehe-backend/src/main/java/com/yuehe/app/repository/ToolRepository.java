@@ -26,10 +26,9 @@ import org.springframework.data.jpa.repository.Query;
 /**
  * @author Soveran Zhong
  */
-public interface ToolRepository extends JpaRepository<Tool, Long> {
+public interface ToolRepository extends JpaRepository<Tool, String> {
 
     Tool findByName(String name);
-    Tool findById(String id);
 
     /**
 	 * get all the ids from table tool 

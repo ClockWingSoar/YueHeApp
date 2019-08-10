@@ -104,7 +104,7 @@ public class YueHeUtil {
 
 	/**
 	 * 
-	 * 生成游戏批次号工具类
+	 * 生成游戏批次号仪器类
 	 */
 	public static String bacthNo() {
 		Date nowTime = new Date();

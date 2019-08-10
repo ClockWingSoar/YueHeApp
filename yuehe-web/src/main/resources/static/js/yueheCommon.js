@@ -328,3 +328,63 @@ function filterTable(table, filter, index) {
           // 	form.submit();
           //   }
     }
+//common validator for operationNewItem and operationEditItem page
+    var toolItemValidtor= {
+            rules: {
+              name: {
+                required: true,
+              },
+              major : {
+                required: true,
+              },
+             
+              price: {
+                required: true,
+                number: true,
+                min: 0,
+              },
+              buyDate: {
+                required: true,
+              },
+              
+              buyFrom: {
+                required: true,
+              },
+              operateExpense: {
+                required: true,
+              },
+              description: {
+                maxlength: 100,
+              },
+              
+            },
+            messages : {
+              name: {
+                required: "请输入仪器名称",
+              },
+              major: {
+                required: "请输入仪器主治方向",
+              },
+              price: {
+                required: "请输入仪器购买价格",
+                number: "仅允许输入数字,禁止输入字母或空格",
+                min: "价格应该大于0",
+              },
+              buyDate: {
+                required: "请输入购买日期",
+              //   dateISO:"请输入正确的日期格式"
+              },
+              buyFrom: {
+                required: "请输入购买厂家",
+              },
+              operateExpense: {
+                required: "请输入操作费用",
+              },
+              description: {
+                maxlength: "备注不能超过100个字符"
+              }
+            }, 
+          //   submitHandler: function(form) {
+          // 	form.submit();
+          //   }
+    }

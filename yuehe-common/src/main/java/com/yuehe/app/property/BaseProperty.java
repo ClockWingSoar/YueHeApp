@@ -21,7 +21,7 @@ public interface BaseProperty {
     
     public static final String ID_TYPE_PREFIX_SALE = "xs";//销售 - xiao shou - xs
     public static final String ID_TYPE_PREFIX_OPERATION = "cz";//操作 - cao zuo - cz
-    public static final String ID_TYPE_PREFIX_TOOL = "gj";//工具 - gong ju - gj
+    public static final String ID_TYPE_PREFIX_TOOL = "gj";//仪器 - gong ju - gj
     public static final String ID_TYPE_PREFIX_CLIENT = "kh";//客户 - ke hu - kh
     public static final String ID_TYPE_PREFIX_COSMETICSHOP = "mr";//美容(院) - mei rong - mr
     public static final String ID_TYPE_PREFIX_EMPLOYEE = "yg";//员工 - yuan gong - yg

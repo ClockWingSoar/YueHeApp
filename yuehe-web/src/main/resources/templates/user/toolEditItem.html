@@ -1,0 +1,146 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<title>编辑仪器信息</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<link rel="stylesheet" th:href="@{/css/core.css}">
+	<link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+	<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+	<link rel="stylesheet" href="/resources/demos/style.css">
+	<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+	<!-- <script type="text/javascript" th:src="@{/js/jquery.min.js}"></script> -->
+	<script type="text/javascript" th:src="@{/js/bootstrap.min.js}"></script>
+	<script type="text/javascript" th:src="@{/js/toolEditItem.js}"></script>
+	<script type="text/javascript" th:src="@{/js/jquery.validate.js}"></script>
+	<script type="text/javascript" th:src="@{/js/additional-methods.js}"></script>
+	<script type="text/javascript" th:src="@{/js/yueHeCommon.js}"></script>
+	<!-- <meta http-equiv="refresh" content="600; URL=/">  this will redirect to / after 600s-->
+
+</head>
+
+<body>
+	<div th:replace="~{fragments/header.html :: header}">Header</div>
+
+	<div role="main" class="container">
+		<div th:replace="~{fragments/toolHeader.html :: header}">Tool Header</div>
+	
+	<div class="panel panel-default">
+		<div class="panel-heading"> <h3>编辑仪器信息</h3>
+		</div>
+		<div th:replace="~{fragments/alert.html :: alert}">alert div</div>
+	
+		<div class="yuehe-form-group">
+           <div class="form-group">
+			    <form id="tool_edit_item"  action="#" th:action="@{/tool/update/{id}(id=${tool.id})}"  method="POST">
+					<br>
+					<input type="hidden" id="toolId" th:value="${tool.id}">
+					<div class="form-group  row ">
+						<div class="col-md-1">
+							<span class="input-group-addon"><i class="glyphicon glyphicon-plus"></i>仪器名称</span> 
+						</div>
+						<div class="col-xs-3">
+							<input id="name" name="name" th:field="*{tool.name}" type=text class="form-control input-sm" ></input>
+						</div>
+						<div class="col-xs-6">
+						<span class="help-block">可以指各种光美肤仪器，也可以指产品比如面膜，花青素等</span>
+						</div>
+					</div>
+					<div class="form-group  row ">
+						<div class="col-md-1">
+							<span class="input-group-addon"><i class="glyphicon glyphicon-plus"></i>主治</span> 
+						</div>
+
+						<div class="col-xs-3">
+							<input id="major" name="major" th:field="*{tool.major}" type=text class="form-control input-sm" ></input>
+						</div>
+						<div class="col-xs-6">
+							<span class="help-block">可以治疗的皮肤问题及主治方向</span>
+						</div>
+					</div>
+			    
+					<div class="form-group  row ">
+						<div class="col-md-1">
+							<span class="input-group-addon"><i class="glyphicon glyphicon-plus"></i>价格</span> 
+						</div>
+
+						<div class="col-xs-3">
+							<input id="price" name="price" th:field="*{tool.price}" type=text class="form-control input-sm" ></input>
+						</div>
+						<div class="col-xs-6">
+							<span class="help-block">仪器购买的价格留作参考或者用于计算每年的仪器耗损费用</span>
+						</div>
+					</div>
+
+					<div class="form-group  row ">
+						<div class="col-md-1">
+							<span class="input-group-addon"><i class="glyphicon glyphicon-plus"></i>购买日期</span> 
+						</div>
+						<div class="col-xs-3">
+							<!-- <input id="buyDate" name="buyDate" th:field="*{#dates.format(tool.buyDate,'yyyy-MM-dd')}" type=Date pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}" class="form-control input-sm" ></input> -->
+							<input id="buyDate" name="buyDate" th:field="*{tool.buyDate}" type=text class="form-control input-sm" ></input>
+						</div>
+						<div class="col-xs-6">
+							<span class="help-block">购买的时间，方便计算折旧费</span>
+						</div>
+					</div>
+				<div class="form-group  row ">
+					<div class="col-md-1">
+						<span class="input-group-addon"><i class="glyphicon glyphicon-plus"></i> 购买厂家</span> 
+					</div>
+					<div class="col-xs-3">
+						<input id="buyFrom" name="buyFrom" th:field="*{tool.buyFrom}" type=text class="form-control input-sm" ></input>
+					</div>
+					<div class="col-xs-6">
+						<span class="help-block">大部分仪器和产品都来自广州</span>
+					</div>
+				</div>
+				<div class="form-group  row ">
+					<div class="col-md-1">
+						<span class="input-group-addon"><i class="glyphicon glyphicon-plus"></i> 操作费用</span> 
+					</div>
+					<div class="col-xs-3">
+		                <input id="operateExpense" name="operateExpense" th:field="*{tool.operateExpense}" type=text class="form-control input-sm" ></input>
+					</div>
+					<div class="col-xs-6">
+						<span class="help-block">这个可以用来计算操作医生的操作费用，现在暂时不计算</span>
+					</div>
+				</div>
+				<div class="form-group  row ">
+					<div class="col-md-1">
+						<span class="input-group-addon"><i class="glyphicon glyphicon-plus"></i> 备注</span> 
+					</div>
+					<div class="col-xs-3">
+		                <input id="description" name="description" th:field="*{tool.description}" type=text class="form-control input-sm" ></input>
+					</div>
+					
+					<div class="col-xs-6">
+						<span class="help-block">其他信息</span>
+					</div>
+				</div>
+				<br>
+				<div class="form-group  row ">
+				<div class="content">
+						<div class="input-group col-xs-1">
+							<input type="submit" class="btn-primary  btn-lg" name="toolUpdateItem"
+								value="更新" />
+						</div>
+						<div class="input-group col-xs-1">
+							<input id="tool_delete_btn" type="submit" name="toolDeleteItem"
+								class="btn-primary  btn-lg" value="删除" />
+						</div>
+					</div>
+				</div>
+			</form>
+			</div>
+		</div>
+	</div>
+				
+		</div>
+	<div th:replace="~{fragments/footer.html :: footer}">footer</div>
+<!-- /.container -->
+</div>
+</body>
+</html>

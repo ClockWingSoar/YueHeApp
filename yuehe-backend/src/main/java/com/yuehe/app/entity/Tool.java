@@ -5,13 +5,18 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.Set;
 
+import javax.persistence.Basic;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+
+import org.springframework.format.annotation.DateTimeFormat;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -37,7 +42,11 @@ public class Tool implements Serializable {
 	private String name;
 	private String major;
 	private int price;
-	private Date buyDate;
+	// @Basic
+	// @Temporal(TemporalType.TIMESTAMP)
+	// @DateTimeFormat(pattern = "yyyy-MM-dd")
+	// private Date buyDate;
+	private String buyDate;
 	private String buyFrom;
 	private int operateExpense;
 	private String description;

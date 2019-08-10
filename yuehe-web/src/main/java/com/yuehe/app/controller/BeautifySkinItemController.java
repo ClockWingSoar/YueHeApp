@@ -29,8 +29,6 @@ public class BeautifySkinItemController{
 	        return "beautifySkinItem";
 	    }
 	 private final static Logger LOGGER = LoggerFactory.getLogger(BeautifySkinItemController.class);
-	  // inject via application.properties
-    @Value("${welcome.message}")
     private String message;
 	
 	@Autowired

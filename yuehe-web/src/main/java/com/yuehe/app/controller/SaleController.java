@@ -1,5 +1,6 @@
 package com.yuehe.app.controller;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
@@ -11,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
+import com.yuehe.app.common.PaginationAndSortModel;
 import com.yuehe.app.dto.ClientAllSalesPerformanceDetailDTO;
 import com.yuehe.app.dto.DutyEmployeeRoleDTO;
 import com.yuehe.app.dto.SaleClientItemSellerForDBDTO;
@@ -28,7 +30,6 @@ import com.yuehe.app.util.IdType;
 import com.yuehe.app.util.ServiceUtil;
 import com.yuehe.app.util.YueHeUtil;
 import com.yuehe.app.view.CsvView;
-import com.yuehe.app.common.PaginationAndSortModel;
 
 import org.apache.commons.lang3.StringUtils;
 // import org.apache.commons.lang3.StringUtils;
@@ -226,7 +227,11 @@ public class SaleController {
 			return "user/saleEditItem.html";
 		}
 		LOGGER.debug("update sale:", sale);
-
+		try {
+			sale.setCreateCardDate(simpleDateFormat.format(simpleDateFormat.parse(sale.getCreateCardDate())));
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
 		if (sale != null) {
 			LOGGER.info("updated {}", saleService.create(sale));
 		}
