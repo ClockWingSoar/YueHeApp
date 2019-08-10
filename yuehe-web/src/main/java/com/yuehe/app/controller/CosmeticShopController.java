@@ -100,6 +100,7 @@ public class CosmeticShopController{
                                        @RequestParam(name = "contactMethod", required = false) String contactMethod,
                                        @RequestParam(name = "location", required = false) String location,
                                        @RequestParam(name = "size", required = false) String size,
+                                       @RequestParam(name = "memberNumber", required = false) String memberNumber,
                                        @RequestParam(name = "discount", required = false) String discount,
                                        @RequestParam(name = "description", required = false) String description,
 									   RedirectAttributes attr
@@ -114,6 +115,7 @@ public class CosmeticShopController{
         cosmeticShop.setContactMethod(contactMethod);
         cosmeticShop.setLocation(location);
         cosmeticShop.setSize(Integer.parseInt(size));
+        cosmeticShop.setMemberNumber(Integer.parseInt(memberNumber));
         cosmeticShop.setDiscount(Float.parseFloat(discount));
         cosmeticShop.setDescription(description);
         LOGGER.info("cosmeticShop:",cosmeticShop);

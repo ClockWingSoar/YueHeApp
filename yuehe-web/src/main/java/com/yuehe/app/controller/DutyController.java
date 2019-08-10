@@ -48,8 +48,7 @@ public class DutyController{
 		List<DutyEmployeeRoleDTO> dutyList =new ArrayList<DutyEmployeeRoleDTO>();
 		dutyList = dutyService.getDutyDetailList();
 		 LOGGER.info("dutyList {}", dutyList);
-		 yueHeCommonService.getAllEmployees(model);
-		 yueHeCommonService.getAllRoles(model);
+		 getDutyNewItemDropDownDataList(model);
 		 model.addAttribute("subModule", "dutyList");
 		model.addAttribute("dutyList",dutyList);
 		
@@ -58,12 +57,13 @@ public class DutyController{
 	@GetMapping("/getDutyNewItem")
 	public String dutyNewItem(Model model) {
 		model.addAttribute("subModule", "dutyNewItem");
-
+		getDutyNewItemDropDownDataList(model);
 		return "user/dutyNewItem.html";
 	}
 	
 	@GetMapping("/duty/edit/{id}")
 	public String dutyEditItem(Model model, @PathVariable("id") String id) {
+		getDutyNewItemDropDownDataList(model);
 		getDutyDetail(model, id);
 		return "user/dutyEditItem.html";
 	}
@@ -79,6 +79,8 @@ public class DutyController{
 			// to add back the initial data of duty edit item and the error message
 			LOGGER.debug("result duty:{}", result.getAllErrors());
 			attr.addFlashAttribute("org.springframework.validation.BindingResult.duty", result);
+			duty.setEmployee(yueHeCommonService.getEmployeeById(duty.getEmployee().getId()));
+			duty.setRole(yueHeCommonService.getRoleById(duty.getRole().getId()));
 			model.addAttribute("duty", duty);
 			return "user/dutyEditItem.html";
 		}
@@ -89,12 +91,22 @@ public class DutyController{
 		attr.addFlashAttribute("message", "职责分工-" + id + " 更新成功");
 		return "redirect:/getDutyList";
 	}
+/**
+	 * 
+	 * get the initial data for cosmeticshop, seller and beautify skin item list to
+	 * create a new duty item.
+	 * 
+	 */
+	public void getDutyNewItemDropDownDataList(Model model) {
 
+		yueHeCommonService.getAllEmployees(model);
+		yueHeCommonService.getAllRoles(model);
+	}
 	@GetMapping("/duty/delete/{id}")
 	public String deleteDutyItem(@PathVariable("id") String id, Duty duty, Model model, RedirectAttributes attr) {
 		System.err.println("delete duty item with id=" + id);
 		// Duty duty
-		LOGGER.info("deleting {}", dutyService.getById(id));
+		LOGGER.info("deleting {}", dutyService.getDutyById(id));
 		LOGGER.info("deleting frontend duty{}", duty);
 		// dutyService.delete(duty);
 		dutyService.deleteById(id);

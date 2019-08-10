@@ -20,7 +20,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
- * Organization entity. @author Soveran Zhong
+ * Duty entity. @author Soveran Zhong
  */
 @Entity
 @Table(name = "duty")

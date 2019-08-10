@@ -410,6 +410,11 @@ function filterTable(table, filter, index) {
                 number: true,
                 min: 0,
               },
+              memberNumber: {
+                required: true,
+                number: true,
+                min: 0,
+              },
               discount: {
                 required: true,
               },
@@ -432,9 +437,14 @@ function filterTable(table, filter, index) {
                 required: "请输入美容院地址",
               },
               size: {
-                required: "请输入美容院规模",
+                required: "请输入美容院面积",
                 number: "仅允许输入数字,禁止输入字母或空格",
                 min: "规模应该大于0",
+              },
+              memberNumber: {
+                required: "请输入美容院会员数",
+                number: "仅允许输入数字,禁止输入字母或空格",
+                min: "会员数应该大于0",
               },
               discount: {
                 required: "请输入美容院折扣点",
@@ -480,7 +490,7 @@ function filterTable(table, filter, index) {
             }, 
     }
 //common validator for dutyNewItem and dutyEditItem page
-    var dutyValidator= {
+    var dutyItemValidator= {
             rules: {
               employeeId: {
                 required: true,

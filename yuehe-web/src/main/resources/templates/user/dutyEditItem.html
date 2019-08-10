@@ -8,10 +8,6 @@
        <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
         <script type="text/javascript"  th:src="@{/js/jquery.min.js}"></script>
            <script type="text/javascript"  th:src="@{/js/bootstrap.min.js}"></script>
-		   <script type="text/javascript" th:src="@{/js/dutyNewItem.js}"></script>
-		   <script type="text/javascript" th:src="@{/js/jquery.validate.js}"></script>
-		   <script type="text/javascript" th:src="@{/js/additional-methods.js}"></script>
-		   <script type="text/javascript" th:src="@{/js/yueHeCommon.js}"></script>
 		   <script type="text/javascript" th:src="@{/js/bootstrap.min.js}"></script>
 		   <script type="text/javascript" th:src="@{/js/dutyEditItem.js}"></script>
 		   <script type="text/javascript" th:src="@{/js/jquery.validate.js}"></script>
@@ -33,15 +29,16 @@
            
 		<div class="yuehe-form-group">
             <div class="form-group">
-			    <form id="duty_edit_item"  action="#" th:action="@{/duty/update/{id}(id=${duty.id})}"    method="POST">
+			    <form id="duty_edit_item" th:object="${duty}" action="#" th:action="@{/duty/update/{id}(id=${duty.id})}"    method="POST">
 			    <br>
 			     	<div class="form-group  row ">
 			       		 <div class="col-md-1">
 				            <span class="input-group-addon"><i class="glyphicon glyphicon-heart"></i>员工姓名</span> 
 			            </div>
 		           		<div class="col-xs-3">    
-			       			<select  class="form-control"  th:field="*{duty.employee.name}"  name="employeeId" id="employee">
-						      <option selected="selected" > --请选择员工姓名 --
+			       			<select  class="form-control"  th:field="*{employee.id}"  name="employee" id="employee">
+							  <option selected="selected" th:value="${duty.employee.id}"
+							  th:text="${duty.employee.name}"> 
 						      </option>
 						      <option th:each="employee : ${employeeList}" th:value="${employee.id}" 
 						       th:text="${employee.name}" >
@@ -57,8 +54,9 @@
 				            <span class="input-group-addon"><i class="glyphicon glyphicon-heart"></i>角色名称</span> 
 			            </div>
 		           		<div class="col-xs-3">    
-			       			<select  class="form-control"  th:field="*{duty.role.name}"   name="roleId" id="role">
-						      <option selected="selected" > --请选择角色类型 --
+			       			<select  class="form-control"  th:field="*{role.id}"   name="role" id="role">
+							  <option selected="selected" th:value="${duty.role.id}"
+							  th:text="${duty.role.name}" >
 						      </option>
 						      <option th:each="role : ${roleList}" th:value="${role.id}" 
 						       th:text="${role.name}" >
@@ -74,7 +72,7 @@
 			            <span class="input-group-addon"><i class="glyphicon glyphicon-heart"></i>补贴</span> 
 			            </div>
 			            <div class="col-xs-3">    
-		                <input id="welfare" name="welfare" type=text th:field="*{duty.welfare}"  class="form-control input-sm" ></input>
+		                <input id="welfare" name="welfare" type=text th:field="*{welfare}"  class="form-control input-sm" ></input>
 		                </div>
 		                 <div class="col-xs-6">
 	               			 <span class="help-block">针对某一项职责或分工会有相应的补贴，比如开车补贴或者股东分红等</span>
@@ -85,7 +83,7 @@
 			            <span class="input-group-addon"><i class="glyphicon glyphicon-heart"></i>备注</span> 
 			             </div>
 			            <div class="col-xs-3">    
-		                <textarea rows="4" cols="50"   id="description" name="description" type=text th:field="*{duty.description}"  class="form-control input-sm" ></textarea>
+		                <textarea rows="4" cols="50"   id="description" name="description" type=text th:field="*{description}"  class="form-control input-sm" ></textarea>
 		                       </div>
 	               	  <div class="col-xs-6">
 	               		 <span class="help-block">此处填写额外的说明情况</span>

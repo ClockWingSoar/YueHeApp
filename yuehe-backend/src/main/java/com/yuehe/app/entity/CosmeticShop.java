@@ -21,7 +21,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
- * Client entity. @author Soveran Zhong
+ * CosmeticShop entity. @author Soveran Zhong
  */
 @Entity
 @Table(name = "cosmeticshop")
@@ -39,10 +39,12 @@ public class CosmeticShop implements Serializable {
 	@Column(name = "contact_method")
 	private String contactMethod;
 	private String location;
-	private int size;
-	private float discount;
+	private Integer size;
+	@Column(name = "member_number")
+	private Integer memberNumber;
+	private Float discount;
 	@Column(name = "shop_premium")
-	private float shopPremium;// 例如肤语港，总业绩超过50万时，需要返还5万给店家
+	private Float shopPremium;// 例如肤语港，总业绩超过50万时，需要返还5万给店家
 	private String description;
 	@JsonManagedReference
 	@OneToMany(targetEntity = Client.class, mappedBy = "cosmeticShop", orphanRemoval = false, fetch = FetchType.LAZY)
@@ -62,13 +64,6 @@ public class CosmeticShop implements Serializable {
 	 */
 	public CosmeticShop(String id){
 		this.id = id;
-	}
-	@Override
-	public String toString() {
-		return "CosmeticShop [id=" + id + ", name=" + name + ", owner=" + owner + ", contactMethod=" + contactMethod
-				+ ", location=" + location + ", size=" + size + ", discount=" + discount + ", shopPremium="
-				+ shopPremium + ", description=" + description + "]";//+ ", clientNumber="
-				// + Optional.ofNullable(clients).orElse(new HashSet<Client>()).size() + "]";
 	}
 	public static Comparator<CosmeticShop> idComparator = Comparator.comparing(CosmeticShop::getId);
 }
