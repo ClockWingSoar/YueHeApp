@@ -492,17 +492,16 @@ function filterTable(table, filter, index) {
 //common validator for dutyNewItem and dutyEditItem page
     var dutyItemValidator= {
             rules: {
-              employeeId: {
+              employee: {
                 required: true,
               },
-              roleId : {
+              role : {
                 required: true,
-                number: true,
-                min: 100,
               },
              
               welfare: {
                 number: true,
+                min: 0,
               },
               description: {
                 maxlength: 100,
@@ -510,16 +509,16 @@ function filterTable(table, filter, index) {
               
             },
             messages : {
-              employeeId: {
-                required: "请输入美肤项目名称",
+              employee: {
+                required: "请输入员工姓名",
               },
-              roleId: {
-                required: "请输入美肤项目单价",
-                number: "仅允许输入数字,禁止输入字母或空格",
-                min: "价格应该大于100",
+              role: {
+                required: "请输入员工角色",
               },
               welfare: {
                 number: "仅允许输入数字,禁止输入字母或空格",
+                min: "补贴应该大于等于0",
+                
               },
              
               description: {

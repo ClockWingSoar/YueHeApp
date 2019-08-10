@@ -6,6 +6,7 @@ $(function ($) {
 	$(document).ready(function(){
 		var shopList = Array.from(document.getElementById("cosmeticShop").querySelectorAll("option"));
 		var operatorList = Array.from(document.getElementById("operator").querySelectorAll("option"));
+		var toolList = Array.from(document.getElementById("tool").querySelectorAll("option"));
 		for(var i = 0; i < shopList.length; i++)
 		{
 			console.log(shopList[i]);
@@ -13,6 +14,7 @@ $(function ($) {
 		//remove the first option if it's for Sale or Operation Update Item page to avoid duplicatation
 		shopList[0].remove();
 		operatorList[0].remove();
+		toolList[0].remove();
 
 		$('#operation_delete_btn').click(function(){
 			var actionPage = "/operation/delete/"+$('#operationId').val();

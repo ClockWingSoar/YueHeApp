@@ -39,7 +39,7 @@
 				            <span class="input-group-addon"><i class="glyphicon glyphicon-heart"></i>员工姓名</span> 
 			            </div>
 		           		<div class="col-xs-3">    
-			       			<select  class="fstdropdown-select"	  th:field="*{employee.id}"  name="employee" id="employee">
+			       			<select  class="fstdropdown-select"	  th:field="*{employee.id}" data-placeholder="请输入操作人姓名搜索" name="employeeId" id="employee">
 							  <option selected="selected" th:value="${duty.employee.id}"
 							  th:text="${duty.employee.name}"> 
 						      </option>
@@ -57,7 +57,7 @@
 				            <span class="input-group-addon"><i class="glyphicon glyphicon-heart"></i>角色名称</span> 
 			            </div>
 		           		<div class="col-xs-3">    
-			       			<select  class="fstdropdown-select"  th:field="*{role.id}"   name="role" id="role">
+			       			<select  class="fstdropdown-select"  th:field="*{role.id}"   data-placeholder="请输入角色搜索" name="roleId" id="role">
 							  <option selected="selected" th:value="${duty.role.id}"
 							  th:text="${duty.role.name}" >
 						      </option>
