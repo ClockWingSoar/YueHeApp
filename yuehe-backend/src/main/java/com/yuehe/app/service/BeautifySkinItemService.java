@@ -55,6 +55,13 @@ public class BeautifySkinItemService {
 		int biggestIdNum = YueHeUtil.extractIdDigitalNumber(biggestId);
 		LOGGER.info("biggest Id Number-{}",biggestIdNum);
 	    return biggestIdNum;
-	}    
+    }  
+    public void deleteById(String id) {
+		beautifySkinItemRepository.deleteById(id);
+   }
+   @Transactional(rollbackFor = Exception.class)
+   public BeautifySkinItem create(BeautifySkinItem beautifySkinItem) {
+       return beautifySkinItemRepository.save(beautifySkinItem);
+   }
 }
 

@@ -447,3 +447,35 @@ function filterTable(table, filter, index) {
           // 	form.submit();
           //   }
     }
+//common validator for beautifySkinItemNewItem and beautifySkinItemEditItem page
+    var beautifySkinItemValidtor= {
+            rules: {
+              name: {
+                required: true,
+              },
+              price : {
+                required: true,
+                number: true,
+                min: 100,
+              },
+             
+              description: {
+                maxlength: 100,
+              },
+              
+            },
+            messages : {
+              name: {
+                required: "请输入美肤项目名称",
+              },
+              price: {
+                required: "请输入美肤项目单价",
+                number: "仅允许输入数字,禁止输入字母或空格",
+                min: "价格应该大于100",
+              },
+             
+              description: {
+                maxlength: "备注不能超过100个字符"
+              }
+            }, 
+    }

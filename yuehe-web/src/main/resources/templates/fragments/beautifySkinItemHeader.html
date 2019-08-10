@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <link rel="stylesheet" media="screen" th:href="@{/css/bootstrap.min.css}" />
+</head>
+
+<body>
+  <div class="container" th:fragment="header">
+    <ul class="nav nav-tabs nav-justified">
+      <li th:classappend="${subModule == 'beautifySkinItemList' ? 'active' : ''}">
+        <a href="#" th:href="@{/getBeautifySkinItemList}" style="font-size: 22px; text-decoration: none">美肤项目列表</a></li>
+      <li th:classappend="${subModule == 'beautifySkinItemNewItem' ? 'active' : ''}">
+        <a href="#" th:href="@{/getBeautifySkinItemNewItem}" style="font-size: 22px; text-decoration: none">新建美肤项目信息</a>
+      </li>
+    </ul>
+    <br>
+  </div>
+</body>
+
+</html>

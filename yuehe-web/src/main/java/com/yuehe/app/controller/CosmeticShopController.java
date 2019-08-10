@@ -101,7 +101,8 @@ public class CosmeticShopController{
                                        @RequestParam(name = "location", required = false) String location,
                                        @RequestParam(name = "size", required = false) String size,
                                        @RequestParam(name = "discount", required = false) String discount,
-                                       @RequestParam(name = "description", required = false) String description
+                                       @RequestParam(name = "description", required = false) String description,
+									   RedirectAttributes attr
                                        ) 
 	{
 		int idNums = cosmeticShopService.getBiggestIdNumber();
@@ -120,7 +121,8 @@ public class CosmeticShopController{
         if (cosmeticShop != null) {
             LOGGER.info("Saved {}", cosmeticShopService.create(cosmeticShop));
         }
-
+		attr.addFlashAttribute("message", "美容院-" + id + " 创建成功");
+       
         return "redirect:/getCosmeticShopList";
     }
 	

@@ -1,0 +1,93 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<title>编辑美肤项目</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<link rel="stylesheet" th:href="@{/css/core.css}">
+	<link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+	<script type="text/javascript" th:src="@{/js/jquery.min.js}"></script>
+	<script type="text/javascript" th:src="@{/js/bootstrap.min.js}"></script>
+	<script type="text/javascript" th:src="@{/js/beautifySkinItemEditItem.js}"></script>
+	<script type="text/javascript" th:src="@{/js/jquery.validate.js}"></script>
+	<script type="text/javascript" th:src="@{/js/additional-methods.js}"></script>
+	<script type="text/javascript" th:src="@{/js/yueHeCommon.js}"></script>
+	<!-- <meta http-equiv="refresh" content="600; URL=/"> this will redirect to / after 600s -->
+
+</head>
+
+<body>
+	<div th:replace="~{fragments/header.html :: header}">Header</div>
+	<div role="main" class="container">
+		<div th:replace="~{fragments/beautifySkinItemHeader.html :: header}">Tool Header</div>
+
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h3>编辑美肤项目</h3>
+			</div>
+			<div class="yuehe-form-group">
+			<div class="form-group">
+				<form id="beautifySkinItem_edit_item" action="#" th:action="@{/beautifySkinItem/update/{id}(id=${beautifySkinItem.id})}"   method="POST">
+					<br>
+					<div class="form-group  row ">
+						<div class="col-md-1">
+							<span class="input-group-addon"><i class="glyphicon glyphicon-heart"></i>项目名称</span>
+						</div>
+						<div class="col-xs-3">
+							<input id="name" name="name" type=text  th:field="*{beautifySkinItem.name}" class="form-control input-sm"></input>
+						</div>
+
+						<div class="col-xs-6">
+							<span class="help-block">一般指各项美肤疗程和项目，如表皮斑，真皮斑，混合斑，代谢，也可以包括产品面膜等</span>
+						</div>
+					</div>
+					<div class="form-group  row ">
+						<div class="col-md-1">
+							<span class="input-group-addon"><i class="glyphicon glyphicon-heart"></i>项目价格</span>
+						</div>
+
+						<div class="col-xs-3">
+							<input id="price" name="price" type=text  th:field="*{beautifySkinItem.price}"  class="form-control input-sm"></input>
+						</div>
+
+						<div class="col-xs-6">
+							<span class="help-block">美肤项目单价结合开卡次数计算消耗，针对特定客户有不同的优惠力度以折扣体现</span>
+						</div>
+					</div>
+
+					<div class="form-group  row ">
+						<div class="col-md-1">
+							<span class="input-group-addon"><i class="glyphicon glyphicon-heart"></i>项目简介</span>
+						</div>
+
+						<div class="col-xs-3">
+							<input id="description" name="description"  th:field="*{beautifySkinItem.description}"  class="form-control input-sm"></input>
+						</div>
+						<div class="col-xs-6">
+							<span class="help-block">该项目所治疗的皮肤疾病，治疗可以达到的效果及应该注意的事项等</span>
+						</div>
+					</div>
+					<br>
+					<div class="form-group  row ">
+							<div class="content">
+									<div class="input-group col-xs-1">
+										<input type="submit" class="btn-primary  btn-lg" name="beautifySkinItemUpdateItem"
+											value="更新" />
+									</div>
+									<div class="input-group col-xs-1">
+										<input id="beautifySkinItem_delete_btn" type="submit" name="beautifySkinItemDeleteItem"
+											class="btn-primary  btn-lg" value="删除" />
+									</div>
+								</div>
+							</div>
+				</form>
+			</div>
+			</div>
+		</div>
+
+		<div th:replace="~{fragments/footer.html :: footer}">footer</div>
+	</div>
+</body>
+
+</html>
