@@ -118,7 +118,8 @@ public class DutyController{
     public String createDuty( @RequestParam(name = "employeeId", required = false) String employeeId,
                                        @RequestParam(name = "roleId", required = false) String roleId,
                                        @RequestParam(name = "welfare", required = false) int welfare,
-                                       @RequestParam(name = "description", required = false) String description
+									   @RequestParam(name = "description", required = false) String description
+									   , RedirectAttributes attr
                                        ) 
 	{
 		int idNums = dutyService.getBiggestIdNumber();
@@ -135,6 +136,7 @@ public class DutyController{
             LOGGER.info("Saved {}", dutyService.create(duty));
         }
 
+		attr.addFlashAttribute("message", "职责分工-" + id + " 创建成功");
         return "redirect:/getDutyList";
     }
 	

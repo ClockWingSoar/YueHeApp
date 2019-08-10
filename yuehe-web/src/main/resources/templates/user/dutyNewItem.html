@@ -6,12 +6,14 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
        <link rel="stylesheet" th:href="@{/css/core.css}">
        <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+	   <link rel="stylesheet" th:href="@{/css/fstdropdown.css}">
         <script type="text/javascript"  th:src="@{/js/jquery.min.js}"></script>
            <script type="text/javascript"  th:src="@{/js/bootstrap.min.js}"></script>
 		   <script type="text/javascript" th:src="@{/js/dutyNewItem.js}"></script>
 		   <script type="text/javascript" th:src="@{/js/jquery.validate.js}"></script>
 		   <script type="text/javascript" th:src="@{/js/additional-methods.js}"></script>
 		   <script type="text/javascript" th:src="@{/js/yueHeCommon.js}"></script>
+		   <script type="text/javascript" th:src="@{/js/fstdropdown.js}"></script>
 		   <!-- <meta http-equiv="refresh" content="600; URL=/"> this will redirect to / after 600s -->
 
 </head>
@@ -35,7 +37,7 @@
 				            <span class="input-group-addon"><i class="glyphicon glyphicon-heart"></i>员工姓名</span> 
 			            </div>
 		           		<div class="col-xs-3">    
-			       			<select  class="form-control" required="required"  name="employeeId" id="employee">
+			       			<select  class="fstdropdown-select" required="required"  name="employeeId" id="employee" data-placeholder="请输入操作人姓名搜索">
 						      <option selected="selected" > --请选择员工姓名 --
 						      </option>
 						      <option th:each="employee : ${employeeList}" th:value="${employee.id}" 
@@ -52,7 +54,7 @@
 				            <span class="input-group-addon"><i class="glyphicon glyphicon-heart"></i>角色名称</span> 
 			            </div>
 		           		<div class="col-xs-3">    
-			       			<select  class="form-control" required="required"  name="roleId" id="role">
+			       			<select  class="fstdropdown-select" required="required"  name="roleId" id="role" data-placeholder="请输入角色搜索">
 						      <option selected="selected" > --请选择角色类型 --
 						      </option>
 						      <option th:each="role : ${roleList}" th:value="${role.id}" 
