@@ -21,7 +21,7 @@ $(function ($) {
 			$('#operation_edit_item').attr('action', actionPage);
 		});
 		
-		$('form[id="operation_edit_item"]').validate(operationItemValidtor);
+		$('form[id="operation_edit_item"]').validate(operationItemValidator);
 
 
 	});

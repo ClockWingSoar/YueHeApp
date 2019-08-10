@@ -11,7 +11,7 @@ $(function ($) {
 			$('#client_edit_item').attr('action', actionPage);
 		});
 		
-		$('form[id="client_edit_item"]').validate(clientItemValidtor);
+		$('form[id="client_edit_item"]').validate(clientItemValidator);
 
 
 	});

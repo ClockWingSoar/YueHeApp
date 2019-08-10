@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <link rel="stylesheet" media="screen" th:href="@{/css/bootstrap.min.css}" />
+</head>
+
+<body>
+  <div class="container" th:fragment="header">
+    <ul class="nav nav-tabs nav-justified">
+      <li th:classappend="${subModule == 'dutyList' ? 'active' : ''}">
+        <a href="#" th:href="@{/getDutyList}" style="font-size: 22px; text-decoration: none">职责分工列表</a></li>
+      <li th:classappend="${subModule == 'dutyNewItem' ? 'active' : ''}">
+        <a href="#" th:href="@{/getDutyNewItem}" style="font-size: 22px; text-decoration: none">新建职责分工信息</a>
+      </li>
+    </ul>
+    <br>
+  </div>
+</body>
+
+</html>

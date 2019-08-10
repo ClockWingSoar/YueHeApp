@@ -5,5 +5,5 @@ $(document).ready(function($) {
 	$('#cosmeticShop').change(removeFirstOptionFlag,getShopAllClientsList);
 	$('#client').change(removeFirstOptionFlag,getClientAllSalesList);
 
-	$('form[id="sale_new_item"]').validate(saleItemValidtor);
+	$('form[id="sale_new_item"]').validate(saleItemValidator);
   });

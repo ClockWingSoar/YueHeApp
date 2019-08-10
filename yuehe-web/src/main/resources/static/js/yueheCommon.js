@@ -107,7 +107,7 @@ function filterTable(table, filter, index) {
         return typeof value == 'string' && !value.trim() || typeof value == 'undefined' || value === null;
       }
 //common validator for saleNewItem and saleEditItem page
-    var saleItemValidtor= {
+    var saleItemValidator= {
             rules: {
               cosmeticShop : {
                 required: true,
@@ -216,7 +216,7 @@ function filterTable(table, filter, index) {
           //   }
     }
 //common validator for operationNewItem and operationEditItem page
-    var operationItemValidtor= {
+    var operationItemValidator= {
             rules: {
               cosmeticShop : {
                 required: true,
@@ -279,7 +279,7 @@ function filterTable(table, filter, index) {
           //   }
     }
 //common validator for clientNewItem and clientEditItem page
-    var clientItemValidtor= {
+    var clientItemValidator= {
             rules: {
               name: {
                 required: true,
@@ -329,7 +329,7 @@ function filterTable(table, filter, index) {
           //   }
     }
 //common validator for toolNewItem and toolEditItem page
-    var toolItemValidtor= {
+    var toolItemValidator= {
             rules: {
               name: {
                 required: true,
@@ -389,7 +389,7 @@ function filterTable(table, filter, index) {
           //   }
     }
 //common validator for cosmeticShopNewItem and cosmeticShopEditItem page
-    var cosmeticShopItemValidtor= {
+    var cosmeticShopItemValidator= {
             rules: {
               name: {
                 required: true,
@@ -448,7 +448,7 @@ function filterTable(table, filter, index) {
           //   }
     }
 //common validator for beautifySkinItemNewItem and beautifySkinItemEditItem page
-    var beautifySkinItemValidtor= {
+    var beautifySkinItemValidator= {
             rules: {
               name: {
                 required: true,
@@ -472,6 +472,44 @@ function filterTable(table, filter, index) {
                 required: "请输入美肤项目单价",
                 number: "仅允许输入数字,禁止输入字母或空格",
                 min: "价格应该大于100",
+              },
+             
+              description: {
+                maxlength: "备注不能超过100个字符"
+              }
+            }, 
+    }
+//common validator for dutyNewItem and dutyEditItem page
+    var dutyValidator= {
+            rules: {
+              employeeId: {
+                required: true,
+              },
+              roleId : {
+                required: true,
+                number: true,
+                min: 100,
+              },
+             
+              welfare: {
+                number: true,
+              },
+              description: {
+                maxlength: 100,
+              },
+              
+            },
+            messages : {
+              employeeId: {
+                required: "请输入美肤项目名称",
+              },
+              roleId: {
+                required: "请输入美肤项目单价",
+                number: "仅允许输入数字,禁止输入字母或空格",
+                min: "价格应该大于100",
+              },
+              welfare: {
+                number: "仅允许输入数字,禁止输入字母或空格",
               },
              
               description: {

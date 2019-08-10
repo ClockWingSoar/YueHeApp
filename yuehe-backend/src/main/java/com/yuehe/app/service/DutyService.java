@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2018  Shazin Sadakath
+    Copyright (C) 2019  Yi Xiang Zhong
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -51,7 +51,7 @@ public class DutyService {
         return dutyRepository.findAll();
     }
     public Duty getDutyById(String id) {
-    	return dutyRepository.findById(id);
+    	return dutyRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid client Id:" + id));
     }
     public List<DutyEmployeeRoleDTO> getAllPersonByRoleName(String name) {
     	return dutyRepository.findByRoleName(name);
@@ -80,5 +80,8 @@ public class DutyService {
         int biggestIdNum = YueHeUtil.extractIdDigitalNumber(biggestId);
 		LOGGER.info("biggest Id Number-{}",biggestIdNum);
 	    return biggestIdNum;
-	}
+    }
+    public void deleteById(String id) {
+		dutyRepository.deleteById(id);
+   }
 }

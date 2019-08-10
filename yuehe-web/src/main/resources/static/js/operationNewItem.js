@@ -3,6 +3,6 @@ $(document).ready(function ($) {
 	$( "#operationDate" ).datepicker();
 	$('#cosmeticShop').change(removeFirstOptionFlag,getShopAllClientsList);
 	$('#client').change(removeFirstOptionFlag,getClientAllSalesList);
-	$('form[id="operation_new_item"]').validate(operationItemValidtor);
+	$('form[id="operation_new_item"]').validate(operationItemValidator);
 	
 });

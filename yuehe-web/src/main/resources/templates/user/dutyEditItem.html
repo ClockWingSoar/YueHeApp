@@ -1,0 +1,114 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>新建职责分工信息</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+       <link rel="stylesheet" th:href="@{/css/core.css}">
+       <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+        <script type="text/javascript"  th:src="@{/js/jquery.min.js}"></script>
+           <script type="text/javascript"  th:src="@{/js/bootstrap.min.js}"></script>
+		   <script type="text/javascript" th:src="@{/js/dutyNewItem.js}"></script>
+		   <script type="text/javascript" th:src="@{/js/jquery.validate.js}"></script>
+		   <script type="text/javascript" th:src="@{/js/additional-methods.js}"></script>
+		   <script type="text/javascript" th:src="@{/js/yueHeCommon.js}"></script>
+		   <script type="text/javascript" th:src="@{/js/bootstrap.min.js}"></script>
+		   <script type="text/javascript" th:src="@{/js/dutyEditItem.js}"></script>
+		   <script type="text/javascript" th:src="@{/js/jquery.validate.js}"></script>
+		   <script type="text/javascript" th:src="@{/js/additional-methods.js}"></script>
+		   <script type="text/javascript" th:src="@{/js/yueHeCommon.js}"></script>
+			 <!-- <meta http-equiv="refresh" content="600; URL=/"> this will redirect to / after 600s -->
+
+</head>
+
+<body>
+<div th:replace="~{fragments/header.html :: header}">Header</div>
+
+<div role="main" class="container">
+   
+		<div th:replace="~{fragments/dutyHeader.html :: header}">Duty Header</div>
+	
+     <div class="panel panel-default">
+              <div class="panel-heading">  <h3>创建新的角色分工</h3></div>
+           
+		<div class="yuehe-form-group">
+            <div class="form-group">
+			    <form id="duty_edit_item"  action="#" th:action="@{/duty/update/{id}(id=${duty.id})}"    method="POST">
+			    <br>
+			     	<div class="form-group  row ">
+			       		 <div class="col-md-1">
+				            <span class="input-group-addon"><i class="glyphicon glyphicon-heart"></i>员工姓名</span> 
+			            </div>
+		           		<div class="col-xs-3">    
+			       			<select  class="form-control"  th:field="*{duty.employee.name}"  name="employeeId" id="employee">
+						      <option selected="selected" > --请选择员工姓名 --
+						      </option>
+						      <option th:each="employee : ${employeeList}" th:value="${employee.id}" 
+						       th:text="${employee.name}" >
+						      </option>
+						    </select>
+					    </div>
+			             <div class="col-xs-6">
+		                <span class="help-block">每个员工可以担任不同的角色</span>
+		                 </div>
+	                 </div>
+			     	<div class="form-group  row ">
+			       		 <div class="col-md-1">
+				            <span class="input-group-addon"><i class="glyphicon glyphicon-heart"></i>角色名称</span> 
+			            </div>
+		           		<div class="col-xs-3">    
+			       			<select  class="form-control"  th:field="*{duty.role.name}"   name="roleId" id="role">
+						      <option selected="selected" > --请选择角色类型 --
+						      </option>
+						      <option th:each="role : ${roleList}" th:value="${role.id}" 
+						       th:text="${role.name}" >
+						      </option>
+						    </select>
+					    </div>
+			             <div class="col-xs-6">
+		                <span class="help-block">每个角色可以由多个员工担任</span>
+		                 </div>
+	                 </div>
+		       		<div class="form-group  row ">
+			       		 <div class="col-md-1">
+			            <span class="input-group-addon"><i class="glyphicon glyphicon-heart"></i>补贴</span> 
+			            </div>
+			            <div class="col-xs-3">    
+		                <input id="welfare" name="welfare" type=text th:field="*{duty.welfare}"  class="form-control input-sm" ></input>
+		                </div>
+		                 <div class="col-xs-6">
+	               			 <span class="help-block">针对某一项职责或分工会有相应的补贴，比如开车补贴或者股东分红等</span>
+	               			 		 </div>
+		            </div>
+		       		<div class="form-group  row ">
+			       		 <div class="col-md-1">
+			            <span class="input-group-addon"><i class="glyphicon glyphicon-heart"></i>备注</span> 
+			             </div>
+			            <div class="col-xs-3">    
+		                <input id="description" name="description" type=text th:field="*{duty.description}"  class="form-control input-sm" ></input>
+		                       </div>
+	               	  <div class="col-xs-6">
+	               		 <span class="help-block">此处填写额外的说明情况</span>
+			            </div>
+		            </div>
+					<div class="form-group  row ">
+							<div class="content">
+									<div class="input-group col-xs-1">
+										<input type="submit" class="btn-primary  btn-lg" name="dutyUpdateItem"
+											value="更新" />
+									</div>
+									<div class="input-group col-xs-1">
+										<input id="duty_delete_btn" type="submit" name="dutyDeleteItem"
+											class="btn-primary  btn-lg" value="删除" />
+									</div>
+								</div>
+							</div>
+			    </form>
+			  </div>   
+			  </div>   
+		</div>
+   <div th:replace="~{fragments/footer.html :: footer}">footer</div>
+<!-- /.container -->
+</div>
+</body>
+</html>            	

@@ -2,7 +2,7 @@
 $(function ($) {
 $(document).ready(function($) {
 	$( "#buyDate" ).datepicker();
-	$('form[id="tool_edit_item"]').validate(toolItemValidtor);
+	$('form[id="tool_edit_item"]').validate(toolItemValidator);
 	$('#tool_delete_btn').click(function(){
 		var actionPage = "/tool/delete/"+$('#toolId').val();
 		// alert(actionPage);

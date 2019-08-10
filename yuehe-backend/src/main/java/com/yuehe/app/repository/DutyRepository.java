@@ -27,7 +27,7 @@ import org.springframework.data.jpa.repository.Query;
 /**
  * @author Soveran Zhong
  */
-public interface DutyRepository extends JpaRepository<Duty, Long> {
+public interface DutyRepository extends JpaRepository<Duty, String> {
 	
 	@Query("SELECT new com.yuehe.app.dto.DutyEmployeeRoleDTO(d.id,e.id,e.name, r.name,d.welfare, d.description) "
 			+ "FROM Duty d INNER JOIN d.employee e  INNER JOIN d.role r WHERE r.name=?1")
@@ -36,7 +36,6 @@ public interface DutyRepository extends JpaRepository<Duty, Long> {
 	@Query("SELECT new com.yuehe.app.dto.DutyEmployeeRoleDTO(d.id,e.id,e.name, r.name,d.welfare, d.description) "
 			+ "FROM Duty d INNER JOIN d.employee e  INNER JOIN d.role r")
     List<DutyEmployeeRoleDTO> fetchDutyData();
-    Duty findById(String id);
 
      /**
 	 * get all the ids from table duty 
