@@ -9,10 +9,9 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface BeautifySkinItemRepository extends JpaRepository<BeautifySkinItem, Integer> {
+public interface BeautifySkinItemRepository extends JpaRepository<BeautifySkinItem, String> {
 	// custom query to search to BeautifySkinItem by id or name
 	List<BeautifySkinItem> findAll();
-	BeautifySkinItem findById(String id);
 	BeautifySkinItem findByName(String name);
 
     /**

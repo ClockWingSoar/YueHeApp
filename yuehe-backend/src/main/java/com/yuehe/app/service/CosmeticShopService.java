@@ -56,7 +56,7 @@ public class CosmeticShopService {
     	return cosmeticShopRepository.count();
     }
     public CosmeticShop getById(String id) {
-    	return cosmeticShopRepository.findById(id);
+    	return cosmeticShopRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid client Id:" + id));
     }
     public CosmeticShop getCosmeticShopByName(String name) {
     	return cosmeticShopRepository.findByName(name);
@@ -77,5 +77,9 @@ public class CosmeticShopService {
 		int biggestIdNum = YueHeUtil.extractIdDigitalNumber(biggestId);
 		LOGGER.info("biggest Id Number-{}",biggestIdNum);
 	    return biggestIdNum;
-	}
+    }
+    public void deleteById(String id) {
+		cosmeticShopRepository.deleteById(id);
+   }
+
 }

@@ -278,7 +278,7 @@ function filterTable(table, filter, index) {
           // 	form.submit();
           //   }
     }
-//common validator for operationNewItem and operationEditItem page
+//common validator for clientNewItem and clientEditItem page
     var clientItemValidtor= {
             rules: {
               name: {
@@ -328,7 +328,7 @@ function filterTable(table, filter, index) {
           // 	form.submit();
           //   }
     }
-//common validator for operationNewItem and operationEditItem page
+//common validator for toolNewItem and toolEditItem page
     var toolItemValidtor= {
             rules: {
               name: {
@@ -379,6 +379,65 @@ function filterTable(table, filter, index) {
               },
               operateExpense: {
                 required: "请输入操作费用",
+              },
+              description: {
+                maxlength: "备注不能超过100个字符"
+              }
+            }, 
+          //   submitHandler: function(form) {
+          // 	form.submit();
+          //   }
+    }
+//common validator for cosmeticShopNewItem and cosmeticShopEditItem page
+    var cosmeticShopItemValidtor= {
+            rules: {
+              name: {
+                required: true,
+              },
+              owner : {
+                required: true,
+              },
+             
+              contactMethod: {
+                required: true,
+              },
+              location: {
+                required: true,
+              },
+              
+              size: {
+                required: true,
+                number: true,
+                min: 0,
+              },
+              discount: {
+                required: true,
+              },
+              description: {
+                maxlength: 100,
+              },
+              
+            },
+            messages : {
+              name: {
+                required: "请输入美容院名称",
+              },
+              owner: {
+                required: "请输入老板名字",
+              },
+              contactMethod: {
+                required: "请输入联系方式",
+              },
+              location: {
+                required: "请输入美容院地址",
+              },
+              size: {
+                required: "请输入美容院规模",
+                number: "仅允许输入数字,禁止输入字母或空格",
+                min: "规模应该大于0",
+              },
+              discount: {
+                required: "请输入美容院折扣点",
               },
               description: {
                 maxlength: "备注不能超过100个字符"

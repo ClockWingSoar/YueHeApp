@@ -1,0 +1,144 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<title>编辑美容院信息</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<link rel="stylesheet" th:href="@{/css/core.css}">
+	<link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+	<script type="text/javascript" th:src="@{/js/jquery.min.js}"></script>
+	<script type="text/javascript" th:src="@{/js/bootstrap.min.js}"></script>
+
+	<script type="text/javascript" th:src="@{/js/cosmectiShopEditItem.js}"></script>
+	<script type="text/javascript" th:src="@{/js/jquery.validate.js}"></script>
+	<script type="text/javascript" th:src="@{/js/additional-methods.js}"></script>
+	<script type="text/javascript" th:src="@{/js/yueHeCommon.js}"></script>
+	<!-- <meta http-equiv="refresh" content="600; URL=/"> this will redirect to / after 600s -->
+
+</head>
+
+<body>
+	<div th:replace="~{fragments/header.html :: header}">Header</div>
+
+	<div role="main" class="container">
+		<div th:replace="~{fragments/cosmeticShopHeader.html :: header}">CosmeticShop Header</div>
+	
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h3>编辑美容院信息</h3>
+			</div>
+			<div class="yuehe-form-group">
+				<div class="form-group">
+					<form id="cosmeticShop_edit_item"  action="#" th:action="@{/cosmeticShop/update/{id}(id=${cosmeticShop.id})}"  method="POST">
+						<br>
+					<input type="hidden" id="cosmeticShopId" th:value="${cosmeticShop.id}">
+						<div class="form-group  row ">
+							<div class="col-md-1">
+								<span class="input-group-addon"><i class="glyphicon glyphicon-star"></i>美容院名称</span>
+							</div>
+							<div class="col-xs-3">
+								<input id="name" name="name"  th:field="*{cosmeticShop.name}" type=text class="form-control input-sm"></input>
+							</div>
+							<div class="col-xs-6">
+								<span class="help-block">悦和的客户一般都是江浙几大城市的一些美容店或养生会所，如果有重名，需以地名区分</span>
+							</div>
+						</div>
+						<div class="form-group  row ">
+							<div class="col-md-1">
+								<span class="input-group-addon"><i class="glyphicon glyphicon-star"></i>老板</span>
+							</div>
+
+							<div class="col-xs-3">
+								<input id="owner" name="owner" type=text th:field="*{cosmeticShop.owner}"  class="form-control input-sm"></input>
+							</div>
+							<div class="col-xs-6">
+								<span class="help-block">美容院老板或店长，方便区分或联系</span>
+							</div>
+						</div>
+
+						<div class="form-group  row ">
+							<div class="col-md-1">
+								<span class="input-group-addon"><i class="glyphicon glyphicon-star"></i>联系方式</span>
+							</div>
+
+							<div class="col-xs-3">
+								<input id="contactMethod" name="contactMethod" type=text  th:field="*{cosmeticShop.contactMethod}" 
+									class="form-control input-sm"></input>
+							</div>
+
+							<div class="col-xs-6">
+								<span class="help-block">可以写手机号码或座机号码也可以不写</span>
+							</div>
+						</div>
+
+						<div class="form-group  row ">
+							<div class="col-md-1">
+								<span class="input-group-addon"><i class="glyphicon glyphicon-star"></i>地址</span>
+							</div>
+							<div class="col-xs-3">
+								<input id="location" name="location" type=text  th:field="*{cosmeticShop.location}" class="form-control input-sm"></input>
+							</div>
+							<div class="col-xs-6">
+								<span class="help-block">需提供具体地址，地图上可以找到，包裹可以寄到</span>
+							</div>
+						</div>
+						<div class="form-group  row ">
+							<div class="col-md-1">
+								<span class="input-group-addon"><i class="glyphicon glyphicon-star"></i>规模</span>
+							</div>
+							<div class="col-xs-3">
+								<input id="size" name="size" type=text  th:field="*{cosmeticShop.size}" class="form-control input-sm"></input>
+							</div>
+							<div class="col-xs-6">
+								<span class="help-block">这个是指店的会员数目，容量，大小</span>
+							</div>
+						</div>
+						<div class="form-group  row ">
+							<div class="col-md-1">
+								<span class="input-group-addon"><i class="glyphicon glyphicon-star"></i>折扣</span>
+							</div>
+							<div class="col-xs-3">
+								<input id="discount" name="discount" type=text th:field="*{cosmeticShop.discount}"  class="form-control input-sm"></input>
+							</div>
+							<div class="col-xs-6">
+								<span class="help-block">关键指数，涉及到后期计算回款，必须填写</span>
+							</div>
+						</div>
+						<div class="form-group  row ">
+							<div class="col-md-1">
+								<span class="input-group-addon"><i class="glyphicon glyphicon-star"></i>简介</span>
+							</div>
+							<div class="col-xs-3">
+								<input id="description" name="description" type=text  th:field="*{cosmeticShop.description}" 
+									class="form-control input-sm"></input>
+							</div>
+
+							<div class="col-xs-6">
+								<span class="help-block">对美容院做一个简短的介绍</span>
+							</div>
+						</div>
+						<br>
+
+						<div class="form-group  row ">
+								<div class="content">
+										<div class="input-group col-xs-1">
+											<input type="submit" class="btn-primary  btn-lg" name="cosmeticShopUpdateItem"
+												value="更新" />
+										</div>
+										<div class="input-group col-xs-1">
+											<input id="cosmeticShop_delete_btn" type="submit" name="cosmeticShopDeleteItem"
+												class="btn-primary  btn-lg" value="删除" />
+										</div>
+									</div>
+								</div>
+					</form>
+				</div>
+			</div>
+		</div>
+		<div th:replace="~{fragments/footer.html :: footer}">footer</div>
+		<!-- /.container -->
+	</div>
+</body>
+
+</html>

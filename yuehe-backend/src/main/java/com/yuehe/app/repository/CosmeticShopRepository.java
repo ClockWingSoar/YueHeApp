@@ -27,10 +27,9 @@ import org.springframework.data.jpa.repository.Query;
 /**
  * @author Soveran Zhong
  */
-public interface CosmeticShopRepository extends JpaRepository<CosmeticShop, Long> {
+public interface CosmeticShopRepository extends JpaRepository<CosmeticShop, String> {
 
     CosmeticShop findByName(String name);
-    CosmeticShop findById(String id);
     @Query("select new CosmeticShop(c.id,c.name) from CosmeticShop c")
     List<CosmeticShop> findAllForFiltering();
 

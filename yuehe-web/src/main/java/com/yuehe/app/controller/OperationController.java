@@ -244,7 +244,7 @@ public class OperationController{
 		}
 		LOGGER.debug("update operation:", operation);
 		try {
-			operation.setOperationDate(simpleDateFormat.format(simpleDateFormat.parse(operation.getOperationDate())));
+			operation.setOperationDate(simpleDateFormat.format(new SimpleDateFormat("MM/dd/yyyy").parse(operation.getOperationDate())));
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}

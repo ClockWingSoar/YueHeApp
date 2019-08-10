@@ -82,7 +82,7 @@ public class ToolController{
 		LOGGER.debug("update tool:", tool);
 		String buyDate = tool.getBuyDate();
 		try {
-			tool.setBuyDate(simpleDateFormat.format(simpleDateFormat.parse(buyDate)));
+			tool.setBuyDate(simpleDateFormat.format(new SimpleDateFormat("MM/dd/yyyy").parse(buyDate)));
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

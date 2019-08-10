@@ -228,7 +228,7 @@ public class SaleController {
 		}
 		LOGGER.debug("update sale:", sale);
 		try {
-			sale.setCreateCardDate(simpleDateFormat.format(simpleDateFormat.parse(sale.getCreateCardDate())));
+			sale.setCreateCardDate(simpleDateFormat.format(new SimpleDateFormat("MM/dd/yyyy").parse(sale.getCreateCardDate())));
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
