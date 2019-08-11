@@ -114,7 +114,7 @@ public class CosmeticShopController{
         cosmeticShop.setOwner(owner);
         cosmeticShop.setContactMethod(contactMethod);
         cosmeticShop.setLocation(location);
-        cosmeticShop.setSize(Integer.parseInt(size));
+        cosmeticShop.setSize(size);
         cosmeticShop.setMemberNumber(Integer.parseInt(memberNumber));
         cosmeticShop.setDiscount(Float.parseFloat(discount));
         cosmeticShop.setDescription(description);

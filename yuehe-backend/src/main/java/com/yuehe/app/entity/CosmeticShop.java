@@ -43,7 +43,7 @@ public class CosmeticShop implements Serializable {
 	@Column(name = "contact_method")
 	private String contactMethod;
 	private String location;
-	private Integer size;
+	private String size;
 	@Column(name = "member_number")
 	private Integer memberNumber;
 	private Float discount;
