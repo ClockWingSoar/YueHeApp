@@ -26,7 +26,7 @@
 	<div role="main" class="container">
 
 		<div th:replace="~{fragments/employeeHeader.html :: header}">Employee Header</div>
-	
+
 		<div class="panel panel-default">
 			<div class="panel-heading">
 				<h3>创建新的员工</h3>
@@ -36,13 +36,14 @@
 					<form id="employee_new_item" th:action="@{/createEmployee}" method="POST">
 						<br>
 						<div class="form-group  row ">
-							<div class="col-md-1"> <span class="input-group-addon"><i
-										class="glyphicon glyphicon-user"></i>员工名称</span>
+							<div class="col-md-1">
+								<span class="input-group-addon"><i class="glyphicon glyphicon-user"></i>员工名称</span>
 							</div>
-							<div class="col-xs-3"><input id="name" name="name" type=text
-									class="form-control input-sm"></input>
+							<div class="col-xs-3">
+								<input id="name" name="name" type=text class="form-control input-sm"></input>
 							</div>
-							<div class="col-xs-6"><span class="help-block">员工姓名可能会重名，系统自动生成唯一ID</span>
+							<div class="col-xs-6">
+								<span class="help-block">员工姓名可能会重名，系统自动生成唯一ID</span>
 							</div>
 						</div>
 						<div class="form-group  row ">
@@ -50,16 +51,17 @@
 								<span class="input-group-addon"><i class="glyphicon glyphicon-user"></i>工资</span>
 							</div>
 
-							<div class="col-xs-3"><input id="salary" name="salary" type=text
-									class="form-control input-sm"></input>
+							<div class="col-xs-3">
+								<input id="salary" name="salary" type=text class="form-control input-sm"></input>
 							</div>
-							<div class="col-xs-6"><span class="help-block">工资构成可能包括底薪，各项补贴或分红，可能需要重新设计工资页</span>
+							<div class="col-xs-6">
+								<span class="help-block">工资构成可能包括底薪，各项补贴或分红，可能需要重新设计工资页</span>
 							</div>
 						</div>
 
 						<div class="form-group  row ">
-							<div class="col-md-1"> <span class="input-group-addon"><i
-										class="glyphicon glyphicon-user"></i>生日</span>
+							<div class="col-md-1">
+								<span class="input-group-addon"><i class="glyphicon glyphicon-user"></i>生日</span>
 							</div>
 
 							<div class="col-xs-3"> <input id="birthday" name="birthday" type=text
@@ -74,9 +76,8 @@
 							<div class="col-md-1">
 								<span class="input-group-addon"><i class="glyphicon glyphicon-user"></i>离职否</span>
 							</div>
-							<div class="col-xs-3"> 
-									<select  class="form-control input-sm" 
-									name="resigned" id="resigned">
+							<div class="col-xs-3">
+								<select class="form-control input-sm" name="resigned" id="resigned">
 									<option selected="selected" value=""> --请选择员工在岗状态 --
 									</option>
 									<option value="y">已离职</option>

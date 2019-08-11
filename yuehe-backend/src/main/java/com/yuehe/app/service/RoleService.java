@@ -1,6 +1,5 @@
 /*
-    Copyright (C) 2018  Shazin Sadakath
-
+    Copyright (C) 2019 Yi Xiang Zhong 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
     the Free Software Foundation, either version 3 of the License, or
@@ -50,7 +49,7 @@ public class RoleService {
         return roleRepository.findAll();
     }
     public Role getById(String id) {
-    	return roleRepository.findById(id);
+    	return roleRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid role Id:" + id));
     }
     public Role getRoleByName(String name) {
     	return roleRepository.findByName(name);
@@ -73,5 +72,8 @@ public class RoleService {
         int biggestIdNum = YueHeUtil.extractIdDigitalNumber(biggestId);
 		LOGGER.info("biggest Id Number-{}",biggestIdNum);
 	    return biggestIdNum;
-	}
+    }
+    public void deleteById(String id) {
+		roleRepository.deleteById(id);
+   }
 }

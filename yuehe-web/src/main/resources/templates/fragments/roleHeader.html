@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <link rel="stylesheet" media="screen" th:href="@{/css/bootstrap.min.css}" />
+</head>
+
+<body>
+  <div class="container" th:fragment="header">
+    <ul class="nav nav-tabs nav-justified">
+      <li th:classappend="${subModule == 'roleList' ? 'active' : ''}">
+        <a href="#" th:href="@{/getRoleList}" style="font-size: 22px; text-decoration: none">角色列表</a></li>
+      <li th:classappend="${subModule == 'roleNewItem' ? 'active' : ''}">
+        <a href="#" th:href="@{/getRoleNewItem}" style="font-size: 22px; text-decoration: none">新建角色信息</a>
+      </li>
+    </ul>
+    <br>
+  </div>
+</body>
+
+</html>

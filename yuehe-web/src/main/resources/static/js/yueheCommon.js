@@ -570,3 +570,34 @@ function filterTable(table, filter, index) {
               }
             }, 
     }
+//common validator for roleNewItem and roleEditItem page
+    var roleItemValidator= {
+            rules: {
+              name: {
+                required: true,
+              },
+             
+             
+              responsibility: {
+                required: true,
+              },
+             
+              description: {
+                maxlength: 100,
+              },
+              
+            },
+            messages : {
+              name: {
+                required: "请输入角色名称",
+              },
+             
+              responsibility: {
+                required: "请输入角色的职责",
+              },
+             
+              description: {
+                maxlength: "备注不能超过100个字符"
+              }
+            }, 
+    }
