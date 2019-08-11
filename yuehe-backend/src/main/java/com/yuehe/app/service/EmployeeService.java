@@ -50,7 +50,7 @@ public class EmployeeService {
         return employeeRepository.findAll();
     }
     public Employee getById(String id) {
-    	return employeeRepository.findById(id);
+    	return employeeRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid employee Id:" + id));
     }
     public Employee getEmployeeByName(String name) {
     	return employeeRepository.findByName(name);
@@ -73,5 +73,8 @@ public class EmployeeService {
         int biggestIdNum = YueHeUtil.extractIdDigitalNumber(biggestId);
 		LOGGER.info("biggest Id Number-{}",biggestIdNum);
 	    return biggestIdNum;
-	}
+    }
+    public void deleteById(String id) {
+		employeeRepository.deleteById(id);
+   }
 }

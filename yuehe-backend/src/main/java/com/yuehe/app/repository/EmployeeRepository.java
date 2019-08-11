@@ -26,10 +26,9 @@ import org.springframework.data.jpa.repository.Query;
 /**
  * @author Soveran Zhong
  */
-public interface EmployeeRepository extends JpaRepository<Employee, Long> {
+public interface EmployeeRepository extends JpaRepository<Employee, String> {
 
     Employee findByName(String name);
-    Employee findById(String id);
 
     /**
 	 * get all the ids from table employee 

@@ -238,7 +238,7 @@ function filterTable(table, filter, index) {
               operator: {
                 required: true,
               },
-              tool: {
+              employee: {
                 required: true,
               },
               
@@ -267,7 +267,7 @@ function filterTable(table, filter, index) {
               operator: {
                 required: "请选择操作医生的名字",
               },
-              tool: {
+              employee: {
                 required: "请选择操作仪器",
               },
               description: {
@@ -519,6 +519,50 @@ function filterTable(table, filter, index) {
                 number: "仅允许输入数字,禁止输入字母或空格",
                 min: "补贴应该大于等于0",
                 
+              },
+             
+              description: {
+                maxlength: "备注不能超过100个字符"
+              }
+            }, 
+    }
+//common validator for employeeNewItem and employeeEditItem page
+    var employeeItemValidator= {
+            rules: {
+              name: {
+                required: true,
+              },
+              salary : {
+                required: true,
+                number: true,
+                min: 3000,
+              },
+             
+              birthday: {
+                required: true,
+              },
+              resigned: {
+                required: true,
+              },
+              description: {
+                maxlength: 100,
+              },
+              
+            },
+            messages : {
+              name: {
+                required: "请输入员工姓名",
+              },
+              salary: {
+                required: "请输入员工工资",
+                number: "仅允许输入数字,禁止输入字母或空格",
+                min: "工资应该大于等于0",
+              },
+              birthday: {
+                required: "请输入员工生日",
+              },
+              resigned: {
+                required: "请输入y或n，y代表已离职，n代表在职",
               },
              
               description: {

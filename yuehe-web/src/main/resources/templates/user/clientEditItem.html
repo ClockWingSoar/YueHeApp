@@ -31,7 +31,7 @@
 			</div>
 			<div class="yuehe-form-group">
 				<div class="form-group">
-					<form id="client_edit_item" action="#" th:action="@{/client/update/{id}(id=${client.id})}"
+					<form id="client_edit_item"   th:object="${client}" action="#" th:action="@{/client/update/{id}(id=${client.id})}"
 						method="POST">
 						<br>
 						<input type="hidden" id="clientId" th:value="${client.id}">
@@ -41,7 +41,7 @@
 							</div>
 
 							<div class="col-xs-3">
-								<input id="name" name="name" type=text th:field="*{client.name}"
+								<input id="name" name="name" type=text th:field="*{name}"
 									class="form-control input-sm"></input>
 							</div>
 							<div class="col-xs-6">
@@ -54,7 +54,7 @@
 							</div>
 
 							<div class="col-xs-3">
-								<select class="fstdropdown-select" th:field="*{client.cosmeticShop.id}"
+								<select class="fstdropdown-select" th:field="*{cosmeticShop.id}"
 									data-placeholder="请输入美容院名搜索" name="cosmeticShopId" id="cosmeticShop">
 									<option selected="selected" value="all"> --请选择美容院 --
 									</option>
@@ -73,7 +73,7 @@
 							</div>
 
 							<div class="col-xs-3">
-								<input id="age" name="age" type=text th:field="*{client.age}"
+								<input id="age" name="age" type=text th:field="*{age}"
 									class="form-control input-sm"></input>
 							</div>
 							<div class="col-xs-6">
@@ -87,14 +87,14 @@
 								<span class="input-group-addon"><i class="glyphicon glyphicon-user"></i>性别</span>
 							</div>
 							<div class="col-xs-3">
-									<select  class="form-control input-sm"  th:field="*{client.gender}"
+									<select  class="form-control input-sm"  th:field="*{gender}"
 									name="gender" id="gender">
 									<option selected="selected" value=""> --请选择性别 --
 									</option>
-									<option value="female">女性</option>
-									<option value="male">男性</option>
+									<option value="f">女性</option>
+									<option value="m">男性</option>
 								</select>
-								<!-- <input id="gender" name="gender" th:field="*{client.gender}" type=text
+								<!-- <input id="gender" name="gender" th:field="*{gender}" type=text
 									class="form-control input-sm"></input> -->
 							</div>
 							<div class="col-xs-6">
@@ -106,7 +106,7 @@
 								<span class="input-group-addon"><i class="glyphicon glyphicon-user"></i>症状</span>
 							</div>
 							<div class="col-xs-3">
-								<input id="symptom" name="symptom" th:field="*{client.symptom}" type=text
+								<input id="symptom" name="symptom" th:field="*{symptom}" type=text
 									class="form-control input-sm"></input>
 							</div>
 							<div class="col-xs-6">

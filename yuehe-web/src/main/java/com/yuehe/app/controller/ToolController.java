@@ -84,7 +84,6 @@ public class ToolController{
 		try {
 			tool.setBuyDate(simpleDateFormat.format(new SimpleDateFormat("MM/dd/yyyy").parse(buyDate)));
 		} catch (ParseException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		if (tool != null) {

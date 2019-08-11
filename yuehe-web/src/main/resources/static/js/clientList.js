@@ -106,10 +106,10 @@ $(function ($) {
 			}
 			if(!isEmpty(gender)){
 				if (gender.includes("男")){
-					gender = "male";
+					gender = "m";
 				}
 				if (gender.includes("女")){
-					gender = "female";
+					gender = "f";
 				}
 				if(regex.test(gender)){
 

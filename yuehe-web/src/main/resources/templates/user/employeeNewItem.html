@@ -1,0 +1,117 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<title>新建员工信息</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<link rel="stylesheet" th:href="@{/css/core.css}">
+	<link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+	<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+	<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+	<!-- <script type="text/javascript" th:src="@{/js/jquery.min.js}"></script> this will cause the datepicker not working -->
+	<script type="text/javascript" th:src="@{/js/bootstrap.min.js}"></script>
+	<script type="text/javascript" th:src="@{/js/employeeNewItem.js}"></script>
+	<script type="text/javascript" th:src="@{/js/jquery.validate.js}"></script>
+	<script type="text/javascript" th:src="@{/js/additional-methods.js}"></script>
+	<script type="text/javascript" th:src="@{/js/yueHeCommon.js}"></script>
+	<!-- <meta http-equiv="refresh" content="600; URL=/"> this will redirect to / after 600s -->
+
+</head>
+
+<body>
+	<div th:replace="~{fragments/header.html :: header}">Header</div>
+
+	<div role="main" class="container">
+
+		<div th:replace="~{fragments/employeeHeader.html :: header}">Employee Header</div>
+	
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h3>创建新的员工</h3>
+			</div>
+			<div class="yuehe-form-group">
+				<div class="form-group">
+					<form id="employee_new_item" th:action="@{/createEmployee}" method="POST">
+						<br>
+						<div class="form-group  row ">
+							<div class="col-md-1"> <span class="input-group-addon"><i
+										class="glyphicon glyphicon-user"></i>员工名称</span>
+							</div>
+							<div class="col-xs-3"><input id="name" name="name" type=text
+									class="form-control input-sm"></input>
+							</div>
+							<div class="col-xs-6"><span class="help-block">员工姓名可能会重名，系统自动生成唯一ID</span>
+							</div>
+						</div>
+						<div class="form-group  row ">
+							<div class="col-md-1">
+								<span class="input-group-addon"><i class="glyphicon glyphicon-user"></i>工资</span>
+							</div>
+
+							<div class="col-xs-3"><input id="salary" name="salary" type=text
+									class="form-control input-sm"></input>
+							</div>
+							<div class="col-xs-6"><span class="help-block">工资构成可能包括底薪，各项补贴或分红，可能需要重新设计工资页</span>
+							</div>
+						</div>
+
+						<div class="form-group  row ">
+							<div class="col-md-1"> <span class="input-group-addon"><i
+										class="glyphicon glyphicon-user"></i>生日</span>
+							</div>
+
+							<div class="col-xs-3"> <input id="birthday" name="birthday" type=text
+									class="form-control input-sm"></input>
+							</div>
+							<div class="col-xs-6">
+								<span class="help-block">公司的活动基金可以用来给员工过生日</span>
+							</div>
+						</div>
+
+						<div class="form-group  row ">
+							<div class="col-md-1">
+								<span class="input-group-addon"><i class="glyphicon glyphicon-user"></i>离职否</span>
+							</div>
+							<div class="col-xs-3"> 
+									<select  class="form-control input-sm" 
+									name="resigned" id="resigned">
+									<option selected="selected" value=""> --请选择员工在岗状态 --
+									</option>
+									<option value="y">已离职</option>
+									<option value="n">在职</option>
+								</select>
+								<!-- <input id="resigned" name="resigned" type=text
+									class="form-control input-sm"></input> -->
+							</div>
+							<span class="help-block">(y代表已离职,n代表在职)，因为计算悦和过去的操作记录需要离职员工的信息</span>
+						</div>
+				</div>
+				<div class="form-group  row ">
+					<div class="col-md-1">
+						<span class="input-group-addon"><i class="glyphicon glyphicon-user"></i>备注</span>
+					</div>
+					<div class="col-xs-3"> <textarea rows="4" cols="50" id="description" name="description" type=text
+							class="form-control input-sm"></textarea>
+					</div>
+					<div class="col-xs-6">
+						<span class="help-block">其他信息</span>
+					</div>
+				</div>
+				<br>
+				<div class="form-group  row ">
+					<div class="content">
+						<div class="input-group col-xs-4">
+							<input type="submit" class="btn-primary  btn-lg" value="提交" />
+						</div>
+					</div>
+				</div>
+				</form>
+			</div>
+		</div>
+		<div th:replace="~{fragments/footer.html :: footer}">footer</div>
+	</div>
+</body>
+
+</html>

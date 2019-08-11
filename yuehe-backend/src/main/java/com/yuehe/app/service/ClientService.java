@@ -144,7 +144,7 @@ public class ClientService {
 		}
 		for (ClientShopDTO clientShopDTO : clientShopDTOList) {
 			String gender = clientShopDTO.getGender();
-			if(gender.equals("female"))
+			if(gender.equals("f"))
 				clientShopDTO.setGender("女性");
 			else
 				clientShopDTO.setGender("男性");

@@ -40,7 +40,7 @@ public class BeautifySkinItemService {
     	return beautifySkinItemRepository.findByName(name);
     }
     public BeautifySkinItem getById(String id) {
-    	return beautifySkinItemRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid client Id:" + id));
+    	return beautifySkinItemRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid beautifySkinItem Id:" + id));
     }
     public long getEntityNumber() {
     	return beautifySkinItemRepository.count();

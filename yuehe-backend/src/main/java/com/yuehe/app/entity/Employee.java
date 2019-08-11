@@ -49,7 +49,7 @@ public class Employee implements Serializable {
 
 	private String name;
 	private int salary;
-	private Date birthday;
+	private String birthday;
 	private String description;
 	private String resigned;
     /**
