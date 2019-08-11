@@ -51,7 +51,7 @@ public class ToolService {
     }
 
     public Tool getById(String id) {
-        return toolRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid client Id:" + id));
+        return toolRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid tool Id:" + id));
     }
 
     public Tool getToolByName(String name) {

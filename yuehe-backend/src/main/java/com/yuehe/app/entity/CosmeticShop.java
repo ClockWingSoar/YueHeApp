@@ -18,7 +18,9 @@ import org.hibernate.annotations.FetchMode;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 /**
  * CosmeticShop entity. @author Soveran Zhong
@@ -28,6 +30,8 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@ToString
+@EqualsAndHashCode 
 public class CosmeticShop implements Serializable {
 
 	// Fields
@@ -66,4 +70,11 @@ public class CosmeticShop implements Serializable {
 		this.id = id;
 	}
 	public static Comparator<CosmeticShop> idComparator = Comparator.comparing(CosmeticShop::getId);
+	@Override
+	public String toString() {
+		return "CosmeticShop [id=" + id + ", name=" + name + ", owner=" + owner + ", contactMethod=" + contactMethod
+				+ ", location=" + location + ", size=" + size + ", discount=" + discount + ", shopPremium="
+				+ shopPremium + ", description=" + description + "]";//+ ", clientNumber="
+				// + Optional.ofNullable(clients).orElse(new HashSet<Client>()).size() + "]";
+	}
 }

@@ -17,7 +17,9 @@ import org.hibernate.annotations.FetchMode;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 /**
  * Duty entity. @author Soveran Zhong
@@ -27,6 +29,8 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@ToString
+@EqualsAndHashCode 
 public class Duty implements Serializable {
 	private static final long serialVersionUID = 8370937162321937450L;
 

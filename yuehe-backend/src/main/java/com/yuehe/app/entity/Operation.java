@@ -18,7 +18,9 @@ import org.hibernate.annotations.FetchMode;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 /**
  * Operation entity. @author Soveran Zhong
@@ -28,6 +30,8 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@ToString
+@EqualsAndHashCode 
 public class Operation implements Serializable {
 	private static final long serialVersionUID = -7938239506561236760L;
 

@@ -16,7 +16,9 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 /**
  * Employee entity. @author Soveran Zhong
@@ -26,6 +28,8 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@ToString
+@EqualsAndHashCode 
 public class Employee implements Serializable {
 	private static final long serialVersionUID = 5130639635185289129L;
 
@@ -59,6 +63,6 @@ public class Employee implements Serializable {
 	public String toString() {
 		return "Employee [id=" + id + ", name=" + name + ", salary=" + salary + ", birthday=" + birthday
 				+ ", description=" + description + ", resigned=" + resigned + "]";
-	}
+	}	
 	public static Comparator<Employee> idComparator = Comparator.comparing(Employee::getId);
 }

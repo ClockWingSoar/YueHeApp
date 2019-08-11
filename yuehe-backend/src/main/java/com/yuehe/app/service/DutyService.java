@@ -51,7 +51,7 @@ public class DutyService {
         return dutyRepository.findAll();
     }
     public Duty getDutyById(String id) {
-    	return dutyRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid client Id:" + id));
+    	return dutyRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid duty Id:" + id));
     }
     public List<DutyEmployeeRoleDTO> getAllPersonByRoleName(String name) {
     	return dutyRepository.findByRoleName(name);

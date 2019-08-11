@@ -56,7 +56,7 @@ public class CosmeticShopService {
     	return cosmeticShopRepository.count();
     }
     public CosmeticShop getById(String id) {
-    	return cosmeticShopRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid client Id:" + id));
+    	return cosmeticShopRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid cosmeticShop Id:" + id));
     }
     public CosmeticShop getCosmeticShopByName(String name) {
     	return cosmeticShopRepository.findByName(name);

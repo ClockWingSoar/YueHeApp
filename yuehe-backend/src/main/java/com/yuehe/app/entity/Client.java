@@ -22,7 +22,9 @@ import org.hibernate.annotations.FetchMode;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 /**
  * Client entity. @author Soveran Zhong
@@ -32,6 +34,8 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@ToString
+@EqualsAndHashCode 
 public class Client implements Serializable {
 	// Fields
 
@@ -57,11 +61,7 @@ public class Client implements Serializable {
 	@Fetch(value=FetchMode.SELECT)
 	private Set<Sale> sales;
 
-	@Override
-	public String toString() {
-		return "Client [id=" + id + ", cosmeticShopName=" + Optional.ofNullable(cosmeticShop).orElse(new CosmeticShop()).getName() + ", name=" + name + ", age=" + age
-				+ ", gender=" + gender + ", symptom=" + symptom + "]";
-	}
+	
     /**
 	 * use it to get the biggest id column of table client 
 	 * @param id
@@ -74,6 +74,11 @@ public class Client implements Serializable {
 		this.id = id;
 		this.name = name;
 
+	}
+	@Override
+	public String toString() {
+		return "Client [id=" + id + ", cosmeticShopName=" + Optional.ofNullable(cosmeticShop).orElse(new CosmeticShop()).getName() + ", name=" + name + ", age=" + age
+				+ ", gender=" + gender + ", symptom=" + symptom + "]";
 	}
 	public static Comparator<Client> idComparator = Comparator.comparing(Client::getId);
 }

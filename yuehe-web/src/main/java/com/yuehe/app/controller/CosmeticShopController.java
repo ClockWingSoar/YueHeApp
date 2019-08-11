@@ -118,7 +118,7 @@ public class CosmeticShopController{
         cosmeticShop.setMemberNumber(Integer.parseInt(memberNumber));
         cosmeticShop.setDiscount(Float.parseFloat(discount));
         cosmeticShop.setDescription(description);
-        LOGGER.info("cosmeticShop:",cosmeticShop);
+        LOGGER.info("cosmeticShop:{}",cosmeticShop);
 
         if (cosmeticShop != null) {
             LOGGER.info("Saved {}", cosmeticShopService.create(cosmeticShop));
