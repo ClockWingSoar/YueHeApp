@@ -1,30 +1,32 @@
-$(function ($) {
-	jQuery(function() { 
-		$('#cosmeticShop').change(getShopAllClientsList);
-		$('#client').change(getClientAllSalesList);
-		});
-	$('#sale_summary_lookup').click(
-		function() {
-			var shopId = $('#cosmeticShop').val();
-			var clientId = $('#client').val();
-			var saleId = $('#sale').val();
-			if(shopId == "all"){
-				getYueHeAllShopsSales();
+// $(function ($) {
+// 	jQuery(function() { 
+// 		$('#cosmeticShop').change(getShopAllClientsList);
+// 		$('#client').change(getClientAllSalesList);
+// 		});
+// 	$('#sale_summary_lookup').click(
+// 		function() {
+// 			var shopId = $('#cosmeticShop').val();
+// 			var clientId = $('#client').val();
+// 			var saleId = $('#sale').val();
+// 			if(shopId == "all"){
+// 				getYueHeAllShopsSales();
 			
-			}else if(clientId == "all"){
-				getShopAllClientsSales(shopId);
-			}else if(saleId =="all"){
-				getClientAllSales(clientId);
-			}else{
-				getSalePerformanceDetail(saleId);
-			}
-		});
-});
+// 			}else if(clientId == "all"){
+// 				getShopAllClientsSales(shopId);
+// 			}else if(saleId =="all"){
+// 				getClientAllSales(clientId);
+// 			}else{
+// 				getSalePerformanceDetail(saleId);
+// 			}
+// 		});
+// });
 	
 
-function getYueHeAllShopsSales(){
+function getYueHeAllShopsSales(startDate,endDate){
 
 	$.getJSON("http://"+window.location.host+"/getYueHeAllShopsSales", {
+		startDate:startDate,
+		endDate:endDate,
 		ajax : 'true'
 	}, function(data) {
 		var html = '';
@@ -57,8 +59,10 @@ function getYueHeAllShopsSales(){
 		$("#sale_item").addClass('hidden');
 	});
 }
-function getShopAllClientsSales(shopId){
+function getShopAllClientsSales(shopId,startDate,endDate){
 	$.getJSON("http://"+window.location.host+"/getShopAllClientsSales", {
+		startDate:startDate,
+		endDate:endDate,
 		shopId:shopId,
 		ajax : 'true'
 	}, function(data) {
@@ -92,8 +96,10 @@ function getShopAllClientsSales(shopId){
 		$("#sale_item").addClass('hidden');
 	});
 }
-function getClientAllSales(clientId){
+function getClientAllSales(clientId,startDate,endDate){
 	$.getJSON("http://"+window.location.host+"/getClientAllSales", {
+		startDate:startDate,
+		endDate:endDate,
 		clientId:clientId,
 		ajax : 'true'
 	}, function(data) {

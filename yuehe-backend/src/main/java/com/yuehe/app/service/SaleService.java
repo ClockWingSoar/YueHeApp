@@ -107,6 +107,9 @@ public class SaleService {
     public List<SaleBeautifySkinItemForFilterDTO> getByClientId(String ClientId) {
     	return saleRepository.findByClientId(ClientId);
     }
+    public List<SaleBeautifySkinItemForFilterDTO> getByClientIdAndCreateCardDate(String ClientId, String startDate, String endDate) {
+    	return saleRepository.findByClientIdAndCreateCardDate(ClientId, startDate, endDate);
+    }
     // public Sale getSaleByClientNameAndShopNameAndItemNameAndCreateCardDate(String clientName, String cosmeticShopName,
     // 																		String beautifySkinItemName, String createCardDate) {
     // 	client = clientService.getClientByClientNameAndShopName(clientName,cosmeticShopName);
@@ -391,7 +394,7 @@ public class SaleService {
 		LOGGER.info("biggest Id Number-{}",biggestIdNum);
 	    return biggestIdNum;
 	}
-	 public YueHeAllSalesPerformanceDetailDTO getYueHeAllSalesPerformanceDetail() {
+	 public YueHeAllSalesPerformanceDetailDTO getYueHeAllSalesPerformanceDetail(String startDate, String endDate) {
 		 YueHeAllSalesPerformanceDetailDTO yueHeAllSalesPerformanceDetailDTO = new YueHeAllSalesPerformanceDetailDTO();
 		 List<CosmeticShop> cosmeticShopList = cosmeticShopService.getAllCosmeticShopForFiltering();
 		 List<ShopAllSalesPerformanceDetailDTO> shopAllSalesPerformanceDetailDTOList = new ArrayList<ShopAllSalesPerformanceDetailDTO>();
@@ -405,17 +408,18 @@ public class SaleService {
 		 float allShopsSalesShopPremium = 0;
 		 for(CosmeticShop cosmeticShop : cosmeticShopList) {
 			 String shopId = cosmeticShop.getId();
-			 ShopAllSalesPerformanceDetailDTO shopAllSalesPerformanceDetailDTO = getShopAllSalesPerformanceDetail(shopId);
+			 ShopAllSalesPerformanceDetailDTO shopAllSalesPerformanceDetailDTO = getShopAllSalesPerformanceDetail(shopId, startDate, endDate);
 			 allShopsSalesCreateCardTotalAmount += shopAllSalesPerformanceDetailDTO.getAllClientsSalesCreateCardTotalAmount();
 			 allShopsSalesReceivedAmount += shopAllSalesPerformanceDetailDTO.getAllClientsSalesReceivedAmount();
 			 allShopsSalesDebtAmount += shopAllSalesPerformanceDetailDTO.getAllClientsSalesDebtAmount();
-			 allShopsSalesEarnedAmount += shopAllSalesPerformanceDetailDTO.getAllClientsSalesDebtEarnedAmount();
+			 allShopsSalesEarnedAmount += shopAllSalesPerformanceDetailDTO.getAllClientsSalesEarnedAmount();
 			 allShopsSalesReceivedEarnedAmount += shopAllSalesPerformanceDetailDTO.getAllClientsSalesReceivedEarnedAmount();
 			 allShopsSalesDebtEarnedAmount += shopAllSalesPerformanceDetailDTO.getAllClientsSalesDebtEarnedAmount();
 			 allShopsSalesEmployeePremium += shopAllSalesPerformanceDetailDTO.getAllClientsSalesEmployeePremium();
 			 allShopsSalesShopPremium += shopAllSalesPerformanceDetailDTO.getAllClientsSalesShopPremium();
 			 shopAllSalesPerformanceDetailDTOList.add(shopAllSalesPerformanceDetailDTO);
 			 
+			//  LOGGER.debug("shopId {},allShopsSalesEarnedAmount {}",shopId,allShopsSalesEarnedAmount);
 		 }
 		 yueHeAllSalesPerformanceDetailDTO.setCompanyName(BaseProperty.COMPANY_NAME);
 		 yueHeAllSalesPerformanceDetailDTO.setAllShopsSalesCreateCardTotalAmount(allShopsSalesCreateCardTotalAmount);
@@ -427,9 +431,10 @@ public class SaleService {
 		 yueHeAllSalesPerformanceDetailDTO.setAllShopsSalesEmployeePremium(allShopsSalesEmployeePremium);
 		 yueHeAllSalesPerformanceDetailDTO.setAllShopsSalesShopPremium(allShopsSalesShopPremium);
 		 yueHeAllSalesPerformanceDetailDTO.setShopAllSalesPerformanceDetailDTOs(shopAllSalesPerformanceDetailDTOList);
+		//  LOGGER.debug("yueHeAllSalesPerformanceDetailDTO {}",yueHeAllSalesPerformanceDetailDTO);
 		 return yueHeAllSalesPerformanceDetailDTO;
 	 }
-	 public ShopAllSalesPerformanceDetailDTO getShopAllSalesPerformanceDetail(String shopId) {
+	 public ShopAllSalesPerformanceDetailDTO getShopAllSalesPerformanceDetail(String shopId, String startDate, String endDate) {
 		 String shopName = cosmeticShopService.getById(shopId).getName();
 		 ShopAllSalesPerformanceDetailDTO shopAllSalesPerformanceDetailDTO = new ShopAllSalesPerformanceDetailDTO();
 		 List<Client> clientListByShop = clientService.getClientsByShopId(shopId);
@@ -444,7 +449,7 @@ public class SaleService {
 		 float allClientsSalesShopPremium = 0;
 		 for(Client client : clientListByShop) {
 			 String clientId = client.getId();
-			 ClientAllSalesPerformanceDetailDTO clientAllSalesPerformanceDetailDTO = getClientAllSalesPerformanceDetail(clientId);
+			 ClientAllSalesPerformanceDetailDTO clientAllSalesPerformanceDetailDTO = getClientAllSalesPerformanceDetail(clientId, startDate, endDate);
 			 allClientsSalesCreateCardTotalAmount += clientAllSalesPerformanceDetailDTO.getAllSalesCreateCardTotalAmount();
 			 allClientsSalesReceivedAmount += clientAllSalesPerformanceDetailDTO.getAllSalesReceivedAmount();
 			 allClientsSalesDebtAmount += clientAllSalesPerformanceDetailDTO.getAllSalesDebtAmount();
@@ -455,6 +460,7 @@ public class SaleService {
 			 allClientsSalesShopPremium += clientAllSalesPerformanceDetailDTO.getAllSalesShopPremium();
 			 clientAllSalesPerformanceDetailDTOList.add(clientAllSalesPerformanceDetailDTO);
 			 
+			//  LOGGER.debug("clientId {},allClientsSalesEarnedAmount {}",clientId,allClientsSalesEarnedAmount);
 		 }
 		 shopAllSalesPerformanceDetailDTO.setCosmeticShopName(shopName);
 		 shopAllSalesPerformanceDetailDTO.setAllClientsSalesCreateCardTotalAmount(allClientsSalesCreateCardTotalAmount);
@@ -468,10 +474,17 @@ public class SaleService {
 		 shopAllSalesPerformanceDetailDTO.setClientAllSalesPerformanceDetailDTOs(clientAllSalesPerformanceDetailDTOList);
 		 return shopAllSalesPerformanceDetailDTO;
 	 }
-	 public ClientAllSalesPerformanceDetailDTO getClientAllSalesPerformanceDetail(String clientId) {
+	 public ClientAllSalesPerformanceDetailDTO getClientAllSalesPerformanceDetail(String clientId, String startDate, String endDate) {
 		 String clientName = clientService.getById(clientId).getName();
 		 ClientAllSalesPerformanceDetailDTO clientAllSalesPerformanceDetailDTO = new ClientAllSalesPerformanceDetailDTO();
-		 List<SaleBeautifySkinItemForFilterDTO> saleListByClient = saleRepository.findByClientId(clientId);
+		 List<SaleBeautifySkinItemForFilterDTO> saleListByClient = new ArrayList<SaleBeautifySkinItemForFilterDTO>();
+		 if(StringUtils.isEmpty(startDate) && StringUtils.isEmpty(endDate)){
+
+			saleListByClient =  getByClientId(clientId);
+		}else{
+			saleListByClient = getByClientIdAndCreateCardDate(clientId, startDate, endDate);
+		}
+		//  List<SaleBeautifySkinItemForFilterDTO> saleListByClient = saleRepository.findByClientId(clientId, startDate, endDate);
 		 List<SalePerformanceDetailDTO> salePerformanceDetailDTOList = new ArrayList<SalePerformanceDetailDTO>();
 		 long allSalesCreateCardTotalAmount = 0;
 		 long allSalesReceivedAmount = 0;

@@ -1,29 +1,31 @@
-$(function ($) {jQuery(function() { 
-	$('#cosmeticShop').change(getShopAllClientsList);
-	$('#client').change(getClientAllSalesList);
-	});
-	$('#operation_summary_lookup').click(
-			function() {
-				var shopId = $('#cosmeticShop').val();
-				var clientId = $('#client').val();
-				var saleId = $('#sale').val();
-				if(shopId == "all"){
-					getYueHeAllShopsOperations(shopId);
-				}else if(clientId == "all"){
-					getShopAllClientsOperations(shopId);
-				}else if(saleId =="all"){
-					getClientAllSalesOperations(clientId);
-				}else{
-					 getSaleAllOperations(saleId);
-				}
-			});
+// $(function ($) {jQuery(function() { 
+// 	$('#cosmeticShop').change(getShopAllClientsList);
+// 	$('#client').change(getClientAllSalesList);
+// 	});
+// 	$('#operation_summary_lookup').click(
+// 			function() {
+// 				var shopId = $('#cosmeticShop').val();
+// 				var clientId = $('#client').val();
+// 				var saleId = $('#sale').val();
+// 				if(shopId == "all"){
+// 					getYueHeAllShopsOperations(shopId);
+// 				}else if(clientId == "all"){
+// 					getShopAllClientsOperations(shopId);
+// 				}else if(saleId =="all"){
+// 					getClientAllSalesOperations(clientId);
+// 				}else{
+// 					 getSaleAllOperations(saleId);
+// 				}
+// 			});
 
 	
-});
+// });
 
-function getClientAllSalesOperations(clientId){
+function getClientAllSalesOperations(clientId,startDate,endDate){
 	$.getJSON("http://"+window.location.host+"/getClientAllSalesOperations", {
 		clientId:clientId,
+		startDate:startDate,
+		endDate:endDate,
 		ajax : 'true'
 	}, function(data) {
 		var html = '';
@@ -55,10 +57,12 @@ function getClientAllSalesOperations(clientId){
 		$("#operation_detail").addClass('hidden');
 	});
 }
-function getSaleAllOperations(saleId){
+function getSaleAllOperations(saleId,startDate,endDate){
 
 	$.getJSON("http://"+window.location.host+"/getSaleAllOperations", {
 		saleId : saleId,
+		startDate:startDate,
+		endDate:endDate,
 		ajax : 'true'
 	}, function(data) {
 		var html = '';
@@ -92,9 +96,11 @@ function getSaleAllOperations(saleId){
 	});
 }
 
-function getShopAllClientsOperations(shopId){
+function getShopAllClientsOperations(shopId,startDate,endDate){
 	$.getJSON("http://"+window.location.host+"/getShopAllClientsOperations", {
 		shopId:shopId,
+		startDate:startDate,
+		endDate:endDate,
 		ajax : 'true'
 	}, function(data) {
 		var html = '';
@@ -122,8 +128,10 @@ function getShopAllClientsOperations(shopId){
 	});
 }
 
-function getYueHeAllShopsOperations(){
+function getYueHeAllShopsOperations(startDate,endDate){
 	$.getJSON("http://"+window.location.host+"/getYueHeAllShopsOperations", {
+		startDate:startDate,
+		endDate:endDate,
 		ajax : 'true'
 	}, function(data) {
 		var html = '';

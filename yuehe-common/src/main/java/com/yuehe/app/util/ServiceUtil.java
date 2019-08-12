@@ -1,12 +1,19 @@
 package com.yuehe.app.util;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.yuehe.app.common.FilterDateModel;
 import com.yuehe.app.common.PaginationAndSortModel;
 
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -14,6 +21,9 @@ import org.springframework.data.domain.Sort.Direction;
 import org.springframework.ui.Model;
 
 public class ServiceUtil {
+	private final static Logger LOGGER = LoggerFactory.getLogger(ServiceUtil.class);
+	
+	private static SimpleDateFormat simpleDateFormat =  new SimpleDateFormat("yyyy-MM-dd");
 	public static void buildSortOrderBeforeDBQuerying(HttpServletRequest request,PaginationAndSortModel paginationAndSortModel) {
 
 		if (!StringUtils.isEmpty(request.getParameter("page"))) {
@@ -59,5 +69,39 @@ public class ServiceUtil {
 		}
 		return pageable;
 	}
+	public static FilterDateModel initializeFilterDate(FilterDateModel filterDateModel){
+		
+		String startDate =filterDateModel.getStartDate();
+		String endDate =filterDateModel.getEndDate();
+		if(StringUtils.isEmpty(startDate) && StringUtils.isEmpty(endDate)){
+			return filterDateModel;
+		}else{
+
+			if(StringUtils.isEmpty(startDate)){
+				startDate = "2016-01-01";//悦和成立于2016年后半年，所以最早日期不早于2016-01-01
+			}
+			if(StringUtils.isEmpty(endDate)){
+				DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+				LocalDate localDate = LocalDate.now();
+				endDate = dtf.format(localDate);
+			}
+			try {
+				startDate = simpleDateFormat
+				.format(new SimpleDateFormat("MM/dd/yyyy").parse(startDate));
+			} catch (ParseException e1) {
+				e1.printStackTrace();
+			}
+			filterDateModel.setStartDate(startDate);
+			try {
+				endDate = simpleDateFormat.format(new SimpleDateFormat("MM/dd/yyyy").parse(endDate));
+			} catch (ParseException e) {
+				e.printStackTrace();
+			}
+			filterDateModel.setEndDate(endDate);
+		}
+		LOGGER.info("FitlerDateModel {}", filterDateModel);
+		 return filterDateModel;
+	}
+
 
 }

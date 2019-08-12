@@ -38,10 +38,10 @@ public class ProfileService {
     }
 
 
-    public ProfileDetailDTO getProfileByClientId(String clientId) {
+    public ProfileDetailDTO getProfileByClientId(String clientId, String startDate, String endDate) {
 		ClientShopDTO clientShopDTO = clientService.getClientDetailById(clientId);
-    	ClientDetailDTO clientDetailDTO = operationService.getClientSaleDetailByClientId(clientId);
-    	ClientAllSalesPerformanceDetailDTO clientAllSalesPerformanceDetailDTO = saleService.getClientAllSalesPerformanceDetail(clientId);
+    	ClientDetailDTO clientDetailDTO = operationService.getClientSaleDetailByClientId(clientId, startDate, endDate);
+    	ClientAllSalesPerformanceDetailDTO clientAllSalesPerformanceDetailDTO = saleService.getClientAllSalesPerformanceDetail(clientId, startDate, endDate);
     	ProfileDetailDTO profileDetailDTO = new ProfileDetailDTO();
     	profileDetailDTO.setClientShopDTO(clientShopDTO);
     	profileDetailDTO.setClientDetailDTO(clientDetailDTO);

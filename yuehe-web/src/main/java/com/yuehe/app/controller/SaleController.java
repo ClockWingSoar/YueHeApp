@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
+import com.yuehe.app.common.FilterDateModel;
 import com.yuehe.app.common.PaginationAndSortModel;
 import com.yuehe.app.dto.ClientAllSalesPerformanceDetailDTO;
 import com.yuehe.app.dto.DutyEmployeeRoleDTO;
@@ -62,6 +63,7 @@ public class SaleController {
 	private final static Logger LOGGER = LoggerFactory.getLogger(SaleController.class);
 	private SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
 	private PaginationAndSortModel paginationAndSortModel = new PaginationAndSortModel();
+	private FilterDateModel filterDateModel = new FilterDateModel();
 	@Autowired
 	private final SaleService saleService;
 	@Autowired
@@ -297,36 +299,57 @@ public class SaleController {
 	}
 
 	@RequestMapping(value = "/getYueHeAllShopsSales", method = RequestMethod.GET)
-	public @ResponseBody YueHeAllSalesPerformanceDetailDTO findAllSalesByYueHe() {
+	public @ResponseBody YueHeAllSalesPerformanceDetailDTO findAllSalesByYueHe(
+		@RequestParam(value = "startDate", required = true) String startDate,
+		@RequestParam(value = "endDate", required = true) String endDate
+	) {
+		filterDateModel = new FilterDateModel(startDate, endDate);
+		ServiceUtil.initializeFilterDate(filterDateModel);
+		startDate = filterDateModel.getStartDate();
+		endDate = filterDateModel.getEndDate();
 		YueHeAllSalesPerformanceDetailDTO yueHeAllSalesPerformanceDetailDTO = saleService
-				.getYueHeAllSalesPerformanceDetail();
+				.getYueHeAllSalesPerformanceDetail(startDate, endDate);
 		System.out.println(yueHeAllSalesPerformanceDetailDTO);
 		return yueHeAllSalesPerformanceDetailDTO;
 	}
 
 	@RequestMapping(value = "/getShopAllClientsSales", method = RequestMethod.GET)
 	public @ResponseBody ShopAllSalesPerformanceDetailDTO findAllSalesByShop(
-			@RequestParam(value = "shopId", required = true) String shopId) {
+			@RequestParam(value = "shopId", required = true) String shopId,
+			@RequestParam(value = "startDate", required = true) String startDate,
+			@RequestParam(value = "endDate", required = true) String endDate) {
 		System.err.println("shopId-" + shopId);
+		filterDateModel = new FilterDateModel(startDate, endDate);
+		ServiceUtil.initializeFilterDate(filterDateModel);
+		startDate = filterDateModel.getStartDate();
+		endDate = filterDateModel.getEndDate();
 		ShopAllSalesPerformanceDetailDTO shopAllSalesPerformanceDetailDTO = saleService
-				.getShopAllSalesPerformanceDetail(shopId);
+				.getShopAllSalesPerformanceDetail(shopId,startDate, endDate);
 		System.out.println(shopAllSalesPerformanceDetailDTO);
 		return shopAllSalesPerformanceDetailDTO;
 	}
 
 	@RequestMapping(value = "/getClientAllSales", method = RequestMethod.GET)
 	public @ResponseBody ClientAllSalesPerformanceDetailDTO findAllSalesByClient(
-			@RequestParam(value = "clientId", required = true) String clientId) {
+			@RequestParam(value = "clientId", required = true) String clientId,
+			@RequestParam(value = "startDate", required = true) String startDate,
+			@RequestParam(value = "endDate", required = true) String endDate) {
 		System.err.println("clientId-" + clientId);
+		filterDateModel = new FilterDateModel(startDate, endDate);
+		ServiceUtil.initializeFilterDate(filterDateModel);
+		startDate = filterDateModel.getStartDate();
+		endDate = filterDateModel.getEndDate();
 		ClientAllSalesPerformanceDetailDTO clientAllSalesPerformanceDetailDTO = saleService
-				.getClientAllSalesPerformanceDetail(clientId);
+				.getClientAllSalesPerformanceDetail(clientId,startDate, endDate);
 		System.out.println(clientAllSalesPerformanceDetailDTO);
 		return clientAllSalesPerformanceDetailDTO;
 	}
 
 	@RequestMapping(value = "/getSalePerformanceDetail", method = RequestMethod.GET)
 	public @ResponseBody SalePerformanceDetailDTO findSalePerformanceDetailBySaleId(
-			@RequestParam(value = "saleId", required = true) String saleId) {
+			@RequestParam(value = "saleId", required = true) String saleId,
+			@RequestParam(value = "startDate", required = true) String startDate,
+			@RequestParam(value = "endDate", required = true) String endDate) {
 		System.err.println("saleId-" + saleId);
 		SalePerformanceDetailDTO salePerformanceDetailDTO = saleService.getSalePerformanceDetail(saleId);
 		System.out.println(salePerformanceDetailDTO);

@@ -46,6 +46,14 @@ public interface OperationRepository  extends JpaRepository<Operation, String>,J
 			+ "INNER JOIN o.tool t"
 			+ " where o.sale.id = ?1")
 	List<OperationDetailDTO> findBySaleId(String saleId);
+
+	@Query("select new com.yuehe.app.dto.OperationDetailDTO(o.sale.id,o.id,o.operationDate, "
+			+ "e.name,t.name,t.operateExpense,o.description) "
+			+ "FROM Operation o INNER JOIN o.sale s "
+			+ "INNER JOIN o.employee e "
+			+ "INNER JOIN o.tool t"
+			+ " where o.sale.id = ?1 AND o.operationDate >= ?2 AND o.operationDate <= ?3")
+	List<OperationDetailDTO> findBySaleIdAndOperationDate(String saleId, String startDate, String endDate);
 	
 	@Query("select new com.yuehe.app.dto.OperationDetailDTO(o.sale.id,o.id,o.operationDate, "
 			+ "e.name,t.name,t.operateExpense,o.description) "

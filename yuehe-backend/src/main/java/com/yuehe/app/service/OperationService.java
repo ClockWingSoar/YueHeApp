@@ -16,6 +16,8 @@
  */
 package com.yuehe.app.service;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -24,6 +26,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import com.yuehe.app.common.OperationColumnsEnum;
+import com.yuehe.app.common.PaginationAndSortModel;
+import com.yuehe.app.common.YueHeEntitiesEnum;
 import com.yuehe.app.dto.ClientDetailDTO;
 import com.yuehe.app.dto.OperationDetailDTO;
 import com.yuehe.app.dto.OperationOperatorToolDTO;
@@ -41,9 +46,6 @@ import com.yuehe.app.repository.OperationRepository;
 import com.yuehe.app.specification.SpecificationsBuilder;
 import com.yuehe.app.util.ServiceUtil;
 import com.yuehe.app.util.YueHeUtil;
-import com.yuehe.app.common.OperationColumnsEnum;
-import com.yuehe.app.common.PaginationAndSortModel;
-import com.yuehe.app.common.YueHeEntitiesEnum;
 
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -269,7 +271,7 @@ public class OperationService {
 	 * 
 	 * @return yueHeAllShopsDetailDTO
 	 */
-	public YueHeAllShopsDetailDTO getYueHeAllShopsDetail() {
+	public YueHeAllShopsDetailDTO getYueHeAllShopsDetail(String startDate, String endDate) {
 		YueHeAllShopsDetailDTO yueHeAllShopsDetailDTO = new YueHeAllShopsDetailDTO();
 		List<ShopDetailDTO> shopDetailDTOList = new ArrayList<ShopDetailDTO>();
 		List<CosmeticShop> cosmeticShopList = cosmeticShopService.getAllCosmeticShopForFiltering();
@@ -282,7 +284,7 @@ public class OperationService {
 		long allShopsEarnedAmount = 0;// for all shop's all client's all sales
 		long allShopsConsumedEarnedAmount = 0;// for all shop's all client's all sales
 		for (CosmeticShop cosmeticShop : cosmeticShopList) {
-			ShopDetailDTO shopDetailDTO = getShopClientDetailByShopId(cosmeticShop.getId());
+			ShopDetailDTO shopDetailDTO = getShopClientDetailByShopId(cosmeticShop.getId(), startDate, endDate);
 			shopDetailDTOList.add(shopDetailDTO);
 			long allClientsConsumedAmount = shopDetailDTO.getAllClientsConsumedAmount();
 			long allClientsAdvancedEarnedAmount = shopDetailDTO.getAllClientsAdvancedEarnedAmount();
@@ -305,7 +307,7 @@ public class OperationService {
 		return yueHeAllShopsDetailDTO;
 	}
 
-	public ShopDetailDTO getShopClientDetailByShopId(String shopId) {
+	public ShopDetailDTO getShopClientDetailByShopId(String shopId, String startDate, String endDate) {
 		List<Client> clientListByShopId = clientService.getClientsByShopId(shopId);
 		List<ClientDetailDTO> clientDetailDTOList = new ArrayList<ClientDetailDTO>();
 
@@ -317,7 +319,7 @@ public class OperationService {
 		long allClientsEarnedAmount = 0;// for one shop all client's all sales
 		long allClientsConsumedEarnedAmount = 0;// for one shop all client's all sales
 		for (Client client : clientListByShopId) {
-			ClientDetailDTO clientDetailDTO = getClientSaleDetailByClientId(client.getId());
+			ClientDetailDTO clientDetailDTO = getClientSaleDetailByClientId(client.getId(), startDate, endDate);
 			clientDetailDTOList.add(clientDetailDTO);
 			long allSalesConsumedAmount = clientDetailDTO.getAllSalesConsumedAmount();
 			long allSalesAdvancedEarnedAmount = clientDetailDTO.getAllSalesAdvancedEarnedAmount();
@@ -340,8 +342,9 @@ public class OperationService {
 		return shopDetailDTO;
 	}
 
-	public ClientDetailDTO getClientSaleDetailByClientId(String clientId) {
-		List<SaleDetailDTO> saleDetailDTOList = getAllSalesDetailByClientId(clientId);
+	public ClientDetailDTO getClientSaleDetailByClientId(String clientId, String startDate, String endDate) {
+		List<SaleDetailDTO> saleDetailDTOList = getAllSalesDetailByClientId(clientId, startDate, endDate);
+		
 		String clientName = clientService.getById(clientId).getName();
 		ClientDetailDTO clientDetailDTO = new ClientDetailDTO();
 		long allSalesConsumedAmount = 0;// for one client's all sales
@@ -371,16 +374,22 @@ public class OperationService {
 		return clientDetailDTO;
 	}
 
-	public SaleDetailDTO getSaleOperationDetailBySaleId(String saleId) {
-		List<OperationDetailDTO> operationDetailDTOList = getOperationsBySaleId(saleId);
+	public SaleDetailDTO getSaleOperationDetailBySaleId(String saleId, String startDate, String endDate) {
+		List<OperationDetailDTO> operationDetailDTOList = getOperationsBySaleId(saleId, startDate, endDate);
 		SaleDetailDTO saleDetailDTO = getSaleBasicDetailById(saleId);
 		saleDetailDTO.setOperationDetailDTOs(operationDetailDTOList);
 		return saleDetailDTO;
 	}
 
-	public List<SaleDetailDTO> getAllSalesDetailByClientId(String ClientId) {
+	public List<SaleDetailDTO> getAllSalesDetailByClientId(String clientId, String startDate, String endDate) {
 		List<SaleDetailDTO> saleDetailDTOList = new ArrayList<SaleDetailDTO>();
-		List<SaleBeautifySkinItemForFilterDTO> saleListByClient = saleService.getByClientId(ClientId);
+		List<SaleBeautifySkinItemForFilterDTO> saleListByClient = new ArrayList<SaleBeautifySkinItemForFilterDTO>();
+		if(StringUtils.isEmpty(startDate) && StringUtils.isEmpty(endDate)){
+
+			saleListByClient =  saleService.getByClientId(clientId);
+		}else{
+			saleListByClient = saleService.getByClientIdAndCreateCardDate(clientId, startDate, endDate);
+		}
 		for (SaleBeautifySkinItemForFilterDTO saleBeautifySkinItemForFilterDTO : saleListByClient) {
 			String saleId = saleBeautifySkinItemForFilterDTO.getSaleId();
 			SaleDetailDTO saleDetailDTO = getSaleBasicDetailById(saleId);
@@ -425,8 +434,14 @@ public class OperationService {
 		return saleDetailDTO;
 	}
 
-	private List<OperationDetailDTO> getOperationsBySaleId(String saleId) {
-		List<OperationDetailDTO> operationDetailDTOList = operationRepository.findBySaleId(saleId);
+	private List<OperationDetailDTO> getOperationsBySaleId(String saleId, String startDate, String endDate) {
+		List<OperationDetailDTO> operationDetailDTOList = new ArrayList<OperationDetailDTO>();
+		if(StringUtils.isEmpty(startDate) && StringUtils.isEmpty(endDate)){
+
+			operationDetailDTOList =  operationRepository.findBySaleId(saleId);
+		}else{
+			operationDetailDTOList = operationRepository.findBySaleIdAndOperationDate(saleId, startDate, endDate);
+		}
 		return operationDetailDTOList;
 	}
 

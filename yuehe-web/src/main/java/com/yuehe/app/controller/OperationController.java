@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
+import com.yuehe.app.common.FilterDateModel;
 import com.yuehe.app.common.PaginationAndSortModel;
 import com.yuehe.app.dto.ClientDetailDTO;
 import com.yuehe.app.dto.DutyEmployeeRoleDTO;
@@ -62,6 +63,7 @@ public class OperationController{
 	private final static Logger LOGGER = LoggerFactory.getLogger(OperationController.class);
 	private SimpleDateFormat simpleDateFormat =  new SimpleDateFormat("yyyy-MM-dd");
 	private PaginationAndSortModel paginationAndSortModel = new PaginationAndSortModel();
+	private FilterDateModel filterDateModel = new FilterDateModel();
 	@Autowired
 	private final OperationService operationService;
 	@Autowired
@@ -329,34 +331,61 @@ public class OperationController{
 	@RequestMapping(value = "/getSaleAllOperations", method = RequestMethod.GET)
 	public @ResponseBody
 	SaleDetailDTO  findAllOperationsBySaleId(
-			@RequestParam(value = "saleId", required = true) String saleId) {
+			@RequestParam(value = "saleId", required = true) String saleId,
+			@RequestParam(value = "startDate", required = true) String startDate,
+			@RequestParam(value = "endDate", required = true) String endDate
+			) {
 		System.err.println("saleId-"+saleId);
-		SaleDetailDTO saleDetailDTO = operationService.getSaleOperationDetailBySaleId(saleId);
+		filterDateModel = new FilterDateModel(startDate, endDate);
+		ServiceUtil.initializeFilterDate(filterDateModel);
+		startDate = filterDateModel.getStartDate();
+		endDate = filterDateModel.getEndDate();
+		SaleDetailDTO saleDetailDTO = operationService.getSaleOperationDetailBySaleId(saleId,startDate,endDate);
 		System.out.println(saleDetailDTO);
 		return saleDetailDTO;
 	}
 	@RequestMapping(value = "/getYueHeAllShopsOperations", method = RequestMethod.GET)
 	public @ResponseBody
-	YueHeAllShopsDetailDTO  findAllOperationsByYueHe() {
-		YueHeAllShopsDetailDTO yueHeAllShopsDetailDTO = operationService.getYueHeAllShopsDetail();
+	YueHeAllShopsDetailDTO  findAllOperationsByYueHe(
+		
+		@RequestParam(value = "startDate", required = true) String startDate,
+		@RequestParam(value = "endDate", required = true) String endDate
+	) {
+		filterDateModel = new FilterDateModel(startDate, endDate);
+		ServiceUtil.initializeFilterDate(filterDateModel);
+		startDate = filterDateModel.getStartDate();
+		endDate = filterDateModel.getEndDate();
+		YueHeAllShopsDetailDTO yueHeAllShopsDetailDTO = operationService.getYueHeAllShopsDetail(startDate,endDate);
 		System.out.println(yueHeAllShopsDetailDTO);
 		return yueHeAllShopsDetailDTO;
 	}
 	@RequestMapping(value = "/getShopAllClientsOperations", method = RequestMethod.GET)
 	public @ResponseBody
 	ShopDetailDTO  findAllOperationsByShop(
-			@RequestParam(value = "shopId", required = true) String shopId) {
+			@RequestParam(value = "shopId", required = true) String shopId,
+			@RequestParam(value = "startDate", required = true) String startDate,
+			@RequestParam(value = "endDate", required = true) String endDate) {
 		System.err.println("shopId-"+shopId);
-		ShopDetailDTO shopDetailDTO = operationService.getShopClientDetailByShopId(shopId);
+		filterDateModel = new FilterDateModel(startDate, endDate);
+		ServiceUtil.initializeFilterDate(filterDateModel);
+		startDate = filterDateModel.getStartDate();
+		endDate = filterDateModel.getEndDate();
+		ShopDetailDTO shopDetailDTO = operationService.getShopClientDetailByShopId(shopId,startDate,endDate);
 		System.out.println(shopDetailDTO);
 		return shopDetailDTO;
 	}
 	@RequestMapping(value = "/getClientAllSalesOperations", method = RequestMethod.GET)
 	public @ResponseBody
 	ClientDetailDTO  findAllOperationsByClient(
-			@RequestParam(value = "clientId", required = true) String clientId) {
+			@RequestParam(value = "clientId", required = true) String clientId,
+			@RequestParam(value = "startDate", required = true) String startDate,
+			@RequestParam(value = "endDate", required = true) String endDate) {
 		System.err.println("clientId-"+clientId);
-		ClientDetailDTO clientDetailDTO = operationService.getClientSaleDetailByClientId(clientId);
+		filterDateModel = new FilterDateModel(startDate, endDate);
+		ServiceUtil.initializeFilterDate(filterDateModel);
+		startDate = filterDateModel.getStartDate();
+		endDate = filterDateModel.getEndDate();
+		ClientDetailDTO clientDetailDTO = operationService.getClientSaleDetailByClientId(clientId,startDate,endDate);
 		System.out.println(clientDetailDTO);
 		return clientDetailDTO;
 	}

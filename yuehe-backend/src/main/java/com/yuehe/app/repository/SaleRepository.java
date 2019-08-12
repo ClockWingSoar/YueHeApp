@@ -107,6 +107,15 @@ public interface SaleRepository extends JpaRepository<Sale, String>,JpaSpecifica
 			+ "INNER JOIN c.cosmeticShop p "
 			+ "where s.id = ?1")
 	SalePerformanceDetailForDBDTO fetchSalePerformanceDetailById(String id);
+	// @Query("SELECT new com.yuehe.app.dto.SalePerformanceDetailForDBDTO(s.id,s.createCardDate, b.name,  "
+	// 		+ "s.createCardTotalAmount,s.receivedAmount,s.receivedEarnedAmount,s.itemNumber,"
+	// 		+ "p.discount ,s.employeePremium,s.shopPremium,s.description) "
+	// 		+ "FROM Sale s INNER JOIN s.beautifySkinItem b "
+	// 		+ "INNER JOIN s.client c "
+	// 		+ "INNER JOIN s.employee e "
+	// 		+ "INNER JOIN c.cosmeticShop p "
+	// 		+ "where s.id = ?1 AND s.createCardDate >= ?2 AND s.createCardDate <= ?3")
+	// SalePerformanceDetailForDBDTO fetchSalePerformanceDetailByIdAndCreateCardDate(String id, String startDate, String endDate);
 	
 	// @Modifying
 	// @Query("delete Sale s where s.id = ?1")
@@ -118,6 +127,10 @@ public interface SaleRepository extends JpaRepository<Sale, String>,JpaSpecifica
     @Query("select new com.yuehe.app.dto.SaleBeautifySkinItemForFilterDTO(s.id, b.name, s.createCardDate) from Sale s "
     		+ "INNER JOIN s.beautifySkinItem b where s.client.id = ?1")
 	List<SaleBeautifySkinItemForFilterDTO> findByClientId(String clientId);
+
+    @Query("select new com.yuehe.app.dto.SaleBeautifySkinItemForFilterDTO(s.id, b.name, s.createCardDate) from Sale s "
+    		+ "INNER JOIN s.beautifySkinItem b where s.client.id = ?1 AND s.createCardDate >= ?2 AND s.createCardDate <= ?3")
+	List<SaleBeautifySkinItemForFilterDTO> findByClientIdAndCreateCardDate(String clientId, String startDate, String endDate);
 
 	/**
 	 * get all the ids from table sale 
