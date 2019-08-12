@@ -40,7 +40,8 @@ $(function ($) {
 		$('#client_csv_export').click(
 			function() {
 				var tableName = "客户列表-"; 
-				window.location.href = 'clientCsvDownload'+
+				// window.location.href = 'clientCsvDownload'+
+				window.location.href = "http://"+window.location.host+'/clientCsvDownload'+
 				'?sort='+ sortProperty+','+ ((sortDirectionFlag=="false")?'asc':'desc')+'&tableName='+ tableName;
 			});
 

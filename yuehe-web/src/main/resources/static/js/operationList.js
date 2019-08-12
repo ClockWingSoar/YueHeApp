@@ -40,7 +40,7 @@ $(function ($) {
 		$('#operation_csv_export').click(
 			function() {
 				var tableName = "操作详情-"; 
-				window.location.href = 'operationCsvDownload'+
+				window.location.href =  "http://"+window.location.host+'/operationCsvDownload'+
 				'?sort='+ sortProperty+','+ ((sortDirectionFlag=="false")?'asc':'desc')+'&tableName='+ tableName;
 			});
 

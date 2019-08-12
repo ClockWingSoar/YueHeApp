@@ -79,24 +79,26 @@ public class ServiceUtil {
 
 			if(StringUtils.isEmpty(startDate)){
 				startDate = "2016-01-01";//悦和成立于2016年后半年，所以最早日期不早于2016-01-01
+			}else{
+				try {
+				startDate = simpleDateFormat.format(new SimpleDateFormat("MM/dd/yyyy").parse(startDate));
+				} catch (ParseException e1) {
+					e1.printStackTrace();
+				}
 			}
 			if(StringUtils.isEmpty(endDate)){
 				DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 				LocalDate localDate = LocalDate.now();
 				endDate = dtf.format(localDate);
-			}
-			try {
-				startDate = simpleDateFormat
-				.format(new SimpleDateFormat("MM/dd/yyyy").parse(startDate));
-			} catch (ParseException e1) {
-				e1.printStackTrace();
+			}else{
+
+				try {
+					endDate = simpleDateFormat.format(new SimpleDateFormat("MM/dd/yyyy").parse(endDate));
+				} catch (ParseException e1) {
+					e1.printStackTrace();
+				}
 			}
 			filterDateModel.setStartDate(startDate);
-			try {
-				endDate = simpleDateFormat.format(new SimpleDateFormat("MM/dd/yyyy").parse(endDate));
-			} catch (ParseException e) {
-				e.printStackTrace();
-			}
 			filterDateModel.setEndDate(endDate);
 		}
 		LOGGER.info("FitlerDateModel {}", filterDateModel);
