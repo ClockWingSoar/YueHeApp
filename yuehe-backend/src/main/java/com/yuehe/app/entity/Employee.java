@@ -2,7 +2,6 @@ package com.yuehe.app.entity;
 
 import java.io.Serializable;
 import java.util.Comparator;
-import java.util.Date;
 import java.util.Set;
 
 import javax.persistence.Entity;
@@ -18,7 +17,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-import lombok.ToString;
 
 /**
  * Employee entity. @author Soveran Zhong
@@ -28,7 +26,6 @@ import lombok.ToString;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString
 @EqualsAndHashCode 
 public class Employee implements Serializable {
 	private static final long serialVersionUID = 5130639635185289129L;

@@ -24,7 +24,7 @@ $(function ($) {
 				}else if(saleId =="all"){
 					getClientAllSales(clientId,startDate,endDate);
 				}else{
-					getSalePerformanceDetail(saleId,startDate,endDate);
+					getSalePerformanceDetail(saleId);
 				}
 			}else if(filterNeedComesFrom == "operation"){
 				if(shopId == "all"){

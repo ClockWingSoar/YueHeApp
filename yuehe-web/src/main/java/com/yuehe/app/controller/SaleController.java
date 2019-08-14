@@ -347,9 +347,7 @@ public class SaleController {
 
 	@RequestMapping(value = "/getSalePerformanceDetail", method = RequestMethod.GET)
 	public @ResponseBody SalePerformanceDetailDTO findSalePerformanceDetailBySaleId(
-			@RequestParam(value = "saleId", required = true) String saleId,
-			@RequestParam(value = "startDate", required = true) String startDate,
-			@RequestParam(value = "endDate", required = true) String endDate) {
+			@RequestParam(value = "saleId", required = true) String saleId) {
 		System.err.println("saleId-" + saleId);
 		SalePerformanceDetailDTO salePerformanceDetailDTO = saleService.getSalePerformanceDetail(saleId);
 		System.out.println(salePerformanceDetailDTO);
