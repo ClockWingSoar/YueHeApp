@@ -10,11 +10,13 @@ import javax.validation.Valid;
 
 import com.yuehe.app.common.PaginationAndSortModel;
 import com.yuehe.app.dto.DutyEmployeeRoleDTO;
+import com.yuehe.app.dto.ProfileDetailDTO;
 import com.yuehe.app.entity.Client;
 import com.yuehe.app.entity.CosmeticShop;
 import com.yuehe.app.entity.Tool;
 import com.yuehe.app.property.BaseProperty;
 import com.yuehe.app.service.ClientService;
+import com.yuehe.app.service.ProfileService;
 import com.yuehe.app.service.YueHeCommonService;
 import com.yuehe.app.util.IdType;
 import com.yuehe.app.util.ServiceUtil;
@@ -35,7 +37,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
@@ -51,10 +56,13 @@ public class ClientController {
 	@Autowired
 	private final ClientService clientService;
 	@Autowired
+	private final ProfileService profileService;
+	@Autowired
 	private final YueHeCommonService yueHeCommonService;
 
-	public ClientController(ClientService clientService, YueHeCommonService yueHeCommonService) {
+	public ClientController(ClientService clientService,ProfileService profileService, YueHeCommonService yueHeCommonService) {
 		this.clientService = clientService;
+		this.profileService = profileService;
 		this.yueHeCommonService = yueHeCommonService;
 	}
 
@@ -214,13 +222,20 @@ public class ClientController {
 		attr.addFlashAttribute("message", "客户-" + id + " 创建成功");
 		return "redirect:/getClientList";
 	}
-	@GetMapping("/getClientSummary")
-	public  String clientSummary(Model model){
+	@GetMapping("/getClientProfile")
+	public  String clientProfile(Model model){
 		List<CosmeticShop> cosmeticShopList =  yueHeCommonService.getAllCosmeticShops();
 		model.addAttribute("cosmeticShopList", cosmeticShopList);
-		model.addAttribute("subModule", "clientSummary");
-		return "user/clientSummary.html";
+		model.addAttribute("subModule", "clientProfile");
+		return "user/clientProfile.html";
 	}
-	
+	@RequestMapping(value = "/getProfileDetail", method = RequestMethod.GET)
+	public @ResponseBody ProfileDetailDTO getProfileByClientId(
+			@RequestParam(value = "clientId", required = true) String clientId) {
+		ProfileDetailDTO profileDetailDTO = profileService.getProfileByClientId(clientId,null,null);
+		System.out.println(profileDetailDTO);
+		LOGGER.info("ProfileDetailDTO{}",profileDetailDTO);
+		return profileDetailDTO;
+	}
 
 }

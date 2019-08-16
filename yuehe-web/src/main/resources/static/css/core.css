@@ -29,10 +29,14 @@ body {
 }
 .my-custom-scrollbar {
 position: relative;
-height: 460px;
+/* height: 460px; */
 overflow: auto;
 margin: 10 auto;
 white-space: nowrap;
+}
+.table-small-font{
+
+  font-size: 12px;
 }
 .table-wrapper-scroll-y {
 display: block;
