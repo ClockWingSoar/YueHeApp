@@ -5,6 +5,10 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <link  rel="stylesheet" media="screen" th:href="@{/css/bootstrap.min.css}"/>
+    
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
 </head>
 <body>
 <nav class="navbar navbar-inverse navbar-fixed-top" th:fragment="header">
@@ -26,7 +30,7 @@
             </button>
             <a class="navbar-brand" href="#">悦和国际</a>
         </div>
-        <div class="navbar-collapse collapse">
+        <div class="navbar-collapse collapse" >
             <ul class="nav navbar-nav">
                 <li th:classappend="${module == 'home' ? 'active' : ''}">
                     <a href="#" th:href="@{/}">主页</a>
@@ -37,9 +41,21 @@
                 <li th:classappend="${module == 'beautifySkinItem' ? 'active' : ''}">
                     <a href="#" th:href="@{/getBeautifySkinItemList}">美肤项目</a>
                 </li>
-                <li th:classappend="${module == 'client' ? 'active' : ''}">
+                <!-- <li th:classappend="${module == 'client' ? 'active' : ''}">
                     <a href="#" th:href="@{/getClientList}">客户</a>
-                </li>
+                </li> -->
+                <li class="dropdown" >
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">客户 <span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                      <li th:classappend="${module == 'client' ? 'active' : ''}">
+                          <a href="#" th:href="@{/getClientList}">客户基本信息</a>
+                        </li>
+                      <li th:classappend="${module == 'clientQuestionare' ? 'active' : ''}">
+                          <a href="#" th:href="@{/getClientQuestionareList}">客户问卷调查</a>
+                        </li>
+                      <li><a href="#">客户其他</a></li>
+                    </ul>
+                  </li>
                 <li th:classappend="${module == 'cosmeticShop' ? 'active' : ''}">
                     <a href="#" th:href="@{/getCosmeticShopList}">美容院</a>
                 </li>

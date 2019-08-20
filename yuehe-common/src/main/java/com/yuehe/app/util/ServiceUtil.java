@@ -105,5 +105,22 @@ public class ServiceUtil {
 		 return filterDateModel;
 	}
 
+	public static String convertStringArrayToString(String[] stringArray){
+		StringBuilder sb = new StringBuilder();
+		for(int i = 0; i < stringArray.length; i++) {
+			// push each string into a string builder at the end
+			if (i == (stringArray.length - 1)) {
+				// do not append a semicolon after the last string
+				sb.append(stringArray[i]);
+			} else {
+				// append the stringArray and a semicolon
+				sb.append(stringArray[i]);
+				sb.append(";");
+			}
+
+		}
+		return sb.toString();
+
+	}
 
 }
