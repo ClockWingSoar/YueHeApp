@@ -96,6 +96,11 @@ bottom: .5em;
   border-bottom:1px solid #ccc;
   width:100%
 }
+.yuehe-underline-Input {
+  
+  border:none;
+  border-bottom:1px solid #ccc;
+}
 /* below are the jquery validation plugin used error class */
 input.error {
   border: 1px dashed red;

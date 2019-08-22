@@ -1,11 +1,11 @@
 package com.yuehe.app.controller;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.validation.Valid;
 
 import com.yuehe.app.entity.ClientQuestionare;
+import com.yuehe.app.entity.CosmeticShop;
 import com.yuehe.app.service.ClientQuestionareService;
 import com.yuehe.app.service.YueHeCommonService;
 import com.yuehe.app.util.ServiceUtil;
@@ -29,7 +29,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 public class ClientQuestionareController{
 	 @ModelAttribute("module")
 	    String module() {
-	        return "clientQuestionare";
+	        return "client";
 	    }
 	 private final static Logger LOGGER = LoggerFactory.getLogger(ClientQuestionareController.class);
 	
@@ -44,17 +44,19 @@ public class ClientQuestionareController{
 		this.yueHeCommonService = yueHeCommonService;
 	}
 
-	@GetMapping("/getClientQuestionareList") 
-	public  String clientQuestionareOverview(Model model){
-		List<ClientQuestionare> clientQuestionareList =new ArrayList<ClientQuestionare>();
-		clientQuestionareList = clientQuestionareService.getAllClientQuestionares();
-		 LOGGER.info("clientQuestionareList {}", clientQuestionareList);
-		model.addAttribute("clientQuestionareList",clientQuestionareList);
-		model.addAttribute("subModule", "clientQuestionareList");
-		return "user/clientQuestionareList.html";
-	}
+	// @GetMapping("/getClientQuestionareList") 
+	// public  String clientQuestionareOverview(Model model){
+	// 	List<ClientQuestionare> clientQuestionareList =new ArrayList<ClientQuestionare>();
+	// 	clientQuestionareList = clientQuestionareService.getAllClientQuestionares();
+	// 	 LOGGER.info("clientQuestionareList {}", clientQuestionareList);
+	// 	model.addAttribute("clientQuestionareList",clientQuestionareList);
+	// 	model.addAttribute("subModule", "clientQuestionareList");
+	// 	return "user/clientQuestionareList.html";
+	// }
 	@GetMapping("/getClientQuestionareNewItem")
 	public String clientQuestionareNewItem(Model model) {
+		List<CosmeticShop> cosmeticShopList =  yueHeCommonService.getAllCosmeticShops();
+		model.addAttribute("cosmeticShopList", cosmeticShopList);
 		model.addAttribute("subModule", "clientQuestionareNewItem");
 
 		return "user/clientQuestionareNewItem.html";

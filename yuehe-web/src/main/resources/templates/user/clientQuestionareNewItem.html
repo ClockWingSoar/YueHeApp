@@ -1,0 +1,358 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<title>客户问卷调查</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<link rel="stylesheet" th:href="@{/css/core.css}">
+	<link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+	<link rel="stylesheet" th:href="@{/css/fstdropdown.css}">
+	<script type="text/javascript" th:src="@{/js/jquery.min.js}"></script>
+	<script type="text/javascript" th:src="@{/js/bootstrap.min.js}"></script>
+	<!-- <script type="text/javascript" th:src="@{/js/clientQuestionareNewItem.js}"></script> -->
+	<script type="text/javascript" th:src="@{/js/clientFilter.js}"></script>
+	<script type="text/javascript" th:src="@{/js/yueHeCommon.js}"></script>
+	<script type="text/javascript" th:src="@{/js/fstdropdown.js}"></script>
+	<script type="text/javascript" th:src="@{/js/jquery.validate.js}"></script>
+	<script type="text/javascript" th:src="@{/js/additional-methods.js}"></script>
+
+	<!-- <meta http-equiv="refresh" content="600; URL=/"> this will redirect to / after 600s-->
+</head>
+
+<body>
+	<div th:replace="fragments/header.html :: header">Header</div>
+
+	<div role="main" class="container">
+
+		<br>
+		<div th:replace="~{fragments/clientFilter.html :: filter}">filter</div>
+		<input type="hidden" id="filterNeedComesFrom" th:value="clientQuestionare">
+			
+		<div class="container">
+			<h3>客户问卷调查信息</h3>
+			<hr>
+			<form class="form-horizontal" id="client_questionare_new_item" th:action="@{/createClientQuestionare}" method="POST">
+				<div class="form-group ">
+					<label class="col-sm-1 " style="text-align:right;">姓名</label>
+					<div class="col-sm-2">
+							<u><span id="clientName" class="form-control-static">test</span></u>
+					</div>
+					<label class="col-sm-1 " style="text-align:right;">性别</label>
+					<div class="col-sm-2">
+						<u><span id="clientGender" class="form-control-static">tets</span></u>
+					</div>
+					<label class="col-sm-1 " style="text-align:right;">年龄</label>
+					<div class="col-sm-5">
+							<u><span id="clientAge" class="form-control-static">test</span></u>
+					</div>
+				  </div>
+				<hr>
+			  <div class="form-group ">
+				<label class="col-sm-2 control-label">常做美容项目</label>
+				<div class="col-sm-6">
+					<input class="form-control " id="usualBeautifyItem" name="usualBeautifyItem" type="text" >
+				</div>
+				<div class="col-sm-4"></div>
+
+			  </div>
+			  <div class="form-group">
+					<label class="col-sm-2 control-label">是否经常过敏体质</label>
+					<div class="col-sm-2">
+						<label class="radio-inline">
+							<input type="radio" name="ifAlergicBody" id="ifAlergicBodyYes" value="1"
+								th:checked="*{ifAlergicBody}"/>是
+						</label>
+						<label class="radio-inline">
+							<input type="radio" name="ifAlergicBody" id="ifAlergicBodyNo" value="0"
+								th:checked="*{ifAlergicBody} == false"/>否
+						</label>
+					</div>
+					<label class="col-sm-2 control-label">是否敏感性皮肤</label>
+					<div class="col-sm-6">
+						<label class="radio-inline">
+							<input type="radio" name="ifAlergicSkin" id="ifAlergicSkinYes" value="1"
+								th:checked="*{ifAlergicSkin}"/>是
+						</label>
+						<label class="radio-inline">
+							<input type="radio" name="ifAlergicSkin" id="ifAlergicSkinNo" value="0"
+								th:checked="*{ifAlergicSkin} == false"/>否
+						</label>
+					</div>
+				</div>
+			  <div class="form-group">
+					<label class="col-sm-2 control-label">过敏源</label>
+					<!-- <div class="col-sm-2" th:each="alergicSource : ${allAlergicSources} "> -->
+					<div class="col-sm-10" >
+						<label class="checkbox-inline">
+							<input type="checkbox" name="alergicSource" id="alergicSourceAccesory" value="accesory"
+								th:checked="*{alergicSource}"/>  饰品
+						</label>
+						<label class="checkbox-inline">
+							<input type="checkbox" name="alergicSource" id="alergicSourcePowder" value="powder"
+								th:checked="*{alergicSource} == false"/>  花粉
+						</label>
+						<label class="checkbox-inline">
+							<input type="checkbox" name="alergicSource" id="alergicSourcePowder" value="powder"
+								th:checked="*{alergicSource} == false"/>  护肤品
+						</label>
+						<label class="checkbox-inline">
+							<input type="checkbox" name="alergicSource" id="alergicSourcePowder" value="powder"
+								th:checked="*{alergicSource} == false"/>  食品
+						</label>
+						<label class="checkbox-inline">
+							<input type="checkbox" name="alergicSource" id="alergicSourcePowder" value="powder"
+							th:checked="*{alergicSource} == false"/>  药物
+						</label>
+						<label class="checkbox-inline">
+							药物名称： 
+							<input class="yuehe-underline-Input" id="medicineName" name="medicineName" type="text" >
+						</label>
+				
+					</div>
+
+				</div>
+					<div class="form-group">
+							<label class="col-sm-2 control-label">身体是否健康</label>
+							<div class="col-sm-2">
+								<label class="radio-inline">
+									<input type="radio" name="ifHealthy" id="ifHealthyYes" value="1"
+										th:checked="*{ifHealthy}"/>是
+								</label>
+								<label class="radio-inline">
+									<input type="radio" name="ifHealthy" id="ifHealthyNo" value="0"
+										th:checked="*{ifHealthy} == false"/>否
+								</label>
+							</div>
+							<label class="col-sm-2 control-label">近期是否服用药物</label>
+							<div class="col-sm-6">
+								<label class="radio-inline">
+									<input type="radio" name="ifHadMedicine" id="ifHadMedicineYes" value="1"
+										th:checked="*{ifHadMedicine}"/>是
+								</label>
+								<label class="radio-inline">
+									<input type="radio" name="ifHadMedicine" id="ifHadMedicineNo" value="0"
+										th:checked="*{ifHadMedicine} == false"/>否
+								</label>
+							</div>
+						</div>
+					<div class="form-group">
+							<label class="col-sm-2 control-label">是否怀孕或哺乳</label>
+							<div class="col-sm-2">
+								<label class="radio-inline">
+									<input type="radio" name="ifPregnantOrBreastFeeding" id="ifPregnantOrBreastFeedingYes" value="1"
+										th:checked="*{ifPregnantOrBreastFeeding}"/>是
+								</label>
+								<label class="radio-inline">
+									<input type="radio" name="ifPregnantOrBreastFeeding" id="ifPregnantOrBreastFeedingNo" value="0"
+										th:checked="*{ifPregnantOrBreastFeeding} == false"/>否
+								</label>
+							</div>
+							<label class="col-sm-2 control-label">是否使用含美白护肤品</label>
+							<div class="col-sm-6">
+								<label class="radio-inline">
+									<input type="radio" name="ifUsedWhiteningProduct" id="ifUsedWhiteningProductYes" value="1"
+										th:checked="*{ifUsedWhiteningProduct}"/>是
+								</label>
+								<label class="radio-inline">
+									<input type="radio" name="ifUsedWhiteningProduct" id="ifUsedWhiteningProductNo" value="0"
+										th:checked="*{ifUsedWhiteningProduct} == false"/>否
+								</label>
+							</div>
+						</div>
+					<div class="form-group">
+							<label class="col-sm-2 control-label">是否有日晒机会</label>
+							<div class="col-sm-2">
+								<label class="radio-inline">
+									<input type="radio" name="ifSunExposure" id="ifSunExposureYes" value="1"
+										th:checked="*{ifSunExposure}"/>是
+								</label>
+								<label class="radio-inline">
+									<input type="radio" name="ifSunExposure" id="ifSunExposureNo" value="0"
+										th:checked="*{ifSunExposure} == false"/>否
+								</label>
+							</div>
+							<label class="col-sm-2 control-label">是否有防晒习惯</label>
+							<div class="col-sm-6">
+								<label class="radio-inline">
+									<input type="radio" name="ifSunProtection" id="ifSunProtectionYes" value="1"
+										th:checked="*{ifSunProtection}"/>是
+								</label>
+								<label class="radio-inline">
+									<input type="radio" name="ifSunProtection" id="ifSunProtectionNo" value="0"
+										th:checked="*{ifSunProtection} == false"/>否
+								</label>
+							</div>
+						</div>
+					<div class="form-group">
+							<label class="col-sm-2 control-label">近期是否暴晒</label>
+							<div class="col-sm-2">
+								<label class="radio-inline">
+									<input type="radio" name="ifSunBurnRecently" id="ifSunBurnRecentlyYes" value="1"
+										th:checked="*{ifSunBurnRecently}"/>是
+								</label>
+								<label class="radio-inline">
+									<input type="radio" name="ifSunBurnRecently" id="ifSunBurnRecentlyNo" value="0"
+										th:checked="*{ifSunBurnRecently} == false"/>否
+								</label>
+							</div>
+							<label class="col-sm-2 control-label">是否瘢痕体质</label>
+							<div class="col-sm-6">
+								<label class="radio-inline">
+									<input type="radio" name="ifScabBody" id="ifScabBodyYes" value="1"
+										th:checked="*{ifScabBody}"/>是
+								</label>
+								<label class="radio-inline">
+									<input type="radio" name="ifScabBody" id="ifScabBodyNo" value="0"
+										th:checked="*{ifScabBody} == false"/>否
+								</label>
+							</div>
+						</div>
+						<div class="form-group">
+								<label class="col-sm-2 control-label">饮食情况</label>
+								<!-- <div class="col-sm-2" th:each="eatingSituation : ${allAlergicSources} "> -->
+								<div class="col-sm-10" >
+									<label class="checkbox-inline">
+										<input type="checkbox" name="eatingSituation" id="eatingSituationHighFat" value="highFat"
+											th:checked="*{eatingSituation}"/>  高脂肪
+									</label>
+									<label class="checkbox-inline">
+										<input type="checkbox" name="eatingSituation" id="eatingSituationVegetable" value="vegetable"
+											th:checked="*{eatingSituation} == false"/>  蔬菜
+									</label>
+									<label class="checkbox-inline">
+										<input type="checkbox" name="eatingSituation" id="eatingSituationMeat" value="meat"
+											th:checked="*{eatingSituation} == false"/>  肉类
+									</label>
+									<label class="checkbox-inline">
+										<input type="checkbox" name="eatingSituation" id="eatingSituationFruit" value="fruit"
+											th:checked="*{eatingSituation} == false"/>  水果类
+									</label>
+									<label class="checkbox-inline">
+										<input type="checkbox" name="eatingSituation" id="eatingSituationFry" value="fry"
+										th:checked="*{eatingSituation} == false"/>  油炸类
+									</label>
+									<label class="checkbox-inline">
+											<input type="checkbox" name="eatingSituation" id="eatingSituationCafe" value="cafe"
+											th:checked="*{eatingSituation} == false"/>  咖啡
+										</label>
+									<label class="checkbox-inline">
+											<input type="checkbox" name="eatingSituation" id="eatingSituationSmokeAndDrink" value="smokeAndDrink"
+											th:checked="*{eatingSituation} == false"/>  烟酒
+										</label>
+							
+								</div>
+			
+							</div>
+						<div class="form-group">
+								<label class="col-sm-2 control-label">睡眠情况</label>
+								<!-- <div class="col-sm-2" th:each="sleepSituation : ${allAlergicSources} "> -->
+								<div class="col-sm-10" >
+									<label class="checkbox-inline">
+										<input type="checkbox" name="sleepSituation" id="sleepSituationWell" value="well"
+											th:checked="*{sleepSituation}"/>  良好
+									</label>
+									<label class="checkbox-inline">
+										<input type="checkbox" name="sleepSituation" id="sleepSituationJetleg" value="jetleg"
+											th:checked="*{sleepSituation} == false"/>  倒时差
+									</label>
+									<label class="checkbox-inline">
+										<input type="checkbox" name="sleepSituation" id="sleepSituationDream" value="dream"
+											th:checked="*{sleepSituation} == false"/>  多梦易醒
+									</label>
+									<label class="checkbox-inline">
+										<input type="checkbox" name="sleepSituation" id="sleepSituationLate" value="late"
+											th:checked="*{sleepSituation} == false"/>  经常熬夜
+									</label>
+									<label class="checkbox-inline">
+										<input type="checkbox" name="sleepSituation" id="sleepSituationLess" value="less"
+										th:checked="*{sleepSituation} == false"/>  失眠
+									</label>
+									
+							
+								</div>
+			
+							</div>
+						<div class="form-group">
+								<label class="col-sm-2 control-label">消化系统</label>
+								<div class="col-sm-10" >
+									<label class="checkbox-inline">
+										<input type="checkbox" name="digestSituation" id="digestSituationNormal" value="normal"
+											th:checked="*{digestSituation}"/>  正常
+									</label>
+									<label class="checkbox-inline">
+										<input type="checkbox" name="digestSituation" id="digestSituationAverage" value="average"
+											th:checked="*{digestSituation} == false"/>  一般
+									</label>
+									<label class="checkbox-inline">
+										<input type="checkbox" name="digestSituation" id="digestSituationConstipation" value="constipation"
+											th:checked="*{digestSituation} == false"/>  便秘
+									</label>
+									<label class="checkbox-inline">
+										<input type="checkbox" name="digestSituation" id="digestSituationDiarrhea" value="diarrhea"
+											th:checked="*{digestSituation} == false"/>  腹泻
+									</label>
+									
+									
+							
+								</div>
+			
+							</div>
+						<div class="form-group">
+								<label class="col-sm-2 control-label">内分泌系统</label>
+								<div class="col-sm-10" >
+									<label class="checkbox-inline">
+										<input type="checkbox" name="incretionSituation" id="incretionSituationNormal" value="normal"
+											th:checked="*{incretionSituation}"/>  正常
+									</label>
+									<label class="checkbox-inline">
+										<input type="checkbox" name="incretionSituation" id="incretionSituationAbnormal" value="abnormal"
+											th:checked="*{incretionSituation} == false"/>  失调
+									</label>
+									<label class="checkbox-inline">
+										<input type="checkbox" name="incretionSituation" id="incretionSituationGynecologyIssue" value="gynecologyIssue"
+											th:checked="*{incretionSituation} == false"/>  妇科问题
+									</label>
+									
+							
+								</div>
+			
+							</div>
+						<div class="form-group">
+								<label class="col-sm-2 control-label">运动习惯</label>
+								<div class="col-sm-10" >
+									<label class="checkbox-inline">
+										<input type="checkbox" name="incretionSituation" id="incretionSituationNormal" value="normal"
+											th:checked="*{incretionSituation}"/>  规律
+									</label>
+									<label class="checkbox-inline">
+										<input type="checkbox" name="incretionSituation" id="incretionSituationAbnormal" value="abnormal"
+											th:checked="*{incretionSituation} == false"/>  偶尔
+									</label>
+									<label class="checkbox-inline">
+										<input type="checkbox" name="incretionSituation" id="incretionSituationGynecologyIssue" value="gynecologyIssue"
+											th:checked="*{incretionSituation} == false"/>  无
+									</label>
+									
+							
+								</div>
+			
+							</div>
+						
+						<br>
+						<div class="form-group  row ">
+							<div class="content">
+								<div class="input-group col-xs-4">
+									<input type="submit" class="btn-primary  btn-lg pull-left" value="提交" />
+								</div>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+		<div th:replace="fragments/footer.html :: footer">footer</div>
+	</div>
+</body>
+
+</html>

@@ -16,6 +16,7 @@
 	<link rel="stylesheet" th:href="@{/css/fstdropdown.css}">
     <script type="text/javascript"  th:src="@{/js/fstdropdown.js}"></script>
 	<script type="text/javascript" th:src="@{/js/clientProfile.js}"></script>
+	<script type="text/javascript" th:src="@{/js/clientFilter.js}"></script>
 	<script type="text/javascript" th:src="@{/js/yueHeCommon.js}"></script>
 	<!-- <meta http-equiv="refresh" content="600; URL=/"> this will redirect to / after 600s -->
 
@@ -36,34 +37,9 @@
 				<form th:action="@{/getProfileDetail}" method="POST">
 
 					<br>
-					<div class="form-group  row " style="margin-left:5px">
-
-						<div class="col-xs-2">
-							<label for="cosmeticShop">美容院</label>
-							<select class="fstdropdown-select" required="required" name="cosmeticShopId" id="cosmeticShop">
-								<option selected="selected"> --请选择美容院 --
-								</option>
-								<option th:each="cosmeticShop : ${cosmeticShopList}" th:value="${cosmeticShop.id}"
-									th:text="${cosmeticShop.name}">
-								</option>
-							</select>
-						</div>
-						<div class="col-xs-2">
-							<label for="client">客户名</label>
-							<select class="fstdropdown-select" required="required" name="clientId" id="client">
-								<option selected="selected"> --请选择客户姓名 --
-								</option>
-								<option th:each="client : ${clientList}" th:value="${client.id}"
-									th:text="${client.name}">
-								</option>
-							</select>
-						</div>
-						<div class="col-xs-2" style="margin-left:65px">
-							<button type="button" class="btn btn-default" id="profile_search">
-								<span class="glyphicon glyphicon-search"></span> 搜索
-							</button>
-						</div>
-					</div>
+					<div th:replace="~{fragments/clientFilter.html :: filter}">filter</div>
+					<input type="hidden" id="filterNeedComesFrom" th:value="clientBasic">
+			
 				</form>
 			</div>
 		</div>

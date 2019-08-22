@@ -1,13 +1,3 @@
-$(function ($) {
-	$('#cosmeticShop').change(getShopAllClientsList);
-	
-	$('#profile_search').click(
-			function() {
-				var clientId = $('#client').val();
-				getClientProfile(clientId);
-			});
-	
-});
 function getClientProfile(clientId){
 	$.getJSON("http://"+window.location.host+"/getProfileDetail", {
 		clientId:clientId,

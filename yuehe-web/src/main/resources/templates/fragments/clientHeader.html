@@ -7,12 +7,12 @@
 <body>	
 	<div class="container" th:fragment="header">
 	  <ul class="nav nav-tabs nav-justified">
-	    <li th:classappend="${subModule == 'clientList' ? 'active' : ''}" >
+	    <li th:classappend="${thirdModule == 'clientList' ? 'active' : ''}" >
 	    <a href="#" th:href="@{/getClientList}" style="font-size: 22px; text-decoration: none">客户表详情</a></li>
-        <li th:classappend="${subModule == 'clientProfile' ? 'active' : ''}">
+        <li th:classappend="${thirdModule == 'clientProfile' ? 'active' : ''}">
                     <a href="#" th:href="@{/getClientProfile}" style="font-size: 22px; text-decoration: none">客户档案</a>
                 </li>
-        <li th:classappend="${subModule == 'clientNewItem' ? 'active' : ''}">
+        <li th:classappend="${thirdModule == 'clientNewItem' ? 'active' : ''}">
                     <a href="#" th:href="@{/getClientNewItem}" style="font-size: 22px; text-decoration: none">新建客户表</a>
                 </li>
 	  </ul>

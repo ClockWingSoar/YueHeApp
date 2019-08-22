@@ -87,13 +87,15 @@ public class ClientController {
 		LOGGER.info("clientPage {}", clientPage);
 		model.addAttribute("clientPage",clientPage);
 		model.addAttribute("clientList",clientPage.getContent());
-		model.addAttribute("subModule", "clientList");
+		model.addAttribute("subModule", "clientBasic");
+		model.addAttribute("thirdModule", "clientList");
 	}
 	
 	@GetMapping("/getClientNewItem")
 	public String clientNewItem(Model model) {
 		getClientNewItemDropDownDataList(model);
-		model.addAttribute("subModule", "clientNewItem");
+		model.addAttribute("subModule", "clientBasic");
+		model.addAttribute("thirdModule", "clientNewItem");
 
 		return "user/clientNewItem.html";
 	}
@@ -226,7 +228,8 @@ public class ClientController {
 	public  String clientProfile(Model model){
 		List<CosmeticShop> cosmeticShopList =  yueHeCommonService.getAllCosmeticShops();
 		model.addAttribute("cosmeticShopList", cosmeticShopList);
-		model.addAttribute("subModule", "clientProfile");
+		model.addAttribute("subModule", "clientBasic");
+		model.addAttribute("Module", "clientProfile");
 		return "user/clientProfile.html";
 	}
 	@RequestMapping(value = "/getProfileDetail", method = RequestMethod.GET)

@@ -1,0 +1,100 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<title>客户问卷调查列表</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<link rel="stylesheet" th:href="@{/css/core.css}">
+	<link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+	<script type="text/javascript" th:src="@{/js/jquery.min.js}"></script>
+	<script type="text/javascript" th:src="@{/js/bootstrap.min.js}"></script>
+	<script type="text/javascript" th:src="@{/js/clientQuestionareList.js}"></script>
+	<script type="text/javascript" th:src="@{/js/yueHeCommon.js}"></script>
+	<!-- <meta http-equiv="refresh" content="600; URL=/"> this will redirect to / after 600s-->
+</head>
+
+<body>
+	<div th:replace="fragments/header.html :: header">Header</div>
+	<div role="main" class="container">
+		<div th:replace="~{fragments/clientQuestionareHeader.html :: header}">ClientQuestionare Header</div>
+		<div th:replace="~{fragments/alert.html :: alert}">alert div</div>
+		<div class="panel panel-default">
+			<div class="panel-heading" style="padding-bottom: 0px;padding-top: 0px;">
+				<div class="form-group  row " style="margin-bottom: 0px;">
+					<div class="col-md-11">
+						<h3>以下为现有的客户问卷调查信息:</h3>
+					</div>
+
+					<div class="col-md-1">
+						<h3><button id="clientQuestionare_csv_export" type="submit" class="btn btn-primary">导出csv</button></h3>
+					</div>
+				</div>
+			</div>
+			<div class="panel-body table-wrapper-scroll-y my-custom-scrollbar">
+				<table id="clientQuestionareRecordList" class="table tableList table-hover  table-sm  ">
+					<thead class="thead-dark">
+						<tr class="info">
+							<th data-sort-prop="id">ID</th>
+							<th data-sort-prop="name">姓名</th>
+							<th data-sort-prop="cosmeticShop.name">美容院</th>
+							<th data-sort-prop="age">年龄</th>
+							<th data-sort-prop="gender">性别</th>
+							<th data-sort-prop="symptom">症状</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td><input class="yuehe-filter-Input" id="id" placeholder="搜ID"></td>
+							<td><input class="yuehe-filter-Input" id="name" placeholder="搜客户姓名"></td>
+							<td><input class="yuehe-filter-Input" id="cosmeticShop_name" placeholder="搜美容院"></td>
+							<td><input class="yuehe-filter-Input" id="age" placeholder="搜年龄"></td>
+							<td><input class="yuehe-filter-Input" id="gender" placeholder="搜性别"></td>
+							<td><input class="yuehe-filter-Input" id="symptom" placeholder="搜皮肤症状"></td>
+						</tr>
+						<tr class="clickable-row" data-th-each="clientQuestionare : ${clientQuestionareList}">
+							<td data-th-text="${clientQuestionare.id}">...</td>
+							<td data-th-text="${clientQuestionare.name}">...</td>
+							<td data-th-text="${clientQuestionare.cosmeticShop.name}">...</td>
+							<td data-th-text="${clientQuestionare.age}">...</td>
+							<!-- <td data-th-text="${clientQuestionare.gender}">...</td> -->
+							<td  th:if="${clientQuestionare.gender} == f">女性</td>
+							<td  th:if="${clientQuestionare.gender} == m">男性</td>
+							<td data-th-text="${clientQuestionare.symptom}">...</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<input id="clientQuestionarePageNumber" type="hidden" th:value="${clientQuestionarePage.number}">
+			<input id="clientQuestionarePageSize" type="hidden" th:value="${clientQuestionarePage.size}">
+			<input id="sortProperty" type="hidden" th:value="${sortProperty}">
+			<input id="sortDirectionFlag" type="hidden" th:value="${sortDirectionFlag}">
+			<input id="searchParameters" type="hidden" th:value="${searchParameters}">
+			<!-- using th:with to declare a local variable for sorting query param -->
+			<ul id="clientQuestionare_list_pagination" class="pagination pull-right"
+				th:with="sortParam=${sortProperty+','+(sortDirectionFlag?'desc':'asc')}">
+				<li th:if="${clientQuestionarePage.hasPrevious()}">
+					<a th:if="${searchParameters} == null"
+						th:href="@{/getClientQuestionareList(page=${clientQuestionarePage.number-1},size=${clientQuestionarePage.size},sort=${sortParam})}">上一页</a>
+					<a th:if="${searchParameters} != null"
+						th:href="@{/clientQuestionares/search/(page=${clientQuestionarePage.number-1},size=${clientQuestionarePage.size},sort=${sortParam},searchParameters=${searchParameters})}">上一页</a>
+				</li>
+				<th:block th:each="i: ${#numbers.sequence(0, clientQuestionarePage.totalPages - 1)}">
+					<li th:if="${clientQuestionarePage.number == i}" class="active"><a href="#" >[[${i}+1]]</a></li>
+					<li th:unless="${clientQuestionarePage.number == i}">
+						<a th:if="${searchParameters} == null" th:href="@{/getClientQuestionareList(page=${i},size=${clientQuestionarePage.size},sort=${sortParam})}">[[${i}+1]]</a>
+						<a th:if="${searchParameters} != null" th:href="@{/clientQuestionares/search/(page=${i},size=${clientQuestionarePage.size},sort=${sortParam},searchParameters=${searchParameters})}">[[${i}+1]]</a>
+					</li>
+				</th:block>
+				<li th:if="${clientQuestionarePage.hasNext()}">
+					<a  th:if="${searchParameters} == null" th:href="@{/getClientQuestionareList(page=${clientQuestionarePage.number+1},size=${clientQuestionarePage.size},sort=${sortParam})}">下一页</a>
+					<a  th:if="${searchParameters} != null" th:href="@{/clientQuestionares/search/(page=${clientQuestionarePage.number+1},size=${clientQuestionarePage.size},sort=${sortParam},searchParameters=${searchParameters})}">下一页</a>
+				</li>
+			</ul>
+			</div>
+
+			<div th:replace="fragments/footer.html :: footer">footer</div>
+		</div>
+</body>
+
+</html>
