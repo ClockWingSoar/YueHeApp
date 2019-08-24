@@ -75,6 +75,14 @@ public class Client implements Serializable {
 		this.name = name;
 
 	}
+	/** use it to intialize client basic info for clientQuestionareNewItem.html */
+	public Client(String id, String name, String gender, int age) {
+		this.id = id;
+		this.name = name;
+		this.gender = gender;
+		this.age = age;
+
+	}
 	@Override
 	public String toString() {
 		return "Client [id=" + id + ", cosmeticShopName=" + Optional.ofNullable(cosmeticShop).orElse(new CosmeticShop()).getName() + ", name=" + name + ", age=" + age

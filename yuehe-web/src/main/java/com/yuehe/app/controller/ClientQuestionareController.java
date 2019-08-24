@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.validation.Valid;
 
+import com.yuehe.app.entity.Client;
 import com.yuehe.app.entity.ClientQuestionare;
 import com.yuehe.app.entity.CosmeticShop;
 import com.yuehe.app.service.ClientQuestionareService;
@@ -21,7 +22,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 
@@ -53,13 +57,22 @@ public class ClientQuestionareController{
 	// 	model.addAttribute("subModule", "clientQuestionareList");
 	// 	return "user/clientQuestionareList.html";
 	// }
-	@GetMapping("/getClientQuestionareNewItem")
-	public String clientQuestionareNewItem(Model model) {
+	@GetMapping("/getClientQuestionare")
+	public String clientQuestionare(Model model) {
 		List<CosmeticShop> cosmeticShopList =  yueHeCommonService.getAllCosmeticShops();
 		model.addAttribute("cosmeticShopList", cosmeticShopList);
 		model.addAttribute("subModule", "clientQuestionareNewItem");
 
 		return "user/clientQuestionareNewItem.html";
+	}
+	// @GetMapping("/getClientQuestionareNewItem")
+	@RequestMapping(value = "/getClientQuestionareNewItem", method = RequestMethod.GET)
+	public @ResponseBody Client getClientBasicInfoForQuestionare(
+			@RequestParam(value = "clientId", required = true) String clientId) {
+				Client client = yueHeCommonService.getClientForQuestionareById(clientId);
+			System.err.println(client);
+			LOGGER.info("Client-{}",client);
+			return client;
 	}
 	
 	@GetMapping("/clientQuestionare/edit/{id}")
@@ -120,7 +133,8 @@ public class ClientQuestionareController{
 									   @RequestParam(name = "sleepSituation", required = false) String[] sleepSituationArray, 
 									   @RequestParam(name = "digestSituation", required = false) String[] digestSituationArray, 
 									   @RequestParam(name = "incretionSituation", required = false) String[] incretionSituationArray, 
-									   @RequestParam(name = "practiseSituation", required = false) String[] practiseSituationArray, 
+									   @RequestParam(name = "practiseSituation", required = false) String practiseSituation, 
+									   @RequestParam(name = "practiseMethods", required = false) String practiseMethods, 
 									   @RequestParam(name = "workingEnv", required = false) String[] workingEnvArray, 
 									   @RequestParam(name = "commonUsedSkinCareProducts", required = false) String commonUsedSkinCareProducts, 
 									   RedirectAttributes attr
@@ -144,7 +158,8 @@ public class ClientQuestionareController{
         clientQuestionare.setSleepSituation(ServiceUtil.convertStringArrayToString(sleepSituationArray));
         clientQuestionare.setDigestSituation(ServiceUtil.convertStringArrayToString(digestSituationArray));
         clientQuestionare.setIncretionSituation(ServiceUtil.convertStringArrayToString(incretionSituationArray));
-        clientQuestionare.setPractiseSituation(ServiceUtil.convertStringArrayToString(practiseSituationArray));
+        clientQuestionare.setPractiseSituation(practiseSituation);
+        clientQuestionare.setPractiseMethods(practiseMethods);
         clientQuestionare.setWorkingEnv(ServiceUtil.convertStringArrayToString(workingEnvArray));
         clientQuestionare.setCommonUsedSkinCareProducts(commonUsedSkinCareProducts);
         LOGGER.info("clientQuestionare:",clientQuestionare);

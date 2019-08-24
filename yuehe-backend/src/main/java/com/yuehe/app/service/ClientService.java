@@ -70,6 +70,9 @@ public class ClientService {
     public List<Client> getClientsByShopId(String cosmeticShopId) {
     	return clientRepository.findByShopId(cosmeticShopId);
     }
+    public Client getClientForQuestionareById(String id) {
+    	return clientRepository.findClientById(id);
+    }
     public Client getClientByClientNameAndShopName(String clientName, String cosmeticShopName) {
     	cosmeticShop = cosmeticShopService.getCosmeticShopByName(cosmeticShopName);
     	return clientRepository.findByClientNameAndShopId(clientName,cosmeticShop.getId());

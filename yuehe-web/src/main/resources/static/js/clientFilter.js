@@ -14,7 +14,7 @@ $(document).ready(function($) {
 			if(filterNeedComesFrom == "clientBasic"){
 				getClientProfile(clientId);
 			}else if(filterNeedComesFrom == "clientQuestionare"){
-				// createClientQuetionare(clientId)
+				getClientQuestionareNewItem(clientId)
 			}
 		});
 });

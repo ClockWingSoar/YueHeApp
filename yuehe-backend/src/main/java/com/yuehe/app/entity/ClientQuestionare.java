@@ -85,6 +85,8 @@ public class ClientQuestionare implements Serializable {
 	String incretionSituation;
 	@Column(name="practise_situation")
 	String practiseSituation;
+	@Column(name="practise_methods")
+	String practiseMethods;
 	@Column(name="working_env")
 	String workingEnv;
 	@Column(name="common_used_skin_care_products")

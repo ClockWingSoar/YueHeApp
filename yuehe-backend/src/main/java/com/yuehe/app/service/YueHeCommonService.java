@@ -99,6 +99,9 @@ public class YueHeCommonService {
 	public Client getClientById(String clientId) {
 		return clientService.getById(clientId);
 	}
+	public Client getClientForQuestionareById(String clientId) {
+		return clientService.getClientForQuestionareById(clientId);
+	}
 
 	public CosmeticShop getCosmeticShopById(String shopId) {
 		return cosmeticShopService.getById(shopId);
