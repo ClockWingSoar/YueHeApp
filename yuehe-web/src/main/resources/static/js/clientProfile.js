@@ -1,3 +1,14 @@
+
+$(function ($) {
+$(document).ready(function(){
+	$(".clickable-row").click(function() {
+		alert(1)
+		var saleId = $(this).find("td:eq(0)").text();
+		alert(saleId)
+		getSaleAllOperations(saleId);
+		});
+	});
+});
 function getClientProfile(clientId){
 	$.getJSON("http://"+window.location.host+"/getProfileDetail", {
 		clientId:clientId,
@@ -6,7 +17,7 @@ function getClientProfile(clientId){
 		var html = '';
 		var len = data.clientAllSalesPerformanceDetailDTO.salePerformanceDetailDTOs.length; 
 		for ( var i = 0; i < len; i++) {
-			html = html+'<tr><td>' +data.clientAllSalesPerformanceDetailDTO.salePerformanceDetailDTOs[i].saleId+'</td>'
+			html = html+'<tr class="clickable-row"><td>' +data.clientAllSalesPerformanceDetailDTO.salePerformanceDetailDTOs[i].saleId+'</td>'
 			+'<td>'+data.clientDetailDTO.saleDetailDTOs[i].beautifySkinItemName+'</td>'
 			+'<td>'+data.clientDetailDTO.saleDetailDTOs[i].createCardDate+'</td>'
 			+'<td>'+data.clientAllSalesPerformanceDetailDTO.salePerformanceDetailDTOs[i].createCardTotalAmount+'</td>'
@@ -38,6 +49,27 @@ function getClientProfile(clientId){
 		$('#employee_premium').html(data.clientAllSalesPerformanceDetailDTO.allSalesEmployeePremium);
 		$('#shop_premium').html(data.clientAllSalesPerformanceDetailDTO.allSalesShopPremium);
 		$("#sale_detail").removeClass('hidden');
+		
+	});
+}
+function getSaleAllOperations(saleId){
+	$.getJSON("http://"+window.location.host+"/getSaleAllOperations", {
+		saleId:saleId,
+		ajax : 'true'
+	}, function(data) {
+		var html = '';
+		var len = data.operationDetailDTOs.length; 
+		for ( var i = 0; i < len; i++) {
+			html = html+'<tr><td>' +data.operationDetailDTOs[i].operationId+'</td>'
+			+'<td>'+data.operationDetailDTOs[i].operatorName+'</td>'
+			+'<td>'+data.operationDetailDTOs[i].operationDate+'</td>'
+			+'<td>'+data.operationDetailDTOs[i].toolName+'</td>'
+			+'<td>'+data.operationDetailDTOs[i].operateExpense+'</td>'
+			+'<td>'+data.operationDetailDTOs[i].description+'</td></tr>';
+			
+		}
+		$('#operation_detail_table_body').html(html);
+		$("#operation_detail").removeClass('hidden');
 		
 	});
 }

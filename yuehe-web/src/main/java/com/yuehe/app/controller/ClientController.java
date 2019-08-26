@@ -232,13 +232,6 @@ public class ClientController {
 		model.addAttribute("Module", "clientProfile");
 		return "user/clientProfile.html";
 	}
-	@RequestMapping(value = "/getProfileDetail", method = RequestMethod.GET)
-	public @ResponseBody ProfileDetailDTO getProfileByClientId(
-			@RequestParam(value = "clientId", required = true) String clientId) {
-		ProfileDetailDTO profileDetailDTO = profileService.getProfileByClientId(clientId,null,null);
-		System.out.println(profileDetailDTO);
-		LOGGER.info("ProfileDetailDTO{}",profileDetailDTO);
-		return profileDetailDTO;
-	}
+
 
 }

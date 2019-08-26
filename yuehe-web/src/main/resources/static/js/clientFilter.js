@@ -8,7 +8,8 @@ $(document).ready(function($) {
 	}
 	jQuery(function() { 
 		$('#cosmeticShop').change(getShopAllClientsList);
-		$('#client').change(checkClientHasQuestionare);
+		if(filterNeedComesFrom != "clientBasic")
+			$('#client').change(checkClientHasQuestionare);
 		});
 		
 	$('#client_filter_btn').click(

@@ -127,7 +127,26 @@
 				</table>
 			</div>
 		</div>
+		<div id="operation_detail" class="hidden">
+		<div class=" panel-body table-wrapper-scroll-y my-custom-scrollbar table-small-font">
+			<table id="operation_detail_table" class="table table-hover  table-sm  ">
+				<thead>
 
+					<tr class="info">
+						<th>操作ID</th>
+						<th>操作人</th>
+						<th>操作日期</th>
+						<th>操作仪器</th>
+						<th>操作费</th>
+						<th>备注</th>
+					</tr>
+				</thead>
+
+				<tbody id="operation_detail_table_body">
+				</tbody>
+			</table>
+		</div>
+	</div>
 		<div th:replace="~{fragments/footer.html :: footer}">footer</div>
 		<!-- /.container -->
 	</div>
