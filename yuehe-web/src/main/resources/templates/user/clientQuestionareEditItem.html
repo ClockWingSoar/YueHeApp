@@ -29,8 +29,10 @@
 		<div class="container">
 			<h3>编辑客户问卷</h3>
 			<hr>
-			<form class="form-horizontal" id="client_questionare_edit_item" th:object="${clientQuestionare}" th:action="@{/createClientQuestionare}" method="POST">
+			<form class="form-horizontal" id="client_questionare_edit_item" th:object="${clientQuestionare}" th:action="@{/clientQuestionare/update/{id}(id=${clientQuestionare.id})}" method="POST">
 				<div class="form-group ">
+						<input type="hidden" id="clientId" name="clientId" th:field="*{clientId}" >
+			
 					<label class="col-sm-1 " style="text-align:right;">姓名</label>
 					<div class="col-sm-2">
 							<span id="clientName" th:text="*{clientName}" class="form-control-static">test</span>
@@ -407,12 +409,17 @@
 							  </div>
 						<br>
 						<div class="form-group  row ">
-							<div class="content">
-								<div class="input-group col-xs-4">
-									<input type="submit" class="btn-primary  btn-lg pull-left" value="提交" />
+								<div class="content">
+									<div class="input-group col-xs-1">
+										<input type="submit" class="btn-primary  btn-lg" name="clientQuestionareUpdateItem"
+											value="更新" />
+									</div>
+									<div class="input-group col-xs-1">
+										<input id="client_questionare_delete_btn" type="submit" name="clientQuestionareDeleteItem"
+											class="btn-primary  btn-lg" value="删除" />
+									</div>
 								</div>
 							</div>
-						</div>
 					</form>
 				</div>
 			</div>

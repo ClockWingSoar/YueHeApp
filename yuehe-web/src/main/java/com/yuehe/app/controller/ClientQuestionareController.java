@@ -96,6 +96,7 @@ public class ClientQuestionareController{
 	public void getClientQuestionareDetail(Model model, String id) {
 		ClientQuestionare clientQuestionare = clientQuestionareService.getByClientId(id);
 		ClientQuestionareDTO clientQuestionareDTO = new ClientQuestionareDTO();
+		clientQuestionareDTO.setId(clientQuestionare.getId());
 		clientQuestionareDTO.setClientId(clientQuestionare.getClient().getId());
 		clientQuestionareDTO.setClientGender(StringUtils.equals(clientQuestionare.getClient().getGender(), "f")?"女性":"男性");
 		clientQuestionareDTO.setClientName(clientQuestionare.getClient().getName());
@@ -126,21 +127,61 @@ public class ClientQuestionareController{
 	}
 
 	@PostMapping("/clientQuestionare/update/{id}")
-	public String updateClientQuestionareItem(Model model, @PathVariable("id") String id, @Valid ClientQuestionare clientQuestionare, BindingResult result,
-			RedirectAttributes attr) {
-		if (result.hasErrors()) {
-			// to add back the initial data of clientQuestionare edit item and the error message
-			LOGGER.debug("result clientQuestionare:{}", result.getAllErrors());
-			attr.addFlashAttribute("org.springframework.validation.BindingResult.clientQuestionare", result);
-			model.addAttribute("clientQuestionare", clientQuestionare);
-			return "user/clientQuestionareEditItem.html";
-		}
+	public String updateClientQuestionareItem(Model model, @PathVariable("id") long id, 
+										@RequestParam(name = "clientId", required = false) String clientId,
+                                        @RequestParam(name = "usualBeautifyItem", required = false) String usualBeautifyItem,
+										@RequestParam(name = "ifAlergicBody", required = false) String ifAlergicBody,
+										@RequestParam(name = "ifAlergicSkin", required = false) String ifAlergicSkin,
+										@RequestParam(name = "alergicSource", required = false) String[] alergicSourceArray,
+										@RequestParam(name = "medicineName", required = false) String medicineName,
+										@RequestParam(name = "ifHealthy", required = false) String ifHealthy, 
+										@RequestParam(name = "ifHadMedicine", required = false) String ifHadMedicine, 
+										@RequestParam(name = "ifPregnantOrBreastFeeding", required = false) String ifPregnantOrBreastFeeding, 
+										@RequestParam(name = "ifUsedWhiteningProduct", required = false) String ifUsedWhiteningProduct, 
+										@RequestParam(name = "ifSunExposure", required = false) String ifSunExposure, 
+										@RequestParam(name = "ifSunProtection", required = false) String ifSunProtection, 
+										@RequestParam(name = "ifSunBurnRecently", required = false) String ifSunBurnRecently, 
+										@RequestParam(name = "ifScabBody", required = false) String ifScabBody, 
+										@RequestParam(name = "eatingSituation", required = false) String[] eatingSituationArray, 
+										@RequestParam(name = "sleepSituation", required = false) String[] sleepSituationArray, 
+										@RequestParam(name = "digestSituation", required = false) String[] digestSituationArray, 
+										@RequestParam(name = "incretionSituation", required = false) String[] incretionSituationArray, 
+										@RequestParam(name = "practiseSituation", required = false) String practiseSituation, 
+										@RequestParam(name = "practiseMethods", required = false) String practiseMethods, 
+										@RequestParam(name = "workingEnv", required = false) String[] workingEnvArray, 
+										@RequestParam(name = "commonUsedSkinCareProducts", required = false) String commonUsedSkinCareProducts, 
+									RedirectAttributes attr) {
+	ClientQuestionare clientQuestionare =new ClientQuestionare();
+	clientQuestionare.setId(id);
+	clientQuestionare.setClient(yueHeCommonService.getClientById(clientId));
+	clientQuestionare.setUsualBeautifyItem(usualBeautifyItem);
+	clientQuestionare.setIfAlergicBody(ifAlergicBody);
+	clientQuestionare.setIfAlergicSkin(ifAlergicSkin);
+	clientQuestionare.setAlergicSource(ServiceUtil.convertStringArrayToString(alergicSourceArray));
+	clientQuestionare.setMedicineName(medicineName);
+	clientQuestionare.setIfHealthy(ifHealthy);
+	clientQuestionare.setIfHadMedicine(ifHadMedicine);
+	clientQuestionare.setIfPregnantOrBreastFeeding(ifPregnantOrBreastFeeding);
+	clientQuestionare.setIfUsedWhiteningProduct(ifUsedWhiteningProduct);
+	clientQuestionare.setIfSunExposure(ifSunExposure);
+	clientQuestionare.setIfSunBurnRecently(ifSunBurnRecently);
+	clientQuestionare.setIfScabBody(ifScabBody);
+	clientQuestionare.setEatingSituation(ServiceUtil.convertStringArrayToString(eatingSituationArray));
+	clientQuestionare.setSleepSituation(ServiceUtil.convertStringArrayToString(sleepSituationArray));
+	clientQuestionare.setDigestSituation(ServiceUtil.convertStringArrayToString(digestSituationArray));
+	clientQuestionare.setIncretionSituation(ServiceUtil.convertStringArrayToString(incretionSituationArray));
+	clientQuestionare.setPractiseSituation(practiseSituation);
+	clientQuestionare.setPractiseMethods(practiseMethods);
+	clientQuestionare.setWorkingEnv(ServiceUtil.convertStringArrayToString(workingEnvArray));
+	clientQuestionare.setCommonUsedSkinCareProducts(commonUsedSkinCareProducts);
+	LOGGER.info("clientQuestionare:",clientQuestionare);
+
 		LOGGER.debug("update clientQuestionare:", clientQuestionare);
 		if (clientQuestionare != null) {
 			LOGGER.info("updated {}", clientQuestionareService.create(clientQuestionare));
 		}
 		attr.addFlashAttribute("message",  clientQuestionare.getClient().getName() +"-问卷调查信息更新成功！");
-		return "redirect:/getClientQuestionareList";
+		return "redirect:/getClientQuestionare";
 	}
 
 	@GetMapping("/clientQuestionare/delete/{id}")
@@ -152,7 +193,7 @@ public class ClientQuestionareController{
 		// clientQuestionareService.delete(clientQuestionare);
 		clientQuestionareService.deleteById(id);
 		attr.addFlashAttribute("message", clientQuestionare.getClient().getName() +"-问卷调查信息删除成功！");
-		return "redirect:/getClientQuestionareList";
+		return "redirect:/getClientQuestionare";
 	}
 	@PostMapping("/createClientQuestionare")
     public String createClientQuestionare( @RequestParam(name = "clientId", required = false) String clientId,

@@ -20,6 +20,7 @@ public class ClientQuestionareDTO {
 	/**
 	 * 
 	 */
+	private long id;
 	private String clientId;
 	private String clientGender;
 	private String clientName;
