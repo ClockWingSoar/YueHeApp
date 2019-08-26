@@ -23,8 +23,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 /**
  * @author Soveran Zhong
  */
-public interface ClientQuestionareRepository extends JpaRepository<ClientQuestionare, String> {
-
+public interface ClientQuestionareRepository extends JpaRepository<ClientQuestionare, Long> {
+ 
     ClientQuestionare findByClientId(String clientId);
 
 }

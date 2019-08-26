@@ -2,7 +2,6 @@ package com.yuehe.app.controller;
 
 import java.util.List;
 
-import com.yuehe.app.dto.ProfileDetailDTO;
 import com.yuehe.app.entity.CosmeticShop;
 import com.yuehe.app.service.ClientService;
 import com.yuehe.app.service.ProfileService;
@@ -16,10 +15,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
 public class ProfileController {

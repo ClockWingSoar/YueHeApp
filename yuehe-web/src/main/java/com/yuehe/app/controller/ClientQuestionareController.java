@@ -63,7 +63,7 @@ public class ClientQuestionareController{
 	public String clientQuestionare(Model model) {
 		List<CosmeticShop> cosmeticShopList =  yueHeCommonService.getAllCosmeticShops();
 		model.addAttribute("cosmeticShopList", cosmeticShopList);
-		model.addAttribute("subModule", "clientQuestionareNewItem");
+		model.addAttribute("subModule", "clientQuestionare");
 
 		return "user/clientQuestionareNewItem.html";
 	}
@@ -89,12 +89,12 @@ public class ClientQuestionareController{
 	}
 	
 	@GetMapping("/clientQuestionare/edit/{id}")
-	public String clientQuestionareEditItem(Model model, @PathVariable("id") String id) {
+	public String clientQuestionareEditItem(Model model, @PathVariable("id") long id) {
 		getClientQuestionareDetail(model, id);
 		return "user/clientQuestionareEditItem.html";
 	}
-	public void getClientQuestionareDetail(Model model, String id) {
-		ClientQuestionare clientQuestionare = clientQuestionareService.getByClientId(id);
+	public void getClientQuestionareDetail(Model model, long id) {
+		ClientQuestionare clientQuestionare = clientQuestionareService.getById(id);
 		ClientQuestionareDTO clientQuestionareDTO = new ClientQuestionareDTO();
 		clientQuestionareDTO.setId(clientQuestionare.getId());
 		clientQuestionareDTO.setClientId(clientQuestionare.getClient().getId());
@@ -164,6 +164,7 @@ public class ClientQuestionareController{
 	clientQuestionare.setIfPregnantOrBreastFeeding(ifPregnantOrBreastFeeding);
 	clientQuestionare.setIfUsedWhiteningProduct(ifUsedWhiteningProduct);
 	clientQuestionare.setIfSunExposure(ifSunExposure);
+	clientQuestionare.setIfSunProtection(ifSunProtection);
 	clientQuestionare.setIfSunBurnRecently(ifSunBurnRecently);
 	clientQuestionare.setIfScabBody(ifScabBody);
 	clientQuestionare.setEatingSituation(ServiceUtil.convertStringArrayToString(eatingSituationArray));
@@ -181,11 +182,11 @@ public class ClientQuestionareController{
 			LOGGER.info("updated {}", clientQuestionareService.create(clientQuestionare));
 		}
 		attr.addFlashAttribute("message",  clientQuestionare.getClient().getName() +"-问卷调查信息更新成功！");
-		return "redirect:/getClientQuestionare";
+		return "redirect:/clientQuestionare/edit/"+id;
 	}
 
 	@GetMapping("/clientQuestionare/delete/{id}")
-	public String deleteClientQuestionareItem(@PathVariable("id") String id, ClientQuestionare clientQuestionare, Model model, RedirectAttributes attr) {
+	public String deleteClientQuestionareItem(@PathVariable("id") long id, ClientQuestionare clientQuestionare, Model model, RedirectAttributes attr) {
 		System.err.println("delete clientQuestionare item with id=" + id);
 		// ClientQuestionare clientQuestionare
 		LOGGER.info("deleting {}", clientQuestionareService.getById(id));
@@ -233,6 +234,7 @@ public class ClientQuestionareController{
         clientQuestionare.setIfPregnantOrBreastFeeding(ifPregnantOrBreastFeeding);
         clientQuestionare.setIfUsedWhiteningProduct(ifUsedWhiteningProduct);
         clientQuestionare.setIfSunExposure(ifSunExposure);
+		clientQuestionare.setIfSunProtection(ifSunProtection);
         clientQuestionare.setIfSunBurnRecently(ifSunBurnRecently);
         clientQuestionare.setIfScabBody(ifScabBody);
         clientQuestionare.setEatingSituation(ServiceUtil.convertStringArrayToString(eatingSituationArray));
@@ -249,7 +251,7 @@ public class ClientQuestionareController{
             LOGGER.info("Saved {}", clientQuestionareService.create(clientQuestionare));
         }
 		attr.addFlashAttribute("message", clientQuestionare.getClient().getName() +"-问卷调查信息创建成功！");
-        return "redirect:/getClientQuestionare";
+        return "redirect:/clientQuestionare/edit/"+clientQuestionare.getId();
     }
 	
     

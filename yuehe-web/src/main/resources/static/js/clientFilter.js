@@ -1,5 +1,6 @@
 $(document).ready(function($) {
 	var filterNeedComesFrom = $('#filterNeedComesFrom').val();
+	var id;
 	if(filterNeedComesFrom == "clientQuestionare"){
 
 		$('#client_filter_btn').html("新建客户问卷");
@@ -19,7 +20,7 @@ $(document).ready(function($) {
 			}else if(filterNeedComesFrom == "clientQuestionare"){
 				getClientQuestionareNewItem(clientId);
 			}else{
-				window.location.href = '/clientQuestionare/edit/'+clientId;
+				window.location.href = '/clientQuestionare/edit/'+id;
 			}
 		});
 
@@ -29,6 +30,7 @@ $(document).ready(function($) {
 				ajax : 'true'
 			}, function(data) {
 				if(data.id != null && data.id !=undefined && data.id !=0){
+					id = data.id;
 					$('#client_filter_btn').html("编辑客户问卷");
 					$('#filterNeedComesFrom').val("clientQuestionareEditItem");
 				}else{

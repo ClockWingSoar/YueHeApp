@@ -48,7 +48,7 @@ public class ClientQuestionareService {
         return clientQuestionareRepository.findAll();
     }
 
-    public ClientQuestionare getById(String id) {
+    public ClientQuestionare getById(long id) {
         return clientQuestionareRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid clientQuestionare Id:" + id));
     }
     public ClientQuestionare getByClientId(String clientId) {
@@ -56,7 +56,7 @@ public class ClientQuestionareService {
     }
 
     
-    public void deleteById(String id) {
+    public void deleteById(long id) {
 		clientQuestionareRepository.deleteById(id);
    }
 
