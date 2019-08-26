@@ -94,6 +94,8 @@ public class ClientQuestionareController{
 		return "user/clientQuestionareEditItem.html";
 	}
 	public void getClientQuestionareDetail(Model model, long id) {
+		List<CosmeticShop> cosmeticShopList =  yueHeCommonService.getAllCosmeticShops();
+		model.addAttribute("cosmeticShopList", cosmeticShopList);
 		ClientQuestionare clientQuestionare = clientQuestionareService.getById(id);
 		ClientQuestionareDTO clientQuestionareDTO = new ClientQuestionareDTO();
 		clientQuestionareDTO.setId(clientQuestionare.getId());
