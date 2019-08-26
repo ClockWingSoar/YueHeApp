@@ -97,7 +97,7 @@ public class ClientQuestionareController{
 		ClientQuestionare clientQuestionare = clientQuestionareService.getByClientId(id);
 		ClientQuestionareDTO clientQuestionareDTO = new ClientQuestionareDTO();
 		clientQuestionareDTO.setClientId(clientQuestionare.getClient().getId());
-		clientQuestionareDTO.setClientGender(clientQuestionare.getClient().getGender());
+		clientQuestionareDTO.setClientGender(StringUtils.equals(clientQuestionare.getClient().getGender(), "f")?"女性":"男性");
 		clientQuestionareDTO.setClientName(clientQuestionare.getClient().getName());
 		clientQuestionareDTO.setClientAge(clientQuestionare.getClient().getAge());
 		clientQuestionareDTO.setUsualBeautifyItem(clientQuestionare.getUsualBeautifyItem());
