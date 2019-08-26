@@ -31,10 +31,11 @@
 		<div th:replace="~{fragments/clientFilter.html :: filter}">filter</div>
 		<input type="hidden" id="filterNeedComesFrom" th:value="clientQuestionare">
 		<div class="hidden"  id="client_questionare" >
-		<div class="container">
-			<h3>客户问卷调查信息</h3>
-			<hr>
-			<form class="form-horizontal" id="client_questionare_new_item" th:action="@{/createClientQuestionare}" method="POST">
+			<div class="container">
+				<h3>客户问卷调查信息</h3>
+				<hr>
+				<form class="form-horizontal" id="client_questionare_new_item" th:action="@{/createClientQuestionare}" method="POST">
+					<input type="hidden" id="clientId" name="clientId" >
 				<div class="form-group ">
 					<label class="col-sm-1 " style="text-align:right;">姓名</label>
 					<div class="col-sm-2">
@@ -95,15 +96,15 @@
 								/>  花粉
 						</label>
 						<label class="checkbox-inline">
-							<input type="checkbox" name="alergicSource" id="alergicSourcePowder" value="powder"
+							<input type="checkbox" name="alergicSource" id="alergicSourceSkinCareProduct" value="skinCareProduct"
 								/>  护肤品
 						</label>
 						<label class="checkbox-inline">
-							<input type="checkbox" name="alergicSource" id="alergicSourcePowder" value="powder"
+							<input type="checkbox" name="alergicSource" id="alergicSourceFood" value="food"
 								/>  食品
 						</label>
 						<label class="checkbox-inline">
-							<input type="checkbox" name="alergicSource" id="alergicSourcePowder" value="powder"
+							<input type="checkbox" name="alergicSource" id="alergicSourceMedicine" value="medicine"
 							/>  药物
 						</label>
 						<label class="checkbox-inline">
@@ -351,7 +352,7 @@
 											/>  长期电脑辐射
 									</label>
 									<label class="checkbox-inline">
-										<input type="checkbox" name="workingEnv" id="workingEnvSunExposure" value="workingEnvSunExposure"
+										<input type="checkbox" name="workingEnv" id="workingEnvSunExposure" value="sunExposure"
 											/>  长时间暴晒
 									</label>
 									<label class="checkbox-inline">

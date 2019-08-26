@@ -51,6 +51,9 @@ public class ClientQuestionareService {
     public ClientQuestionare getById(String id) {
         return clientQuestionareRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid clientQuestionare Id:" + id));
     }
+    public ClientQuestionare getByClientId(String clientId) {
+        return clientQuestionareRepository.findByClientId(clientId);
+    }
 
     
     public void deleteById(String id) {

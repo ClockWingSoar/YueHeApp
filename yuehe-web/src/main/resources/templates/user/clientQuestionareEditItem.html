@@ -3,14 +3,14 @@
 
 <head>
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-	<title>客户问卷调查</title>
+	<title>编辑客户问卷</title>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 	<link rel="stylesheet" th:href="@{/css/core.css}">
 	<link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
 	<link rel="stylesheet" th:href="@{/css/fstdropdown.css}">
 	<script type="text/javascript" th:src="@{/js/jquery.min.js}"></script>
 	<script type="text/javascript" th:src="@{/js/bootstrap.min.js}"></script>
-	<!-- <script type="text/javascript" th:src="@{/js/clientQuestionareNewItem.js}"></script> -->
+	<script type="text/javascript" th:src="@{/js/clientQuestionareEditItem.js}"></script>
 	<script type="text/javascript" th:src="@{/js/clientFilter.js}"></script>
 	<script type="text/javascript" th:src="@{/js/yueHeCommon.js}"></script>
 	<script type="text/javascript" th:src="@{/js/fstdropdown.js}"></script>
@@ -26,32 +26,29 @@
 	<div role="main" class="container">
 
 		<br>
-		<div th:replace="~{fragments/clientFilter.html :: filter}">filter</div>
-		<input type="hidden" id="filterNeedComesFrom" th:value="clientQuestionare">
-			
 		<div class="container">
-			<h3>客户问卷调查信息</h3>
+			<h3>编辑客户问卷</h3>
 			<hr>
-			<form class="form-horizontal" id="client_questionare_new_item" th:object="${clientQuestionare}" th:action="@{/createClientQuestionare}" method="POST">
+			<form class="form-horizontal" id="client_questionare_edit_item" th:object="${clientQuestionare}" th:action="@{/createClientQuestionare}" method="POST">
 				<div class="form-group ">
 					<label class="col-sm-1 " style="text-align:right;">姓名</label>
 					<div class="col-sm-2">
-							<u><span id="clientName" class="form-control-static">test</span></u>
+							<span id="clientName" th:text="*{clientName}" class="form-control-static">test</span>
 					</div>
 					<label class="col-sm-1 " style="text-align:right;">性别</label>
 					<div class="col-sm-2">
-						<u><span id="clientGender" class="form-control-static">tets</span></u>
+						<span id="clientGender" th:text="*{clientGender}" class="form-control-static">tets</span>
 					</div>
 					<label class="col-sm-1 " style="text-align:right;">年龄</label>
 					<div class="col-sm-5">
-							<u><span id="clientAge" class="form-control-static">test</span></u>
+							<span id="clientAge" th:text="*{clientAge}" class="form-control-static">test</span>
 					</div>
 				  </div>
 				<hr>
 			  <div class="form-group ">
 				<label class="col-sm-2 control-label">常做美容项目</label>
 				<div class="col-sm-6">
-					<input class="form-control " id="usualBeautifyItem" name="usualBeautifyItem" type="text" >
+					<input class="form-control " th:field="*{usualBeautifyItem}"  id="usualBeautifyItem" name="usualBeautifyItem" type="text" >
 				</div>
 				<div class="col-sm-4"></div>
 
@@ -83,26 +80,32 @@
 			  <div class="form-group">
 					<label class="col-sm-2 control-label">过敏源</label>
 					<!-- <div class="col-sm-2" th:each="alergicSource : ${allAlergicSources} "> -->
-					<div class="col-sm-10" th:each="alergicSource : ${alergicSourceArray} " >
+					<div class="col-sm-10"  >
 						<label class="checkbox-inline">
 							<input type="checkbox" name="alergicSource" id="alergicSourceAccesory" value="accesory"
-								th:field="*{alergicSource}"/>  饰品
+							th:checked="${#arrays.contains(clientQuestionare.alergicSources,'accesory' )}? 'checked'"
+							/>  饰品
 						</label>
 						<label class="checkbox-inline">
 							<input type="checkbox" name="alergicSource" id="alergicSourcePowder" value="powder"
-								th:field="*{alergicSource}"/>  花粉
+							th:checked="${#arrays.contains(clientQuestionare.alergicSources,'powder' )}? 'checked'"
+							
+								/>  花粉
 						</label>
 						<label class="checkbox-inline">
-							<input type="checkbox" name="alergicSource" id="alergicSourcePowder" value="powder"
-								th:field="*{alergicSource}"/>  护肤品
+							<input type="checkbox" name="alergicSource" id="alergicSourceSkinCareProduct" value="skinCareProduct"
+							th:checked="${#arrays.contains(clientQuestionare.alergicSources,'skinCareProduct' )}? 'checked'"
+							/>  护肤品
 						</label>
 						<label class="checkbox-inline">
-							<input type="checkbox" name="alergicSource" id="alergicSourcePowder" value="powder"
-								th:field="*{alergicSource}"/>  食品
+							<input type="checkbox" name="alergicSource" id="alergicSourceFood" value="food"
+							th:checked="${#arrays.contains(clientQuestionare.alergicSources,'food' )}? 'checked'"
+							/>  食品
 						</label>
 						<label class="checkbox-inline">
-							<input type="checkbox" name="alergicSource" id="alergicSourcePowder" value="powder"
-							th:field="*{alergicSource}"/>  药物
+							<input type="checkbox" name="alergicSource" id="alergicSourceMedicine" value="medicine"
+							th:checked="${#arrays.contains(clientQuestionare.alergicSources,'medicine' )}? 'checked'"
+							/>  药物
 						</label>
 						<label class="checkbox-inline">
 							药物名称： 
@@ -110,6 +113,7 @@
 						</label>
 				
 					</div>
+				
 
 				</div>
 					<div class="form-group">
@@ -211,34 +215,41 @@
 						<div class="form-group">
 								<label class="col-sm-2 control-label">饮食情况</label>
 								<!-- <div class="col-sm-2" th:each="eatingSituation : ${allAlergicSources} "> -->
-								<div class="col-sm-10" th:each="alergicSource:${alergicSourceArray}">
+								<div class="col-sm-10">
 									<label class="checkbox-inline">
 										<input type="checkbox" name="eatingSituation" id="eatingSituationHighFat" value="highFat"
-											th:field="*{eatingSituation}"/>  高脂肪
+											th:checked="${#arrays.contains(clientQuestionare.eatingSituations,'highFat' )}? 'checked'"
+											/>  高脂肪
 									</label>
 									<label class="checkbox-inline">
 										<input type="checkbox" name="eatingSituation" id="eatingSituationVegetable" value="vegetable"
-											th:field="*{eatingSituation}"/>  蔬菜
+										th:checked="${#arrays.contains(clientQuestionare.eatingSituations,'vegetable' )}? 'checked'"
+											/>  蔬菜
 									</label>
 									<label class="checkbox-inline">
 										<input type="checkbox" name="eatingSituation" id="eatingSituationMeat" value="meat"
-											th:field="*{eatingSituation}"/>  肉类
+										th:checked="${#arrays.contains(clientQuestionare.eatingSituations,'meat' )}? 'checked'"
+										/>  肉类
 									</label>
 									<label class="checkbox-inline">
 										<input type="checkbox" name="eatingSituation" id="eatingSituationFruit" value="fruit"
-											th:field="*{eatingSituation}"/>  水果类
+										th:checked="${#arrays.contains(clientQuestionare.eatingSituations,'fruit' )}? 'checked'"
+										/>  水果类
 									</label>
 									<label class="checkbox-inline">
 										<input type="checkbox" name="eatingSituation" id="eatingSituationFry" value="fry"
-										th:field="*{eatingSituation}"/>  油炸类
+										th:checked="${#arrays.contains(clientQuestionare.eatingSituations,'fry' )}? 'checked'"
+										/>  油炸类
 									</label>
 									<label class="checkbox-inline">
 											<input type="checkbox" name="eatingSituation" id="eatingSituationCafe" value="cafe"
-											th:field="*{eatingSituation}"/>  咖啡
+											th:checked="${#arrays.contains(clientQuestionare.eatingSituations,'cafe' )}? 'checked'"
+											/>  咖啡
 										</label>
 									<label class="checkbox-inline">
 											<input type="checkbox" name="eatingSituation" id="eatingSituationSmokeAndDrink" value="smokeAndDrink"
-											th:field="*{eatingSituation}"/>  烟酒
+											th:checked="${#arrays.contains(clientQuestionare.eatingSituations,'smokeAndDrink' )}? 'checked'"
+											/>  烟酒
 										</label>
 							
 								</div>
@@ -247,26 +258,31 @@
 						<div class="form-group">
 								<label class="col-sm-2 control-label">睡眠情况</label>
 								<!-- <div class="col-sm-2" th:each="sleepSituation : ${allAlergicSources} "> -->
-								<div class="col-sm-10"  th:each="sleepSituation : ${sleepSituationArray} ">
+								<div class="col-sm-10">
 									<label class="checkbox-inline">
 										<input type="checkbox" name="sleepSituation" id="sleepSituationWell" value="well"
-											th:field="*{sleepSituation}"/>  良好
+										th:checked="${#arrays.contains(clientQuestionare.sleepSituations,'well' )}? 'checked'"
+										/>  良好
 									</label>
 									<label class="checkbox-inline">
 										<input type="checkbox" name="sleepSituation" id="sleepSituationJetleg" value="jetleg"
-											th:field="*{sleepSituation}"/>  倒时差
+										th:checked="${#arrays.contains(clientQuestionare.sleepSituations,'jetleg' )}? 'checked'"
+										/>  倒时差
 									</label>
 									<label class="checkbox-inline">
 										<input type="checkbox" name="sleepSituation" id="sleepSituationDream" value="dream"
-											th:field="*{sleepSituation}"/>  多梦易醒
+										th:checked="${#arrays.contains(clientQuestionare.sleepSituations,'dream' )}? 'checked'"
+										/>  多梦易醒
 									</label>
 									<label class="checkbox-inline">
 										<input type="checkbox" name="sleepSituation" id="sleepSituationLate" value="late"
-											th:field="*{sleepSituation}"/>  经常熬夜
+										th:checked="${#arrays.contains(clientQuestionare.sleepSituations,'late' )}? 'checked'"
+										/>  经常熬夜
 									</label>
 									<label class="checkbox-inline">
 										<input type="checkbox" name="sleepSituation" id="sleepSituationLess" value="less"
-										th:field="*{sleepSituation}"/>  失眠
+										th:checked="${#arrays.contains(clientQuestionare.sleepSituations,'less' )}? 'checked'"
+										/>  失眠
 									</label>
 									
 							
@@ -275,22 +291,26 @@
 							</div>
 						<div class="form-group">
 								<label class="col-sm-2 control-label">消化系统</label>
-								<div class="col-sm-10"  th:each="digestSituation : ${digestSituationArray} ">
+								<div class="col-sm-10" >
 									<label class="checkbox-inline">
 										<input type="checkbox" name="digestSituation" id="digestSituationNormal" value="normal"
-											th:field="*{digestSituation}"/>  正常
+										th:checked="${#arrays.contains(clientQuestionare.digestSituations,'normal' )}? 'checked'"
+										/>  正常
 									</label>
 									<label class="checkbox-inline">
 										<input type="checkbox" name="digestSituation" id="digestSituationAverage" value="average"
-											th:field="*{digestSituation}"/>  一般
+										th:checked="${#arrays.contains(clientQuestionare.digestSituations,'average' )}? 'checked'"
+										/>  一般
 									</label>
 									<label class="checkbox-inline">
 										<input type="checkbox" name="digestSituation" id="digestSituationConstipation" value="constipation"
-											th:field="*{digestSituation}"/>  便秘
+										th:checked="${#arrays.contains(clientQuestionare.digestSituations,'constipation' )}? 'checked'"
+										/>  便秘
 									</label>
 									<label class="checkbox-inline">
 										<input type="checkbox" name="digestSituation" id="digestSituationDiarrhea" value="diarrhea"
-											th:field="*{digestSituation}"/>  腹泻
+										th:checked="${#arrays.contains(clientQuestionare.digestSituations,'diarrhea' )}? 'checked'"
+										/>  腹泻
 									</label>
 									
 									
@@ -300,18 +320,21 @@
 							</div>
 						<div class="form-group">
 								<label class="col-sm-2 control-label">内分泌系统</label>
-								<div class="col-sm-10"  th:each="incretionSituation : ${incretionSituationArray} " >
+								<div class="col-sm-10">
 									<label class="checkbox-inline">
 										<input type="checkbox" name="incretionSituation" id="incretionSituationNormal" value="normal"
-											th:field="*{incretionSituation}"/>  正常
+										th:checked="${#arrays.contains(clientQuestionare.incretionSituations,'normal' )}? 'checked'"
+										/>  正常
 									</label>
 									<label class="checkbox-inline">
 										<input type="checkbox" name="incretionSituation" id="incretionSituationAbnormal" value="abnormal"
-											th:field="*{incretionSituation}"/>  失调
+										th:checked="${#arrays.contains(clientQuestionare.incretionSituations,'abnormal' )}? 'checked'"
+										/>  失调
 									</label>
 									<label class="checkbox-inline">
 										<input type="checkbox" name="incretionSituation" id="incretionSituationGynecologyIssue" value="gynecologyIssue"
-											th:field="*{incretionSituation}"/>  妇科问题
+										th:checked="${#arrays.contains(clientQuestionare.incretionSituations,'gynecologyIssue' )}? 'checked'"
+										/>  妇科问题
 									</label>
 									
 							
@@ -343,26 +366,31 @@
 							</div>
 							<div class="form-group">
 								<label class="col-sm-2 control-label">工作环境</label>
-								<div class="col-sm-10" th:each="workingEnv:${workingEnvArray}">
+								<div class="col-sm-10">
 									<label class="checkbox-inline">
 										<input type="checkbox" name="workingEnv" id="workingEnvComputer" value="computer"
-											th:field="*{workingEnv}"/>  长期电脑辐射
+										th:checked="${#arrays.contains(clientQuestionare.workingEnvs,'computer' )}? 'checked'"
+										/>  长期电脑辐射
 									</label>
 									<label class="checkbox-inline">
-										<input type="checkbox" name="workingEnv" id="workingEnvSunExposure" value="workingEnvSunExposure"
-											th:field="*{workingEnv}"/>  长时间暴晒
+										<input type="checkbox" name="workingEnv" id="workingEnvSunExposure" value="sunExposure"
+										th:checked="${#arrays.contains(clientQuestionare.workingEnvs,'sunExposure' )}? 'checked'"
+										/>  长时间暴晒
 									</label>
 									<label class="checkbox-inline">
 										<input type="checkbox" name="workingEnv" id="workingEnvBusinessTrip" value="businessTrip"
-											th:field="*{workingEnv}"/>  经常出差
+										th:checked="${#arrays.contains(clientQuestionare.workingEnvs,'businessTrip' )}? 'checked'"
+										/>  经常出差
 									</label>
 									<label class="checkbox-inline">
 										<input type="checkbox" name="workingEnv" id="workingEnvIndoor" value="indoor"
-											th:field="*{workingEnv}"/>  室内
+										th:checked="${#arrays.contains(clientQuestionare.workingEnvs,'indoor' )}? 'checked'"
+										/>  室内
 									</label>
 									<label class="checkbox-inline">
 										<input type="checkbox" name="workingEnv" id="workingEnvFree" value="free"
-											th:field="*{workingEnv}"/>  无需工作
+										th:checked="${#arrays.contains(clientQuestionare.workingEnvs,'free' )}? 'checked'"
+										/>  无需工作
 									</label>
 									
 							

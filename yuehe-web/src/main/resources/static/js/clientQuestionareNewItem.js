@@ -12,6 +12,7 @@ function getClientQuestionareNewItem(clientId){
 			gender = "男性";
 		$('#clientGender').html(gender);
 		$('#clientAge').html(data.age);
+		$('#clientId').val(data.id);
 		$("#client_questionare").removeClass('hidden');
 		
 	});

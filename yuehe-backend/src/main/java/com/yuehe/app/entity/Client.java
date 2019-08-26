@@ -5,12 +5,14 @@ import java.util.Comparator;
 import java.util.Optional;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 
@@ -52,6 +54,15 @@ public class Client implements Serializable {
 	@Fetch(FetchMode.JOIN)
 	private CosmeticShop cosmeticShop;
 
+	// @JsonBackReference
+	// @OneToOne(cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH })
+    // @JoinColumn(name = "questionare_client")
+	// private ClientQuestionare clientQuestionare;
+	@JsonManagedReference
+	@OneToOne(targetEntity = ClientQuestionare.class, mappedBy = "client", orphanRemoval = false, fetch = FetchType.LAZY)
+	@Fetch(value=FetchMode.SELECT)//to fix the Spring Boot Fail-safe cleanup (collections) issue,this can happen if it trys to retreive many data
+	private ClientQuestionare clientQuestionare;
+
 	private String name;
 	private int age;
 	private String gender;
@@ -59,7 +70,7 @@ public class Client implements Serializable {
 	@JsonManagedReference
 	@OneToMany(targetEntity = Sale.class, mappedBy = "client", orphanRemoval = false, fetch = FetchType.LAZY)
 	@Fetch(value=FetchMode.SELECT)
-	private Set<Sale> sales;
+	private Set<Sale> sales;//this will cause multi query to DB if you search for client with this full arguments Client entity
 
 	
     /**
@@ -79,6 +90,15 @@ public class Client implements Serializable {
 	public Client(String id, String name, String gender, int age) {
 		this.id = id;
 		this.name = name;
+		this.gender = gender;
+		this.age = age;
+
+	}
+	/** use it to test client basic info for clientQuestionareNewItem.html */
+	public Client(String id, String name, CosmeticShop cosmeticShop, String gender, int age) {
+		this.id = id;
+		this.name = name;
+		this.cosmeticShop = cosmeticShop;
 		this.gender = gender;
 		this.age = age;
 

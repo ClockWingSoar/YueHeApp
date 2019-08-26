@@ -5,11 +5,12 @@ import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
-import javax.validation.constraints.NotBlank;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
@@ -40,12 +41,17 @@ public class ClientQuestionare implements Serializable {
 	 * 
 	 */
 	@Id
-	@NotBlank(message = "请输入正确的客户ID")
-	@Column(name="client_id")
-	private String clientId;
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private long id;
+
+	// @NotBlank(message = "请输入正确的客户ID")
+	// @Column(name="client_id")
+	// private String clientId;
+	// @JsonBackReference
+	// @OneToOne(mappedBy = "clientQuestionare")
 	@JsonBackReference
 	@OneToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "id", nullable = false)
+	@JoinColumn(name = "client_id", nullable = false)//need to insert data to shop_id column
 	@Fetch(FetchMode.JOIN)
 	private Client client;
 
