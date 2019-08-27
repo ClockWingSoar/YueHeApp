@@ -122,12 +122,34 @@
 						</tr>
 					</thead>
 
-					<tbody id="sale_detail_table_body">
+					<tbody id="sale_detail_table_body" >
 					</tbody>
 				</table>
 			</div>
 		</div>
+		<hr>
 		<div id="operation_detail" class="hidden">
+			
+				<div id="operation_overall" class="container">
+						<div class="form-group row">
+								<div class="col-sm-1 "> 
+									<label class="control-label ">销售ID</label>
+									<span id="sale_id" class="form-control-static"></span>
+								</div>
+								<div class="col-sm-1"> 
+									<label class="control-label ">开卡项目</label>
+									<span id="beautify_skin_item_name" class="form-control-static"></span>
+								</div>
+								<div class="col-sm-1">
+									<label class="control-label ">开卡日期</label>
+									<span id="create_card_date" class="form-control-static"></span>
+								</div>
+								<div class="col-sm-1"> 
+									<label class="control-label ">开卡专家</label>
+									 <span id="seller_name" class="form-control-static"></span>
+								</div>
+								
+							</div>
 		<div class=" panel-body table-wrapper-scroll-y my-custom-scrollbar table-small-font">
 			<table id="operation_detail_table" class="table table-hover  table-sm  ">
 				<thead>
@@ -145,6 +167,7 @@
 				<tbody id="operation_detail_table_body">
 				</tbody>
 			</table>
+		</div>
 		</div>
 	</div>
 		<div th:replace="~{fragments/footer.html :: footer}">footer</div>

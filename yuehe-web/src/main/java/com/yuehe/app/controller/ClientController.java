@@ -229,7 +229,7 @@ public class ClientController {
 		List<CosmeticShop> cosmeticShopList =  yueHeCommonService.getAllCosmeticShops();
 		model.addAttribute("cosmeticShopList", cosmeticShopList);
 		model.addAttribute("subModule", "clientBasic");
-		model.addAttribute("Module", "clientProfile");
+		model.addAttribute("thirdModule", "clientProfile");
 		return "user/clientProfile.html";
 	}
 

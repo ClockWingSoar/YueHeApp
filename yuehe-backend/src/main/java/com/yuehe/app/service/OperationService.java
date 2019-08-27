@@ -420,6 +420,7 @@ public class OperationService {
 		saleDetailDTO.setSaleId(saleId);
 		saleDetailDTO.setCreateCardDate(saleDetailForDBDTO.getCreateCardDate());
 		saleDetailDTO.setBeautifySkinItemName(saleDetailForDBDTO.getBeautifySkinItemName());
+		saleDetailDTO.setSellerName(saleDetailForDBDTO.getSellerName());
 		saleDetailDTO.setCreateCardTotalAmount(createCardTotalAmount);
 		saleDetailDTO.setEarnedAmount(earnedAmount);
 		saleDetailDTO.setItemNumber(itemNumber);
