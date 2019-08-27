@@ -9,7 +9,7 @@ $(document).ready(function($) {
 	jQuery(function() { 
 		$('#cosmeticShop').change(getShopAllClientsList);
 		if(filterNeedComesFrom != "clientBasic")
-			$('#client').change(checkClientHasQuestionare);
+			$('#client').change(checkClientHasQuestionare);//don't add() after checkClientHasQuestionare since it doesn't accept any parameter
 		});
 		
 	$('#client_filter_btn').click(
@@ -34,10 +34,13 @@ $(document).ready(function($) {
 					id = data.id;
 					$('#client_filter_btn').html("编辑客户问卷");
 					$('#filterNeedComesFrom').val("clientQuestionareEditItem");
-				}else{
-					
-					$('#client_filter_btn').html("新建客户问卷");
 				}
+				// else{
+				// 	window.location.href = '/getClientQuestionare?clientId='+$('#client').val();
+				// 	//  $('#client_filter_btn').html("新建客户问卷");
+				// 	//  $('#filterNeedComesFrom').val("clientQuestionare");
+				// 	//  $('#clientId').val($('#client').val());
+				// }
 					
 			});
 		}
