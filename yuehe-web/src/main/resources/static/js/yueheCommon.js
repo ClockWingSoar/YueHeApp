@@ -136,7 +136,7 @@ function filterTable(table, filter, index) {
               createCardTotalAmount: {
                 required: true,
                 number: true,
-                min: 100
+                // min: 100
               },
               receivedAmount: {
                 required: true,
@@ -186,7 +186,7 @@ function filterTable(table, filter, index) {
               createCardTotalAmount: {
                 required: "请输入开卡金额",
                 number: "仅允许输入数字,禁止输入字母或空格",
-                min: "最小金额不能低于100"
+                // min: "最小金额不能低于100"
               },
               receivedAmount: {
                   required: "请输入美容院实际收到的金额",
@@ -466,7 +466,7 @@ function filterTable(table, filter, index) {
               price : {
                 required: true,
                 number: true,
-                min: 100,
+                // min: 100,
               },
              
               description: {
@@ -481,7 +481,7 @@ function filterTable(table, filter, index) {
               price: {
                 required: "请输入美肤项目单价",
                 number: "仅允许输入数字,禁止输入字母或空格",
-                min: "价格应该大于100",
+                // min: "价格应该大于100",
               },
              
               description: {
