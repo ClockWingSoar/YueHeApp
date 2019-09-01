@@ -139,7 +139,7 @@
 								<span class="input-group-addon"><i class="glyphicon glyphicon-pencil"></i>备注</span>
 							</div>
 							<div class="col-xs-3">
-								<textarea rows="4" cols="50"   id="description" name="description" type=text
+								<textarea rows="4" cols="50"   id="description" name="description" type=text th:field="*{description}"
 									class="form-control input-sm" th:value="${operation.description}"></textarea>
 							</div>
 							<div class="col-xs-6">

@@ -80,8 +80,9 @@ public class ClientQuestionareController{
 	public @ResponseBody ClientQuestionare checkClientHasQuestionare(
 			@RequestParam(value = "clientId", required = true) String clientId) {
 				ClientQuestionare clientQuestionare = clientQuestionareService.getByClientId(clientId);
+			System.err.println(clientId);
 			System.err.println(clientQuestionare);
-			LOGGER.info("ClientQuestionare-{}",clientQuestionare);
+			LOGGER.info("{}-{}",clientId,clientQuestionare);
 			if(clientQuestionare == null){//to set back the button to edit client questionare if there is no record in client_questionare table
 				clientQuestionare = new ClientQuestionare();
 			}
