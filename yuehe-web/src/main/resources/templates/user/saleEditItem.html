@@ -281,15 +281,21 @@
 							<span th:if="${#fields.hasErrors('description')}" th:errors="*{description}"></span>
 							</div>
 		       		 </div>
-	                </div>
+					</div>
+					
+		       		
 		            <div class="form-group  row ">
 				        <div class="content">
 				            <div class="input-group col-xs-1">
-				                <input type="submit" class="btn-primary  btn-lg" name="saleUpdateItem" value="更新"/>
+				                <input id="sale_update_btn" type="submit" class="btn-primary  btn-lg" name="saleUpdateItem" value="更新"/>
 				            </div>
 				            <div class="input-group col-xs-1">
 									<!-- <a th:href="@{/sale/delete/{id}(id=${sale.id})}" class="btn btn-primary"><i class="fas fa-user-times ml-2">删除</i></a> -->
 				                <input id="sale_delete_btn" type="submit" name="saleDeleteItem" class="btn-primary  btn-lg" value="删除"/>
+				            </div>
+				           
+				            <div class="input-group col-xs-1 ">
+				                <input id="sale_card_amount_adjust_btn" type="submit"  class="btn-primary  btn-lg" value="补退款"/>
 				            </div>
 				        </div>
 			        </div>

@@ -35,15 +35,12 @@
                 <li th:classappend="${module == 'home' ? 'active' : ''}">
                     <a href="#" th:href="@{/}">主页</a>
                 </li>
-                 <li th:classappend="${module == 'user' ? 'active' : ''}">
-                    <a href="#" th:href="@{/getUserList}">用户</a>
-                </li>
-                <li th:classappend="${module == 'beautifySkinItem' ? 'active' : ''}">
-                    <a href="#" th:href="@{/getBeautifySkinItemList}">美肤项目</a>
-                </li>
                 <!-- <li th:classappend="${module == 'client' ? 'active' : ''}">
                     <a href="#" th:href="@{/getClientList}">客户</a>
                 </li> -->
+                <li th:classappend="${module == 'cosmeticShop' ? 'active' : ''}">
+                    <a href="#" th:href="@{/getCosmeticShopList}">美容院</a>
+                </li>
                 <li class="dropdown" th:classappend="${module == 'client' ? 'active' : ''}" >
                     <a class="dropdown-toggle" data-toggle="dropdown" href="#">客户 <span class="caret"></span></a>
                     <ul class="dropdown-menu">
@@ -55,16 +52,26 @@
                         </li>
                       <li><a href="#">客户其他</a></li>
                     </ul>
-                  </li>
-                <li th:classappend="${module == 'cosmeticShop' ? 'active' : ''}">
-                    <a href="#" th:href="@{/getCosmeticShopList}">美容院</a>
+                  </li>    
+                <li th:classappend="${module == 'sale' ? 'active' : ''}">
+                    <a href="#" th:href="@{/getSaleList}">销售</a>
+                </li>
+                <li th:classappend="${module == 'saleCardAmountAdjust' ? 'active' : ''}">
+                    <a href="#" th:href="@{/getSaleCardAmountAdjustList}">销售卡更改</a>
+                </li>
+               
+                <li th:classappend="${module == 'operation' ? 'active' : ''}">
+                    <a href="#" th:href="@{/getOperationList}">操作</a>
                 </li>
                 <li th:classappend="${module == 'employee' ? 'active' : ''}">
                     <a href="#" th:href="@{/getEmployeeList}">员工</a>
                 </li>
-                <li th:classappend="${module == 'operation' ? 'active' : ''}">
-                    <a href="#" th:href="@{/getOperationList}">操作</a>
-                </li>
+                <li th:classappend="${module == 'user' ? 'active' : ''}">
+                   <a href="#" th:href="@{/getUserList}">用户</a>
+               </li>
+               <li th:classappend="${module == 'beautifySkinItem' ? 'active' : ''}">
+                   <a href="#" th:href="@{/getBeautifySkinItemList}">美肤项目</a>
+               </li>
                 <li th:classappend="${module == 'duty' ? 'active' : ''}">
                     <a href="#" th:href="@{/getDutyList}">职责分工</a>
                 </li>
@@ -74,9 +81,7 @@
                 <li th:classappend="${module == 'role' ? 'active' : ''}">
                     <a href="#" th:href="@{/getRoleList}">角色</a>
                 </li>
-                <li th:classappend="${module == 'sale' ? 'active' : ''}">
-                    <a href="#" th:href="@{/getSaleList}">销售</a>
-                </li>
+            
                 <li th:classappend="${module == 'tool' ? 'active' : ''}">
                     <a href="#" th:href="@{/getToolList}">仪器</a>
                 </li>

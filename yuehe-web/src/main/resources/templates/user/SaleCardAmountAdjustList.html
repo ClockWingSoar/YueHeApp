@@ -1,0 +1,62 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<title>销售卡退补款列表</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<link rel="stylesheet" th:href="@{/css/core.css}">
+	<link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+	<script type="text/javascript" th:src="@{/js/jquery.min.js}"></script>
+	<script type="text/javascript" th:src="@{/js/bootstrap.min.js}"></script>
+	<script type="text/javascript" th:src="@{/js/saleCardAmountAdjustList.js}"></script>
+	<script type="text/javascript" th:src="@{/js/jquery.validate.min.js}"></script>
+	<script type="text/javascript" th:src="@{/js/additional-methods.min.js}"></script>
+
+	<!-- <meta http-equiv="refresh" content="600; URL=/"> this will redirect to / after 600s -->
+
+</head>
+
+<body>
+	<div th:replace="~{fragments/header.html :: header}">Header</div>
+	<div role="main" class="container">
+
+		<div th:replace="~{fragments/saleCardAmountAdjustHeader.html :: header}">Header</div>
+		<div th:replace="~{fragments/alert.html :: alert}">alert div</div>
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h3>以下为现有的销售卡退补款:</h3>
+			</div>
+			<div class="panel-body table-wrapper-scroll-y my-custom-scrollbar">
+				<table class="table table-hover  table-sm  ">
+					<thead class="thead-dark">
+						<tr class="info">
+							<th>ID</th>
+							<th>销售卡ID</th>
+							<th>调整项目</th>
+							<th>调整金额</th>
+							<th>调整日期</th>
+							<th>备注</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr class="clickable-row" data-th-each="saleCardAmountAdjust : ${saleCardAmountAdjustList}">
+							<td data-th-text="${saleCardAmountAdjust.id}">...</td>
+							<td data-th-text="${saleCardAmountAdjust.sale.id}">...</td>
+							<td data-th-text="${saleCardAmountAdjust.adjustAction}">...</td>
+							<td data-th-text="${saleCardAmountAdjust.adjustAmount}">...</td>
+							<td data-th-text="${saleCardAmountAdjust.adjustDate}">...</td>
+							<td data-th-text="${saleCardAmountAdjust.description}">...</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+
+
+
+		<div th:replace="~{fragments/footer.html :: footer}">footer</div>
+	</div>
+</body>
+
+</html>

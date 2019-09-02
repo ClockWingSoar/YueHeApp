@@ -15,14 +15,27 @@ $(function ($) {
 		shopList[0].remove();
 		beautifySkinItemList[0].remove();
 		sellerList[0].remove();
+		var createCardAmount = $('#createCaredAmount').val();
+		var receivedAmount = $('#receivedAmount').val();
+		if(createCardAmount != receivedAmount){
+			$('#sale_add_amount_btn').removeClass("hidden");
+		}else{
 
+			$('#sale_add_amount_btn').addClass("hidden");
+		}
 		$('#sale_delete_btn').click(function(){
 			var actionPage = "/sale/delete/"+$('#saleId').val();
 			$('#sale_edit_item').attr('method', 'get');
 			$('#sale_edit_item').attr('action', actionPage);
 		});
+		$('#sale_card_amount_adjust_btn').click(function(){
+			var actionPage = "/getSaleCardAmountAdjustNewItem/"+$('#saleId').val();
+			$('#sale_edit_item').attr('method', 'get');
+			$('#sale_edit_item').attr('action', actionPage);
+		});
+		
 		$('form[id="sale_edit_item"]').validate(saleItemValidator);
-
+		
 
 	});
 

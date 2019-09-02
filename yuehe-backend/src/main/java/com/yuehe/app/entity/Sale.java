@@ -69,6 +69,10 @@ public class Sale implements Serializable {
 	@JsonManagedReference
 	@OneToMany(targetEntity = Operation.class, mappedBy = "sale", orphanRemoval = false, fetch = FetchType.LAZY)
 	private Set<Operation> operations;
+	
+	@JsonManagedReference
+	@OneToMany(targetEntity = SaleCardAmountAdjust.class, mappedBy = "sale", orphanRemoval = false, fetch = FetchType.LAZY)
+	private Set<SaleCardAmountAdjust> saleCardAmountAdjust;
 
 	@Column(name = "item_number")
 	@NotNull(message = "{sale.itemNumber.notNull}")

@@ -492,6 +492,44 @@ function filterTable(table, filter, index) {
               }
             }, 
     }
+//common validator for saleCardAmountAdjustNewItem and saleCardAmountAdjustEditItem page
+    var saleCardAmountAdjustValidator= {
+            rules: {
+              adjustAction: {
+                required: true,
+              },
+              adjustDate: {
+                required: true,
+              },
+              adjustAmount : {
+                required: true,
+                number: true,
+                min: 100,
+              },
+             
+              description: {
+                maxlength: 100,
+              },
+              
+            },
+            messages : {
+              adjustAction: {
+                required: "请输入销售卡退补款类别",
+              },
+              adjustDate: {
+                required: "请输入销售卡退补款日期",
+              },
+              adjustAmount: {
+                required: "请输入销售卡退补款数额",
+                number: "仅允许输入数字,禁止输入字母或空格",
+                min: "价格应该大于100",
+              },
+             
+              description: {
+                maxlength: "备注不能超过100个字符"
+              }
+            }, 
+    }
 //common validator for dutyNewItem and dutyEditItem page
     var dutyItemValidator= {
             rules: {
