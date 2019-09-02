@@ -14,12 +14,12 @@ import javax.validation.Valid;
 import com.yuehe.app.common.FilterDateModel;
 import com.yuehe.app.common.PaginationAndSortModel;
 import com.yuehe.app.dto.ClientDetailDTO;
+import com.yuehe.app.dto.ClientShopDiscountDTO;
 import com.yuehe.app.dto.DutyEmployeeRoleDTO;
 import com.yuehe.app.dto.SaleBeautifySkinItemForFilterDTO;
 import com.yuehe.app.dto.SaleDetailDTO;
 import com.yuehe.app.dto.ShopDetailDTO;
 import com.yuehe.app.dto.YueHeAllShopsDetailDTO;
-import com.yuehe.app.entity.Client;
 import com.yuehe.app.entity.CosmeticShop;
 import com.yuehe.app.entity.Operation;
 import com.yuehe.app.entity.Tool;
@@ -311,10 +311,11 @@ public class OperationController{
 	
 	@RequestMapping(value = "/getShopAllClientsForFiltering", method = RequestMethod.GET)
 	public @ResponseBody
-	List<Client> findAllClientsByShopId(
+	List<ClientShopDiscountDTO> findAllClientsByShopId(
 	        @RequestParam(value = "cosmeticShopId", required = true) String cosmeticShopId) {
 		System.err.println("cosmeticShopId-"+cosmeticShopId);
-		List<Client> clientList = clientService.getClientsByShopId(cosmeticShopId);
+		List<ClientShopDiscountDTO> clientList = clientService.getClientsByShopId(cosmeticShopId);
+		LOGGER.info("clientList {}", clientList);
 		clientList.forEach(l -> System.out.println(l));
 	    return clientList;
 	}

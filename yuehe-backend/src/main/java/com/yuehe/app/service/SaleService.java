@@ -25,7 +25,10 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import com.yuehe.app.common.SaleColumnsEnum;
+import com.yuehe.app.common.YueHeEntitiesEnum;
 import com.yuehe.app.dto.ClientAllSalesPerformanceDetailDTO;
+import com.yuehe.app.dto.ClientShopDiscountDTO;
 import com.yuehe.app.dto.SaleBeautifySkinItemForFilterDTO;
 import com.yuehe.app.dto.SaleClientItemSellerDTO;
 import com.yuehe.app.dto.SaleClientItemSellerForDBDTO;
@@ -41,8 +44,6 @@ import com.yuehe.app.property.BaseProperty;
 import com.yuehe.app.repository.SaleRepository;
 import com.yuehe.app.specification.SpecificationsBuilder;
 import com.yuehe.app.util.YueHeUtil;
-import com.yuehe.app.common.SaleColumnsEnum;
-import com.yuehe.app.common.YueHeEntitiesEnum;
 
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -437,7 +438,7 @@ public class SaleService {
 	 public ShopAllSalesPerformanceDetailDTO getShopAllSalesPerformanceDetail(String shopId, String startDate, String endDate) {
 		 String shopName = cosmeticShopService.getById(shopId).getName();
 		 ShopAllSalesPerformanceDetailDTO shopAllSalesPerformanceDetailDTO = new ShopAllSalesPerformanceDetailDTO();
-		 List<Client> clientListByShop = clientService.getClientsByShopId(shopId);
+		 List<ClientShopDiscountDTO> clientListByShop = clientService.getClientsByShopId(shopId);
 		 List<ClientAllSalesPerformanceDetailDTO> clientAllSalesPerformanceDetailDTOList = new ArrayList<ClientAllSalesPerformanceDetailDTO>();
 		 long allClientsSalesCreateCardTotalAmount = 0;
 		 long allClientsSalesReceivedAmount = 0;
@@ -447,7 +448,7 @@ public class SaleService {
 		 long allClientsSalesDebtEarnedAmount = 0;
 		 float allClientsSalesEmployeePremium = 0;
 		 float allClientsSalesShopPremium = 0;
-		 for(Client client : clientListByShop) {
+		 for(ClientShopDiscountDTO client : clientListByShop) {
 			 String clientId = client.getId();
 			 ClientAllSalesPerformanceDetailDTO clientAllSalesPerformanceDetailDTO = getClientAllSalesPerformanceDetail(clientId, startDate, endDate);
 			 allClientsSalesCreateCardTotalAmount += clientAllSalesPerformanceDetailDTO.getAllSalesCreateCardTotalAmount();

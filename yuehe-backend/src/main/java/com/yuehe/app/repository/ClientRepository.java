@@ -19,6 +19,7 @@ package com.yuehe.app.repository;
 import java.util.List;
 
 import com.yuehe.app.dto.ClientShopDTO;
+import com.yuehe.app.dto.ClientShopDiscountDTO;
 import com.yuehe.app.entity.Client;
 
 import org.springframework.data.domain.Sort;
@@ -47,8 +48,8 @@ public interface ClientRepository extends JpaRepository<Client, String>,JpaSpeci
     @Query("select c from Client c where c.name = ?1 AND c.cosmeticShop.id =?2")
     Client findByClientNameAndShopId(String clientName, String cosmeticShopId);
     
-    @Query("select new Client(c.id,c.name) from Client c where c.cosmeticShop.id = ?1")
-    List<Client> findByShopId(String cosmeticShopId);
+    @Query("select new com.yuehe.app.dto.ClientShopDiscountDTO(c.id,c.name,c.cosmeticShop.discount) from Client c where c.cosmeticShop.id = ?1")
+    List<ClientShopDiscountDTO> findByShopId(String cosmeticShopId);
     
     @Query("select new Client(c.id,c.name,c.gender,c.age) from Client c where c.id = ?1")
     Client findClientById(String id);

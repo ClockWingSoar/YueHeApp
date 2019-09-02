@@ -12,6 +12,7 @@ import com.yuehe.app.common.ClientColumnsEnum;
 import com.yuehe.app.common.PaginationAndSortModel;
 import com.yuehe.app.common.YueHeEntitiesEnum;
 import com.yuehe.app.dto.ClientShopDTO;
+import com.yuehe.app.dto.ClientShopDiscountDTO;
 import com.yuehe.app.entity.Client;
 import com.yuehe.app.entity.CosmeticShop;
 import com.yuehe.app.repository.ClientRepository;
@@ -67,7 +68,7 @@ public class ClientService {
     public List<Client> getClientByName(String name) {
     	return clientRepository.findByName(name);
     }
-    public List<Client> getClientsByShopId(String cosmeticShopId) {
+    public List<ClientShopDiscountDTO> getClientsByShopId(String cosmeticShopId) {
     	return clientRepository.findByShopId(cosmeticShopId);
     }
     public Client getClientForQuestionareById(String id) {

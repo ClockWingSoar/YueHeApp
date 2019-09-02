@@ -28,6 +28,9 @@ function getShopAllClientsList(removeFirstOptionFlag) {
             opt.selected = true;
             clientSelector.add(opt,0);
         }
+        if(!isEmpty($('#shopDiscount'))){
+           $('#shopDiscount').val(data[0].cosmeticShopDiscount);
+        }
         clientSelector.fstdropdown.rebind();//To populate the generated div dropdown list after selecting cosmeticshop
         clientSelector.fstdropdown.activated();//To enable the dropdown list after selecting cosmeticshop
         $('#sale').html(htmlForSale);

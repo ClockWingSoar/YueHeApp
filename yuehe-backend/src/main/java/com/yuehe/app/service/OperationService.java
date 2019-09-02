@@ -28,6 +28,7 @@ import com.yuehe.app.common.OperationColumnsEnum;
 import com.yuehe.app.common.PaginationAndSortModel;
 import com.yuehe.app.common.YueHeEntitiesEnum;
 import com.yuehe.app.dto.ClientDetailDTO;
+import com.yuehe.app.dto.ClientShopDiscountDTO;
 import com.yuehe.app.dto.OperationDetailDTO;
 import com.yuehe.app.dto.OperationOperatorToolDTO;
 import com.yuehe.app.dto.OperationOperatorToolForDBDTO;
@@ -306,7 +307,7 @@ public class OperationService {
 	}
 
 	public ShopDetailDTO getShopClientDetailByShopId(String shopId, String startDate, String endDate) {
-		List<Client> clientListByShopId = clientService.getClientsByShopId(shopId);
+		List<ClientShopDiscountDTO> clientListByShopId = clientService.getClientsByShopId(shopId);
 		List<ClientDetailDTO> clientDetailDTOList = new ArrayList<ClientDetailDTO>();
 
 		String shopName = cosmeticShopService.getById(shopId).getName();
@@ -316,7 +317,7 @@ public class OperationService {
 		long allClientsCreateCardTotalAmount = 0;// for one shop all client's all sales
 		long allClientsEarnedAmount = 0;// for one shop all client's all sales
 		long allClientsConsumedEarnedAmount = 0;// for one shop all client's all sales
-		for (Client client : clientListByShopId) {
+		for (ClientShopDiscountDTO client : clientListByShopId) {
 			ClientDetailDTO clientDetailDTO = getClientSaleDetailByClientId(client.getId(), startDate, endDate);
 			clientDetailDTOList.add(clientDetailDTO);
 			long allSalesConsumedAmount = clientDetailDTO.getAllSalesConsumedAmount();

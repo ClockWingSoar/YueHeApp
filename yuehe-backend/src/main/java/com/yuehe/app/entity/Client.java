@@ -81,9 +81,10 @@ public class Client implements Serializable {
 		this.id = id;
 	}
 	/** use it for filtering to filter client for operationSummary.html */
-	public Client(String id, String name) {
+	public Client(String id, String name,CosmeticShop cosmeticShop) {
 		this.id = id;
 		this.name = name;
+		this.cosmeticShop = cosmeticShop;//get cosmeticshop discount to do the auto-caculation for received earned amount
 
 	}
 	/** use it to intialize client basic info for clientQuestionareNewItem.html */
