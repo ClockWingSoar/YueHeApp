@@ -73,11 +73,13 @@ public class SaleCardAmountAdjustController{
 	}
 	public void getSaleCardAmountAdjustDetail(Model model, long id) {
 		SaleCardAmountAdjust saleCardAmountAdjust = saleCardAmountAdjustService.getById(id);
+		model.addAttribute("saleId", saleCardAmountAdjust.getSale().getId());
 		model.addAttribute("saleCardAmountAdjust", saleCardAmountAdjust);
 	}
 
 	@PostMapping("/saleCardAmountAdjust/update/{id}")
-	public String updateSaleCardAmountAdjustItem(Model model, @PathVariable("id") long id, @Valid SaleCardAmountAdjust saleCardAmountAdjust, BindingResult result,
+	public String updateSaleCardAmountAdjustItem( @RequestParam(name = "saleId", required = false) String saleId,
+	Model model, @PathVariable("id") long id, @Valid SaleCardAmountAdjust saleCardAmountAdjust, BindingResult result,
 			RedirectAttributes attr) {
 		if (result.hasErrors()) {
 			// to add back the initial data of saleCardAmountAdjust edit item and the error message
@@ -88,8 +90,18 @@ public class SaleCardAmountAdjustController{
 		}
 		LOGGER.debug("update saleCardAmountAdjust:", saleCardAmountAdjust);
 		if (saleCardAmountAdjust != null) {
-			Sale sale = saleCardAmountAdjust.getSale();
+
+			updateSale(saleCardAmountAdjust,saleId);
+			LOGGER.info("updated {}", saleCardAmountAdjustService.create(saleCardAmountAdjust));
+		}
+		attr.addFlashAttribute("message", "销售卡修改项-" + id + " 更新成功");
+		return "redirect:/getSaleCardAmountAdjustList";
+	}
+
+	private void updateSale(SaleCardAmountAdjust saleCardAmountAdjust, String saleId){
+		Sale sale = yueHeCommonService.getSaleById(saleId);
 			String adjustAction = saleCardAmountAdjust.getAdjustAction();
+			saleCardAmountAdjust.setSale(sale);
 			if(adjustAction.equals("add")){
 
 				sale.setReceivedAmount(sale.getReceivedAmount()+saleCardAmountAdjust.getAdjustAmount());
@@ -97,13 +109,8 @@ public class SaleCardAmountAdjustController{
 				sale.setReceivedAmount(sale.getReceivedAmount()-saleCardAmountAdjust.getAdjustAmount());
 
 			}
-			LOGGER.info("updated {}", saleCardAmountAdjustService.create(saleCardAmountAdjust));
 			LOGGER.info("updated {}", saleService.create(sale));
-		}
-		attr.addFlashAttribute("message", "销售卡修改项-" + id + " 更新成功");
-		return "redirect:/getSaleCardAmountAdjustList.html";
 	}
-
 	@GetMapping("/saleCardAmountAdjust/delete/{id}")
 	public String deleteSaleCardAmountAdjustItem(@PathVariable("id") long id, SaleCardAmountAdjust saleCardAmountAdjust, Model model, RedirectAttributes attr) {
 		System.err.println("delete saleCardAmountAdjust item with id=" + id);
@@ -131,7 +138,7 @@ public class SaleCardAmountAdjustController{
         LOGGER.info("saleCardAmountAdjust:",saleCardAmountAdjust);
 
         LOGGER.info("Saved {}", saleCardAmountAdjustService.create(saleCardAmountAdjust));
-
+		updateSale(saleCardAmountAdjust,saleId);
 		attr.addFlashAttribute("message", "销售卡-"+saleId + "金额修改成功");
         return "redirect:/getSaleCardAmountAdjustList";
     }

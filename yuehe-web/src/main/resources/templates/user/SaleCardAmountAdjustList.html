@@ -43,7 +43,8 @@
 						<tr class="clickable-row" data-th-each="saleCardAmountAdjust : ${saleCardAmountAdjustList}">
 							<td data-th-text="${saleCardAmountAdjust.id}">...</td>
 							<td data-th-text="${saleCardAmountAdjust.sale.id}">...</td>
-							<td data-th-text="${saleCardAmountAdjust.adjustAction}">...</td>
+							<td  th:if="${saleCardAmountAdjust.adjustAction} == add">补款</td>
+							<td  th:if="${saleCardAmountAdjust.adjustAction} == return">退款</td>
 							<td data-th-text="${saleCardAmountAdjust.adjustAmount}">...</td>
 							<td data-th-text="${saleCardAmountAdjust.adjustDate}">...</td>
 							<td data-th-text="${saleCardAmountAdjust.description}">...</td>
