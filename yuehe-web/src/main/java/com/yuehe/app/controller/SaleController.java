@@ -162,6 +162,7 @@ public class SaleController {
 		LOGGER.info("saleMap {}", saleMap);
 		model.addAllAttributes(saleMap);
 		model.addAttribute("subModule", "saleList");
+		this.paginationAndSortModel = new PaginationAndSortModel();//to reset pageNumber to 0, otherwise it will cause issue if you in a bigger page after browsing sale list and do filtering
 	}
 
 

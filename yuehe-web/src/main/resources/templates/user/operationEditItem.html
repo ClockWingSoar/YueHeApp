@@ -62,7 +62,7 @@
 										class="glyphicon glyphicon-pencil"></i>客户名</span> </div>
 							<div class="col-xs-3">
 									<select class="fstdropdown-select "  th:field="*{sale.client.id}"  name="clientId" id="client"
-									data-placeholder="请输入客户姓名搜索" data-disabled="true">
+									data-placeholder="请输入客户姓名搜索" >
 									<option  selected="selected" th:value="${operation.sale.client.id}"
 									th:text="${operation.sale.client.name}"> 
 									</option>
@@ -77,7 +77,7 @@
 								<span class="input-group-addon"><i class="glyphicon glyphicon-pencil"></i>销售卡</span>
 							</div>
 							<div class="col-xs-3"> <select class="fstdropdown-select "  th:field="*{sale.id}"   name="saleId" data-placeholder="请输入销售卡搜索"
-								data-disabled="true" id="sale">
+								id="sale">
 									<option selected="" th:value="${operation.sale.id}"
 									th:text="${operation.sale.beautifySkinItem.name}+'--'+${operation.sale.createCardDate}">
 									</option>

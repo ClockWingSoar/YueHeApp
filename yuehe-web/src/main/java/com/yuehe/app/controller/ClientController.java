@@ -89,6 +89,7 @@ public class ClientController {
 		model.addAttribute("clientList",clientPage.getContent());
 		model.addAttribute("subModule", "clientBasic");
 		model.addAttribute("thirdModule", "clientList");
+		this.paginationAndSortModel = new PaginationAndSortModel();//to reset pageNumber to 0, otherwise it will cause issue if you in a bigger page after browsing sale list and do filtering
 	}
 	
 	@GetMapping("/getClientNewItem")

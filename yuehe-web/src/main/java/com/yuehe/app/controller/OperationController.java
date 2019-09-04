@@ -102,6 +102,7 @@ public class OperationController{
 		model.addAttribute("operationPage",operationPage);
 		model.addAttribute("operationList",operationPage.getContent());
 		model.addAttribute("subModule", "operationList");
+		this.paginationAndSortModel = new PaginationAndSortModel();//to reset pageNumber to 0, otherwise it will cause issue if you in a bigger page after browsing sale list and do filtering
 	}
 	
 	@GetMapping("/getOperationNewItem")

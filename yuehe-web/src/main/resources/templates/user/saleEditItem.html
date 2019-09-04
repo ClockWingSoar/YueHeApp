@@ -71,7 +71,7 @@
 					  <div class="form-group  row ">
 			    	<div class="col-md-1"> <span class="input-group-addon"><i class="glyphicon glyphicon-euro"></i>客户名</span> </div>
 		       			<div class="col-xs-3">    
-			       			<select  class="fstdropdown-select " th:field="*{client.id}"  required="required"  name="clientId" id="client" data-placeholder="请输入客户姓名搜索" data-disabled="false">
+			       			<select  class="fstdropdown-select " th:field="*{client.id}"  required="required"  name="clientId" id="client" data-placeholder="请输入客户姓名搜索" >
 						      <option selected="selected" th:value="${sale.client.id}" th:text="${sale.client.name}"></option>
 						      <!-- <option th:each="client : ${clientList}" th:value="${client.id}" 
 						       th:text="${client.name}" > 

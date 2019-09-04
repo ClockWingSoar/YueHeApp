@@ -1,7 +1,7 @@
 $(function ($) {
 	var sortProperty = $('#sortProperty').val(); 
 	var sortDirectionFlag = $('#sortDirectionFlag').val(); //Here it returns a String type of "true" or "false", it's different with boolean true or false
-	var currentPage = $('#clientPageNumber').val(); 
+	var currentPage = parseInt($('#clientPageNumber').val()); 
 	var pageSize =$('#clientPageSize').val();
 	var clientTotalPages = parseInt($('#clientTotalPages').val());
 	var searchParameters =$('#searchParameters').val();	

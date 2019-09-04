@@ -1,7 +1,7 @@
 $(function ($) {
 	var sortProperty = $('#sortProperty').val(); 
 	var sortDirectionFlag = $('#sortDirectionFlag').val(); //Here it returns a String type of "true" or "false", it's different with boolean true or false
-	var currentPage = $('#salePageNumber').val(); 
+	var currentPage = parseInt($('#salePageNumber').val()); 
 	var pageSize =$('#salePageSize').val();
 	var saleTotalPages = parseInt($('#saleTotalPages').val());
 	var searchParameters =$('#searchParameters').val();	
@@ -83,6 +83,7 @@ $(function ($) {
 			 var searchParameters = "";
 			if(event.which == 13) {
 				searchParameters = getCurrentFilterArray();
+				// $('#salePageNumber').val("0"); //set currentPage to 0 in case user are in a big page and then filtering result is small than that number
 				window.location.href = '/sales/search'+'?page=0&size='+pageSize+
 					'&sort='+ sortProperty+','+ ((sortDirectionFlag=="false")?'asc':'desc')+'&searchParameters='+ searchParameters;
 			}
