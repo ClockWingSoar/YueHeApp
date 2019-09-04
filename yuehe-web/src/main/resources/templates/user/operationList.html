@@ -8,6 +8,7 @@
 	<link rel="stylesheet" th:href="@{/css/core.css}">
 	<link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
 	<script type="text/javascript" th:src="@{/js/jquery.min.js}"></script>
+	<script type="text/javascript" th:src="@{/js/jquery.twbsPagination.js}"></script>
 	<script type="text/javascript" th:src="@{/js/bootstrap.min.js}"></script>
 	<script type="text/javascript" th:src="@{/js/operationList.js}"></script>
 	<script type="text/javascript" th:src="@{/js/yueHeCommon.js}"></script>
@@ -21,6 +22,7 @@
 		<div th:replace="~{fragments/operationHeader.html :: header}">Operation Header</div>
 		<div th:replace="~{fragments/alert.html :: alert}">alert div</div>
 		<div class="panel panel-default">
+			<ul class="sync-pagination"></ul>
 			<div class="panel-heading" style="padding-bottom: 0px;padding-top: 0px;">
 				<div class="form-group  row " style="margin-bottom: 0px;">
 					<div class="col-md-11">
@@ -72,9 +74,11 @@
 			<input id="operationPageSize" type="hidden" th:value="${operationPage.size}">
 			<input id="sortProperty" type="hidden" th:value="${sortProperty}">
 			<input id="sortDirectionFlag" type="hidden" th:value="${sortDirectionFlag}">
+			<input id="sortParam" type="hidden" th:value="${sortParam}">
 			<input id="searchParameters" type="hidden" th:value="${searchParameters}">
+			<ul class="sync-pagination pagination-sm"></ul>
 			<!-- using th:with to declare a local variable for sorting query param -->
-			<ul  id="operation_list_pagination" class="pagination pull-right" th:with="sortParam=${sortProperty+','+(sortDirectionFlag?'desc':'asc')}">
+			<!-- <ul  id="operation_list_pagination" class="pagination pull-right" th:with="sortParam=${sortProperty+','+(sortDirectionFlag?'desc':'asc')}">
 				<li th:if="${operationPage.hasPrevious()}">
 					<a th:if="${searchParameters} == null" th:href="@{/getOperationList(page=${operationPage.number-1},size=${operationPage.size},sort=${sortParam})}">上一页</a>
 					<a th:if="${searchParameters} != null" th:href="@{/operations/search/(page=${operationPage.number-1},size=${operationPage.size},sort=${sortParam},searchParameters=${searchParameters})}">上一页</a>
@@ -90,7 +94,7 @@
 					<a  th:if="${searchParameters} == null" th:href="@{/getOperationList(page=${operationPage.number+1},size=${operationPage.size},sort=${sortParam})}">下一页</a>
 					<a  th:if="${searchParameters} != null" th:href="@{/operations/search/(page=${operationPage.number+1},size=${operationPage.size},sort=${sortParam},searchParameters=${searchParameters})}">下一页</a>
 				</li>
-			</ul>
+			</ul> -->
 
 		</div>
 		<div th:replace="~{fragments/footer.html :: footer}">footer</div>

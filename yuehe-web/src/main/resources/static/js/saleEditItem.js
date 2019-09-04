@@ -17,6 +17,11 @@ $(function ($) {
 		sellerList[0].remove();
 		var createCardAmount = $('#createCaredAmount').val();
 		var receivedAmount = $('#receivedAmount').val();
+		$('#receivedAmount').change(function(){
+			var receivedAmount = $('#receivedAmount').val();
+			var shopDiscount = $('#shopDiscount').val();
+			$('#receivedEarnedAmount').val(receivedAmount * shopDiscount);
+		});
 		if(createCardAmount != receivedAmount){
 			$('#sale_add_amount_btn').removeClass("hidden");
 		}else{

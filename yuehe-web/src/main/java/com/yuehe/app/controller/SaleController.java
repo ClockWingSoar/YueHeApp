@@ -334,7 +334,7 @@ public class SaleController {
 			LOGGER.info("Saved {}", saleService.create(sale));
 		}
 		attr.addFlashAttribute("message", "销售卡-" + id + " 创建成功");
-		return "redirect:/getSaleList";
+		return "redirect:/sale/edit/"+id;
 	}
 	private String getSaleId(){
 		int idNums = saleService.getBiggestIdNumber();

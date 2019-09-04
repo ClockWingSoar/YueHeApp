@@ -1,10 +1,17 @@
 $(function ($) {
 	var sortProperty = $('#sortProperty').val(); 
+	var sortParam = $('#sortParam').val(); 
 	var sortDirectionFlag = $('#sortDirectionFlag').val(); //Here it returns a String type of "true" or "false", it's different with boolean true or false
 	var currentPage = $('#operationPageNumber').val(); 
 	var pageSize =$('#operationPageSize').val();
 
 	$(document).ready(function(){
+		$('.sync-pagination').twbsPagination({
+			totalPages: 20,
+			onPageClick: function (evt, page) {
+				// window.location.href = '/getOperationList?page='+page+'&size='+pageSize+'&sort='+ sortParam;
+			}
+		});
 		//show up/down arrows
 		$("table#operationRecordList thead th").each(function(){
 		var head = $(this);

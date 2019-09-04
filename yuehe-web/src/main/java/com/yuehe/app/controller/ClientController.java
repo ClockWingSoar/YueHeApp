@@ -244,7 +244,7 @@ public class ClientController {
 			LOGGER.info("Saved {}", clientService.create(client));
 		}
 		attr.addFlashAttribute("message", "客户-" + id + " 创建成功");
-		return "redirect:/getClientList";
+		return "redirect:/client/edit/"+id;
 	}
 	private String getClientId(){
 		int idNums = clientService.getBiggestIdNumber();
