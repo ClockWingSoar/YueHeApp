@@ -28,6 +28,7 @@
 
 	<div role="main" class="container">
 		<div th:replace="~{fragments/saleHeader.html :: header}">Sale Header</div>
+		<div th:replace="~{fragments/alert.html :: alert}">alert div</div>
 
 		<div class="panel panel-default">
 			<div class="panel-heading">
@@ -292,6 +293,10 @@
 				            <div class="input-group col-xs-1">
 									<!-- <a th:href="@{/sale/delete/{id}(id=${sale.id})}" class="btn btn-primary"><i class="fas fa-user-times ml-2">删除</i></a> -->
 				                <input id="sale_delete_btn" type="submit" name="saleDeleteItem" class="btn-primary  btn-lg" value="删除"/>
+				            </div>
+				           
+				            <div class="input-group col-xs-1">
+				                <input id="sale_copy_btn" type="submit" name="saleCopyItem" class="btn-primary  btn-lg" value="复制"/>
 				            </div>
 				           
 				            <div class="input-group col-xs-1 ">

@@ -40,6 +40,7 @@
 			<div class="yuehe-form-group">
 				<form id="saleCardAmountAdjust_edit_item"  action="#" th:action="@{/saleCardAmountAdjust/update/{id}(id=${id})}"  th:object="${saleCardAmountAdjust}" method="POST">
 					<br>
+					<input type="hidden" id="id" name="id" th:field="*{id}">
 					<input type="hidden" id="saleId" name="saleId" th:value="${saleId}">
 					<div class="form-group  row ">
 						<div class="col-md-1"> <span class="input-group-addon"><i

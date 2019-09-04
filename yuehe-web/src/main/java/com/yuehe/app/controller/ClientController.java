@@ -186,7 +186,30 @@ public class ClientController {
 			LOGGER.info("updated {}", clientService.create(client));
 		}
 		attr.addFlashAttribute("message", "客户-" + id + " 更新成功");
-		return "redirect:/getClientList";
+		return "redirect:/client/edit/"+id;
+	}
+	@PostMapping("/client/copy/{id}")
+	public String copyClientItem(Model model, @PathVariable("id") String id, @Valid Client client, BindingResult result,
+			RedirectAttributes attr) {
+		if (result.hasErrors()) {
+			// client.setId(id);
+
+			List<CosmeticShop> cosmeticShopList = yueHeCommonService.getAllCosmeticShops();
+			// to add back the initial data of client edit item and the error message
+			attr.addFlashAttribute("org.springframework.validation.BindingResult.client", result);
+			client.setCosmeticShop(yueHeCommonService.getCosmeticShopById(client.getCosmeticShop().getId()));
+			model.addAttribute("client", client);
+			model.addAttribute("cosmeticShopList", cosmeticShopList);
+			return "user/clientEditItem.html";
+		}
+		LOGGER.debug("copy client:", client);
+		id = getClientId();
+		client.setId(id);
+		if (client != null) {
+			LOGGER.info("copied {}", clientService.create(client));
+		}
+		attr.addFlashAttribute("message", "客户-" + id + " 复制成功");
+		return "redirect:/client/edit/"+id;
 	}
 
 	@GetMapping("/client/delete/{id}")
@@ -207,8 +230,7 @@ public class ClientController {
 			@RequestParam(name = "gender", required = false) String gender,
 			@RequestParam(name = "symptom", required = false) String symptom, 
 			RedirectAttributes attr) {
-		int idNums = clientService.getBiggestIdNumber();
-		String id = YueHeUtil.getId(IdType.CLIENT, idNums);
+		String id = getClientId();
 		Client client = new Client();
 		client.setId(id);
 		client.setName(name);
@@ -223,6 +245,11 @@ public class ClientController {
 		}
 		attr.addFlashAttribute("message", "客户-" + id + " 创建成功");
 		return "redirect:/getClientList";
+	}
+	private String getClientId(){
+		int idNums = clientService.getBiggestIdNumber();
+		String id = YueHeUtil.getId(IdType.CLIENT, idNums);
+		return id;
 	}
 	@GetMapping("/getClientProfile")
 	public  String clientProfile(Model model){

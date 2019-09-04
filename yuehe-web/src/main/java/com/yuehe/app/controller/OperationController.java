@@ -254,7 +254,50 @@ public class OperationController{
 			LOGGER.info("updated {}", operationService.create(operation));
 		}
 		attr.addFlashAttribute("message", "操作记录-" + id + " 更新成功");
-		return "redirect:/getOperationList";
+		return "redirect:/operation/edit/"+id;
+	}
+	@PostMapping("/operation/copy/{id}")
+	public String copyOperationItem(Model model, @PathVariable("id") String id, @Valid Operation operation, BindingResult result,
+			RedirectAttributes attr) {
+		if (result.hasErrors()) {
+			// operation.setId(id);
+
+			List<CosmeticShop> cosmeticShopList = yueHeCommonService.getAllCosmeticShops();
+			List<DutyEmployeeRoleDTO> dutyList = yueHeCommonService
+					.getAllPersonByRoleName(BaseProperty.YUEHE_ROLE_OPERATOR);
+			List<Tool> toolList = yueHeCommonService.getAllTools();
+			// to add back the initial data of operation edit item and the error message
+			attr.addFlashAttribute("org.springframework.validation.BindingResult.operation", result);
+			// attr.addFlashAttribute("operation", operation);
+			// attr.addFlashAttribute("cosmeticShopList", cosmeticShopList);
+			// attr.addFlashAttribute("dutyList", dutyList);
+			// attr.addFlashAttribute("beautifySkinItemList", beautifySkinItemList);
+			// to set back the operation client name for client list dropdown since form object
+			// "operation" won't save client name
+			// only save the client id to the object "operation"
+			// operation.getSale().setClient(clientService.getById(operation.getSale().getClient().getId()));
+			operation.setSale(yueHeCommonService.getSaleById(operation.getSale().getId()));
+			operation.setEmployee(yueHeCommonService.getEmployeeById(operation.getEmployee().getId()));
+			operation.setTool(yueHeCommonService.getToolById(operation.getTool().getId()));
+			model.addAttribute("operation", operation);
+			model.addAttribute("cosmeticShopList", cosmeticShopList);
+			model.addAttribute("toolList", toolList);
+			model.addAttribute("dutyList", dutyList);
+			return "user/operationEditItem.html";
+		}
+		LOGGER.debug("copy operation:", operation);
+		try {
+			operation.setOperationDate(simpleDateFormat.format(new SimpleDateFormat("MM/dd/yyyy").parse(operation.getOperationDate())));
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		id = getOperationId();
+		operation.setId(id);
+		if (operation != null) {
+			LOGGER.info("copied {}", operationService.create(operation));
+		}
+		attr.addFlashAttribute("message", "操作记录-" + id + " 复制成功");
+		return "redirect:/operation/edit/"+id;
 	}
 
 	@GetMapping("/operation/delete/{id}")
@@ -288,8 +331,7 @@ public class OperationController{
 						            @RequestParam(name = "description", required = false) String description, RedirectAttributes attr
                                        ) 
 	{
-        int idNums = operationService.getBiggestIdNumber();
-        String id = YueHeUtil.getId(IdType.OPERATION,idNums);
+        String id = getOperationId();
         Operation operation =new Operation();
         operation.setId(id);
         operation.setSale(yueHeCommonService.getSaleById(saleId));
@@ -304,10 +346,14 @@ public class OperationController{
             LOGGER.info("Saved {}", operationService.create(operation));
         }
 		attr.addFlashAttribute("message", "操作记录-" + id + " 创建成功");
-        return "redirect:/getOperationList";
+        return "redirect:/operation/edit/"+id;
     }
 	
-	
+	private String getOperationId(){
+		int idNums = operationService.getBiggestIdNumber();
+		String id = YueHeUtil.getId(IdType.OPERATION,idNums);
+		return id;
+	}
 	
 	@RequestMapping(value = "/getShopAllClientsForFiltering", method = RequestMethod.GET)
 	public @ResponseBody

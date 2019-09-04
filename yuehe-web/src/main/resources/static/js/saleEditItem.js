@@ -28,6 +28,11 @@ $(function ($) {
 			$('#sale_edit_item').attr('method', 'get');
 			$('#sale_edit_item').attr('action', actionPage);
 		});
+		$('#sale_copy_btn').click(function(){
+			var actionPage = "/sale/copy/"+$('#saleId').val();
+			$('#sale_edit_item').attr('method', 'post');
+			$('#sale_edit_item').attr('action', actionPage);
+		});
 		$('#sale_card_amount_adjust_btn').click(function(){
 			var actionPage = "/getSaleCardAmountAdjustNewItem/"+$('#saleId').val();
 			$('#sale_edit_item').attr('method', 'get');

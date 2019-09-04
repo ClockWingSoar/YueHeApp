@@ -11,6 +11,13 @@ $(function ($) {
 			$('#client_edit_item').attr('action', actionPage);
 		});
 		
+		$('#client_copy_btn').click(function(){
+			var actionPage = "/client/copy/"+$('#clientId').val();
+			// alert(actionPage);
+			$('#client_edit_item').attr('method', 'post');
+			$('#client_edit_item').attr('action', actionPage);
+		});
+		
 		$('form[id="client_edit_item"]').validate(clientItemValidator);
 
 

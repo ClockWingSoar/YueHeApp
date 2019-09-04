@@ -27,7 +27,8 @@
 
 	<div role="main" class="container">
 		<div th:replace="~{fragments/operationHeader.html :: header}">Operation Header</div>
-
+		<div th:replace="~{fragments/alert.html :: alert}">alert div</div>
+	
 		<div class="panel panel-default">
 			<div class="panel-heading">
 				<h3>编辑操作记录</h3>
@@ -153,6 +154,9 @@
 									</div>
 									<div class="input-group col-xs-1">
 										<input id="operation_delete_btn" type="submit" name="operationDeleteItem" class="btn-primary  btn-lg" value="删除"/>
+								</div>
+									<div class="input-group col-xs-1">
+										<input id="operation_copy_btn" type="submit" name="operationCopyItem" class="btn-primary  btn-lg" value="复制"/>
 								</div>
 							</div>
 						</div>

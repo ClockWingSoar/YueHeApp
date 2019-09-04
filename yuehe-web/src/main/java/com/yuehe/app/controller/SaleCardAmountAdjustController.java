@@ -1,5 +1,6 @@
 package com.yuehe.app.controller;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,6 +35,7 @@ public class SaleCardAmountAdjustController{
 	        return "saleCardAmountAdjust";
 	    }
 	 private final static Logger LOGGER = LoggerFactory.getLogger(SaleCardAmountAdjustController.class);
+	 private SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
 	
 	@Autowired
 	private final SaleCardAmountAdjustService saleCardAmountAdjustService;
@@ -133,7 +135,7 @@ public class SaleCardAmountAdjustController{
         saleCardAmountAdjust.setSale(yueHeCommonService.getSaleById(saleId));
         saleCardAmountAdjust.setAdjustAction(adjustAction);
         saleCardAmountAdjust.setAdjustAmount(adjustAmount);
-        saleCardAmountAdjust.setAdjustDate(adjustDate);
+        saleCardAmountAdjust.setAdjustDate(simpleDateFormat.format(adjustDate));
         saleCardAmountAdjust.setDescription(description);
         LOGGER.info("saleCardAmountAdjust:",saleCardAmountAdjust);
 

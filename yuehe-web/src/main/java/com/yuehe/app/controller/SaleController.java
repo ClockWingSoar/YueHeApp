@@ -238,7 +238,47 @@ public class SaleController {
 			LOGGER.info("updated {}", saleService.create(sale));
 		}
 		attr.addFlashAttribute("message", "销售卡-" + id + " 更新成功");
-		return "redirect:/getSaleList";
+		return "redirect:/sale/edit/"+id;
+	}
+	@PostMapping("/sale/copy/{id}")
+	public String copySaleItem(Model model, @PathVariable("id") String id, @Valid Sale sale, BindingResult result,
+			RedirectAttributes attr) {
+		if (result.hasErrors()) {
+			// sale.setId(id);
+
+			List<CosmeticShop> cosmeticShopList = yueHeCommonService.getAllCosmeticShops();
+			List<DutyEmployeeRoleDTO> dutyList = yueHeCommonService
+					.getAllPersonByRoleName(BaseProperty.YUEHE_ROLE_EXPERT);
+			List<BeautifySkinItem> beautifySkinItemList = yueHeCommonService.getAllBeautifySkinItems();
+			// to add back the initial data of sale edit item and the error message
+			attr.addFlashAttribute("org.springframework.validation.BindingResult.sale", result);
+			// attr.addFlashAttribute("sale", sale);
+			// attr.addFlashAttribute("cosmeticShopList", cosmeticShopList);
+			// attr.addFlashAttribute("dutyList", dutyList);
+			// attr.addFlashAttribute("beautifySkinItemList", beautifySkinItemList);
+			// to set back the sale client name for client list dropdown since form object
+			// "sale" won't save client name
+			// only save the client id to the object "sale"
+			sale.setClient(clientService.getById(sale.getClient().getId()));
+			model.addAttribute("sale", sale);
+			model.addAttribute("cosmeticShopList", cosmeticShopList);
+			model.addAttribute("beautifySkinItemList", beautifySkinItemList);
+			model.addAttribute("dutyList", dutyList);
+			return "user/saleEditItem.html";
+		}
+		LOGGER.debug("copy sale:", sale);
+		try {
+			sale.setCreateCardDate(simpleDateFormat.format(new SimpleDateFormat("MM/dd/yyyy").parse(sale.getCreateCardDate())));
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		id = getSaleId();
+		sale.setId(id);
+		if (sale != null) {
+			LOGGER.info("copied {}", saleService.create(sale));
+		}
+		attr.addFlashAttribute("message", "销售卡-" + id + " 复制成功");
+		return "redirect:/sale/edit/"+id;
 	}
 
 	@GetMapping("/sale/delete/{id}")
@@ -274,8 +314,7 @@ public class SaleController {
 			@RequestParam(name = "createCardDate", required = false) Date createCardDate,
 			@RequestParam(name = "sellerId", required = false) String sellerId,
 			@RequestParam(name = "description", required = false) String description, RedirectAttributes attr) {
-		int idNums = saleService.getBiggestIdNumber();
-		String id = YueHeUtil.getId(IdType.SALE, idNums);
+		String id = getSaleId();
 		Sale sale = new Sale();
 		sale.setId(id);
 		sale.setClient(yueHeCommonService.getClientById(clientId));
@@ -297,7 +336,11 @@ public class SaleController {
 		attr.addFlashAttribute("message", "销售卡-" + id + " 创建成功");
 		return "redirect:/getSaleList";
 	}
-
+	private String getSaleId(){
+		int idNums = saleService.getBiggestIdNumber();
+		String id = YueHeUtil.getId(IdType.SALE, idNums);
+		return id;
+	}
 	@RequestMapping(value = "/getYueHeAllShopsSales", method = RequestMethod.GET)
 	public @ResponseBody YueHeAllSalesPerformanceDetailDTO findAllSalesByYueHe(
 		@RequestParam(value = "startDate", required = true) String startDate,

@@ -24,6 +24,7 @@
 
 	<div role="main" class="container">
 		<div th:replace="~{fragments/clientHeader.html :: header}">Client Header</div>
+		<div th:replace="~{fragments/alert.html :: alert}">alert div</div>
 
 		<div class="panel panel-default">
 			<div class="panel-heading">
@@ -123,6 +124,10 @@
 								<div class="input-group col-xs-1">
 									<input id="client_delete_btn" type="submit" name="clientDeleteItem"
 										class="btn-primary  btn-lg" value="删除" />
+								</div>
+								<div class="input-group col-xs-1">
+									<input id="client_copy_btn" type="submit" name="clientCopyItem"
+										class="btn-primary  btn-lg" value="复制" />
 								</div>
 							</div>
 						</div>

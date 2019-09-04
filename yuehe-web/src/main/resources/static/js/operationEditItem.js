@@ -22,6 +22,12 @@ $(function ($) {
 			$('#operation_edit_item').attr('method', 'get');
 			$('#operation_edit_item').attr('action', actionPage);
 		});
+		$('#operation_copy_btn').click(function(){
+			var actionPage = "/operation/copy/"+$('#operationId').val();
+			// alert(actionPage);
+			$('#operation_edit_item').attr('method', 'post');
+			$('#operation_edit_item').attr('action', actionPage);
+		});
 		
 		$('form[id="operation_edit_item"]').validate(operationItemValidator);
 
