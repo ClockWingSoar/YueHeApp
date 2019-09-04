@@ -3,8 +3,36 @@ $(function ($) {
 	var sortDirectionFlag = $('#sortDirectionFlag').val(); //Here it returns a String type of "true" or "false", it's different with boolean true or false
 	var currentPage = $('#clientPageNumber').val(); 
 	var pageSize =$('#clientPageSize').val();
+	var clientTotalPages = parseInt($('#clientTotalPages').val());
+	var searchParameters =$('#searchParameters').val();	
+	var sortParam = $('#sortParam').val(); 
+
+
 
 	$(document).ready(function(){
+		var firstPageClick = true;
+		$('.sync-pagination').twbsPagination({
+			totalPages: clientTotalPages,
+			visiblePages:10,
+			first:'首页',
+			prev:'上一页',
+			next:'下一页',
+			last:'末页',
+			startPage:++currentPage,
+			onPageClick: function (evt, page) {
+				if(firstPageClick) {
+					firstPageClick = false;
+					return;
+				}else{
+					if(isEmpty(searchParameters)){
+						window.location.href = '/getClientList?page='+page+'&size='+pageSize+'&sort='+ sortParam;
+					}else{
+						window.location.href = '/clients/search?page='+page+'&size='+pageSize+'&sort='+ sortParam+'&searchParameters='+searchParameters;
+					}
+
+				}
+			}
+		});
 		//show up/down arrows
 		$("table#clientRecordList thead th").each(function(){
 		var head = $(this);

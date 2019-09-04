@@ -74,8 +74,9 @@
 			<input id="operationPageSize" type="hidden" th:value="${operationPage.size}">
 			<input id="sortProperty" type="hidden" th:value="${sortProperty}">
 			<input id="sortDirectionFlag" type="hidden" th:value="${sortDirectionFlag}">
-			<input id="sortParam" type="hidden" th:value="${sortParam}">
 			<input id="searchParameters" type="hidden" th:value="${searchParameters}">
+			<input id="sortParam" type="hidden" th:value="${sortProperty+','+(sortDirectionFlag?'desc':'asc')}">
+			<input id="operationTotalPages" type="hidden" th:value="${operationPage.totalPages}">
 			<ul class="sync-pagination pagination-sm"></ul>
 			<!-- using th:with to declare a local variable for sorting query param -->
 			<!-- <ul  id="operation_list_pagination" class="pagination pull-right" th:with="sortParam=${sortProperty+','+(sortDirectionFlag?'desc':'asc')}">

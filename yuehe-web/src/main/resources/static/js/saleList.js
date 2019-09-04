@@ -3,8 +3,35 @@ $(function ($) {
 	var sortDirectionFlag = $('#sortDirectionFlag').val(); //Here it returns a String type of "true" or "false", it's different with boolean true or false
 	var currentPage = $('#salePageNumber').val(); 
 	var pageSize =$('#salePageSize').val();
+	var saleTotalPages = parseInt($('#saleTotalPages').val());
+	var searchParameters =$('#searchParameters').val();	
+	var sortParam = $('#sortParam').val(); 
+
 
 	$(document).ready(function(){
+		var firstPageClick = true;
+		$('.sync-pagination').twbsPagination({
+			totalPages: saleTotalPages,
+			visiblePages:10,
+			first:'首页',
+			prev:'上一页',
+			next:'下一页',
+			last:'末页',
+			startPage:++currentPage,
+			onPageClick: function (evt, page) {
+				if(firstPageClick) {
+					firstPageClick = false;
+					return;
+				}else{
+					if(isEmpty(searchParameters)){
+						window.location.href = '/getSaleList?page='+page+'&size='+pageSize+'&sort='+ sortParam;
+					}else{
+						window.location.href = '/sales/search?page='+page+'&size='+pageSize+'&sort='+ sortParam+'&searchParameters='+searchParameters;
+					}
+
+				}
+			}
+		});
 		//show up/down arrows
 		$("table#saleRecordList thead th").each(function(){
 		var head = $(this);

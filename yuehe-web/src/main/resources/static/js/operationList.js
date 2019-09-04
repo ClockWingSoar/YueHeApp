@@ -2,14 +2,33 @@ $(function ($) {
 	var sortProperty = $('#sortProperty').val(); 
 	var sortParam = $('#sortParam').val(); 
 	var sortDirectionFlag = $('#sortDirectionFlag').val(); //Here it returns a String type of "true" or "false", it's different with boolean true or false
-	var currentPage = $('#operationPageNumber').val(); 
+	var currentPage = parseInt($('#operationPageNumber').val());
+	var operationTotalPages = parseInt($('#operationTotalPages').val()); 
 	var pageSize =$('#operationPageSize').val();
+	var searchParameters =$('#searchParameters').val();
 
 	$(document).ready(function(){
+		var firstPageClick = true;
 		$('.sync-pagination').twbsPagination({
-			totalPages: 20,
+			totalPages: operationTotalPages,
+			visiblePages:10,
+			first:'首页',
+			prev:'上一页',
+			next:'下一页',
+			last:'末页',
+			startPage:++currentPage,
 			onPageClick: function (evt, page) {
-				// window.location.href = '/getOperationList?page='+page+'&size='+pageSize+'&sort='+ sortParam;
+				if(firstPageClick) {
+					firstPageClick = false;
+					return;
+				}else{
+					if(isEmpty(searchParameters)){
+						window.location.href = '/getOperationList?page='+page+'&size='+pageSize+'&sort='+ sortParam;
+					}else{
+						window.location.href = '/operations/search?page='+page+'&size='+pageSize+'&sort='+ sortParam+'&searchParameters='+searchParameters;
+					}
+
+				}
 			}
 		});
 		//show up/down arrows

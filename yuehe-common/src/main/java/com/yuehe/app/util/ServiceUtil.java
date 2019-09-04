@@ -25,9 +25,9 @@ public class ServiceUtil {
 	
 	private static SimpleDateFormat simpleDateFormat =  new SimpleDateFormat("yyyy-MM-dd");
 	public static void buildSortOrderBeforeDBQuerying(HttpServletRequest request,PaginationAndSortModel paginationAndSortModel) {
-
-		if (!StringUtils.isEmpty(request.getParameter("page"))) {
-			paginationAndSortModel.setPageNumber(Integer.parseInt(request.getParameter("page")));
+		String page = request.getParameter("page");
+		if (!StringUtils.isEmpty(page) && !StringUtils.equals("0", page)) {
+			paginationAndSortModel.setPageNumber(Integer.parseInt(request.getParameter("page"))-1);
 		}
 
 		if (!StringUtils.isEmpty(request.getParameter("size"))) {

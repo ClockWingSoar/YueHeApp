@@ -8,6 +8,7 @@
 	<link rel="stylesheet" th:href="@{/css/core.css}">
 	<link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
 	<script type="text/javascript" th:src="@{/js/jquery.min.js}"></script>
+	<script type="text/javascript" th:src="@{/js/jquery.twbsPagination.js}"></script>
 	<script type="text/javascript" th:src="@{/js/bootstrap.min.js}"></script>
 	<script type="text/javascript" th:src="@{/js/clientList.js}"></script>
 	<script type="text/javascript" th:src="@{/js/yueHeCommon.js}"></script>
@@ -20,6 +21,7 @@
 		<div th:replace="~{fragments/clientHeader.html :: header}">Client Header</div>
 		<div th:replace="~{fragments/alert.html :: alert}">alert div</div>
 		<div class="panel panel-default">
+				<ul class="sync-pagination"></ul>
 			<div class="panel-heading" style="padding-bottom: 0px;padding-top: 0px;">
 				<div class="form-group  row " style="margin-bottom: 0px;">
 					<div class="col-md-11">
@@ -70,8 +72,11 @@
 			<input id="sortProperty" type="hidden" th:value="${sortProperty}">
 			<input id="sortDirectionFlag" type="hidden" th:value="${sortDirectionFlag}">
 			<input id="searchParameters" type="hidden" th:value="${searchParameters}">
+			<input id="sortParam" type="hidden" th:value="${sortProperty+','+(sortDirectionFlag?'desc':'asc')}">
+			<input id="clientTotalPages" type="hidden" th:value="${clientPage.totalPages}">
+			<ul class="sync-pagination pagination-sm"></ul>
 			<!-- using th:with to declare a local variable for sorting query param -->
-			<ul id="client_list_pagination" class="pagination pull-right"
+			<!-- <ul id="client_list_pagination" class="pagination pull-right"
 				th:with="sortParam=${sortProperty+','+(sortDirectionFlag?'desc':'asc')}">
 				<li th:if="${clientPage.hasPrevious()}">
 					<a th:if="${searchParameters} == null"
@@ -90,7 +95,7 @@
 					<a  th:if="${searchParameters} == null" th:href="@{/getClientList(page=${clientPage.number+1},size=${clientPage.size},sort=${sortParam})}">下一页</a>
 					<a  th:if="${searchParameters} != null" th:href="@{/clients/search/(page=${clientPage.number+1},size=${clientPage.size},sort=${sortParam},searchParameters=${searchParameters})}">下一页</a>
 				</li>
-			</ul>
+			</ul> -->
 			</div>
 
 			<div th:replace="fragments/footer.html :: footer">footer</div>
