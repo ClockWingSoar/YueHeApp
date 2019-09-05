@@ -100,15 +100,19 @@ public class SaleCardAmountAdjustController{
 		return "redirect:/getSaleCardAmountAdjustList";
 	}
 
-	private void updateSale(SaleCardAmountAdjust saleCardAmountAdjust, String saleId){
+	private void updateSale(SaleCardAmountAdjust newSaleCardAmountAdjust, String saleId){
 		Sale sale = yueHeCommonService.getSaleById(saleId);
-			String adjustAction = saleCardAmountAdjust.getAdjustAction();
-			saleCardAmountAdjust.setSale(sale);
+		SaleCardAmountAdjust oldSaleCardAmountAdjust = saleCardAmountAdjustService.getById(newSaleCardAmountAdjust.getId());
+			String adjustAction = newSaleCardAmountAdjust.getAdjustAction();
+			newSaleCardAmountAdjust.setSale(sale);
 			if(adjustAction.equals("add")){
 
-				sale.setReceivedAmount(sale.getReceivedAmount()+saleCardAmountAdjust.getAdjustAmount());
+				sale.setReceivedAmount(sale.getReceivedAmount()-oldSaleCardAmountAdjust.getAdjustAmount()+newSaleCardAmountAdjust.getAdjustAmount());
 			}else{
-				sale.setReceivedAmount(sale.getReceivedAmount()-saleCardAmountAdjust.getAdjustAmount());
+				sale.setReceivedAmount(sale.getReceivedAmount()+oldSaleCardAmountAdjust.getAdjustAmount()-newSaleCardAmountAdjust.getAdjustAmount());
+				// sale.setCreateCardTotalAmount(sale.getCreateCardTotalAmount()-saleCardAmountAdjust.getAdjustAmount());
+				sale.setCreateCardTotalAmount(0l);
+				sale.setReceivedEarnedAmount(0l);
 
 			}
 			LOGGER.info("updated {}", saleService.create(sale));
@@ -135,7 +139,7 @@ public class SaleCardAmountAdjustController{
         saleCardAmountAdjust.setSale(yueHeCommonService.getSaleById(saleId));
         saleCardAmountAdjust.setAdjustAction(adjustAction);
         saleCardAmountAdjust.setAdjustAmount(adjustAmount);
-        saleCardAmountAdjust.setAdjustDate(simpleDateFormat.format(adjustDate));
+        saleCardAmountAdjust.setAdjustDate(adjustDate);
         saleCardAmountAdjust.setDescription(description);
         LOGGER.info("saleCardAmountAdjust:",saleCardAmountAdjust);
 
