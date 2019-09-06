@@ -54,7 +54,7 @@ public class SaleCardAmountAdjust implements Serializable {
 	@Column(name="adjust_action")
 	String adjustAction;
 	@Column(name="adjust_amount")
-	long adjustAmount;
+	Long adjustAmount;
 	@Column(name="adjust_date")
 	String adjustDate;
 	@Column(name="description")

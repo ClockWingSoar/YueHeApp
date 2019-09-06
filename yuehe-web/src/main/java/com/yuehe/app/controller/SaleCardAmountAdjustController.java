@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.thymeleaf.util.StringUtils;
 
 
 
@@ -93,27 +94,44 @@ public class SaleCardAmountAdjustController{
 		LOGGER.debug("update saleCardAmountAdjust:", saleCardAmountAdjust);
 		if (saleCardAmountAdjust != null) {
 
-			updateSale(saleCardAmountAdjust,saleId);
+			updateSale(saleCardAmountAdjust,saleId, "update");
 			LOGGER.info("updated {}", saleCardAmountAdjustService.create(saleCardAmountAdjust));
 		}
 		attr.addFlashAttribute("message", "销售卡修改项-" + id + " 更新成功");
 		return "redirect:/getSaleCardAmountAdjustList";
 	}
 
-	private void updateSale(SaleCardAmountAdjust newSaleCardAmountAdjust, String saleId){
+	private void updateSale(SaleCardAmountAdjust newSaleCardAmountAdjust, String saleId, String createOrUpdateSaleCardAmountAdjust){
 		Sale sale = yueHeCommonService.getSaleById(saleId);
+		Float shopDiscount = sale.getClient().getCosmeticShop().getDiscount();
 		SaleCardAmountAdjust oldSaleCardAmountAdjust = saleCardAmountAdjustService.getById(newSaleCardAmountAdjust.getId());
 			String adjustAction = newSaleCardAmountAdjust.getAdjustAction();
 			newSaleCardAmountAdjust.setSale(sale);
-			if(adjustAction.equals("add")){
-
-				sale.setReceivedAmount(sale.getReceivedAmount()-oldSaleCardAmountAdjust.getAdjustAmount()+newSaleCardAmountAdjust.getAdjustAmount());
+			if(StringUtils.equals(createOrUpdateSaleCardAmountAdjust, "create")){
+				if(adjustAction.equals("add")){
+					//fix multiple adjustment if update sale card amount adjust item, need to revert it back 
+						sale.setReceivedAmount(sale.getReceivedAmount()+newSaleCardAmountAdjust.getAdjustAmount());
+						sale.setReceivedEarnedAmount(sale.getReceivedEarnedAmount()+new Float((newSaleCardAmountAdjust.getAdjustAmount()*shopDiscount)).longValue());
+					}else{
+						sale.setReceivedAmount(sale.getReceivedAmount()-newSaleCardAmountAdjust.getAdjustAmount());
+						// sale.setCreateCardTotalAmount(sale.getCreateCardTotalAmount()-saleCardAmountAdjust.getAdjustAmount());
+						sale.setCreateCardTotalAmount(0l);
+						sale.setReceivedEarnedAmount(0l);
+		
+					}
 			}else{
-				sale.setReceivedAmount(sale.getReceivedAmount()+oldSaleCardAmountAdjust.getAdjustAmount()-newSaleCardAmountAdjust.getAdjustAmount());
-				// sale.setCreateCardTotalAmount(sale.getCreateCardTotalAmount()-saleCardAmountAdjust.getAdjustAmount());
-				sale.setCreateCardTotalAmount(0l);
-				sale.setReceivedEarnedAmount(0l);
 
+				if(adjustAction.equals("add")){
+				//fix multiple adjustment if update sale card amount adjust item, need to revert it back 
+					sale.setReceivedAmount(sale.getReceivedAmount()-oldSaleCardAmountAdjust.getAdjustAmount()+newSaleCardAmountAdjust.getAdjustAmount());
+					sale.setReceivedEarnedAmount(sale.getReceivedEarnedAmount()+new Float(((newSaleCardAmountAdjust.getAdjustAmount()-oldSaleCardAmountAdjust.getAdjustAmount())*shopDiscount)).longValue());
+				}else{
+					sale.setReceivedAmount(sale.getReceivedAmount()+oldSaleCardAmountAdjust.getAdjustAmount()-newSaleCardAmountAdjust.getAdjustAmount());
+					// sale.setCreateCardTotalAmount(sale.getCreateCardTotalAmount()-saleCardAmountAdjust.getAdjustAmount());
+					sale.setCreateCardTotalAmount(0l);
+					sale.setReceivedEarnedAmount(0l);
+	
+				}
 			}
 			LOGGER.info("updated {}", saleService.create(sale));
 	}
@@ -144,7 +162,7 @@ public class SaleCardAmountAdjustController{
         LOGGER.info("saleCardAmountAdjust:",saleCardAmountAdjust);
 
         LOGGER.info("Saved {}", saleCardAmountAdjustService.create(saleCardAmountAdjust));
-		updateSale(saleCardAmountAdjust,saleId);
+		updateSale(saleCardAmountAdjust,saleId,"create");
 		attr.addFlashAttribute("message", "销售卡-"+saleId + "金额修改成功");
         return "redirect:/getSaleCardAmountAdjustList";
     }
