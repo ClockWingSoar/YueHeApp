@@ -132,6 +132,10 @@ public interface SaleRepository extends JpaRepository<Sale, String>,JpaSpecifica
     		+ "INNER JOIN s.beautifySkinItem b where s.client.id = ?1 AND s.createCardDate >= ?2 AND s.createCardDate <= ?3")
 	List<SaleBeautifySkinItemForFilterDTO> findByClientIdAndCreateCardDate(String clientId, String startDate, String endDate);
 
+    @Query("select new com.yuehe.app.dto.SaleBeautifySkinItemForFilterDTO(s.id, b.name, s.createCardDate) from Sale s "
+    		+ "INNER JOIN s.beautifySkinItem b INNER JOIN s.saleCardAmountAdjust a  where s.client.id = ?1 AND a.adjustDate >= ?2 AND a.adjustDate <= ?3")
+	List<SaleBeautifySkinItemForFilterDTO> findByClientIdAndItsSaleAdjustDate(String clientId, String startDate, String endDate);
+
 	/**
 	 * get all the ids from table sale 
 	 * @return a list with all the sale ids

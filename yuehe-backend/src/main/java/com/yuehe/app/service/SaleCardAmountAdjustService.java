@@ -51,8 +51,11 @@ public class SaleCardAmountAdjustService {
     public SaleCardAmountAdjust getById(long id) {
         return saleCardAmountAdjustRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid saleCardAmountAdjust Id:" + id));
     }
-    public SaleCardAmountAdjust getBySaleId(String saleId) {
+    public List<SaleCardAmountAdjust> getBySaleId(String saleId) {
         return saleCardAmountAdjustRepository.findBySaleId(saleId);
+    }
+    public List<SaleCardAmountAdjust> getBySaleIdAndAdjustDate(String saleId, String startDate, String endDate) {
+        return saleCardAmountAdjustRepository.findBySaleIdAndAdjustDate(saleId, startDate, endDate);
     }
 
     

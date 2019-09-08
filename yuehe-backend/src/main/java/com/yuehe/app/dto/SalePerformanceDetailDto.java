@@ -25,7 +25,7 @@ public class SalePerformanceDetailDTO {
 	private long receivedAmount;
 	private long debtAmount;
 	private long earnedAmount;
-	private long receivedEarnedAmount;
+	private long currentEarnedAmount;
 	private long debtEarnedAmount;
 	private int itemNumber;
 	private float cosmeticShopDiscount;

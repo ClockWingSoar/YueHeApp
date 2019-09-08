@@ -18,7 +18,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class ShopDetailDTO {
 	private String cosmeticShopName;//美容院名
-	private long allClientsCreateCardAmount;//单店所有顾客的总开卡金额
+	private long allClientsReceivedAmount;//单店所有顾客的卡的总实收金额
 	private long allClientsEarnedAmount;//单店所有顾客的总应回款金额
 	private long allClientsReceivedEarnedAmount;//单店所有顾客的总实际回款金额
 	private long allClientsConsumedAmount;//单店所有顾客的总消耗款

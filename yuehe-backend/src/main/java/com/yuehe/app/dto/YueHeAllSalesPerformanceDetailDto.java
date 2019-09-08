@@ -23,7 +23,7 @@ public class YueHeAllSalesPerformanceDetailDTO {
 	private long allShopsSalesReceivedAmount;
 	private long allShopsSalesDebtAmount;
 	private long allShopsSalesEarnedAmount;
-	private long allShopsSalesReceivedEarnedAmount;
+	private long allShopsSalesCurrentEarnedAmount;
 	private long allShopsSalesDebtEarnedAmount;
 	private float allShopsSalesEmployeePremium;
 	private float allShopsSalesShopPremium;

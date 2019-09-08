@@ -23,7 +23,7 @@ public class ClientAllSalesPerformanceDetailDTO {
 	private long allSalesReceivedAmount;
 	private long allSalesDebtAmount;
 	private long allSalesEarnedAmount;
-	private long allSalesReceivedEarnedAmount;
+	private long allSalesCurrentEarnedAmount;
 	private long allSalesDebtEarnedAmount;
 	private float allSalesEmployeePremium;
 	private float allSalesShopPremium;

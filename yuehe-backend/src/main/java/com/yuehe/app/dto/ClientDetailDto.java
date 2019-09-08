@@ -18,7 +18,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class ClientDetailDTO {
 	private String clientName;//客户名
-	private long allSalesCreateCardAmount;//单个顾客所有销售卡的总开卡金额
+	private long allSalesReceivedAmount;//单个顾客所有销售卡的总实收金额
 	private long allSalesEarnedAmount;//单个顾客所有销售卡的总应回款金额
 	private long allSalesReceivedEarnedAmount;//单个顾客所有销售卡的总实际回款金额
 	private long allSalesConsumedAmount;//单个顾客所有销售卡的总消耗款

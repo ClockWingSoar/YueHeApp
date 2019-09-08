@@ -16,15 +16,20 @@
  */
 package com.yuehe.app.repository;
 
+import java.util.List;
+
 import com.yuehe.app.entity.SaleCardAmountAdjust;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 
 /**
  * @author Soveran Zhong
  */
 public interface SaleCardAmountAdjustRepository extends JpaRepository<SaleCardAmountAdjust, Long> {
- 
-    SaleCardAmountAdjust findBySaleId(String saleId);
+   @Query("select from SaleCardAmountAdjust s where s.saleId =?1")
+   List<SaleCardAmountAdjust> findBySaleId(String saleId);
+   @Query("select from SaleCardAmountAdjust s where s.saleId =?1AND s.adjustDate >= ?2 AND s.adjustDate <= ?3")
+   List<SaleCardAmountAdjust> findBySaleIdAndAdjustDate(String saleId, String startDate, String endDate);
 
 }

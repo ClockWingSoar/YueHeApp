@@ -37,6 +37,10 @@ public interface OperationRepository  extends JpaRepository<Operation, String>,J
 	@Query("select count(o) from Operation o where o.sale.id = ?1")
     int findOperationNumBySaleId(String saleId);
 	
+
+	@Query("select count(o) from Operation o where o.sale.id = ?1 AND o.operationDate >= ?2 AND o.operationDate <= ?3")
+    int findOperationNumBySaleIdAndOperationDate(String saleId, String startDate, String endDate);
+	
 	
 	
 	@Query("select new com.yuehe.app.dto.OperationDetailDTO(o.sale.id,o.id,o.operationDate, "

@@ -23,7 +23,7 @@ public class SalePerformanceDetailForDBDTO {
 	private String beautifySkinItemName;
 	private long createCardTotalAmount;
 	private long receivedAmount;
-	private long receivedEarnedAmount;
+	private long currentEarnedAmount;
 	private int itemNumber;
 	private float cosmeticShopDiscount;
 	private float employeePremium;

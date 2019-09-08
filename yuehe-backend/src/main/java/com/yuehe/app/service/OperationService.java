@@ -37,9 +37,9 @@ import com.yuehe.app.dto.SaleDetailDTO;
 import com.yuehe.app.dto.SaleDetailForDBDTO;
 import com.yuehe.app.dto.ShopDetailDTO;
 import com.yuehe.app.dto.YueHeAllShopsDetailDTO;
-import com.yuehe.app.entity.Client;
 import com.yuehe.app.entity.CosmeticShop;
 import com.yuehe.app.entity.Operation;
+import com.yuehe.app.entity.SaleCardAmountAdjust;
 import com.yuehe.app.property.BaseProperty;
 import com.yuehe.app.repository.OperationRepository;
 import com.yuehe.app.specification.SpecificationsBuilder;
@@ -279,7 +279,7 @@ public class OperationService {
 		// I have to put it in a list
 		long allShopsConsumedAmount = 0;// for all shop's all client's all sales
 		long allShopsAdvancedEarnedAmount = 0;// for all shop's all client's all sales
-		long allShopsCreateCardTotalAmount = 0;// for all shop's all client's all sales
+		long allShopsReceivedAmount = 0;// for all shop's all client's all sales
 		long allShopsEarnedAmount = 0;// for all shop's all client's all sales
 		long allShopsReceivedEarnedAmount = 0;// for all shop's all client's all sales
 		long allShopsConsumedEarnedAmount = 0;// for all shop's all client's all sales
@@ -288,13 +288,13 @@ public class OperationService {
 			shopDetailDTOList.add(shopDetailDTO);
 			long allClientsConsumedAmount = shopDetailDTO.getAllClientsConsumedAmount();
 			long allClientsAdvancedEarnedAmount = shopDetailDTO.getAllClientsAdvancedEarnedAmount();
-			long allClientsCreateCardTotalAmount = shopDetailDTO.getAllClientsCreateCardAmount();
+			long allClientsReceivedAmount = shopDetailDTO.getAllClientsReceivedAmount();
 			long allClientsEarnedAmount = shopDetailDTO.getAllClientsEarnedAmount();
 			long allClientsReceivedEarnedAmount = shopDetailDTO.getAllClientsReceivedEarnedAmount();
 			long allClientsConsumedEarnedAmount = shopDetailDTO.getAllClientsConsumedEarnedAmount();
 			allShopsConsumedAmount += allClientsConsumedAmount;
 			allShopsAdvancedEarnedAmount += allClientsAdvancedEarnedAmount;
-			allShopsCreateCardTotalAmount += allClientsCreateCardTotalAmount;
+			allShopsReceivedAmount += allClientsReceivedAmount;
 			allShopsEarnedAmount += allClientsEarnedAmount;
 			allShopsReceivedEarnedAmount += allClientsReceivedEarnedAmount;
 			allShopsConsumedEarnedAmount += allClientsConsumedEarnedAmount;
@@ -304,7 +304,7 @@ public class OperationService {
 		yueHeAllShopsDetailDTO.setAllShopsAdvancedEarnedAmount(allShopsAdvancedEarnedAmount);
 		yueHeAllShopsDetailDTO.setAllShopsConsumedAmount(allShopsConsumedAmount);
 		yueHeAllShopsDetailDTO.setAllShopsConsumedEarnedAmount(allShopsConsumedEarnedAmount);
-		yueHeAllShopsDetailDTO.setAllShopsCreateCardTotalAmount(allShopsCreateCardTotalAmount);
+		yueHeAllShopsDetailDTO.setAllShopsReceivedAmount(allShopsReceivedAmount);
 		yueHeAllShopsDetailDTO.setAllShopsEarnedAmount(allShopsEarnedAmount);
 		yueHeAllShopsDetailDTO.setAllShopsReceivedEarnedAmount(allShopsReceivedEarnedAmount);
 		return yueHeAllShopsDetailDTO;
@@ -318,7 +318,7 @@ public class OperationService {
 		ShopDetailDTO shopDetailDTO = new ShopDetailDTO();
 		long allClientsConsumedAmount = 0;// for one shop all client's all sales
 		long allClientsAdvancedEarnedAmount = 0;// for one shop all client's all sales
-		long allClientsCreateCardTotalAmount = 0;// for one shop all client's all sales
+		long allClientsReceivedAmount = 0;// for one shop all client's all sales
 		long allClientsEarnedAmount = 0;// for one shop all client's all sales
 		long allClientsReceivedEarnedAmount = 0;// for one shop all client's all sales
 		long allClientsConsumedEarnedAmount = 0;// for one shop all client's all sales
@@ -327,13 +327,13 @@ public class OperationService {
 			clientDetailDTOList.add(clientDetailDTO);
 			long allSalesConsumedAmount = clientDetailDTO.getAllSalesConsumedAmount();
 			long allSalesAdvancedEarnedAmount = clientDetailDTO.getAllSalesAdvancedEarnedAmount();
-			long allSalesCreateCardTotalAmount = clientDetailDTO.getAllSalesCreateCardAmount();
+			long allSalesReceivedAmount = clientDetailDTO.getAllSalesReceivedAmount();
 			long allSalesEarnedAmount = clientDetailDTO.getAllSalesEarnedAmount();
 			long allSalesReceivedEarnedAmount = clientDetailDTO.getAllSalesReceivedEarnedAmount();
 			long allSalesConsumedEarnedAmount = clientDetailDTO.getAllSalesConsumedEarnedAmount();
 			allClientsConsumedAmount += allSalesConsumedAmount;
 			allClientsAdvancedEarnedAmount += allSalesAdvancedEarnedAmount;
-			allClientsCreateCardTotalAmount += allSalesCreateCardTotalAmount;
+			allClientsReceivedAmount += allSalesReceivedAmount;
 			allClientsEarnedAmount += allSalesEarnedAmount;
 			allClientsReceivedEarnedAmount += allSalesReceivedEarnedAmount;
 			allClientsConsumedEarnedAmount += allSalesConsumedEarnedAmount;
@@ -343,7 +343,7 @@ public class OperationService {
 		shopDetailDTO.setAllClientsAdvancedEarnedAmount(allClientsAdvancedEarnedAmount);
 		shopDetailDTO.setAllClientsConsumedAmount(allClientsConsumedAmount);
 		shopDetailDTO.setAllClientsConsumedEarnedAmount(allClientsConsumedEarnedAmount);
-		shopDetailDTO.setAllClientsCreateCardAmount(allClientsCreateCardTotalAmount);
+		shopDetailDTO.setAllClientsReceivedAmount(allClientsReceivedAmount);
 		shopDetailDTO.setAllClientsEarnedAmount(allClientsEarnedAmount);
 		shopDetailDTO.setAllClientsReceivedEarnedAmount(allClientsReceivedEarnedAmount);
 		return shopDetailDTO;
@@ -356,20 +356,20 @@ public class OperationService {
 		ClientDetailDTO clientDetailDTO = new ClientDetailDTO();
 		long allSalesConsumedAmount = 0;// for one client's all sales
 		long allSalesAdvancedEarnedAmount = 0;// for one client's all sales
-		long allSalesCreateCardTotalAmount = 0;// for one client's all sales
+		long allSalesReceivedAmount = 0;// for one client's all sales
 		long allSalesEarnedAmount = 0;// for one client's all sales
 		long allSalesReceivedEarnedAmount = 0;// for one client's all sales
 		long allSalesConsumedEarnedAmount = 0;// for one client's all sales
 		for (SaleDetailDTO saleDetailDTO : saleDetailDTOList) {
 			long consumedAmount = saleDetailDTO.getConsumedAmount();
 			long advancedEarnedAmount = saleDetailDTO.getAdvancedEarnedAmount();
-			long createCardtotalAmount = saleDetailDTO.getCreateCardTotalAmount();
+			long receivedAmount = saleDetailDTO.getReceivedAmount();
 			long earnedAmount = saleDetailDTO.getEarnedAmount();
 			long receivedEarnedAmount = saleDetailDTO.getReceivedEarnedAmount();
 			long consumedEarnedAmount = saleDetailDTO.getConsumedEarnedAmount();
 			allSalesConsumedAmount += consumedAmount;
 			allSalesAdvancedEarnedAmount += advancedEarnedAmount;
-			allSalesCreateCardTotalAmount += createCardtotalAmount;
+			allSalesReceivedAmount += receivedAmount;
 			allSalesEarnedAmount += earnedAmount;
 			allSalesReceivedEarnedAmount += receivedEarnedAmount;
 			allSalesConsumedEarnedAmount += consumedEarnedAmount;
@@ -379,7 +379,7 @@ public class OperationService {
 		clientDetailDTO.setAllSalesAdvancedEarnedAmount(allSalesAdvancedEarnedAmount);
 		clientDetailDTO.setAllSalesConsumedAmount(allSalesConsumedAmount);
 		clientDetailDTO.setAllSalesConsumedEarnedAmount(allSalesConsumedEarnedAmount);
-		clientDetailDTO.setAllSalesCreateCardAmount(allSalesCreateCardTotalAmount);
+		clientDetailDTO.setAllSalesReceivedAmount(allSalesReceivedAmount);
 		clientDetailDTO.setAllSalesEarnedAmount(allSalesEarnedAmount);
 		clientDetailDTO.setAllSalesReceivedEarnedAmount(allSalesReceivedEarnedAmount);
 		return clientDetailDTO;
@@ -387,23 +387,17 @@ public class OperationService {
 
 	public SaleDetailDTO getSaleOperationDetailBySaleId(String saleId, String startDate, String endDate) {
 		List<OperationDetailDTO> operationDetailDTOList = getOperationsBySaleId(saleId, startDate, endDate);
-		SaleDetailDTO saleDetailDTO = getSaleBasicDetailById(saleId);
+		SaleDetailDTO saleDetailDTO = getSaleBasicDetailById(saleId,startDate, endDate);
 		saleDetailDTO.setOperationDetailDTOs(operationDetailDTOList);
 		return saleDetailDTO;
 	}
 
 	public List<SaleDetailDTO> getAllSalesDetailByClientId(String clientId, String startDate, String endDate) {
 		List<SaleDetailDTO> saleDetailDTOList = new ArrayList<SaleDetailDTO>();
-		List<SaleBeautifySkinItemForFilterDTO> saleListByClient = new ArrayList<SaleBeautifySkinItemForFilterDTO>();
-		if(StringUtils.isEmpty(startDate) && StringUtils.isEmpty(endDate)){
-
-			saleListByClient =  saleService.getByClientId(clientId);
-		}else{
-			saleListByClient = saleService.getByClientIdAndCreateCardDate(clientId, startDate, endDate);
-		}
+		List<SaleBeautifySkinItemForFilterDTO> saleListByClient = saleService.getByClientId(clientId);
 		for (SaleBeautifySkinItemForFilterDTO saleBeautifySkinItemForFilterDTO : saleListByClient) {
 			String saleId = saleBeautifySkinItemForFilterDTO.getSaleId();
-			SaleDetailDTO saleDetailDTO = getSaleBasicDetailById(saleId);
+			SaleDetailDTO saleDetailDTO = getSaleBasicDetailById(saleId, startDate, endDate);
 			saleDetailDTOList.add(saleDetailDTO);
 
 		}
@@ -411,31 +405,38 @@ public class OperationService {
 
 	}
 
-	private SaleDetailDTO getSaleBasicDetailById(String id) {
+	private SaleDetailDTO getSaleBasicDetailById(String id, String startDate, String endDate) {
 		SaleDetailForDBDTO saleDetailForDBDTO = saleService.getSaleBasicDetailById(id);
+		
 		SaleDetailDTO saleDetailDTO = new SaleDetailDTO();
 		String saleId = saleDetailForDBDTO.getSaleId();
 		float cosmeticShopDiscount = saleDetailForDBDTO.getCosmeticShopDiscount();
-		long createCardTotalAmount = saleDetailForDBDTO.getCreateCardTotalAmount();
+		long receivedAmount = saleDetailForDBDTO.getReceivedAmount();
 		long employeePremium = new Float(saleDetailForDBDTO.getEmployeePremium()).longValue();// 员工奖励
 		long shopPremium = new Float(saleDetailForDBDTO.getShopPremium()).longValue();// 美容院回扣
 		int itemNumber = saleDetailForDBDTO.getItemNumber();
-		// 回给公司的回款计算方法为：开卡金额 * 店家折扣点 - 给员工的奖励 - 给店家的回扣（柳叶需扣除业绩的1%）
-		long earnedAmount = new Double(createCardTotalAmount * cosmeticShopDiscount).longValue() - employeePremium
+		// 应回给公司的回款计算方法为：实收金额 * 店家折扣点 - 给员工的奖励 - 给店家的回扣（柳叶需扣除业绩的1%）
+		long earnedAmount = new Double(receivedAmount * cosmeticShopDiscount).longValue() - employeePremium
 				- shopPremium;
-		long receivedEarnedAmount = saleDetailForDBDTO.getReceivedEarnedAmount();
-		int operationNumber = getOperationNumberBySaleId(saleId);// 操作次数
-		float unitPrice = createCardTotalAmount / itemNumber;// 美肤卡单次价格
-		int restItemNumber = itemNumber - operationNumber;// 剩余次数
+		long receivedEarnedAmount = saleDetailForDBDTO.getReceivedEarnedAmount();//实际回给公司的款
+		int operationNumber = 0;
+		if(StringUtils.isEmpty(startDate) && StringUtils.isEmpty(endDate)){
+
+			operationNumber =  getOperationNumberBySaleId(saleId);// 操作次数
+		}else{
+			operationNumber = operationRepository.findOperationNumBySaleIdAndOperationDate(saleId, startDate, endDate);//用于计算一定时间内的消耗
+		}
+		float unitPrice = receivedAmount / itemNumber;// 美肤卡单次价格-按目前单张卡已收到的费用计算
+		int restItemNumber = itemNumber - getOperationNumberBySaleId(saleId);// 剩余次数
 		long consumedAmount = new Double(operationNumber * unitPrice).longValue();// 已消耗总数
-		long consumedEarnedAmount = new Double(operationNumber * unitPrice * cosmeticShopDiscount).longValue();// 已消耗回款
+		long consumedEarnedAmount = new Double(consumedAmount * cosmeticShopDiscount).longValue();// 已消耗回款
 		long advancedEarnedAmount = earnedAmount - consumedEarnedAmount;// 预付款只计算回款的部分，不包括美容院的
 
 		saleDetailDTO.setSaleId(saleId);
 		saleDetailDTO.setCreateCardDate(saleDetailForDBDTO.getCreateCardDate());
 		saleDetailDTO.setBeautifySkinItemName(saleDetailForDBDTO.getBeautifySkinItemName());
 		saleDetailDTO.setSellerName(saleDetailForDBDTO.getSellerName());
-		saleDetailDTO.setCreateCardTotalAmount(createCardTotalAmount);
+		saleDetailDTO.setReceivedAmount(receivedAmount);
 		saleDetailDTO.setEarnedAmount(earnedAmount);
 		saleDetailDTO.setReceivedEarnedAmount(receivedEarnedAmount);
 		saleDetailDTO.setItemNumber(itemNumber);

@@ -31,9 +31,10 @@ public class SaleClientItemSellerDTO implements Comparable<SaleClientItemSellerD
 	private float discount;
 	private long receivedAmount;
 	private long unpaidAmount;
-	private float earnedAmount;
+	private float earnedAmount;//按开卡金额计算的应收回款
+	private float currentEarnedAmount;//按实际收到客户款数额计算的应收回款
 	
-	private long receivedEarnedAmount;
+	private long receivedEarnedAmount;//店家实际回给悦和的款
 	private float unpaidEarnedAmount;
 	private float employeePremium;
 	private float shopPremium;
