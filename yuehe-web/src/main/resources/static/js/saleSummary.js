@@ -37,7 +37,7 @@ function getYueHeAllShopsSales(startDate,endDate){
 			+'<td>'+data.shopAllSalesPerformanceDetailDTOs[i].allClientsSalesReceivedAmount+'</td>'
 			+'<td>'+data.shopAllSalesPerformanceDetailDTOs[i].allClientsSalesDebtAmount+'</td>'
 			+'<td>'+data.shopAllSalesPerformanceDetailDTOs[i].allClientsSalesEarnedAmount+'</td>'
-			+'<td>'+data.shopAllSalesPerformanceDetailDTOs[i].allClientsSalesReceivedEarnedAmount+'</td>'
+			+'<td>'+data.shopAllSalesPerformanceDetailDTOs[i].allClientsSalesCurrentEarnedAmount+'</td>'
 			+'<td>'+data.shopAllSalesPerformanceDetailDTOs[i].allClientsSalesDebtEarnedAmount+'</td>'
 			+'<td>'+data.shopAllSalesPerformanceDetailDTOs[i].allClientsSalesEmployeePremium+'</td>'
 			+'<td>'+data.shopAllSalesPerformanceDetailDTOs[i].allClientsSalesShopPremium+'</td></tr>';
@@ -49,7 +49,7 @@ function getYueHeAllShopsSales(startDate,endDate){
 		$('#yuehe_overall_received_amount').html(data.allShopsSalesReceivedAmount);
 		$('#yuehe_overall_debt_amount').html(data.allShopsSalesDebtAmount);
 		$('#yuehe_overall_earned_amount').html(data.allShopsSalesEarnedAmount);
-		$('#yuehe_overall_received_earned_amount').html(data.allShopsSalesReceivedEarnedAmount);
+		$('#yuehe_overall_received_earned_amount').html(data.allShopsSalesCurrentEarnedAmount);
 		$('#yuehe_overall_debt_earned_amount').html(data.allShopsSalesDebtEarnedAmount);
 		$('#yuehe_overall_employee_premium').html(data.allShopsSalesEmployeePremium);
 		$('#yuehe_overall_shop_premium').html(data.allShopsSalesShopPremium);
@@ -74,7 +74,7 @@ function getShopAllClientsSales(shopId,startDate,endDate){
 			+'<td>'+data.clientAllSalesPerformanceDetailDTOs[i].allSalesReceivedAmount+'</td>'
 			+'<td>'+data.clientAllSalesPerformanceDetailDTOs[i].allSalesDebtAmount+'</td>'
 			+'<td>'+data.clientAllSalesPerformanceDetailDTOs[i].allSalesEarnedAmount+'</td>'
-			+'<td>'+data.clientAllSalesPerformanceDetailDTOs[i].allSalesReceivedEarnedAmount+'</td>'
+			+'<td>'+data.clientAllSalesPerformanceDetailDTOs[i].allSalesCurrentEarnedAmount+'</td>'
 			+'<td>'+data.clientAllSalesPerformanceDetailDTOs[i].allSalesDebtEarnedAmount+'</td>'
 			+'<td>'+data.clientAllSalesPerformanceDetailDTOs[i].allSalesEmployeePremium+'</td>'
 			+'<td>'+data.clientAllSalesPerformanceDetailDTOs[i].allSalesShopPremium+'</td></tr>';
@@ -86,7 +86,7 @@ function getShopAllClientsSales(shopId,startDate,endDate){
 		$('#shop_overall_received_amount').html(data.allClientsSalesReceivedAmount);
 		$('#shop_overall_debt_amount').html(data.allClientsSalesDebtAmount);
 		$('#shop_overall_earned_amount').html(data.allClientsSalesEarnedAmount);
-		$('#shop_overall_received_earned_amount').html(data.allClientsSalesReceivedEarnedAmount);
+		$('#shop_overall_received_earned_amount').html(data.allClientsSalesCurrentEarnedAmount);
 		$('#shop_overall_debt_earned_amount').html(data.allClientsSalesDebtEarnedAmount);
 		$('#shop_overall_employee_premium').html(data.allClientsSalesEmployeePremium);
 		$('#shop_overall_shop_premium').html(data.allClientsSalesShopPremium);
@@ -111,7 +111,7 @@ function getClientAllSales(clientId,startDate,endDate){
 			+'<td>'+data.salePerformanceDetailDTOs[i].receivedAmount+'</td>'
 			+'<td>'+data.salePerformanceDetailDTOs[i].debtAmount+'</td>'
 			+'<td>'+data.salePerformanceDetailDTOs[i].earnedAmount+'</td>'
-			+'<td>'+data.salePerformanceDetailDTOs[i].receivedEarnedAmount+'</td>'
+			+'<td>'+data.salePerformanceDetailDTOs[i].currentEarnedAmount+'</td>'
 			+'<td>'+data.salePerformanceDetailDTOs[i].debtEarnedAmount+'</td>'
 			+'<td>'+data.salePerformanceDetailDTOs[i].employeePremium+'</td>'
 			+'<td>'+data.salePerformanceDetailDTOs[i].shopPremium+'</td></tr>';
@@ -123,7 +123,7 @@ function getClientAllSales(clientId,startDate,endDate){
 		$('#client_overall_received_amount').html(data.allSalesReceivedAmount);
 		$('#client_overall_debt_amount').html(data.allSalesDebtAmount);
 		$('#client_overall_earned_amount').html(data.allSalesEarnedAmount);
-		$('#client_overall_received_earned_amount').html(data.allSalesReceivedEarnedAmount);
+		$('#client_overall_received_earned_amount').html(data.allSalesCurrentEarnedAmount);
 		$('#client_overall_debt_earned_amount').html(data.allSalesDebtEarnedAmount);
 		$('#client_overall_employee_premium').html(data.allSalesEmployeePremium);
 		$('#client_overall_shop_premium').html(data.allSalesShopPremium);
@@ -145,7 +145,7 @@ function getSalePerformanceDetail(saleId){
 		$('#sale_received_amount').html(data.receivedAmount);
 		$('#sale_debt_amount').html(data.debtAmount);
 		$('#sale_earned_amount').html(data.earnedAmount);
-		$('#sale_received_earned_amount').html(data.receivedEarnedAmount);
+		$('#sale_received_earned_amount').html(data.currentEarnedAmount);
 		$('#sale_debt_earned_amount').html(data.debtEarnedAmount);
 		$('#sale_employee_premium').html(data.employeePremium);
 		$('#sale_shop_premium').html(data.shopPremium);
