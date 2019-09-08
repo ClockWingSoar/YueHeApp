@@ -281,6 +281,7 @@ public class OperationService {
 		long allShopsAdvancedEarnedAmount = 0;// for all shop's all client's all sales
 		long allShopsCreateCardTotalAmount = 0;// for all shop's all client's all sales
 		long allShopsEarnedAmount = 0;// for all shop's all client's all sales
+		long allShopsReceivedEarnedAmount = 0;// for all shop's all client's all sales
 		long allShopsConsumedEarnedAmount = 0;// for all shop's all client's all sales
 		for (CosmeticShop cosmeticShop : cosmeticShopList) {
 			ShopDetailDTO shopDetailDTO = getShopClientDetailByShopId(cosmeticShop.getId(), startDate, endDate);
@@ -289,11 +290,13 @@ public class OperationService {
 			long allClientsAdvancedEarnedAmount = shopDetailDTO.getAllClientsAdvancedEarnedAmount();
 			long allClientsCreateCardTotalAmount = shopDetailDTO.getAllClientsCreateCardAmount();
 			long allClientsEarnedAmount = shopDetailDTO.getAllClientsEarnedAmount();
+			long allClientsReceivedEarnedAmount = shopDetailDTO.getAllClientsReceivedEarnedAmount();
 			long allClientsConsumedEarnedAmount = shopDetailDTO.getAllClientsConsumedEarnedAmount();
 			allShopsConsumedAmount += allClientsConsumedAmount;
 			allShopsAdvancedEarnedAmount += allClientsAdvancedEarnedAmount;
 			allShopsCreateCardTotalAmount += allClientsCreateCardTotalAmount;
 			allShopsEarnedAmount += allClientsEarnedAmount;
+			allShopsReceivedEarnedAmount += allClientsReceivedEarnedAmount;
 			allShopsConsumedEarnedAmount += allClientsConsumedEarnedAmount;
 		}
 		yueHeAllShopsDetailDTO.setYueheCompanyName(BaseProperty.COMPANY_NAME);
@@ -303,6 +306,7 @@ public class OperationService {
 		yueHeAllShopsDetailDTO.setAllShopsConsumedEarnedAmount(allShopsConsumedEarnedAmount);
 		yueHeAllShopsDetailDTO.setAllShopsCreateCardTotalAmount(allShopsCreateCardTotalAmount);
 		yueHeAllShopsDetailDTO.setAllShopsEarnedAmount(allShopsEarnedAmount);
+		yueHeAllShopsDetailDTO.setAllShopsReceivedEarnedAmount(allShopsReceivedEarnedAmount);
 		return yueHeAllShopsDetailDTO;
 	}
 
@@ -316,6 +320,7 @@ public class OperationService {
 		long allClientsAdvancedEarnedAmount = 0;// for one shop all client's all sales
 		long allClientsCreateCardTotalAmount = 0;// for one shop all client's all sales
 		long allClientsEarnedAmount = 0;// for one shop all client's all sales
+		long allClientsReceivedEarnedAmount = 0;// for one shop all client's all sales
 		long allClientsConsumedEarnedAmount = 0;// for one shop all client's all sales
 		for (ClientShopDiscountDTO client : clientListByShopId) {
 			ClientDetailDTO clientDetailDTO = getClientSaleDetailByClientId(client.getId(), startDate, endDate);
@@ -324,11 +329,13 @@ public class OperationService {
 			long allSalesAdvancedEarnedAmount = clientDetailDTO.getAllSalesAdvancedEarnedAmount();
 			long allSalesCreateCardTotalAmount = clientDetailDTO.getAllSalesCreateCardAmount();
 			long allSalesEarnedAmount = clientDetailDTO.getAllSalesEarnedAmount();
+			long allSalesReceivedEarnedAmount = clientDetailDTO.getAllSalesReceivedEarnedAmount();
 			long allSalesConsumedEarnedAmount = clientDetailDTO.getAllSalesConsumedEarnedAmount();
 			allClientsConsumedAmount += allSalesConsumedAmount;
 			allClientsAdvancedEarnedAmount += allSalesAdvancedEarnedAmount;
 			allClientsCreateCardTotalAmount += allSalesCreateCardTotalAmount;
 			allClientsEarnedAmount += allSalesEarnedAmount;
+			allClientsReceivedEarnedAmount += allSalesReceivedEarnedAmount;
 			allClientsConsumedEarnedAmount += allSalesConsumedEarnedAmount;
 		}
 		shopDetailDTO.setClientDetailDTOs(clientDetailDTOList);
@@ -338,6 +345,7 @@ public class OperationService {
 		shopDetailDTO.setAllClientsConsumedEarnedAmount(allClientsConsumedEarnedAmount);
 		shopDetailDTO.setAllClientsCreateCardAmount(allClientsCreateCardTotalAmount);
 		shopDetailDTO.setAllClientsEarnedAmount(allClientsEarnedAmount);
+		shopDetailDTO.setAllClientsReceivedEarnedAmount(allClientsReceivedEarnedAmount);
 		return shopDetailDTO;
 	}
 
@@ -350,17 +358,20 @@ public class OperationService {
 		long allSalesAdvancedEarnedAmount = 0;// for one client's all sales
 		long allSalesCreateCardTotalAmount = 0;// for one client's all sales
 		long allSalesEarnedAmount = 0;// for one client's all sales
+		long allSalesReceivedEarnedAmount = 0;// for one client's all sales
 		long allSalesConsumedEarnedAmount = 0;// for one client's all sales
 		for (SaleDetailDTO saleDetailDTO : saleDetailDTOList) {
 			long consumedAmount = saleDetailDTO.getConsumedAmount();
 			long advancedEarnedAmount = saleDetailDTO.getAdvancedEarnedAmount();
 			long createCardtotalAmount = saleDetailDTO.getCreateCardTotalAmount();
 			long earnedAmount = saleDetailDTO.getEarnedAmount();
+			long receivedEarnedAmount = saleDetailDTO.getReceivedEarnedAmount();
 			long consumedEarnedAmount = saleDetailDTO.getConsumedEarnedAmount();
 			allSalesConsumedAmount += consumedAmount;
 			allSalesAdvancedEarnedAmount += advancedEarnedAmount;
 			allSalesCreateCardTotalAmount += createCardtotalAmount;
 			allSalesEarnedAmount += earnedAmount;
+			allSalesReceivedEarnedAmount += receivedEarnedAmount;
 			allSalesConsumedEarnedAmount += consumedEarnedAmount;
 		}
 		clientDetailDTO.setSaleDetailDTOs(saleDetailDTOList);
@@ -370,6 +381,7 @@ public class OperationService {
 		clientDetailDTO.setAllSalesConsumedEarnedAmount(allSalesConsumedEarnedAmount);
 		clientDetailDTO.setAllSalesCreateCardAmount(allSalesCreateCardTotalAmount);
 		clientDetailDTO.setAllSalesEarnedAmount(allSalesEarnedAmount);
+		clientDetailDTO.setAllSalesReceivedEarnedAmount(allSalesReceivedEarnedAmount);
 		return clientDetailDTO;
 	}
 
@@ -411,6 +423,7 @@ public class OperationService {
 		// 回给公司的回款计算方法为：开卡金额 * 店家折扣点 - 给员工的奖励 - 给店家的回扣（柳叶需扣除业绩的1%）
 		long earnedAmount = new Double(createCardTotalAmount * cosmeticShopDiscount).longValue() - employeePremium
 				- shopPremium;
+		long receivedEarnedAmount = saleDetailForDBDTO.getReceivedEarnedAmount();
 		int operationNumber = getOperationNumberBySaleId(saleId);// 操作次数
 		float unitPrice = createCardTotalAmount / itemNumber;// 美肤卡单次价格
 		int restItemNumber = itemNumber - operationNumber;// 剩余次数
@@ -424,6 +437,7 @@ public class OperationService {
 		saleDetailDTO.setSellerName(saleDetailForDBDTO.getSellerName());
 		saleDetailDTO.setCreateCardTotalAmount(createCardTotalAmount);
 		saleDetailDTO.setEarnedAmount(earnedAmount);
+		saleDetailDTO.setReceivedEarnedAmount(receivedEarnedAmount);
 		saleDetailDTO.setItemNumber(itemNumber);
 		saleDetailDTO.setDescription(saleDetailForDBDTO.getDescription());
 		saleDetailDTO.setRestItemNumber(restItemNumber);

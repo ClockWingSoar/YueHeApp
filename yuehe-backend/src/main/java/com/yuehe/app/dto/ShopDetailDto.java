@@ -19,7 +19,8 @@ import lombok.NoArgsConstructor;
 public class ShopDetailDTO {
 	private String cosmeticShopName;//美容院名
 	private long allClientsCreateCardAmount;//单店所有顾客的总开卡金额
-	private long allClientsEarnedAmount;//单店所有顾客的总回款金额
+	private long allClientsEarnedAmount;//单店所有顾客的总应回款金额
+	private long allClientsReceivedEarnedAmount;//单店所有顾客的总实际回款金额
 	private long allClientsConsumedAmount;//单店所有顾客的总消耗款
 	private long allClientsConsumedEarnedAmount;//单店所有顾客的总消耗回款
 	private long allClientsAdvancedEarnedAmount;//单店所有顾客的总预付款

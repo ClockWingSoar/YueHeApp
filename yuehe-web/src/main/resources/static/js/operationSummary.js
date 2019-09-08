@@ -36,6 +36,7 @@ function getClientAllSalesOperations(clientId,startDate,endDate){
 			+'<td>'+data.saleDetailDTOs[i].beautifySkinItemName+'</td>'
 			+'<td>'+data.saleDetailDTOs[i].createCardTotalAmount+'</td>'
 			+'<td>'+data.saleDetailDTOs[i].earnedAmount+'</td>'
+			+'<td>'+data.saleDetailDTOs[i].receivedEarnedAmount+'</td>'
 			+'<td>'+data.saleDetailDTOs[i].itemNumber+'</td>'
 			+'<td>'+data.saleDetailDTOs[i].restItemNumber+'</td>'
 			+'<td>'+data.saleDetailDTOs[i].consumedAmount+'</td>'
@@ -48,6 +49,7 @@ function getClientAllSalesOperations(clientId,startDate,endDate){
 		$('#client_overall_client_name').html(data.clientName);
 		$('#client_overall_create_card_amount').html(data.allSalesCreateCardAmount);
 		$('#client_overall_earned_amount').html(data.allSalesEarnedAmount);
+		$('#client_overall_received_earned_amount').html(data.allSalesReceivedEarnedAmount);
 		$('#client_overall_consumed_amount').html(data.allSalesConsumedAmount);
 		$('#client_overall_consumed_earned_amount').html(data.allSalesConsumedEarnedAmount);
 		$('#client_overall_advanced_earned_amount').html(data.allSalesAdvancedEarnedAmount);
@@ -83,6 +85,7 @@ function getSaleAllOperations(saleId,startDate,endDate){
 		$('#sale_overall_beautify_skin_item_name').html(data.beautifySkinItemName);
 		$('#sale_overall_create_card_amount').html(data.createCardTotalAmount);
 		$('#sale_overall_earned_amount').html(data.earnedAmount);
+		$('#sale_overall_received_earned_amount').html(data.receivedEarnedAmount);
 		$('#sale_overall_item_number').html(data.itemNumber);
 		$('#sale_overall_rest_item_number').html(data.restItemNumber);
 		$('#sale_overall_consumed_amount').html(data.consumedAmount);
@@ -109,6 +112,7 @@ function getShopAllClientsOperations(shopId,startDate,endDate){
 			html = html+'<tr><td>' +data.clientDetailDTOs[i].clientName+'</td>'
 			+'<td>'+data.clientDetailDTOs[i].allSalesCreateCardAmount+'</td>'
 			+'<td>'+data.clientDetailDTOs[i].allSalesEarnedAmount+'</td>'
+			+'<td>'+data.clientDetailDTOs[i].allSalesReceivedEarnedAmount+'</td>'
 			+'<td>'+data.clientDetailDTOs[i].allSalesConsumedAmount+'</td>'
 			+'<td>'+data.clientDetailDTOs[i].allSalesConsumedEarnedAmount+'</td>'
 			+'<td>'+data.clientDetailDTOs[i].allSalesAdvancedEarnedAmount+'</td></tr>';
@@ -118,6 +122,7 @@ function getShopAllClientsOperations(shopId,startDate,endDate){
 		$('#shop_overall_shop_name').html(data.cosmeticShopName);
 		$('#shop_overall_create_card_amount').html(data.allClientsCreateCardAmount);
 		$('#shop_overall_earned_amount').html(data.allClientsEarnedAmount);
+		$('#shop_overall_received_earned_amount').html(data.allClientsReceivedEarnedAmount);
 		$('#shop_overall_consumed_amount').html(data.allClientsConsumedAmount);
 		$('#shop_overall_consumed_earned_amount').html(data.allClientsConsumedEarnedAmount);
 		$('#shop_overall_advanced_earned_amount').html(data.allClientsAdvancedEarnedAmount);
@@ -140,6 +145,7 @@ function getYueHeAllShopsOperations(startDate,endDate){
 			html = html+'<tr><td>' +data.shopDetailDTOs[i].cosmeticShopName+'</td>'
 			+'<td>'+data.shopDetailDTOs[i].allClientsCreateCardAmount+'</td>'
 			+'<td>'+data.shopDetailDTOs[i].allClientsEarnedAmount+'</td>'
+			+'<td>'+data.shopDetailDTOs[i].allClientsReceivedEarnedAmount+'</td>'
 			+'<td>'+data.shopDetailDTOs[i].allClientsConsumedAmount+'</td>'
 			+'<td>'+data.shopDetailDTOs[i].allClientsConsumedEarnedAmount+'</td>'
 			+'<td>'+data.shopDetailDTOs[i].allClientsAdvancedEarnedAmount+'</td></tr>';
@@ -149,6 +155,7 @@ function getYueHeAllShopsOperations(startDate,endDate){
 		$('#yuehe_overall_company_name').html(data.yueheCompanyName);
 		$('#yuehe_overall_create_card_amount').html(data.allShopsCreateCardTotalAmount);
 		$('#yuehe_overall_earned_amount').html(data.allShopsEarnedAmount);
+		$('#yuehe_overall_received_earned_amount').html(data.allShopsReceivedEarnedAmount);
 		$('#yuehe_overall_consumed_amount').html(data.allShopsConsumedAmount);
 		$('#yuehe_overall_consumed_earned_amount').html(data.allShopsConsumedEarnedAmount);
 		$('#yuehe_overall_advanced_earned_amount').html(data.allShopsAdvancedEarnedAmount);

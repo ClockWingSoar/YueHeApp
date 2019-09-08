@@ -19,7 +19,8 @@ import lombok.NoArgsConstructor;
 public class YueHeAllShopsDetailDTO {
 	private String yueheCompanyName;//悦和国际的大名
 	private long allShopsCreateCardTotalAmount;//悦和所有店的总开卡金额
-	private long allShopsEarnedAmount;//悦和所有店的总回款金额
+	private long allShopsEarnedAmount;//悦和所有店的总应回款金额
+	private long allShopsReceivedEarnedAmount;//悦和所有店的总实际回款金额
 	private long allShopsConsumedAmount;//悦和所有店的总消耗款
 	private long allShopsConsumedEarnedAmount;//悦和所有店的总消耗回款
 	private long allShopsAdvancedEarnedAmount;//悦和所有店的总预付款
