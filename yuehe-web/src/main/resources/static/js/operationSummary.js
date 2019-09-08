@@ -40,8 +40,8 @@ function getClientAllSalesOperations(clientId,startDate,endDate){
 			+'<td>'+data.saleDetailDTOs[i].restItemNumber+'</td>'
 			+'<td>'+data.saleDetailDTOs[i].consumedAmount+'</td>'
 			+'<td>'+data.saleDetailDTOs[i].consumedEarnedAmount+'</td>'
-			+'<td>'+data.saleDetailDTOs[i].advancedEarnedAmount+'</td></tr>'
-//			+'<td>'+data.saleDetailDTOs[i].description+'</td></tr>';
+			+'<td>'+data.saleDetailDTOs[i].advancedEarnedAmount+'</td>'
+			+'<td>'+data.saleDetailDTOs[i].description+'</td></tr>';
 			
 		}
 		$('#sale_detail_table_body').html(html);
