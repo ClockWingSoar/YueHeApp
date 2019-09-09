@@ -42,7 +42,7 @@ public class SaleCardAmountAdjust implements Serializable {
 	 */
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private long id;
+	private Long id;
 
 	@JsonBackReference
 	@ManyToOne(fetch = FetchType.LAZY, optional = false)
@@ -55,6 +55,10 @@ public class SaleCardAmountAdjust implements Serializable {
 	String adjustAction;
 	@Column(name="adjust_amount")
 	Long adjustAmount;
+	@Column(name="employee_premium_adjust_amount")
+	Long employeePremiumAdjustAmount;
+	@Column(name="shop_premium_adjust_amount")
+	Long shopPremiumAdjustAmount;
 	@Column(name="adjust_date")
 	String adjustDate;
 	@Column(name="description")

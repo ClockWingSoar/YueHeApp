@@ -111,12 +111,17 @@ public class SaleCardAmountAdjustController{
 				if(adjustAction.equals("add")){
 					//fix multiple adjustment if update sale card amount adjust item, need to revert it back 
 						sale.setReceivedAmount(sale.getReceivedAmount()+newSaleCardAmountAdjust.getAdjustAmount());
+						sale.setEmployeePremium(sale.getEmployeePremium()+newSaleCardAmountAdjust.getEmployeePremiumAdjustAmount());
+						sale.setShopPremium(sale.getShopPremium()+newSaleCardAmountAdjust.getShopPremiumAdjustAmount());
 						sale.setReceivedEarnedAmount(sale.getReceivedEarnedAmount()+new Float((newSaleCardAmountAdjust.getAdjustAmount()*shopDiscount)).longValue());
 					}else{
 						sale.setReceivedAmount(sale.getReceivedAmount()-newSaleCardAmountAdjust.getAdjustAmount());
-						// sale.setCreateCardTotalAmount(sale.getCreateCardTotalAmount()-saleCardAmountAdjust.getAdjustAmount());
-						sale.setCreateCardTotalAmount(0l);
-						sale.setReceivedEarnedAmount(0l);
+						sale.setEmployeePremium(sale.getEmployeePremium()-newSaleCardAmountAdjust.getEmployeePremiumAdjustAmount());
+						sale.setShopPremium(sale.getShopPremium()-newSaleCardAmountAdjust.getShopPremiumAdjustAmount());
+					    sale.setCreateCardTotalAmount(sale.getCreateCardTotalAmount()-newSaleCardAmountAdjust.getAdjustAmount());
+						// sale.setCreateCardTotalAmount(0l);
+						sale.setReceivedEarnedAmount(sale.getReceivedEarnedAmount()-new Float((newSaleCardAmountAdjust.getAdjustAmount()*shopDiscount)).longValue());
+					
 		
 					}
 			}else{
@@ -124,12 +129,18 @@ public class SaleCardAmountAdjustController{
 				if(adjustAction.equals("add")){
 				//fix multiple adjustment if update sale card amount adjust item, need to revert it back 
 					sale.setReceivedAmount(sale.getReceivedAmount()-oldSaleCardAmountAdjust.getAdjustAmount()+newSaleCardAmountAdjust.getAdjustAmount());
+					sale.setEmployeePremium(sale.getEmployeePremium()-oldSaleCardAmountAdjust.getEmployeePremiumAdjustAmount()+newSaleCardAmountAdjust.getEmployeePremiumAdjustAmount());
+					sale.setShopPremium(sale.getShopPremium()-oldSaleCardAmountAdjust.getShopPremiumAdjustAmount()+newSaleCardAmountAdjust.getShopPremiumAdjustAmount());
 					sale.setReceivedEarnedAmount(sale.getReceivedEarnedAmount()+new Float(((newSaleCardAmountAdjust.getAdjustAmount()-oldSaleCardAmountAdjust.getAdjustAmount())*shopDiscount)).longValue());
 				}else{
 					sale.setReceivedAmount(sale.getReceivedAmount()+oldSaleCardAmountAdjust.getAdjustAmount()-newSaleCardAmountAdjust.getAdjustAmount());
-					// sale.setCreateCardTotalAmount(sale.getCreateCardTotalAmount()-saleCardAmountAdjust.getAdjustAmount());
-					sale.setCreateCardTotalAmount(0l);
-					sale.setReceivedEarnedAmount(0l);
+					
+					sale.setEmployeePremium(sale.getEmployeePremium()+oldSaleCardAmountAdjust.getEmployeePremiumAdjustAmount()-newSaleCardAmountAdjust.getEmployeePremiumAdjustAmount());
+					sale.setShopPremium(sale.getShopPremium()+oldSaleCardAmountAdjust.getShopPremiumAdjustAmount()-newSaleCardAmountAdjust.getShopPremiumAdjustAmount());
+					sale.setReceivedEarnedAmount(sale.getReceivedEarnedAmount()+new Float(((newSaleCardAmountAdjust.getAdjustAmount()-oldSaleCardAmountAdjust.getAdjustAmount())*shopDiscount)).longValue());
+				    sale.setCreateCardTotalAmount(sale.getCreateCardTotalAmount()+oldSaleCardAmountAdjust.getAdjustAmount()-newSaleCardAmountAdjust.getAdjustAmount());
+					// sale.setCreateCardTotalAmount(0l);
+					// sale.setReceivedEarnedAmount(0l);
 	
 				}
 			}
@@ -150,6 +161,8 @@ public class SaleCardAmountAdjustController{
     public String createSaleCardAmountAdjust( @RequestParam(name = "saleId", required = false) String saleId,
                                        @RequestParam(name = "adjustAction", required = false) String adjustAction,
                                        @RequestParam(name = "adjustAmount", required = false) long adjustAmount,
+                                       @RequestParam(name = "employeePreiumAdjustAmount", required = false) long employeePreiumAdjustAmount,
+                                       @RequestParam(name = "shopPreiumAdjustAmount", required = false) long shopPreiumAdjustAmount,
                                        @RequestParam(name = "adjustDate", required = false) String adjustDate,
                                        RedirectAttributes attr,
                                        @RequestParam(name = "description", required = false) String description) {
@@ -157,6 +170,8 @@ public class SaleCardAmountAdjustController{
         saleCardAmountAdjust.setSale(yueHeCommonService.getSaleById(saleId));
         saleCardAmountAdjust.setAdjustAction(adjustAction);
         saleCardAmountAdjust.setAdjustAmount(adjustAmount);
+        saleCardAmountAdjust.setEmployeePremiumAdjustAmount(employeePreiumAdjustAmount);
+        saleCardAmountAdjust.setShopPremiumAdjustAmount(shopPreiumAdjustAmount);
         saleCardAmountAdjust.setAdjustDate(adjustDate);
         saleCardAmountAdjust.setDescription(description);
         LOGGER.info("saleCardAmountAdjust:",saleCardAmountAdjust);

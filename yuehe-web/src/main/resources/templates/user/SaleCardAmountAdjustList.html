@@ -35,6 +35,8 @@
 							<th>销售卡ID</th>
 							<th>调整项目</th>
 							<th>调整金额</th>
+							<th>员工奖励</th>
+							<th>店家回扣</th>
 							<th>调整日期</th>
 							<th>备注</th>
 						</tr>
@@ -46,6 +48,8 @@
 							<td  th:if="${saleCardAmountAdjust.adjustAction} == add">补款</td>
 							<td  th:if="${saleCardAmountAdjust.adjustAction} == return">退款</td>
 							<td data-th-text="${saleCardAmountAdjust.adjustAmount}">...</td>
+							<td data-th-text="${saleCardAmountAdjust.employeePremiumAdjustAmount}">...</td>
+							<td data-th-text="${saleCardAmountAdjust.shopPremiumAdjustAmount}">...</td>
 							<td data-th-text="${saleCardAmountAdjust.adjustDate}">...</td>
 							<td data-th-text="${saleCardAmountAdjust.description}">...</td>
 						</tr>

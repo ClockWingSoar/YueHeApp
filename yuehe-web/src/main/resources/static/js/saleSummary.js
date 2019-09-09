@@ -134,10 +134,12 @@ function getClientAllSales(clientId,startDate,endDate){
 	});
 
 }
-function getSalePerformanceDetail(saleId){
+function getSalePerformanceDetail(saleId,startDate,endDate){
 
 	$.getJSON("http://"+window.location.host+"/getSalePerformanceDetail", {
 		saleId : saleId,
+		startDate:startDate,
+		endDate:endDate,
 		ajax : 'true'
 	}, function(data) {
 		$('#sale_sale_id').html(data.saleId);

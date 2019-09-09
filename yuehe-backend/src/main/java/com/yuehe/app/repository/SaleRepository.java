@@ -20,6 +20,7 @@ import java.util.List;
 
 import com.yuehe.app.dto.SaleBeautifySkinItemForFilterDTO;
 import com.yuehe.app.dto.SaleClientItemSellerForDBDTO;
+import com.yuehe.app.dto.SaleCreateOrAdjustDTO;
 import com.yuehe.app.dto.SaleDetailForDBDTO;
 import com.yuehe.app.dto.SalePerformanceDetailForDBDTO;
 import com.yuehe.app.entity.Sale;
@@ -128,13 +129,17 @@ public interface SaleRepository extends JpaRepository<Sale, String>,JpaSpecifica
     		+ "INNER JOIN s.beautifySkinItem b where s.client.id = ?1")
 	List<SaleBeautifySkinItemForFilterDTO> findByClientId(String clientId);
 
-    @Query("select new com.yuehe.app.dto.SaleBeautifySkinItemForFilterDTO(s.id, b.name, s.createCardDate) from Sale s "
-    		+ "INNER JOIN s.beautifySkinItem b where s.client.id = ?1 AND s.createCardDate >= ?2 AND s.createCardDate <= ?3")
-	List<SaleBeautifySkinItemForFilterDTO> findByClientIdAndCreateCardDate(String clientId, String startDate, String endDate);
+    @Query("select new com.yuehe.app.dto.SaleCreateOrAdjustDTO(a.id,s.id) from Sale s "
+    		+ "LEFT JOIN s.saleCardAmountAdjust a where s.client.id = ?1")
+	List<SaleCreateOrAdjustDTO> findAllSalesByClientId(String clientId);
 
-    @Query("select new com.yuehe.app.dto.SaleBeautifySkinItemForFilterDTO(s.id, b.name, s.createCardDate) from Sale s "
-    		+ "INNER JOIN s.beautifySkinItem b INNER JOIN s.saleCardAmountAdjust a  where s.client.id = ?1 AND a.adjustDate >= ?2 AND a.adjustDate <= ?3")
-	List<SaleBeautifySkinItemForFilterDTO> findByClientIdAndItsSaleAdjustDate(String clientId, String startDate, String endDate);
+    @Query("select new com.yuehe.app.dto.SaleCreateOrAdjustDTO(a.id,s.id) from Sale s "
+    		+ "LEFT JOIN s.saleCardAmountAdjust a where s.client.id = ?1 AND s.createCardDate >= ?2 AND s.createCardDate <= ?3")
+	List<SaleCreateOrAdjustDTO> findByClientIdAndCreateCardDate(String clientId, String startDate, String endDate);
+
+    @Query("select new com.yuehe.app.dto.SaleCreateOrAdjustDTO(a.id,s.id) from Sale s "
+    		+ "INNER JOIN s.saleCardAmountAdjust a  where s.client.id = ?1 AND a.adjustDate >= ?2 AND a.adjustDate <= ?3")
+	List<SaleCreateOrAdjustDTO> findByClientIdAndItsSaleAdjustDate(String clientId, String startDate, String endDate);
 
 	/**
 	 * get all the ids from table sale 
