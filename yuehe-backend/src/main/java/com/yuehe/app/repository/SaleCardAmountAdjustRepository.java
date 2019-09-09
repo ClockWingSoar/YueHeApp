@@ -27,9 +27,9 @@ import org.springframework.data.jpa.repository.Query;
  * @author Soveran Zhong
  */
 public interface SaleCardAmountAdjustRepository extends JpaRepository<SaleCardAmountAdjust, Long> {
-   @Query("select from SaleCardAmountAdjust s where s.saleId =?1")
+   @Query("select s from SaleCardAmountAdjust s where s.sale.id =?1")
    List<SaleCardAmountAdjust> findBySaleId(String saleId);
-   @Query("select from SaleCardAmountAdjust s where s.saleId =?1AND s.adjustDate >= ?2 AND s.adjustDate <= ?3")
+   @Query("select s from SaleCardAmountAdjust s where s.sale.id =?1AND s.adjustDate >= ?2 AND s.adjustDate <= ?3")
    List<SaleCardAmountAdjust> findBySaleIdAndAdjustDate(String saleId, String startDate, String endDate);
 
 }

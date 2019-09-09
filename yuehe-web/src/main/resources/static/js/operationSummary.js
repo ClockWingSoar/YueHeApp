@@ -34,7 +34,7 @@ function getClientAllSalesOperations(clientId,startDate,endDate){
 			html = html+'<tr><td>' +data.saleDetailDTOs[i].saleId+'</td>'
 			+'<td>'+data.saleDetailDTOs[i].createCardDate+'</td>'
 			+'<td>'+data.saleDetailDTOs[i].beautifySkinItemName+'</td>'
-			+'<td>'+data.saleDetailDTOs[i].createCardTotalAmount+'</td>'
+			+'<td>'+data.saleDetailDTOs[i].receivedAmount+'</td>'
 			+'<td>'+data.saleDetailDTOs[i].earnedAmount+'</td>'
 			+'<td>'+data.saleDetailDTOs[i].receivedEarnedAmount+'</td>'
 			+'<td>'+data.saleDetailDTOs[i].itemNumber+'</td>'
@@ -47,7 +47,7 @@ function getClientAllSalesOperations(clientId,startDate,endDate){
 		}
 		$('#sale_detail_table_body').html(html);
 		$('#client_overall_client_name').html(data.clientName);
-		$('#client_overall_create_card_amount').html(data.allSalesCreateCardAmount);
+		$('#client_overall_received_amount').html(data.allSalesReceivedAmount);
 		$('#client_overall_earned_amount').html(data.allSalesEarnedAmount);
 		$('#client_overall_received_earned_amount').html(data.allSalesReceivedEarnedAmount);
 		$('#client_overall_consumed_amount').html(data.allSalesConsumedAmount);
@@ -83,7 +83,7 @@ function getSaleAllOperations(saleId,startDate,endDate){
 		$('#sale_overall_sale_id').html(data.saleId);
 		$('#sale_overall_create_card_date').html(data.createCardDate);
 		$('#sale_overall_beautify_skin_item_name').html(data.beautifySkinItemName);
-		$('#sale_overall_create_card_amount').html(data.createCardTotalAmount);
+		$('#sale_overall_received_amount').html(data.receivedAmount);
 		$('#sale_overall_earned_amount').html(data.earnedAmount);
 		$('#sale_overall_received_earned_amount').html(data.receivedEarnedAmount);
 		$('#sale_overall_item_number').html(data.itemNumber);
@@ -110,7 +110,7 @@ function getShopAllClientsOperations(shopId,startDate,endDate){
 		var len = data.clientDetailDTOs.length;
 		for ( var i = 0; i < len; i++) {
 			html = html+'<tr><td>' +data.clientDetailDTOs[i].clientName+'</td>'
-			+'<td>'+data.clientDetailDTOs[i].allSalesCreateCardAmount+'</td>'
+			+'<td>'+data.clientDetailDTOs[i].allSalesReceivedAmount+'</td>'
 			+'<td>'+data.clientDetailDTOs[i].allSalesEarnedAmount+'</td>'
 			+'<td>'+data.clientDetailDTOs[i].allSalesReceivedEarnedAmount+'</td>'
 			+'<td>'+data.clientDetailDTOs[i].allSalesConsumedAmount+'</td>'
@@ -120,7 +120,7 @@ function getShopAllClientsOperations(shopId,startDate,endDate){
 		}
 		$('#client_detail_table_body').html(html);
 		$('#shop_overall_shop_name').html(data.cosmeticShopName);
-		$('#shop_overall_create_card_amount').html(data.allClientsCreateCardAmount);
+		$('#shop_overall_received_amount').html(data.allClientsReceivedAmount);
 		$('#shop_overall_earned_amount').html(data.allClientsEarnedAmount);
 		$('#shop_overall_received_earned_amount').html(data.allClientsReceivedEarnedAmount);
 		$('#shop_overall_consumed_amount').html(data.allClientsConsumedAmount);
@@ -143,7 +143,7 @@ function getYueHeAllShopsOperations(startDate,endDate){
 		var len = data.shopDetailDTOs.length; 
 		for ( var i = 0; i < len; i++) {
 			html = html+'<tr><td>' +data.shopDetailDTOs[i].cosmeticShopName+'</td>'
-			+'<td>'+data.shopDetailDTOs[i].allClientsCreateCardAmount+'</td>'
+			+'<td>'+data.shopDetailDTOs[i].allClientsReceivedAmount+'</td>'
 			+'<td>'+data.shopDetailDTOs[i].allClientsEarnedAmount+'</td>'
 			+'<td>'+data.shopDetailDTOs[i].allClientsReceivedEarnedAmount+'</td>'
 			+'<td>'+data.shopDetailDTOs[i].allClientsConsumedAmount+'</td>'
@@ -153,7 +153,7 @@ function getYueHeAllShopsOperations(startDate,endDate){
 		}
 		$('#shop_detail_table_body').html(html);
 		$('#yuehe_overall_company_name').html(data.yueheCompanyName);
-		$('#yuehe_overall_create_card_amount').html(data.allShopsCreateCardTotalAmount);
+		$('#yuehe_overall_received_amount').html(data.allShopsReceivedAmount);
 		$('#yuehe_overall_earned_amount').html(data.allShopsEarnedAmount);
 		$('#yuehe_overall_received_earned_amount').html(data.allShopsReceivedEarnedAmount);
 		$('#yuehe_overall_consumed_amount').html(data.allShopsConsumedAmount);

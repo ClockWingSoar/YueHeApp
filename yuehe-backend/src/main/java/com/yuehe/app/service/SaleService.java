@@ -542,7 +542,9 @@ public class SaleService {
 	 public SalePerformanceDetailDTO getSalePerformanceDetail(String saleId, Long saleAdjustId, String startDate, String endDate){
 		List<SaleCardAmountAdjust> saleCardAmountAdjustList = new ArrayList<SaleCardAmountAdjust>();
 		//如果是退补款的销售卡则获取相应的数额计算其实收业绩和应回款，不计算开卡总额
-		SaleCardAmountAdjust saleCardAmountAdjust = saleCardAmountAdjustService.getById(saleAdjustId);
+		SaleCardAmountAdjust saleCardAmountAdjust = null;
+		if(saleAdjustId !=null)
+			 saleCardAmountAdjust = saleCardAmountAdjustService.getById(saleAdjustId);
 		if(StringUtils.isEmpty(startDate) && StringUtils.isEmpty(endDate)){
 
 			saleCardAmountAdjustList =  saleCardAmountAdjustService.getBySaleId(saleId);
