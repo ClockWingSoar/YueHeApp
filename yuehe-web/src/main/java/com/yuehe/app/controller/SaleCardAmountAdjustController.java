@@ -161,8 +161,8 @@ public class SaleCardAmountAdjustController{
     public String createSaleCardAmountAdjust( @RequestParam(name = "saleId", required = false) String saleId,
                                        @RequestParam(name = "adjustAction", required = false) String adjustAction,
                                        @RequestParam(name = "adjustAmount", required = false) long adjustAmount,
-                                       @RequestParam(name = "employeePreiumAdjustAmount", required = false) long employeePreiumAdjustAmount,
-                                       @RequestParam(name = "shopPreiumAdjustAmount", required = false) long shopPreiumAdjustAmount,
+                                       @RequestParam(name = "employeePremiumAdjustAmount", required = false) long employeePremiumAdjustAmount,
+                                       @RequestParam(name = "shopPremiumAdjustAmount", required = false) long shopPremiumAdjustAmount,
                                        @RequestParam(name = "adjustDate", required = false) String adjustDate,
                                        RedirectAttributes attr,
                                        @RequestParam(name = "description", required = false) String description) {
@@ -170,8 +170,8 @@ public class SaleCardAmountAdjustController{
         saleCardAmountAdjust.setSale(yueHeCommonService.getSaleById(saleId));
         saleCardAmountAdjust.setAdjustAction(adjustAction);
         saleCardAmountAdjust.setAdjustAmount(adjustAmount);
-        saleCardAmountAdjust.setEmployeePremiumAdjustAmount(employeePreiumAdjustAmount);
-        saleCardAmountAdjust.setShopPremiumAdjustAmount(shopPreiumAdjustAmount);
+        saleCardAmountAdjust.setEmployeePremiumAdjustAmount(employeePremiumAdjustAmount);
+        saleCardAmountAdjust.setShopPremiumAdjustAmount(shopPremiumAdjustAmount);
         saleCardAmountAdjust.setAdjustDate(adjustDate);
         saleCardAmountAdjust.setDescription(description);
         LOGGER.info("saleCardAmountAdjust:",saleCardAmountAdjust);

@@ -154,7 +154,7 @@ $(function ($) {
 				}else{
 					searchParameters +="description;"+description+",";//default to equality
 				}
-				alert(searchParameters);
+				// alert(searchParameters);
 			}
 			return searchParameters;
 		}
