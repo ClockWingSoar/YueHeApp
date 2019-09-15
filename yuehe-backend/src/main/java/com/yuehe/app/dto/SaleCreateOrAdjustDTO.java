@@ -1,5 +1,7 @@
 package com.yuehe.app.dto;
 
+import java.util.Comparator;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -15,9 +17,10 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class SaleCreateOrAdjustDTO {
+public class SaleCreateOrAdjustDTO{
 	private Long saleAdjustId;
 	private String saleId;
+	public static Comparator<SaleCreateOrAdjustDTO> saleIdComparator = Comparator.comparing(SaleCreateOrAdjustDTO::getSaleId);
 	
 
 }

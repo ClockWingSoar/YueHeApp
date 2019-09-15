@@ -16,11 +16,14 @@
  */
 package com.yuehe.app.service;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -30,6 +33,7 @@ import com.yuehe.app.common.YueHeEntitiesEnum;
 import com.yuehe.app.dto.ClientAllSalesPerformanceDetailDTO;
 import com.yuehe.app.dto.ClientShopDiscountDTO;
 import com.yuehe.app.dto.SaleBeautifySkinItemForFilterDTO;
+import com.yuehe.app.dto.SaleCardAmountAdjustDTO;
 import com.yuehe.app.dto.SaleClientItemSellerDTO;
 import com.yuehe.app.dto.SaleClientItemSellerForDBDTO;
 import com.yuehe.app.dto.SaleCreateOrAdjustDTO;
@@ -496,9 +500,10 @@ public class SaleService {
 		 List<SaleCreateOrAdjustDTO> saleListByClient = new ArrayList<SaleCreateOrAdjustDTO>();
 		 if(StringUtils.isEmpty(startDate) && StringUtils.isEmpty(endDate)){
 
-			saleListByClient =  getAllSalesByClientId(clientId);
+			saleListByClient = getDistinctSaleList(getAllSalesByClientId(clientId));
+
 		}else{
-			saleListByClient = getAllCreatSalesByClientIdAndCreateCardDate(clientId, startDate, endDate);//获取某个时段所有开卡的销售业绩
+			saleListByClient = getDistinctSaleList(getAllCreatSalesByClientIdAndCreateCardDate(clientId, startDate, endDate));//获取某个时段所有开卡的销售业绩
 			saleListByClient.addAll(getAllAdjustSalesByClientIdAndAdjustDate(clientId, startDate, endDate));//获取某个时段所有退补款的销售业绩
 
 		}
@@ -512,6 +517,8 @@ public class SaleService {
 		 long allSalesDebtEarnedAmount = 0;
 		 float allSalesEmployeePremium = 0;
 		 float allSalesShopPremium = 0;
+		 //按照销售卡ID排序，显示开卡日期时的业绩和后期补退尾款时的业绩
+		 Collections.sort(saleListByClient, SaleCreateOrAdjustDTO.saleIdComparator);
 		 for(SaleCreateOrAdjustDTO saleCreateOrAdjustDTO : saleListByClient) {
     		 String saleId = saleCreateOrAdjustDTO.getSaleId();
     		 Long saleAdjustId = saleCreateOrAdjustDTO.getSaleAdjustId();
@@ -539,12 +546,114 @@ public class SaleService {
 		 clientAllSalesPerformanceDetailDTO.setSalePerformanceDetailDTOs(salePerformanceDetailDTOList);
 		 return clientAllSalesPerformanceDetailDTO;
 	 }
+	 private List<SaleCreateOrAdjustDTO> getDistinctSaleList(List<SaleCreateOrAdjustDTO> saleListByClient){
+		 	//获取该客户的所有销售卡和销售卡更改表左连接后的列表，会有重复
+			 for(SaleCreateOrAdjustDTO saleCreateOrAdjustDTO : saleListByClient) {
+				if(saleCreateOrAdjustDTO.getSaleAdjustId() != null)
+					saleCreateOrAdjustDTO.setSaleAdjustId(null);//
+			}
+			//去除重复
+			saleListByClient = saleListByClient.stream().distinct().collect(Collectors.toList());
+			return saleListByClient;
+	 }
 	 public SalePerformanceDetailDTO getSalePerformanceDetail(String saleId, Long saleAdjustId, String startDate, String endDate){
-		List<SaleCardAmountAdjust> saleCardAmountAdjustList = new ArrayList<SaleCardAmountAdjust>();
-		//如果是退补款的销售卡则获取相应的数额计算其实收业绩和应回款，不计算开卡总额
+		
 		SaleCardAmountAdjust saleCardAmountAdjust = null;
 		if(saleAdjustId !=null)
 			 saleCardAmountAdjust = saleCardAmountAdjustService.getById(saleAdjustId);
+		
+		SalePerformanceDetailForDBDTO salePerformanceDetailForDBDTO = saleRepository.fetchSalePerformanceDetailById(saleId);
+		long createCardTotalAmount = salePerformanceDetailForDBDTO.getCreateCardTotalAmount();
+		long receivedAmount = salePerformanceDetailForDBDTO.getReceivedAmount();
+		long currentEarnedAmount = 0l;
+		long employeePremium = new Float(salePerformanceDetailForDBDTO.getEmployeePremium()).longValue();
+		long shopPremium = new Float(salePerformanceDetailForDBDTO.getShopPremium()).longValue();
+		SalePerformanceDetailDTO salePerformanceDetail = new SalePerformanceDetailDTO();
+		float cosmeticShopDiscount = salePerformanceDetailForDBDTO.getCosmeticShopDiscount();
+		
+		//计算开卡时的业绩，即首付款
+		SaleCardAmountAdjustDTO saleCardAmountAdjustDTOForCreatCardAmount = getSaleCardAmountAdjustDetails("", "", saleId);
+		long createCardEmployeePremium = employeePremium-saleCardAmountAdjustDTOForCreatCardAmount.getSaleCardAmountAdjustEmployeePremiumTotalAmounts();
+		long createCardShopPremium = shopPremium-saleCardAmountAdjustDTOForCreatCardAmount.getSaleCardAmountAdjustShopPremiumTotalAmounts();
+		long createCardReceivedAmount = receivedAmount-saleCardAmountAdjustDTOForCreatCardAmount.getSaleCardAmountAdjustTotalAmounts();
+
+		
+		//如果是退补款的销售卡则获取相应的数额计算其实收业绩和应回款，不计算开卡总额
+		if(saleCardAmountAdjust != null){//销售卡有退补款时，计算相应的实收款和实需回款以及相应的员工奖励和店家回扣
+			createCardTotalAmount = 0l;
+			receivedAmount = saleCardAmountAdjust.getAdjustAmount();//如果是退补款的销售卡则获取相应的数额计算其实收业绩和应回款，不计算开卡总额
+			employeePremium = saleCardAmountAdjust.getEmployeePremiumAdjustAmount();
+			shopPremium = saleCardAmountAdjust.getShopPremiumAdjustAmount();
+			//如果是退款，则需要减掉相应的业绩
+			if(StringUtils.equals(saleCardAmountAdjust.getAdjustAction(),"return")){
+				receivedAmount = -receivedAmount;
+				employeePremium = -employeePremium;
+				shopPremium = -shopPremium;
+				currentEarnedAmount = -currentEarnedAmount;
+			}
+		}
+		//如果开卡日期在开始日期和结束日期之间,则应把开卡时的业绩手动加入
+		SaleCardAmountAdjustDTO saleCardAmountAdjustDTO = getSaleCardAmountAdjustDetails(startDate, endDate, saleId);
+		String createCardDate = salePerformanceDetailForDBDTO.getCreateCardDate();
+		try {
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
+			Date createCardDateObj = sdf.parse(createCardDate);
+			Date startDateObj = sdf.parse(startDate);
+			Date endDateObj = sdf.parse(endDate);
+			if(!(StringUtils.isEmpty(startDate) && StringUtils.isEmpty(endDate))){
+				if(createCardDateObj.after(startDateObj) && createCardDateObj.before(endDateObj) ){
+					if(saleAdjustId != null){
+
+						receivedAmount = createCardReceivedAmount + saleCardAmountAdjustDTO.getSaleCardAmountAdjustTotalAmounts();
+						employeePremium = createCardEmployeePremium + saleCardAmountAdjustDTO.getSaleCardAmountAdjustEmployeePremiumTotalAmounts();
+						shopPremium = createCardShopPremium + saleCardAmountAdjustDTO.getSaleCardAmountAdjustShopPremiumTotalAmounts();
+					}else{
+						receivedAmount = createCardReceivedAmount;
+						employeePremium = createCardEmployeePremium;
+						shopPremium = createCardShopPremium;
+					}
+				}else{
+					receivedAmount = saleCardAmountAdjustDTO.getSaleCardAmountAdjustTotalAmounts();
+					employeePremium =  saleCardAmountAdjustDTO.getSaleCardAmountAdjustEmployeePremiumTotalAmounts();
+					shopPremium =  saleCardAmountAdjustDTO.getSaleCardAmountAdjustShopPremiumTotalAmounts();
+				}
+
+	
+			} 
+		
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		currentEarnedAmount = new Double(receivedAmount*cosmeticShopDiscount).longValue() - employeePremium - shopPremium;//目前收到客户款应回款
+		//  String saleId = salePerformanceDetailForDBDTO.getSaleId();
+		 String beautifySkinItemName = salePerformanceDetailForDBDTO.getBeautifySkinItemName();
+		 int itemNumber = salePerformanceDetailForDBDTO.getItemNumber();
+		 String description = salePerformanceDetailForDBDTO.getDescription();
+		 long debtAmount = createCardTotalAmount - receivedAmount;
+		 long earnedAmount = new Double(createCardTotalAmount*cosmeticShopDiscount).longValue() - employeePremium - shopPremium;
+		 long debtEarnedAmount = earnedAmount - currentEarnedAmount;
+		 
+		 salePerformanceDetail.setSaleId(saleId);
+		 salePerformanceDetail.setCreateCardDate(createCardDate);
+		 salePerformanceDetail.setBeautifySkinItemName(beautifySkinItemName);
+		 salePerformanceDetail.setCreateCardTotalAmount(createCardTotalAmount);
+		 salePerformanceDetail.setReceivedAmount(receivedAmount);
+		 salePerformanceDetail.setDebtAmount(debtAmount);
+		 salePerformanceDetail.setEarnedAmount(earnedAmount);
+		 salePerformanceDetail.setCurrentEarnedAmount(currentEarnedAmount);
+		 salePerformanceDetail.setDebtEarnedAmount(debtEarnedAmount);
+		 salePerformanceDetail.setItemNumber(itemNumber);
+		 salePerformanceDetail.setCosmeticShopDiscount(cosmeticShopDiscount);
+		 salePerformanceDetail.setEmployeePremium(employeePremium);
+		 salePerformanceDetail.setShopPremium(shopPremium);
+		 salePerformanceDetail.setDescription(description);
+		 return salePerformanceDetail;
+	 }
+
+	 private SaleCardAmountAdjustDTO getSaleCardAmountAdjustDetails(String startDate, String endDate, String saleId){
+		List<SaleCardAmountAdjust> saleCardAmountAdjustList = new ArrayList<SaleCardAmountAdjust>();
+		SaleCardAmountAdjustDTO saleCardAmountAdjustDTO = new SaleCardAmountAdjustDTO();
 		if(StringUtils.isEmpty(startDate) && StringUtils.isEmpty(endDate)){
 
 			saleCardAmountAdjustList =  saleCardAmountAdjustService.getBySaleId(saleId);
@@ -569,59 +678,9 @@ public class SaleService {
 				
 			}
 		}
-		long createCardTotalAmount = 0l;
-		long receivedAmount = 0l;
-		long currentEarnedAmount = 0l;
-		long employeePremium = 0l;
-		long shopPremium = 0l;
-		SalePerformanceDetailForDBDTO salePerformanceDetailForDBDTO = saleRepository.fetchSalePerformanceDetailById(saleId);
-		SalePerformanceDetailDTO salePerformanceDetail = new SalePerformanceDetailDTO();
-		float cosmeticShopDiscount = salePerformanceDetailForDBDTO.getCosmeticShopDiscount();
-		if(saleCardAmountAdjust != null){//销售卡有退补款时，计算相应的实收款和实需回款以及相应的员工奖励和店家回扣
-			
-			receivedAmount = saleCardAmountAdjust.getAdjustAmount();//如果是退补款的销售卡则获取相应的数额计算其实收业绩和应回款，不计算开卡总额
-			employeePremium = saleCardAmountAdjust.getEmployeePremiumAdjustAmount();
-			shopPremium = saleCardAmountAdjust.getShopPremiumAdjustAmount();
-			currentEarnedAmount = new Double(receivedAmount*cosmeticShopDiscount).longValue() - employeePremium - shopPremium;//目前收到客户款应回款
-			//如果是退款，则需要减掉相应的业绩
-			if(StringUtils.equals(saleCardAmountAdjust.getAdjustAction(),"return")){
-				receivedAmount = -receivedAmount;
-				employeePremium = -employeePremium;
-				shopPremium = -shopPremium;
-				currentEarnedAmount = -currentEarnedAmount;
-			}
-		}else{
-			
-			createCardTotalAmount = salePerformanceDetailForDBDTO.getCreateCardTotalAmount();
-			employeePremium = new Float(salePerformanceDetailForDBDTO.getEmployeePremium()).longValue()-saleCardAmountAdjustEmployeePremiumTotalAmounts;
-			shopPremium = new Float(salePerformanceDetailForDBDTO.getShopPremium()).longValue()-saleCardAmountAdjustShopPremiumTotalAmounts;
-			receivedAmount = salePerformanceDetailForDBDTO.getReceivedAmount()-saleCardAmountAdjustTotalAmounts;
-			currentEarnedAmount = new Double(receivedAmount*cosmeticShopDiscount).longValue() - employeePremium - shopPremium;
-
-		}
-		//  String saleId = salePerformanceDetailForDBDTO.getSaleId();
-		 String createCardDate = salePerformanceDetailForDBDTO.getCreateCardDate();
-		 String beautifySkinItemName = salePerformanceDetailForDBDTO.getBeautifySkinItemName();
-		 int itemNumber = salePerformanceDetailForDBDTO.getItemNumber();
-		 String description = salePerformanceDetailForDBDTO.getDescription();
-		 long debtAmount = createCardTotalAmount - receivedAmount;
-		 long earnedAmount = new Double(createCardTotalAmount*cosmeticShopDiscount).longValue() - employeePremium - shopPremium;
-		
-		 long debtEarnedAmount = earnedAmount - currentEarnedAmount;
-		 salePerformanceDetail.setSaleId(saleId);
-		 salePerformanceDetail.setCreateCardDate(createCardDate);
-		 salePerformanceDetail.setBeautifySkinItemName(beautifySkinItemName);
-		 salePerformanceDetail.setCreateCardTotalAmount(createCardTotalAmount);
-		 salePerformanceDetail.setReceivedAmount(receivedAmount);
-		 salePerformanceDetail.setDebtAmount(debtAmount);
-		 salePerformanceDetail.setEarnedAmount(earnedAmount);
-		 salePerformanceDetail.setCurrentEarnedAmount(currentEarnedAmount);
-		 salePerformanceDetail.setDebtEarnedAmount(debtEarnedAmount);
-		 salePerformanceDetail.setItemNumber(itemNumber);
-		 salePerformanceDetail.setCosmeticShopDiscount(cosmeticShopDiscount);
-		 salePerformanceDetail.setEmployeePremium(employeePremium);
-		 salePerformanceDetail.setShopPremium(shopPremium);
-		 salePerformanceDetail.setDescription(description);
-		 return salePerformanceDetail;
+		saleCardAmountAdjustDTO.setSaleCardAmountAdjustEmployeePremiumTotalAmounts(saleCardAmountAdjustEmployeePremiumTotalAmounts);
+		saleCardAmountAdjustDTO.setSaleCardAmountAdjustShopPremiumTotalAmounts(saleCardAmountAdjustShopPremiumTotalAmounts);
+		saleCardAmountAdjustDTO.setSaleCardAmountAdjustTotalAmounts(saleCardAmountAdjustTotalAmounts);
+		return saleCardAmountAdjustDTO;
 	 }
 }

@@ -85,7 +85,7 @@ public interface SaleRepository extends JpaRepository<Sale, String>,JpaSpecifica
 	 * @return
 	 */
 	@Query("SELECT new com.yuehe.app.dto.SaleDetailForDBDTO(s.id,s.createCardDate, b.name,e.name,  "
-			+ "s.createCardTotalAmount,s.receivedEarnedAmount,s.itemNumber,"
+			+ "s.receivedAmount,s.receivedEarnedAmount,s.itemNumber,"
 			+ "p.discount ,s.employeePremium,s.shopPremium,s.description) "
 			+ "FROM Sale s INNER JOIN s.beautifySkinItem b "
 			+ "INNER JOIN s.client c "

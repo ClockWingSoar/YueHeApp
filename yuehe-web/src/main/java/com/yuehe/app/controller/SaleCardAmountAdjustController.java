@@ -1,5 +1,6 @@
 package com.yuehe.app.controller;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -27,53 +28,56 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.thymeleaf.util.StringUtils;
 
-
-
 @Controller
-public class SaleCardAmountAdjustController{
-	 @ModelAttribute("module")
-	    String module() {
-	        return "saleCardAmountAdjust";
-	    }
-	 private final static Logger LOGGER = LoggerFactory.getLogger(SaleCardAmountAdjustController.class);
-	 private SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
-	
+public class SaleCardAmountAdjustController {
+	@ModelAttribute("module")
+	String module() {
+		return "saleCardAmountAdjust";
+	}
+
+	private final static Logger LOGGER = LoggerFactory.getLogger(SaleCardAmountAdjustController.class);
+	private SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+
 	@Autowired
 	private final SaleCardAmountAdjustService saleCardAmountAdjustService;
 	@Autowired
 	private final YueHeCommonService yueHeCommonService;
 	@Autowired
 	private final SaleService saleService;
-	public SaleCardAmountAdjustController(SaleCardAmountAdjustService saleCardAmountAdjustService,YueHeCommonService yueHeCommonService,SaleService saleService) {
+
+	public SaleCardAmountAdjustController(SaleCardAmountAdjustService saleCardAmountAdjustService,
+			YueHeCommonService yueHeCommonService, SaleService saleService) {
 		this.saleCardAmountAdjustService = saleCardAmountAdjustService;
 		this.yueHeCommonService = yueHeCommonService;
 		this.saleService = saleService;
 	}
 
 	@GetMapping("/getSaleCardAmountAdjustList")
-	public  String saleCardAmountAdjustOverview(Model model){
-		List<SaleCardAmountAdjust> saleCardAmountAdjustList =new ArrayList<SaleCardAmountAdjust>();
+	public String saleCardAmountAdjustOverview(Model model) {
+		List<SaleCardAmountAdjust> saleCardAmountAdjustList = new ArrayList<SaleCardAmountAdjust>();
 		saleCardAmountAdjustList = saleCardAmountAdjustService.getAllSaleCardAmountAdjusts();
-		 LOGGER.info("saleCardAmountAdjustList {}", saleCardAmountAdjustList);
-         model.addAttribute("subModule", "saleCardAmountAdjustList");
-		model.addAttribute("saleCardAmountAdjustList",saleCardAmountAdjustList);
-		
+		LOGGER.info("saleCardAmountAdjustList {}", saleCardAmountAdjustList);
+		model.addAttribute("subModule", "saleCardAmountAdjustList");
+		model.addAttribute("saleCardAmountAdjustList", saleCardAmountAdjustList);
+
 		return "user/saleCardAmountAdjustList.html";
-    }
-    @GetMapping("/getSaleCardAmountAdjustNewItem/{saleId}")
-	public String saleCardAmountAdjustNewItem(Model model,  @PathVariable("saleId") String saleId) {
+	}
+
+	@GetMapping("/getSaleCardAmountAdjustNewItem/{saleId}")
+	public String saleCardAmountAdjustNewItem(Model model, @PathVariable("saleId") String saleId) {
 		model.addAttribute("saleId", saleId);
 		model.addAttribute("subModule", "saleCardAmountAdjustNewItem");
 		LOGGER.info("saleId {}", saleId);
-         
+
 		return "user/saleCardAmountAdjustNewItem.html";
 	}
-	
+
 	@GetMapping("/saleCardAmountAdjust/edit/{id}")
 	public String saleCardAmountAdjustEditItem(Model model, @PathVariable("id") long id) {
 		getSaleCardAmountAdjustDetail(model, id);
 		return "user/saleCardAmountAdjustEditItem.html";
 	}
+
 	public void getSaleCardAmountAdjustDetail(Model model, long id) {
 		SaleCardAmountAdjust saleCardAmountAdjust = saleCardAmountAdjustService.getById(id);
 		model.addAttribute("saleId", saleCardAmountAdjust.getSale().getId());
@@ -81,11 +85,12 @@ public class SaleCardAmountAdjustController{
 	}
 
 	@PostMapping("/saleCardAmountAdjust/update/{id}")
-	public String updateSaleCardAmountAdjustItem( @RequestParam(name = "saleId", required = false) String saleId,
-	Model model, @PathVariable("id") long id, @Valid SaleCardAmountAdjust saleCardAmountAdjust, BindingResult result,
-			RedirectAttributes attr) {
+	public String updateSaleCardAmountAdjustItem(@RequestParam(name = "saleId", required = false) String saleId,
+			Model model, @PathVariable("id") long id, @Valid SaleCardAmountAdjust saleCardAmountAdjust,
+			BindingResult result, RedirectAttributes attr) {
 		if (result.hasErrors()) {
-			// to add back the initial data of saleCardAmountAdjust edit item and the error message
+			// to add back the initial data of saleCardAmountAdjust edit item and the error
+			// message
 			LOGGER.debug("result saleCardAmountAdjust:{}", result.getAllErrors());
 			attr.addFlashAttribute("org.springframework.validation.BindingResult.saleCardAmountAdjust", result);
 			model.addAttribute("saleCardAmountAdjust", saleCardAmountAdjust);
@@ -93,7 +98,13 @@ public class SaleCardAmountAdjustController{
 		}
 		LOGGER.debug("update saleCardAmountAdjust:", saleCardAmountAdjust);
 		if (saleCardAmountAdjust != null) {
-
+			try {
+				saleCardAmountAdjust.setAdjustDate(simpleDateFormat
+						.format(new SimpleDateFormat("MM/dd/yyyy").parse(saleCardAmountAdjust.getAdjustDate())));
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			updateSale(saleCardAmountAdjust,saleId, "update");
 			LOGGER.info("updated {}", saleCardAmountAdjustService.create(saleCardAmountAdjust));
 		}
@@ -172,7 +183,7 @@ public class SaleCardAmountAdjustController{
         saleCardAmountAdjust.setAdjustAmount(adjustAmount);
         saleCardAmountAdjust.setEmployeePremiumAdjustAmount(employeePremiumAdjustAmount);
         saleCardAmountAdjust.setShopPremiumAdjustAmount(shopPremiumAdjustAmount);
-        saleCardAmountAdjust.setAdjustDate(adjustDate);
+        saleCardAmountAdjust.setAdjustDate(simpleDateFormat.format(adjustDate));
         saleCardAmountAdjust.setDescription(description);
         LOGGER.info("saleCardAmountAdjust:",saleCardAmountAdjust);
 
