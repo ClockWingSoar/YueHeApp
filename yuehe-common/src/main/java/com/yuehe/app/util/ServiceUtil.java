@@ -73,9 +73,10 @@ public class ServiceUtil {
 		
 		String startDate =filterDateModel.getStartDate();
 		String endDate =filterDateModel.getEndDate();
-		if(StringUtils.isEmpty(startDate) && StringUtils.isEmpty(endDate)){
-			return filterDateModel;
-		}else{
+		//如果不输入开始日期或结束日期，默认设为最初始的日期和今天，则可以用来查询全部记录
+		// if(StringUtils.isEmpty(startDate) && StringUtils.isEmpty(endDate)){
+		// 	return filterDateModel;
+		// }else{
 
 			if(StringUtils.isEmpty(startDate)){
 				startDate = "2016-01-01";//悦和成立于2016年后半年，所以最早日期不早于2016-01-01
@@ -100,7 +101,7 @@ public class ServiceUtil {
 			}
 			filterDateModel.setStartDate(startDate);
 			filterDateModel.setEndDate(endDate);
-		}
+		// }
 		LOGGER.info("FitlerDateModel {}", filterDateModel);
 		 return filterDateModel;
 	}

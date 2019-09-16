@@ -499,15 +499,15 @@ public class SaleService {
 		 String clientName = clientService.getById(clientId).getName();
 		 ClientAllSalesPerformanceDetailDTO clientAllSalesPerformanceDetailDTO = new ClientAllSalesPerformanceDetailDTO();
 		 List<SaleCreateOrAdjustDTO> saleListByClient = new ArrayList<SaleCreateOrAdjustDTO>();
-		 if(StringUtils.isEmpty(startDate) && StringUtils.isEmpty(endDate)){
+		//  if(StringUtils.isEmpty(startDate) && StringUtils.isEmpty(endDate)){
 
-			saleListByClient = getDistinctSaleList(getAllSalesByClientId(clientId));
+		// 	saleListByClient = getDistinctSaleList(getAllSalesByClientId(clientId));
 
-		}else{
+		// }else{
 			saleListByClient = getDistinctSaleList(getAllCreatSalesByClientIdAndCreateCardDate(clientId, startDate, endDate));//获取某个时段所有开卡的销售业绩
 			saleListByClient.addAll(getAllAdjustSalesByClientIdAndAdjustDate(clientId, startDate, endDate));//获取某个时段所有退补款的销售业绩
 
-		}
+		// }
 		//  List<SaleBeautifySkinItemForFilterDTO> saleListByClient = saleRepository.findByClientId(clientId, startDate, endDate);
 		 List<SalePerformanceDetailDTO> salePerformanceDetailDTOList = new ArrayList<SalePerformanceDetailDTO>();
 		 long allSalesCreateCardTotalAmount = 0;
@@ -559,7 +559,6 @@ public class SaleService {
 	 }
 	 public SalePerformanceDetailDTO getSalePerformanceDetail(String saleId, Long saleAdjustId, String startDate, String endDate){
 		
-		SaleCardAmountAdjust saleCardAmountAdjust = null;
 		//获取该销售卡的收款信息
 		SalePerformanceDetailForDBDTO salePerformanceDetailForDBDTO = saleRepository.fetchSalePerformanceDetailById(saleId);
 		long createCardTotalAmount = salePerformanceDetailForDBDTO.getCreateCardTotalAmount();
@@ -590,7 +589,7 @@ public class SaleService {
 			Date startDateObj = sdf.parse(startDate);
 			Date endDateObj = sdf.parse(endDate);
 			//此处开始做日期刷选
-			if(!(StringUtils.isEmpty(startDate) && StringUtils.isEmpty(endDate))){
+			// if(!(StringUtils.isEmpty(startDate) && StringUtils.isEmpty(endDate))){
 				if(createCardDateObj.after(startDateObj) && createCardDateObj.before(endDateObj) ){
 					if(saleAdjustId == null){//计算单个销售卡某个时间段内的汇总业绩
 						//两种情况，1.销售卡没有补退款，则首付款开卡实收全齐，补退款为0,
@@ -628,7 +627,7 @@ public class SaleService {
 				}
 
 	
-			} 
+			// } 
 		
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -662,12 +661,12 @@ public class SaleService {
 	 private SaleCardAmountAdjustTotalDTO getSaleCardAmountAdjustTotalDetail(String startDate, String endDate, String saleId){
 		List<SaleCardAmountAdjust> saleCardAmountAdjustList = new ArrayList<SaleCardAmountAdjust>();
 		SaleCardAmountAdjustTotalDTO saleCardAmountAdjustTotalDTO = new SaleCardAmountAdjustTotalDTO();
-		if(StringUtils.isEmpty(startDate) && StringUtils.isEmpty(endDate)){
+		// if(StringUtils.isEmpty(startDate) && StringUtils.isEmpty(endDate)){
 
-			saleCardAmountAdjustList =  saleCardAmountAdjustService.getBySaleId(saleId);
-		}else{
+		// 	saleCardAmountAdjustList =  saleCardAmountAdjustService.getBySaleId(saleId);
+		// }else{
 			saleCardAmountAdjustList = saleCardAmountAdjustService.getBySaleIdAndAdjustDate(saleId, startDate, endDate);
-		}
+		// }
 		Long saleCardAmountAdjustTotalAmounts = 0l;
 		Long saleCardAmountAdjustEmployeePremiumTotalAmounts = 0l;
 		Long saleCardAmountAdjustShopPremiumTotalAmounts = 0l;

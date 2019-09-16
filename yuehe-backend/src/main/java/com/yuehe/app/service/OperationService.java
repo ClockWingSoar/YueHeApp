@@ -420,12 +420,12 @@ public class OperationService {
 				- shopPremium;
 		long receivedEarnedAmount = saleDetailForDBDTO.getReceivedEarnedAmount();//实际回给公司的款
 		int operationNumber = 0;
-		if(StringUtils.isEmpty(startDate) && StringUtils.isEmpty(endDate)){
+		// if(StringUtils.isEmpty(startDate) && StringUtils.isEmpty(endDate)){
 
-			operationNumber =  getOperationNumberBySaleId(saleId);// 操作次数
-		}else{
+		// 	operationNumber =  getOperationNumberBySaleId(saleId);// 操作次数
+		// }else{
 			operationNumber = operationRepository.findOperationNumBySaleIdAndOperationDate(saleId, startDate, endDate);//用于计算一定时间内的消耗
-		}
+		// }
 		float unitPrice = receivedAmount / itemNumber;// 美肤卡单次价格-按目前单张卡已收到的费用计算
 		int restItemNumber = itemNumber - getOperationNumberBySaleId(saleId);// 剩余次数
 		long consumedAmount = new Double(operationNumber * unitPrice).longValue();// 已消耗总数
@@ -451,12 +451,12 @@ public class OperationService {
 
 	private List<OperationDetailDTO> getOperationsBySaleId(String saleId, String startDate, String endDate) {
 		List<OperationDetailDTO> operationDetailDTOList = new ArrayList<OperationDetailDTO>();
-		if(StringUtils.isEmpty(startDate) && StringUtils.isEmpty(endDate)){
+		// if(StringUtils.isEmpty(startDate) && StringUtils.isEmpty(endDate)){
 
-			operationDetailDTOList =  operationRepository.findBySaleId(saleId);
-		}else{
+		// 	operationDetailDTOList =  operationRepository.findBySaleId(saleId);
+		// }else{
 			operationDetailDTOList = operationRepository.findBySaleIdAndOperationDate(saleId, startDate, endDate);
-		}
+		// }
 		return operationDetailDTOList;
 	}
 
