@@ -661,12 +661,12 @@ public class SaleService {
 	 private SaleCardAmountAdjustTotalDTO getSaleCardAmountAdjustTotalDetail(String startDate, String endDate, String saleId){
 		List<SaleCardAmountAdjust> saleCardAmountAdjustList = new ArrayList<SaleCardAmountAdjust>();
 		SaleCardAmountAdjustTotalDTO saleCardAmountAdjustTotalDTO = new SaleCardAmountAdjustTotalDTO();
-		// if(StringUtils.isEmpty(startDate) && StringUtils.isEmpty(endDate)){
+		if(StringUtils.isEmpty(startDate) && StringUtils.isEmpty(endDate)){//用来计算开卡时的业绩，开始日期和结束日期必须为空
 
-		// 	saleCardAmountAdjustList =  saleCardAmountAdjustService.getBySaleId(saleId);
-		// }else{
+			saleCardAmountAdjustList =  saleCardAmountAdjustService.getBySaleId(saleId);
+		}else{
 			saleCardAmountAdjustList = saleCardAmountAdjustService.getBySaleIdAndAdjustDate(saleId, startDate, endDate);
-		// }
+		}
 		Long saleCardAmountAdjustTotalAmounts = 0l;
 		Long saleCardAmountAdjustEmployeePremiumTotalAmounts = 0l;
 		Long saleCardAmountAdjustShopPremiumTotalAmounts = 0l;
