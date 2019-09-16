@@ -107,6 +107,8 @@ function getClientAllSales(clientId,startDate,endDate){
 		var len = data.salePerformanceDetailDTOs.length; 
 		for ( var i = 0; i < len; i++) {
 			html = html+'<tr><td>' +data.salePerformanceDetailDTOs[i].saleId+'</td>'
+			+'<td>'+data.salePerformanceDetailDTOs[i].beautifySkinItemName+'</td>'
+			+'<td>'+data.salePerformanceDetailDTOs[i].createCardDate+'</td>'
 			+'<td>'+data.salePerformanceDetailDTOs[i].createCardTotalAmount+'</td>'
 			+'<td>'+data.salePerformanceDetailDTOs[i].receivedAmount+'</td>'
 			+'<td>'+data.salePerformanceDetailDTOs[i].debtAmount+'</td>'
@@ -114,7 +116,8 @@ function getClientAllSales(clientId,startDate,endDate){
 			+'<td>'+data.salePerformanceDetailDTOs[i].currentEarnedAmount+'</td>'
 			+'<td>'+data.salePerformanceDetailDTOs[i].debtEarnedAmount+'</td>'
 			+'<td>'+data.salePerformanceDetailDTOs[i].employeePremium+'</td>'
-			+'<td>'+data.salePerformanceDetailDTOs[i].shopPremium+'</td></tr>';
+			+'<td>'+data.salePerformanceDetailDTOs[i].shopPremium+'</td>'
+			+'<td>'+data.salePerformanceDetailDTOs[i].description+'</td></tr>';
 			
 		}
 		$('#sale_detail_table_body').html(html);

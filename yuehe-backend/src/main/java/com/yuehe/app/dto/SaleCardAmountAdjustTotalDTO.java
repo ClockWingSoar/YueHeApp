@@ -16,13 +16,10 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class SaleCardAmountAdjustDTO {
-	private long createCardTotalAmount;//单个顾客所有销售卡的总实收金额
-	private long receivedAmount;//单个顾客所有销售卡的总应回款金额
-	private long employeePremium;//员工奖励
-	private long shopPremium;//店家回扣
-	private String adjustDate;//更改日期
-	private String description;//备注
+public class SaleCardAmountAdjustTotalDTO {
+	private long saleCardAmountAdjustTotalAmounts;//单个顾客所有销售卡的总实收金额
+	private long saleCardAmountAdjustEmployeePremiumTotalAmounts;//单个顾客所有销售卡的总应回款金额
+	private long saleCardAmountAdjustShopPremiumTotalAmounts;//单个顾客所有销售卡的总实际回款金额
 
 	
 }
