@@ -410,8 +410,8 @@ function filterTable(table, filter, index) {
               
               size: {
                 required: true,
-                number: true,
-                min: 0,
+                // number: true,
+                // min: 0,
               },
               memberNumber: {
                 required: true,
@@ -441,8 +441,8 @@ function filterTable(table, filter, index) {
               },
               size: {
                 required: "请输入美容院面积",
-                number: "仅允许输入数字,禁止输入字母或空格",
-                min: "规模应该大于0",
+                // number: "仅允许输入数字,禁止输入字母或空格",
+                // min: "规模应该大于0",
               },
               memberNumber: {
                 required: "请输入美容院会员数",
@@ -523,6 +523,48 @@ function filterTable(table, filter, index) {
                 required: "请输入销售卡退补款数额",
                 number: "仅允许输入数字,禁止输入字母或空格",
                 min: "价格应该大于100",
+              },
+             
+              description: {
+                maxlength: "备注不能超过100个字符"
+              }
+            }, 
+    }
+//common validator for shopRefundRuleNewItem and shopRefundRuleEditItem page
+    var shopRefundRuleValidator= {
+            rules: {
+              adjustAction: {
+                required: true,
+              },
+              adjustDate: {
+                required: true,
+              },
+              triggerPoint: {
+                required: true,
+              },
+              adjustAmount : {
+                required: true,
+                number: true,
+              },
+             
+              description: {
+                maxlength: 100,
+              },
+              
+            },
+            messages : {
+              adjustAction: {
+                required: "请输入店家回款规则类别",
+              },
+              adjustDate: {
+                required: "请输入调整日期",
+              },
+              triggerPoint: {
+                required: "请输入触发条件",
+              },
+              adjustAmount: {
+                required: "请输入店家回款规则数字",
+                number: "仅允许输入数字,禁止输入字母或空格",
               },
              
               description: {

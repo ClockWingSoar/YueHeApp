@@ -1,0 +1,67 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<title>店家回款规则列表</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<link rel="stylesheet" th:href="@{/css/core.css}">
+	<link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+	<script type="text/javascript" th:src="@{/js/jquery.min.js}"></script>
+	<script type="text/javascript" th:src="@{/js/bootstrap.min.js}"></script>
+	<script type="text/javascript" th:src="@{/js/shopRefundRuleList.js}"></script>
+	<script type="text/javascript" th:src="@{/js/jquery.validate.min.js}"></script>
+	<script type="text/javascript" th:src="@{/js/additional-methods.min.js}"></script>
+
+	<!-- <meta http-equiv="refresh" content="600; URL=/"> this will redirect to / after 600s -->
+
+</head>
+
+<body>
+	<div th:replace="~{fragments/header.html :: header}">Header</div>
+	<div role="main" class="container">
+
+		<div th:replace="~{fragments/shopRefundRuleHeader.html :: header}">Header</div>
+		<div th:replace="~{fragments/alert.html :: alert}">alert div</div>
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h3>以下为现有的店家回款规则:</h3>
+			</div>
+			<div class="panel-body table-wrapper-scroll-y my-custom-scrollbar">
+				<table class="table table-hover  table-sm  ">
+					<thead class="thead-dark">
+						<tr class="info">
+							<th>ID</th>
+							<th>美容院ID</th>
+							<th>回款规则</th>
+							<th>触发条件</th>
+							<th>调整数目</th>
+							<th>调整日期</th>
+							<th>备注</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr class="clickable-row" data-th-each="shopRefundRule : ${shopRefundRuleList}">
+							<td data-th-text="${shopRefundRule.id}">...</td>
+							<td data-th-text="${shopRefundRule.cosmeticShop.id}">...</td>
+							<td  th:if="${shopRefundRule.adjustAction} == changeDiscount">更改折扣</td>
+							<td  th:if="${shopRefundRule.adjustAction} == refundToShopTillCertainAmount">超过数目回扣店家</td>
+							<td  th:if="${shopRefundRule.adjustAction} == awardEmployeePerSale">销售卡奖励员工</td>
+							<td  th:if="${shopRefundRule.adjustAction} == awardEmployeePerTryout">体验卡奖励员工</td>
+							<td data-th-text="${shopRefundRule.triggerPoint}">...</td>
+							<td data-th-text="${shopRefundRule.adjustAmount}">...</td>
+							<td data-th-text="${shopRefundRule.adjustDate}">...</td>
+							<td data-th-text="${shopRefundRule.description}">...</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+
+
+
+		<div th:replace="~{fragments/footer.html :: footer}">footer</div>
+	</div>
+</body>
+
+</html>

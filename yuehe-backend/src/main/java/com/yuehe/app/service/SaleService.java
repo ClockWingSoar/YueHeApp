@@ -17,6 +17,8 @@
 package com.yuehe.app.service;
 
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -46,6 +48,7 @@ import com.yuehe.app.dto.YueHeAllSalesPerformanceDetailDTO;
 import com.yuehe.app.entity.CosmeticShop;
 import com.yuehe.app.entity.Sale;
 import com.yuehe.app.entity.SaleCardAmountAdjust;
+import com.yuehe.app.entity.ShopRefundRule;
 import com.yuehe.app.property.BaseProperty;
 import com.yuehe.app.repository.SaleRepository;
 import com.yuehe.app.specification.SpecificationsBuilder;
@@ -82,13 +85,16 @@ public class SaleService {
 	private final CosmeticShopService cosmeticShopService;
 	@Autowired
 	private final SaleCardAmountAdjustService saleCardAmountAdjustService;
+	@Autowired
+	private final ShopRefundRuleService shopRefundRuleService;
 
-	public SaleService(SaleRepository saleRepository,ClientService clientService,
+	public SaleService(SaleRepository saleRepository,ClientService clientService,ShopRefundRuleService shopRefundRuleService,
 						CosmeticShopService cosmeticShopService, SaleCardAmountAdjustService saleCardAmountAdjustService) {
         this.saleRepository = saleRepository;
         this.clientService = clientService;
 		this.cosmeticShopService = cosmeticShopService;
 		this.saleCardAmountAdjustService = saleCardAmountAdjustService;
+		this.shopRefundRuleService = shopRefundRuleService;
     }
 
 
@@ -564,11 +570,63 @@ public class SaleService {
 		long createCardTotalAmount = salePerformanceDetailForDBDTO.getCreateCardTotalAmount();
 		long receivedAmount = salePerformanceDetailForDBDTO.getReceivedAmount();
 		long currentEarnedAmount = 0l;
+		long awardEmployeeAmount = 0l;
 		long employeePremium = new Float(salePerformanceDetailForDBDTO.getEmployeePremium()).longValue();
 		long shopPremium = new Float(salePerformanceDetailForDBDTO.getShopPremium()).longValue();
 		String description = salePerformanceDetailForDBDTO.getDescription();
 		SalePerformanceDetailDTO salePerformanceDetail = new SalePerformanceDetailDTO();
 		float cosmeticShopDiscount = salePerformanceDetailForDBDTO.getCosmeticShopDiscount();
+		String createCardDate = salePerformanceDetailForDBDTO.getCreateCardDate();
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
+		Date createCardDateObj = null;
+		Date startDateObj = null;
+		Date endDateObj = null;
+		Date startAdjustDateObj = null;
+		Date endAdjustDateObj = null;
+		try {
+			createCardDateObj = sdf.parse(createCardDate);
+			startDateObj = sdf.parse(startDate);
+			endDateObj = sdf.parse(endDate);
+			startAdjustDateObj = sdf.parse("2016-01-01");
+			endAdjustDateObj = sdf.parse(LocalDate.now().toString());
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		//获取该销售卡所属客户所属美容院的回款规则
+		Sale sale = getById(saleId);
+		String cosmeticShopId = sale.getClient().getCosmeticShop().getId();
+		List<ShopRefundRule> shopRefundRuleList = shopRefundRuleService.getByShopId(cosmeticShopId);
+		Collections.reverse(shopRefundRuleList);
+		for(ShopRefundRule shopRefundRule : shopRefundRuleList){
+			String refundType = shopRefundRule.getAdjustAction();
+			Double adjustAmount = shopRefundRule.getAdjustAmount();
+			String triggerPoint = shopRefundRule.getTriggerPoint();
+			String adjustDate = shopRefundRule.getAdjustDate();
+			try {
+				startAdjustDateObj = sdf.parse(adjustDate);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+
+			if(StringUtils.equals(BaseProperty.REFUND_TYPE_CHANGE_DISCOUNT, refundType)){
+				if(createCardDateObj.after(startAdjustDateObj) && createCardDateObj.before(endAdjustDateObj)){
+					cosmeticShopDiscount = adjustAmount.floatValue();
+				}
+				
+			}else if(StringUtils.equals(BaseProperty.REFUND_TYPE_REACH_CERTAIN_AMOUNT, refundType)){
+
+			}else if(StringUtils.equals(BaseProperty.REFUND_TYPE_AWARD_EMPLOYEE_PER_SALE, refundType)){
+				cosmeticShopDiscount -= adjustAmount.floatValue();
+				
+			}else if(StringUtils.equals(BaseProperty.REFUND_TYPE_AWARD_EMPLOYEE_PER_TRYOUT, refundType)){
+				if(sale.getBeautifySkinItem().getPrice() == Integer.parseInt(triggerPoint)){
+					awardEmployeeAmount = adjustAmount.longValue();
+				}
+			}
+			endAdjustDateObj = startAdjustDateObj;
+			
+		}
 		
 		//计算开卡时的业绩，即首付款
 		SaleCardAmountAdjustTotalDTO saleCardAmountAdjustTotalDTOForCreatCardAmount = getSaleCardAmountAdjustTotalDetail("", "", saleId);
@@ -582,12 +640,8 @@ public class SaleService {
 		//如果开卡日期在开始日期和结束日期之间,则应把开卡时的业绩手动加入
 		//如果没有日期刷选，则不做任何改动，目前的收款信息即为正确信息，因为每次调整销售卡都会自动更新原销售卡收款信息
 		SaleCardAmountAdjustTotalDTO saleCardAmountAdjustTotalDTO = getSaleCardAmountAdjustTotalDetail(startDate, endDate, saleId);
-		String createCardDate = salePerformanceDetailForDBDTO.getCreateCardDate();
-		try {
-			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
-			Date createCardDateObj = sdf.parse(createCardDate);
-			Date startDateObj = sdf.parse(startDate);
-			Date endDateObj = sdf.parse(endDate);
+	
+		
 			//此处开始做日期刷选
 			// if(!(StringUtils.isEmpty(startDate) && StringUtils.isEmpty(endDate))){
 				if(createCardDateObj.after(startDateObj) && createCardDateObj.before(endDateObj) ){
@@ -629,9 +683,6 @@ public class SaleService {
 	
 			// } 
 		
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
 		
 		currentEarnedAmount = new Double(receivedAmount*cosmeticShopDiscount).longValue() - employeePremium - shopPremium;//目前收到客户款应回款
 		//  String saleId = salePerformanceDetailForDBDTO.getSaleId();
@@ -647,8 +698,8 @@ public class SaleService {
 		 salePerformanceDetail.setCreateCardTotalAmount(createCardTotalAmount);
 		 salePerformanceDetail.setReceivedAmount(receivedAmount);
 		 salePerformanceDetail.setDebtAmount(debtAmount);
-		 salePerformanceDetail.setEarnedAmount(earnedAmount);
-		 salePerformanceDetail.setCurrentEarnedAmount(currentEarnedAmount);
+		 salePerformanceDetail.setEarnedAmount(earnedAmount);//开卡应收回款，即根据开卡金额及相关规则应该回的款
+		 salePerformanceDetail.setCurrentEarnedAmount(currentEarnedAmount);//实需回款，根据实际收到的客户的款计算的回款，并不是实际回给悦和的款，是需要回给悦和的款
 		 salePerformanceDetail.setDebtEarnedAmount(debtEarnedAmount);
 		 salePerformanceDetail.setItemNumber(itemNumber);
 		 salePerformanceDetail.setCosmeticShopDiscount(cosmeticShopDiscount);

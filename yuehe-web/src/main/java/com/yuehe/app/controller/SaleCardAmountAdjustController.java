@@ -13,7 +13,6 @@ import com.yuehe.app.service.SaleCardAmountAdjustService;
 import com.yuehe.app.service.SaleService;
 import com.yuehe.app.service.YueHeCommonService;
 
-//import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -102,7 +101,6 @@ public class SaleCardAmountAdjustController {
 				saleCardAmountAdjust.setAdjustDate(simpleDateFormat
 						.format(new SimpleDateFormat("MM/dd/yyyy").parse(saleCardAmountAdjust.getAdjustDate())));
 			} catch (ParseException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			updateSale(saleCardAmountAdjust,saleId, "update");
@@ -183,7 +181,12 @@ public class SaleCardAmountAdjustController {
         saleCardAmountAdjust.setAdjustAmount(adjustAmount);
         saleCardAmountAdjust.setEmployeePremiumAdjustAmount(employeePremiumAdjustAmount);
         saleCardAmountAdjust.setShopPremiumAdjustAmount(shopPremiumAdjustAmount);
-        saleCardAmountAdjust.setAdjustDate(simpleDateFormat.format(adjustDate));
+        try {
+			saleCardAmountAdjust
+					.setAdjustDate(simpleDateFormat.format(new SimpleDateFormat("MM/dd/yyyy").parse(adjustDate)));
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
         saleCardAmountAdjust.setDescription(description);
         LOGGER.info("saleCardAmountAdjust:",saleCardAmountAdjust);
 

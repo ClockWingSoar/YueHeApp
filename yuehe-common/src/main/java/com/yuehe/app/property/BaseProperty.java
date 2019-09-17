@@ -29,6 +29,11 @@ public interface BaseProperty {
     public static final String ID_TYPE_PREFIX_BEAUTIFYSKINITEM = "xm";//(美容)项目 - xiang mu - xm
     public static final String ID_TYPE_PREFIX_ROLE = "js";//角色 - jue se - js
     public static final String ID_TYPE_PREFIX_DUTY = "zz";//职责 - zhi ze - zz
+
+    public static final String REFUND_TYPE_CHANGE_DISCOUNT = "changeDiscount";//更改回款的折扣点
+    public static final String REFUND_TYPE_REACH_CERTAIN_AMOUNT = "refundToShopTillCertainAmount";//当总业绩达到一定数额时需回给店家相应的回扣
+    public static final String REFUND_TYPE_AWARD_EMPLOYEE_PER_SALE = "awardEmployeePerSale";//每卖出一张销售卡，需给店里员工相应的奖励
+    public static final String REFUND_TYPE_AWARD_EMPLOYEE_PER_TRYOUT = "awardEmployeePerTryout";//每卖出一张体验卡，需给店里员工相应的奖励
     
 
 }

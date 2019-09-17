@@ -41,6 +41,10 @@
                 <li th:classappend="${module == 'cosmeticShop' ? 'active' : ''}">
                     <a href="#" th:href="@{/getCosmeticShopList}">美容院</a>
                 </li>
+                
+                <li th:classappend="${module == 'shopRefundRule' ? 'active' : ''}">
+                    <a href="#" th:href="@{/getShopRefundRuleList}">美容院回款规则</a>
+                </li>
                 <li class="dropdown" th:classappend="${module == 'client' ? 'active' : ''}" >
                     <a class="dropdown-toggle" data-toggle="dropdown" href="#">客户 <span class="caret"></span></a>
                     <ul class="dropdown-menu">

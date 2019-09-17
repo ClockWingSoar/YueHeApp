@@ -1,0 +1,131 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<title>更新店家回款调整条目</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<link rel="stylesheet" th:href="@{/css/core.css}">
+	<link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+	<link rel="stylesheet" th:href="@{/css/fstdropdown.css}">
+	<script type="text/javascript" th:src="@{/js/jquery.min.js}"></script>
+	<script type="text/javascript" th:src="@{/js/bootstrap.min.js}"></script>
+	<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+	<link rel="stylesheet" href="/resources/demos/style.css">
+	<script
+			  src="https://code.jquery.com/jquery-3.4.1.js"
+			  integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
+			  crossorigin="anonymous"></script>
+	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+	<script type="text/javascript" th:src="@{/js/shopRefundRuleEditItem.js}"></script>
+	<script type="text/javascript" th:src="@{/js/yueHeCommon.js}"></script>
+	<script type="text/javascript" th:src="@{/js/fstdropdown.js}"></script>
+	<script type="text/javascript" th:src="@{/js/jquery.validate.js}"></script>
+	<script type="text/javascript" th:src="@{/js/additional-methods.js}"></script>
+	<!-- <meta http-equiv="refresh" content="600; URL=/"> this will redirect to / after 600s -->
+
+</head>
+
+<body>
+	<div th:replace="~{fragments/header.html :: header}">Header</div>
+
+	<div role="main" class="container">
+		<div th:replace="~{fragments/shopRefundRuleHeader.html :: header}">ShopRefundRule Header</div>
+
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h3>更新店家回款规则</h3>
+			</div>
+
+			<div class="yuehe-form-group">
+				<form id="shopRefundRule_edit_item"  action="#" th:action="@{/shopRefundRule/update/{id}(id=${id})}"  th:object="${shopRefundRule}" method="POST">
+					<br>
+					<input type="hidden" id="id" name="id" th:field="*{id}">
+					<input type="hidden" id="cosmeticShopId" name="cosmeticShopId" th:value="${cosmeticShopId}">
+					<div class="form-group  row ">
+						<div class="col-md-1"> <span class="input-group-addon"><i
+									class="glyphicon glyphicon-euro"></i>更改类别</span> </div>
+
+						<div class="col-xs-3">
+							<select class="form-control input-sm"  th:field="*{adjustAction}" name="adjustAction" id="adjustAction">
+								<option selected="selected" value=""> --请选择更改类别 --
+								</option>
+								<option value="changeDiscount">更改折扣</option>
+								<option value="refundToShopTillCertainAmount">超过数目回扣店家</option>
+								<option value="awardEmployeePerSale">销售卡奖励员工</option>
+								<option value="awardEmployeePerTryout">体验卡奖励员工</option>
+							
+							</select>
+						</div>
+						<div class="col-xs-6">
+							<span class="help-block">美容院可能存在某个日期后折扣变动情况</span>
+						</div>
+					</div>
+					<div class="form-group  row ">
+						<div class="col-md-1">
+							<span class="input-group-addon"><i class="glyphicon glyphicon-euro"></i>触发条件</span>
+						</div>
+						<div class="col-xs-3">
+							<input id="triggerPoint"  th:field="*{triggerPoint}"  name="triggerPoint" type=text
+								class="form-control input-sm"></input>
+						</div>
+						<div class="col-xs-6">
+							<span class="help-block">比如某个日期之前按某个折扣算业绩，或者业绩达到多少的时候返点多少</span>
+						</div>
+					</div>
+					<div class="form-group  row ">
+						<div class="col-md-1">
+							<span class="input-group-addon"><i class="glyphicon glyphicon-euro"></i>调整金额</span>
+						</div>
+						<div class="col-xs-3">
+							<input id="adjustAmount" th:field="*{adjustAmount}"  name="adjustAmount" type=text
+								class="form-control input-sm"></input>
+						</div>
+						<div class="col-xs-6">
+							<span class="help-block">针对该回款规则的具体数字，如折扣变动或者达到某个金额回款给店家</span>
+						</div>
+					</div>
+					
+					<div class="form-group  row ">
+						<div class="col-md-1">
+							<span class="input-group-addon"><i class="glyphicon glyphicon-euro"></i>调整日期</span>
+						</div>
+						<div class="col-xs-3">
+							<input id="adjustDate" th:field="*{adjustDate}"  name="adjustDate" type=text class="form-control input-sm"></input>
+						</div>
+						<div class="col-xs-6">
+							<span class="help-block">这个日期可被用来调整某个店家的折扣变动以便计算业绩</span>
+						</div>
+					</div>
+					<div class="form-group  row ">
+						<div class="col-md-1">
+							<span class="input-group-addon"><i class="glyphicon glyphicon-euro"></i>备注</span>
+						</div>
+						<div class="col-xs-3">
+							<textarea rows="4" cols="50" th:field="*{description}"    id="description" name="description" type=text class="form-control input-sm"></textarea>
+						</div>
+						<div class="col-xs-6">
+							<span class="help-block">此处填写额外的说明情况</span>
+						</div>
+					</div>
+					<div class="form-group  row ">
+						<div class="content">
+								<div class="input-group col-xs-1">
+									<input type="submit" class="btn-primary  btn-lg" name="shopRefundRuleUpdateItem"
+										value="更新" />
+								</div>
+								<div class="input-group col-xs-1">
+									<input id="shopRefundRule_delete_btn" type="submit" name="shopRefundRuleDeleteItem"
+										class="btn-primary  btn-lg" value="删除" />
+								</div>
+							</div>
+						</div>
+				</form>
+			</div>
+		</div>
+		<div th:replace="~{fragments/footer.html :: footer}">footer</div>
+		<!-- /.container -->
+	</div>
+</body>
+
+</html>
