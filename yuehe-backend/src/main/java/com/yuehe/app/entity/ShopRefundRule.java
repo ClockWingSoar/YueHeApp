@@ -1,6 +1,7 @@
 package com.yuehe.app.entity;
 
 import java.io.Serializable;
+import java.util.Comparator;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -60,4 +61,6 @@ public class ShopRefundRule implements Serializable {
 	String adjustDate;
 	@Column(name="description")
 	String description;
+	public static Comparator<ShopRefundRule> adjustDateComparator = Comparator.comparing(ShopRefundRule::getAdjustDate);
+
 }
