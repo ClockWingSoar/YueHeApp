@@ -18,7 +18,6 @@ package com.yuehe.app.service;
 
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -44,6 +43,7 @@ import com.yuehe.app.dto.SaleDetailForDBDTO;
 import com.yuehe.app.dto.SalePerformanceDetailDTO;
 import com.yuehe.app.dto.SalePerformanceDetailForDBDTO;
 import com.yuehe.app.dto.ShopAllSalesPerformanceDetailDTO;
+import com.yuehe.app.dto.ShopRefundRuleDTO;
 import com.yuehe.app.dto.YueHeAllSalesPerformanceDetailDTO;
 import com.yuehe.app.entity.CosmeticShop;
 import com.yuehe.app.entity.Sale;
@@ -78,7 +78,7 @@ public class SaleService {
 	Sort sort = null;
 	boolean sortByJPA = true;
 	Comparator<SaleClientItemSellerDTO> comparator = null;
-
+	SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
 	@Autowired
 	private final ClientService clientService;
 	@Autowired
@@ -335,17 +335,49 @@ public class SaleService {
 			Integer itemNumber = saleClientItemSellerForDBDTO.getItemNumber();
 			Long receivedEarnedAmount = saleClientItemSellerForDBDTO.getReceivedEarnedAmount();
 			Double discount = new Double(createCardTotalAmount)/new Double(beautifySkinItemPrice * itemNumber);
+			String saleId = saleClientItemSellerForDBDTO.getSaleId();
+			String createCardDate = saleClientItemSellerForDBDTO.getCreateCardDate();
+			Date createCardDateObj = null;
+			try {
+				createCardDateObj = sdf.parse(createCardDate);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			//获取该销售卡所属客户所属美容院的回款规则
+			Long tryoutEarnedAmount = 0l;//体验卡回款有时候不按美容院回扣折扣点计算，比如美之然680回款280
+			Long awardEmployeeAmount = 0l;//有些店家每卖出一张体验卡，需奖励员工50或100
+			float shopPremiumDiscount = 0f;
+			ShopRefundRuleDTO shopRefundRuleDTO = getShopRefundRuleDetail(saleId, null, createCardDateObj,cosmeticShopDiscount);
+			cosmeticShopDiscount = shopRefundRuleDTO.getCosmeticShopDiscount();
+			shopPremiumDiscount = shopRefundRuleDTO.getShopPremiumDiscount();
+			awardEmployeeAmount = shopRefundRuleDTO.getAwardEmployeeAmount();
+			tryoutEarnedAmount = shopRefundRuleDTO.getTryoutEarnedAmount();
 			//using Optional orElse to handle null value of employeePremium and shopPremium, if null, assign 0 to it to avoid nullpointerexception
 			Float employeePremium = Optional.ofNullable(saleClientItemSellerForDBDTO.getEmployeePremium()).orElse(new Float(0));
-		    Float shopPremium = Optional.ofNullable(saleClientItemSellerForDBDTO.getShopPremium()).orElse(new Float(0));
-		    Float earnedAmount = createCardTotalAmount*cosmeticShopDiscount - employeePremium - shopPremium;
-			Float currentEarnedAmount = receivedAmount*cosmeticShopDiscount - employeePremium - shopPremium;//按实际收到客户款数额计算的应收回款
+			Float shopPremium = Optional.ofNullable(saleClientItemSellerForDBDTO.getShopPremium()).orElse(new Float(0));
 			
+			//awardEmployeeAmount-特殊规则下给与员工的奖励
+			//employeePremium-建卡时手动填写给与员工的奖励
+			if(awardEmployeeAmount > 0l && employeePremium == 0l ){
+				employeePremium = awardEmployeeAmount.floatValue();
+			}
+			//有些美容院比如柳叶，每卖一张卡，业绩的0.01需要奖励给员工
+			if(shopPremiumDiscount > 0f && employeePremium == 0l){
+				employeePremium =  new Double(receivedAmount * shopPremiumDiscount).floatValue();
+			}
+			Float earnedAmount = createCardTotalAmount*cosmeticShopDiscount - employeePremium - shopPremium;
+			Float currentEarnedAmount = receivedAmount*cosmeticShopDiscount - employeePremium - shopPremium;//按实际收到客户款数额计算的应收回款
+
+			if(tryoutEarnedAmount > 0l){//一般来说，体验卡都会收齐费用，所以开卡需汇款和实际需回款相等，也有送体验卡的行为，此时建卡的时候不会用该体验卡，而是用赠送项目，价值为0 
+				earnedAmount = tryoutEarnedAmount.floatValue();
+				currentEarnedAmount = tryoutEarnedAmount.floatValue();
+			 }
+
 			SaleClientItemSellerDTO saleClientItemSellerDTO = new SaleClientItemSellerDTO();
 			saleClientItemSellerDTO.setBeautifySkinItemName(saleClientItemSellerForDBDTO.getBeautifySkinItemName());
 			saleClientItemSellerDTO.setClientName(saleClientItemSellerForDBDTO.getClientName());
 			saleClientItemSellerDTO.setCosmeticShopName(saleClientItemSellerForDBDTO.getCosmeticShopName());
-			saleClientItemSellerDTO.setCreateCardDate(saleClientItemSellerForDBDTO.getCreateCardDate());
+			saleClientItemSellerDTO.setCreateCardDate(createCardDate);
 			saleClientItemSellerDTO.setCreateCardTotalAmount(createCardTotalAmount);
 			saleClientItemSellerDTO.setDescription(saleClientItemSellerForDBDTO.getDescription());
 			saleClientItemSellerDTO.setDiscount((float)(Math.round(discount*100.0)/100.0));
@@ -355,7 +387,7 @@ public class SaleService {
 			saleClientItemSellerDTO.setReceivedAmount(receivedAmount);
 			saleClientItemSellerDTO.setReceivedEarnedAmount(receivedEarnedAmount);
 			saleClientItemSellerDTO.setCurrentEarnedAmount(currentEarnedAmount);
-			saleClientItemSellerDTO.setSaleId(saleClientItemSellerForDBDTO.getSaleId());
+			saleClientItemSellerDTO.setSaleId(saleId);
 			saleClientItemSellerDTO.setSellerName(saleClientItemSellerForDBDTO.getSellerName());
 			saleClientItemSellerDTO.setShopPremium(shopPremium);
 			saleClientItemSellerDTO.setUnpaidAmount(createCardTotalAmount - receivedAmount);
@@ -377,19 +409,54 @@ public class SaleService {
 			Long createCardTotalAmount =  sale.getCreateCardTotalAmount();
 			Long receivedAmount = sale.getReceivedAmount();
 			Integer itemNumber = sale.getItemNumber();
-			Long receivedEarnedAmount = sale.getReceivedEarnedAmount();//店家实际回给悦和的款
+			Long receivedEarnedAmount = sale.getReceivedEarnedAmount();//店家实际需要回给悦和的款
 			Double discount = new Double(createCardTotalAmount)/new Double(beautifySkinItemPrice * itemNumber);
+			
+			String saleId = sale.getId();
+			String createCardDate = sale.getCreateCardDate();
+			Date createCardDateObj = null;
+			try {
+				createCardDateObj = sdf.parse(createCardDate);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			//获取该销售卡所属客户所属美容院的回款规则
+			Long tryoutEarnedAmount = 0l;//体验卡回款有时候不按美容院回扣折扣点计算，比如美之然680回款280
+			Long awardEmployeeAmount = 0l;//有些店家每卖出一张体验卡，需奖励员工50或100
+			float shopPremiumDiscount = 0f;
+			ShopRefundRuleDTO shopRefundRuleDTO = getShopRefundRuleDetail(saleId, null, createCardDateObj,cosmeticShopDiscount);
+			cosmeticShopDiscount = shopRefundRuleDTO.getCosmeticShopDiscount();
+			shopPremiumDiscount = shopRefundRuleDTO.getShopPremiumDiscount();
+			awardEmployeeAmount = shopRefundRuleDTO.getAwardEmployeeAmount();
+			tryoutEarnedAmount = shopRefundRuleDTO.getTryoutEarnedAmount();
+
 			//using Optional orElse to handle null value of employeePremium and shopPremium, if null, assign 0 to it to avoid nullpointerexception
 			Float employeePremium = Optional.ofNullable(sale.getEmployeePremium()).orElse(new Float(0));
 		    Float shopPremium = Optional.ofNullable(sale.getShopPremium()).orElse(new Float(0));
-		    Float earnedAmount = createCardTotalAmount*cosmeticShopDiscount - employeePremium - shopPremium;//按开卡金额计算的应收回款
-		    Float currentEarnedAmount = receivedAmount*cosmeticShopDiscount - employeePremium - shopPremium;//按实际收到客户款数额计算的应收回款
 			
+			//awardEmployeeAmount-特殊规则下给与员工的奖励
+			//employeePremium-建卡时手动填写给与员工的奖励
+			if(awardEmployeeAmount > 0l && employeePremium == 0l ){
+				employeePremium = awardEmployeeAmount.floatValue();
+			}
+			//有些美容院比如柳叶，每卖一张卡，业绩的0.01需要奖励给员工
+			if(shopPremiumDiscount > 0f && employeePremium == 0l){
+				employeePremium =  new Double(receivedAmount * shopPremiumDiscount).floatValue();
+			}
+			Float earnedAmount = createCardTotalAmount*cosmeticShopDiscount - employeePremium - shopPremium;//按开卡金额计算的应收回款
+			Float currentEarnedAmount = receivedAmount*cosmeticShopDiscount - employeePremium - shopPremium;//按实际收到客户款数额计算的应收回款
+
+			if(tryoutEarnedAmount > 0l){//一般来说，体验卡都会收齐费用，所以开卡需汇款和实际需回款相等，也有送体验卡的行为，此时建卡的时候不会用该体验卡，而是用赠送项目，价值为0 
+				earnedAmount = tryoutEarnedAmount.floatValue();
+				currentEarnedAmount = tryoutEarnedAmount.floatValue();
+			 }
+
+
 			SaleClientItemSellerDTO saleClientItemSellerDTO = new SaleClientItemSellerDTO();
 			saleClientItemSellerDTO.setBeautifySkinItemName(sale.getBeautifySkinItem().getName());
 			saleClientItemSellerDTO.setClientName(sale.getClient().getName());
 			saleClientItemSellerDTO.setCosmeticShopName(sale.getClient().getCosmeticShop().getName());
-			saleClientItemSellerDTO.setCreateCardDate(sale.getCreateCardDate());
+			saleClientItemSellerDTO.setCreateCardDate(createCardDate);
 			saleClientItemSellerDTO.setCreateCardTotalAmount(createCardTotalAmount);
 			saleClientItemSellerDTO.setDescription(sale.getDescription());
 			saleClientItemSellerDTO.setDiscount((float)(Math.round(discount*100.0)/100.0));
@@ -399,7 +466,7 @@ public class SaleService {
 			saleClientItemSellerDTO.setReceivedAmount(receivedAmount);
 			saleClientItemSellerDTO.setCurrentEarnedAmount(currentEarnedAmount);
 			saleClientItemSellerDTO.setReceivedEarnedAmount(receivedEarnedAmount);
-			saleClientItemSellerDTO.setSaleId(sale.getId());
+			saleClientItemSellerDTO.setSaleId(saleId);
 			saleClientItemSellerDTO.setSellerName(sale.getEmployee().getName());
 			saleClientItemSellerDTO.setShopPremium(shopPremium);
 			saleClientItemSellerDTO.setUnpaidAmount(createCardTotalAmount - receivedAmount);
@@ -589,43 +656,156 @@ public class SaleService {
 		long createCardTotalAmount = salePerformanceDetailForDBDTO.getCreateCardTotalAmount();
 		long receivedAmount = salePerformanceDetailForDBDTO.getReceivedAmount();
 		long currentEarnedAmount = 0l;
-		long tryoutEarnedAmount = 0l;//体验卡回款有时候不按美容院回扣折扣点计算，比如美之然680回款280
-		long awardEmployeeAmount = 0l;//有些店家每卖出一张体验卡，需奖励员工50或100
 		long employeePremium = new Float(salePerformanceDetailForDBDTO.getEmployeePremium()).longValue();
 		long shopPremium = new Float(salePerformanceDetailForDBDTO.getShopPremium()).longValue();
-		float shopPremiumDiscount = 0f;
 		String description = salePerformanceDetailForDBDTO.getDescription();
 		SalePerformanceDetailDTO salePerformanceDetail = new SalePerformanceDetailDTO();
 		float cosmeticShopDiscount = salePerformanceDetailForDBDTO.getCosmeticShopDiscount();
 		String createCardDate = salePerformanceDetailForDBDTO.getCreateCardDate();
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
 		Date createCardDateObj = null;
 		Date startDateObj = null;
 		Date endDateObj = null;
-		Date startAdjustDateObj = null;
-		Date saleAdjustDateObj = null;
-		String saleAdjustDate = "";
-		Date endAdjustDateObj = null;
+		
+		try {
+			createCardDateObj = sdf.parse(createCardDate);
+			startDateObj = sdf.parse(startDate);
+			endDateObj = sdf.parse(endDate);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		SaleCardAmountAdjust saleCardAmountAdjust = null;
 		if(saleAdjustId != null && saleAdjustId != 0){
 			saleCardAmountAdjust = saleCardAmountAdjustService.getById(saleAdjustId);
+		}
+		//获取该销售卡所属客户所属美容院的回款规则
+		long tryoutEarnedAmount = 0l;//体验卡回款有时候不按美容院回扣折扣点计算，比如美之然680回款280
+		long awardEmployeeAmount = 0l;//有些店家每卖出一张体验卡，需奖励员工50或100
+		float shopPremiumDiscount = 0f;
+		ShopRefundRuleDTO shopRefundRuleDTO = getShopRefundRuleDetail(saleId, saleCardAmountAdjust, createCardDateObj,cosmeticShopDiscount);
+		cosmeticShopDiscount = shopRefundRuleDTO.getCosmeticShopDiscount();
+		shopPremiumDiscount = shopRefundRuleDTO.getShopPremiumDiscount();
+		awardEmployeeAmount = shopRefundRuleDTO.getAwardEmployeeAmount();
+		tryoutEarnedAmount = shopRefundRuleDTO.getTryoutEarnedAmount();
+
+		//计算开卡时的业绩，即首付款
+		SaleCardAmountAdjustTotalDTO saleCardAmountAdjustTotalDTOForCreatCardAmount = getSaleCardAmountAdjustTotalDetail("", "", saleId);
+		long createCardEmployeePremium = employeePremium-saleCardAmountAdjustTotalDTOForCreatCardAmount.getSaleCardAmountAdjustEmployeePremiumTotalAmounts();
+		long createCardShopPremium = shopPremium-saleCardAmountAdjustTotalDTOForCreatCardAmount.getSaleCardAmountAdjustShopPremiumTotalAmounts();
+		long createCardReceivedAmount = receivedAmount-saleCardAmountAdjustTotalDTOForCreatCardAmount.getSaleCardAmountAdjustTotalAmounts();
+
+		
+		//如果有日期刷选，则需计算某个时间段内所有的开卡时业绩和补退款业绩，存在这个时间段内补退款但是在这个时间段外开卡的情况
+		//所以需要把开卡时的业绩按照开卡日期，还有补退款时的业绩按照调整日期分别计算
+		//如果开卡日期在开始日期和结束日期之间,则应把开卡时的业绩手动加入
+		//如果没有日期刷选，则不做任何改动，目前的收款信息即为正确信息，因为每次调整销售卡都会自动更新原销售卡收款信息
+		SaleCardAmountAdjustTotalDTO saleCardAmountAdjustTotalDTO = getSaleCardAmountAdjustTotalDetail(startDate, endDate, saleId);
+	
+		
+			//此处开始做日期刷选
+			// if(!(StringUtils.isEmpty(startDate) && StringUtils.isEmpty(endDate))){
+				if(createCardDateObj.after(startDateObj) && createCardDateObj.before(endDateObj) ){
+					if(saleAdjustId == null){//计算单个销售卡某个时间段内的汇总业绩
+						//两种情况，1.销售卡没有补退款，则首付款开卡实收全齐，补退款为0,
+						// 2.销售卡有补退款，实收业绩=开卡业绩+退补款业绩
+						//日期刷选后只会显示在日期区间之内的业绩(无论是开卡业绩还是补退款业绩)
+						//此处为开卡日期处于刷选日期区间内，其业绩包括开卡业绩和日期区间内的补退款业绩
+						receivedAmount = createCardReceivedAmount + saleCardAmountAdjustTotalDTO.getSaleCardAmountAdjustTotalAmounts();
+						employeePremium = createCardEmployeePremium + saleCardAmountAdjustTotalDTO.getSaleCardAmountAdjustEmployeePremiumTotalAmounts();
+						shopPremium = createCardShopPremium + saleCardAmountAdjustTotalDTO.getSaleCardAmountAdjustShopPremiumTotalAmounts();
+
+					}else if(saleAdjustId == 0l){//计算单个客户的所有销售卡的汇总业绩时，某张带有退补款的销售卡开卡时的业绩
+						//即会显示成开卡业绩，后面紧跟所有的退补款业绩
+						receivedAmount = createCardReceivedAmount;
+						employeePremium = createCardEmployeePremium;
+						shopPremium = createCardShopPremium;
+					}else{
+						SaleCardAmountAdjustDTO saleCardAmountAdjustDTO = getSaleCardAmountAdjustDetail(startDate, endDate, saleCardAmountAdjust);
+						createCardTotalAmount = saleCardAmountAdjustDTO.getCreateCardTotalAmount();
+						receivedAmount = saleCardAmountAdjustDTO.getReceivedAmount();
+						employeePremium = saleCardAmountAdjustDTO.getEmployeePremium();
+						shopPremium = saleCardAmountAdjustDTO.getShopPremium();
+						createCardDate = saleCardAmountAdjustDTO.getAdjustDate();
+						description = saleCardAmountAdjustDTO.getDescription();
+
+					}
+
+				}else{//计算销售卡补退款时产生的业绩
+					SaleCardAmountAdjustDTO saleCardAmountAdjustDTO = getSaleCardAmountAdjustDetail(startDate, endDate, saleCardAmountAdjust);
+					createCardTotalAmount = saleCardAmountAdjustDTO.getCreateCardTotalAmount();
+					receivedAmount = saleCardAmountAdjustDTO.getReceivedAmount();
+					employeePremium = saleCardAmountAdjustDTO.getEmployeePremium();
+					shopPremium = saleCardAmountAdjustDTO.getShopPremium();
+					createCardDate = saleCardAmountAdjustDTO.getAdjustDate();
+					description = saleCardAmountAdjustDTO.getDescription();
+				}
+
+	
+			// } 
+		
+
+		//awardEmployeeAmount-特殊规则下给与员工的奖励
+		//employeePremium-建卡时手动填写给与员工的奖励
+		if(awardEmployeeAmount > 0l && employeePremium == 0l ){
+			employeePremium = awardEmployeeAmount;
+		}
+		//有些美容院比如柳叶，每卖一张卡，业绩的0.01需要奖励给员工
+		if(shopPremiumDiscount > 0f && employeePremium == 0l){
+			employeePremium =  new Double(receivedAmount * shopPremiumDiscount).longValue();
+		}
+		currentEarnedAmount = new Double(receivedAmount*cosmeticShopDiscount).longValue() - employeePremium - shopPremium;//目前收到客户款应回款
+		//  String saleId = salePerformanceDetailForDBDTO.getSaleId();
+		 String beautifySkinItemName = salePerformanceDetailForDBDTO.getBeautifySkinItemName();
+		 int itemNumber = salePerformanceDetailForDBDTO.getItemNumber();
+		 long debtAmount = createCardTotalAmount - receivedAmount;
+		 long earnedAmount = new Double(createCardTotalAmount*cosmeticShopDiscount).longValue() - employeePremium - shopPremium;
+		 long debtEarnedAmount = earnedAmount - currentEarnedAmount;
+
+		 if(tryoutEarnedAmount > 0l){//一般来说，体验卡都会收齐费用，所以开卡需汇款和实际需回款相等，也有送体验卡的行为，此时建卡的时候不会用该体验卡，而是用赠送项目，价值为0 
+			earnedAmount = tryoutEarnedAmount;
+			currentEarnedAmount = tryoutEarnedAmount;
+			debtEarnedAmount = 0l;
+		 }
+
+		 salePerformanceDetail.setSaleId(saleId);
+		 salePerformanceDetail.setCreateCardDate(createCardDate);
+		 salePerformanceDetail.setBeautifySkinItemName(beautifySkinItemName);
+		 salePerformanceDetail.setCreateCardTotalAmount(createCardTotalAmount);
+		 salePerformanceDetail.setReceivedAmount(receivedAmount);
+		 salePerformanceDetail.setDebtAmount(debtAmount);
+		 salePerformanceDetail.setEarnedAmount(earnedAmount);//开卡应收回款，即根据开卡金额及相关规则应该回的款
+		 salePerformanceDetail.setCurrentEarnedAmount(currentEarnedAmount);//实需回款，根据实际收到的客户的款计算的回款，并不是实际回给悦和的款，是需要回给悦和的款
+		 salePerformanceDetail.setDebtEarnedAmount(debtEarnedAmount);
+		 salePerformanceDetail.setItemNumber(itemNumber);
+		 salePerformanceDetail.setCosmeticShopDiscount(cosmeticShopDiscount);
+		 salePerformanceDetail.setEmployeePremium(employeePremium);
+		 salePerformanceDetail.setShopPremium(shopPremium);
+		 salePerformanceDetail.setDescription(description);
+		 return salePerformanceDetail;
+	 }
+	 private ShopRefundRuleDTO getShopRefundRuleDetail(String saleId, SaleCardAmountAdjust saleCardAmountAdjust, Date createCardDateObj, float cosmeticShopDiscount){
+		 
+		long tryoutEarnedAmount = 0l;//体验卡回款有时候不按美容院回扣折扣点计算，比如美之然680回款280
+		long awardEmployeeAmount = 0l;//有些店家每卖出一张体验卡，需奖励员工50或100
+		float shopPremiumDiscount = 0f;
+		Date startAdjustDateObj = null;
+		Date saleAdjustDateObj = null;
+		Date endAdjustDateObj = null;
+		String saleAdjustDate = "";
+		//获取该销售卡所属客户所属美容院的回款规则
+		Sale sale = getById(saleId);
+		if(saleCardAmountAdjust != null){
 			saleAdjustDate = saleCardAmountAdjust.getAdjustDate();
 		}
 		
 		try {
-			createCardDateObj = sdf.parse(createCardDate);
 			if(saleAdjustDate != "")
 				saleAdjustDateObj = sdf.parse(saleAdjustDate);
-			startDateObj = sdf.parse(startDate);
-			endDateObj = sdf.parse(endDate);
 			startAdjustDateObj = sdf.parse("2016-01-01");
 			endAdjustDateObj = sdf.parse(LocalDate.now().toString());
 			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		//获取该销售卡所属客户所属美容院的回款规则
-		Sale sale = getById(saleId);
 		String cosmeticShopId = sale.getClient().getCosmeticShop().getId();
 		List<ShopRefundRule> shopRefundRuleList = shopRefundRuleService.getByShopId(cosmeticShopId);
 		List<ShopRefundRule> changeDiscountList = new ArrayList<ShopRefundRule>();
@@ -684,99 +864,12 @@ public class SaleService {
 			}
 			
 		}
-
-		//计算开卡时的业绩，即首付款
-		SaleCardAmountAdjustTotalDTO saleCardAmountAdjustTotalDTOForCreatCardAmount = getSaleCardAmountAdjustTotalDetail("", "", saleId);
-		long createCardEmployeePremium = employeePremium-saleCardAmountAdjustTotalDTOForCreatCardAmount.getSaleCardAmountAdjustEmployeePremiumTotalAmounts();
-		long createCardShopPremium = shopPremium-saleCardAmountAdjustTotalDTOForCreatCardAmount.getSaleCardAmountAdjustShopPremiumTotalAmounts();
-		long createCardReceivedAmount = receivedAmount-saleCardAmountAdjustTotalDTOForCreatCardAmount.getSaleCardAmountAdjustTotalAmounts();
-
-		
-		//如果有日期刷选，则需计算某个时间段内所有的开卡时业绩和补退款业绩，存在这个时间段内补退款但是在这个时间段外开卡的情况
-		//所以需要把开卡时的业绩按照开卡日期，还有补退款时的业绩按照调整日期分别计算
-		//如果开卡日期在开始日期和结束日期之间,则应把开卡时的业绩手动加入
-		//如果没有日期刷选，则不做任何改动，目前的收款信息即为正确信息，因为每次调整销售卡都会自动更新原销售卡收款信息
-		SaleCardAmountAdjustTotalDTO saleCardAmountAdjustTotalDTO = getSaleCardAmountAdjustTotalDetail(startDate, endDate, saleId);
-	
-		
-			//此处开始做日期刷选
-			// if(!(StringUtils.isEmpty(startDate) && StringUtils.isEmpty(endDate))){
-				if(createCardDateObj.after(startDateObj) && createCardDateObj.before(endDateObj) ){
-					if(saleAdjustId == null){//计算单个销售卡某个时间段内的汇总业绩
-						//两种情况，1.销售卡没有补退款，则首付款开卡实收全齐，补退款为0,
-						// 2.销售卡有补退款，实收业绩=开卡业绩+退补款业绩
-						//日期刷选后只会显示在日期区间之内的业绩(无论是开卡业绩还是补退款业绩)
-						//此处为开卡日期处于刷选日期区间内，其业绩包括开卡业绩和日期区间内的补退款业绩
-						receivedAmount = createCardReceivedAmount + saleCardAmountAdjustTotalDTO.getSaleCardAmountAdjustTotalAmounts();
-						employeePremium = createCardEmployeePremium + saleCardAmountAdjustTotalDTO.getSaleCardAmountAdjustEmployeePremiumTotalAmounts();
-						shopPremium = createCardShopPremium + saleCardAmountAdjustTotalDTO.getSaleCardAmountAdjustShopPremiumTotalAmounts();
-
-					}else if(saleAdjustId == 0l){//计算单个客户的所有销售卡的汇总业绩时，某张带有退补款的销售卡开卡时的业绩
-						//即会显示成开卡业绩，后面紧跟所有的退补款业绩
-						receivedAmount = createCardReceivedAmount;
-						employeePremium = createCardEmployeePremium;
-						shopPremium = createCardShopPremium;
-					}else{
-						SaleCardAmountAdjustDTO saleCardAmountAdjustDTO = getSaleCardAmountAdjustDetail(startDate, endDate, saleCardAmountAdjust);
-						createCardTotalAmount = saleCardAmountAdjustDTO.getCreateCardTotalAmount();
-						receivedAmount = saleCardAmountAdjustDTO.getReceivedAmount();
-						employeePremium = saleCardAmountAdjustDTO.getEmployeePremium();
-						shopPremium = saleCardAmountAdjustDTO.getShopPremium();
-						createCardDate = saleCardAmountAdjustDTO.getAdjustDate();
-						description = saleCardAmountAdjustDTO.getDescription();
-
-					}
-
-				}else{//计算销售卡补退款时产生的业绩
-					SaleCardAmountAdjustDTO saleCardAmountAdjustDTO = getSaleCardAmountAdjustDetail(startDate, endDate, saleCardAmountAdjust);
-					createCardTotalAmount = saleCardAmountAdjustDTO.getCreateCardTotalAmount();
-					receivedAmount = saleCardAmountAdjustDTO.getReceivedAmount();
-					employeePremium = saleCardAmountAdjustDTO.getEmployeePremium();
-					shopPremium = saleCardAmountAdjustDTO.getShopPremium();
-					createCardDate = saleCardAmountAdjustDTO.getAdjustDate();
-					description = saleCardAmountAdjustDTO.getDescription();
-				}
-
-	
-			// } 
-		
-		
-		currentEarnedAmount = new Double(receivedAmount*cosmeticShopDiscount).longValue() - employeePremium - shopPremium-awardEmployeeAmount;//目前收到客户款应回款
-		//  String saleId = salePerformanceDetailForDBDTO.getSaleId();
-		 String beautifySkinItemName = salePerformanceDetailForDBDTO.getBeautifySkinItemName();
-		 int itemNumber = salePerformanceDetailForDBDTO.getItemNumber();
-		 long debtAmount = createCardTotalAmount - receivedAmount;
-		 long earnedAmount = new Double(createCardTotalAmount*cosmeticShopDiscount).longValue() - employeePremium - shopPremium;
-		 long debtEarnedAmount = earnedAmount - currentEarnedAmount;
-		 if(tryoutEarnedAmount > 0l){//一般来说，体验卡都会收齐费用，所以开卡需汇款和实际需回款相等，也有送体验卡的行为，此时建卡的时候不会用该体验卡，而是用赠送项目，价值为0 
-			earnedAmount = tryoutEarnedAmount;
-			currentEarnedAmount = tryoutEarnedAmount;
-			debtEarnedAmount = 0l;
-		 }
-		 //awardEmployeeAmount-特殊规则下给与员工的奖励
-		 //employeePremium-建卡时手动填写给与员工的奖励
-		 if(awardEmployeeAmount > 0l && employeePremium == 0l ){
-			employeePremium = awardEmployeeAmount;
-		 }
-		 //有些美容院比如柳叶，每卖一张卡，业绩的0.01需要奖励给员工
-		 if(shopPremiumDiscount > 0f && shopPremium == 0l){
-			shopPremium =  new Double(receivedAmount * shopPremiumDiscount).longValue();
-		 }
-		 salePerformanceDetail.setSaleId(saleId);
-		 salePerformanceDetail.setCreateCardDate(createCardDate);
-		 salePerformanceDetail.setBeautifySkinItemName(beautifySkinItemName);
-		 salePerformanceDetail.setCreateCardTotalAmount(createCardTotalAmount);
-		 salePerformanceDetail.setReceivedAmount(receivedAmount);
-		 salePerformanceDetail.setDebtAmount(debtAmount);
-		 salePerformanceDetail.setEarnedAmount(earnedAmount);//开卡应收回款，即根据开卡金额及相关规则应该回的款
-		 salePerformanceDetail.setCurrentEarnedAmount(currentEarnedAmount);//实需回款，根据实际收到的客户的款计算的回款，并不是实际回给悦和的款，是需要回给悦和的款
-		 salePerformanceDetail.setDebtEarnedAmount(debtEarnedAmount);
-		 salePerformanceDetail.setItemNumber(itemNumber);
-		 salePerformanceDetail.setCosmeticShopDiscount(cosmeticShopDiscount);
-		 salePerformanceDetail.setEmployeePremium(employeePremium);
-		 salePerformanceDetail.setShopPremium(shopPremium);
-		 salePerformanceDetail.setDescription(description);
-		 return salePerformanceDetail;
+		ShopRefundRuleDTO shopRefundRuleDTO = new ShopRefundRuleDTO();
+		shopRefundRuleDTO.setAwardEmployeeAmount(awardEmployeeAmount);
+		shopRefundRuleDTO.setCosmeticShopDiscount(cosmeticShopDiscount);
+		shopRefundRuleDTO.setShopPremiumDiscount(shopPremiumDiscount);
+		shopRefundRuleDTO.setTryoutEarnedAmount(tryoutEarnedAmount);
+		return shopRefundRuleDTO;
 	 }
 
 	 private SaleCardAmountAdjustTotalDTO getSaleCardAmountAdjustTotalDetail(String startDate, String endDate, String saleId){
