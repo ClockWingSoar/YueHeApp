@@ -395,6 +395,7 @@ public class OperationService {
 	public List<SaleDetailDTO> getAllSalesDetailByClientId(String clientId, String startDate, String endDate) {
 		List<SaleDetailDTO> saleDetailDTOList = new ArrayList<SaleDetailDTO>();
 		List<SaleBeautifySkinItemForFilterDTO> saleListByClient = saleService.getByClientId(clientId);
+		Collections.sort(saleListByClient,SaleBeautifySkinItemForFilterDTO.saleIdComparator);
 		for (SaleBeautifySkinItemForFilterDTO saleBeautifySkinItemForFilterDTO : saleListByClient) {
 			String saleId = saleBeautifySkinItemForFilterDTO.getSaleId();
 			SaleDetailDTO saleDetailDTO = getSaleBasicDetailById(saleId, startDate, endDate);

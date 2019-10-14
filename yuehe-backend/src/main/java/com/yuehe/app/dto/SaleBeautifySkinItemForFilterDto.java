@@ -1,5 +1,7 @@
 package com.yuehe.app.dto;
 
+import java.util.Comparator;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -19,6 +21,7 @@ public class SaleBeautifySkinItemForFilterDTO {
 	private String saleId;
 	private String beautifySkinItemName;
 	private String createCardDate;
+	public static Comparator<SaleBeautifySkinItemForFilterDTO> saleIdComparator = Comparator.comparing(SaleBeautifySkinItemForFilterDTO::getSaleId);
 	
 
 }

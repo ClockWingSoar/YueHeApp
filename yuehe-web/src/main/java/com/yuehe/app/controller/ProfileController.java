@@ -2,11 +2,13 @@ package com.yuehe.app.controller;
 
 import java.util.List;
 
+import com.yuehe.app.common.FilterDateModel;
 import com.yuehe.app.dto.ProfileDetailDTO;
 import com.yuehe.app.entity.CosmeticShop;
 import com.yuehe.app.service.ClientService;
 import com.yuehe.app.service.ProfileService;
 import com.yuehe.app.service.YueHeCommonService;
+import com.yuehe.app.util.ServiceUtil;
 
 //import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -30,6 +32,7 @@ public class ProfileController {
 
 	private final static Logger LOGGER = LoggerFactory.getLogger(ProfileController.class);
 
+	private FilterDateModel filterDateModel = new FilterDateModel();
 	// private CosmeticShop cosmeticShop;
 	@Autowired
 	private final ProfileService profileService;
@@ -55,7 +58,14 @@ public class ProfileController {
 	@RequestMapping(value = "/getProfileDetail", method = RequestMethod.GET)
 	public @ResponseBody ProfileDetailDTO getProfileByClientId(
 			@RequestParam(value = "clientId", required = true) String clientId) {
-		ProfileDetailDTO profileDetailDTO = profileService.getProfileByClientId(clientId,null,null);
+		//to get all the sale and it's operation detail, has to use the default date range wich is from 2016-01-01 till today
+		String startDate = "";
+		String endDate = "";
+		filterDateModel = new FilterDateModel(startDate, endDate);
+		ServiceUtil.initializeFilterDate(filterDateModel);
+		startDate = filterDateModel.getStartDate();
+		endDate = filterDateModel.getEndDate();
+		ProfileDetailDTO profileDetailDTO = profileService.getProfileByClientId(clientId,startDate,endDate);
 		System.out.println(profileDetailDTO);
 		LOGGER.info("ProfileDetailDTO{}",profileDetailDTO);
 		return profileDetailDTO;

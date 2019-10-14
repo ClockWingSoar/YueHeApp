@@ -8,14 +8,14 @@ function getClientProfile(clientId){
 		var html = '';
 		var len = data.clientAllSalesPerformanceDetailDTO.salePerformanceDetailDTOs.length; 
 		for ( var i = 0; i < len; i++) {
-			html = html+'<tr  class="clickable-row"><td>' +data.clientAllSalesPerformanceDetailDTO.salePerformanceDetailDTOs[i].saleId+'</td>'
+			html = html+'<tr  class="clickable-row"><td>' +data.clientDetailDTO.saleDetailDTOs[i].saleId+'</td>'
 			+'<td>'+data.clientDetailDTO.saleDetailDTOs[i].beautifySkinItemName+'</td>'
-			+'<td>'+data.clientDetailDTO.saleDetailDTOs[i].createCardDate+'</td>'
+			+'<td>'+data.clientAllSalesPerformanceDetailDTO.salePerformanceDetailDTOs[i].createCardDate+'</td>'
 			+'<td>'+data.clientAllSalesPerformanceDetailDTO.salePerformanceDetailDTOs[i].createCardTotalAmount+'</td>'
 			+'<td>'+data.clientAllSalesPerformanceDetailDTO.salePerformanceDetailDTOs[i].receivedAmount+'</td>'
 			+'<td>'+data.clientAllSalesPerformanceDetailDTO.salePerformanceDetailDTOs[i].debtAmount+'</td>'
 			+'<td>'+data.clientAllSalesPerformanceDetailDTO.salePerformanceDetailDTOs[i].earnedAmount+'</td>'
-			+'<td>'+data.clientAllSalesPerformanceDetailDTO.salePerformanceDetailDTOs[i].receivedEarnedAmount+'</td>'
+			+'<td>'+data.clientAllSalesPerformanceDetailDTO.salePerformanceDetailDTOs[i].currentEarnedAmount+'</td>'
 			+'<td>'+data.clientAllSalesPerformanceDetailDTO.salePerformanceDetailDTOs[i].debtEarnedAmount+'</td>'
 			+'<td>'+data.clientDetailDTO.saleDetailDTOs[i].itemNumber+'</td>'
 			+'<td>'+data.clientDetailDTO.saleDetailDTOs[i].restItemNumber+'</td>'
@@ -23,7 +23,8 @@ function getClientProfile(clientId){
 			+'<td>'+data.clientDetailDTO.saleDetailDTOs[i].consumedEarnedAmount+'</td>'
 			+'<td>'+data.clientDetailDTO.saleDetailDTOs[i].advancedEarnedAmount+'</td>'
 			+'<td>'+data.clientAllSalesPerformanceDetailDTO.salePerformanceDetailDTOs[i].employeePremium+'</td>'
-			+'<td>'+data.clientAllSalesPerformanceDetailDTO.salePerformanceDetailDTOs[i].shopPremium+'</td></tr>';
+			+'<td>'+data.clientAllSalesPerformanceDetailDTO.salePerformanceDetailDTOs[i].shopPremium+'</td>'
+			+'<td>'+data.clientAllSalesPerformanceDetailDTO.salePerformanceDetailDTOs[i].description+'</td></tr>';
 			
 		}
 		$('#sale_detail_table_body').html(html);
@@ -32,7 +33,7 @@ function getClientProfile(clientId){
 		$('#received_amount').html(data.clientAllSalesPerformanceDetailDTO.allSalesReceivedAmount);
 		$('#debt_amount').html(data.clientAllSalesPerformanceDetailDTO.allSalesDebtAmount);
 		$('#earned_amount').html(data.clientAllSalesPerformanceDetailDTO.allSalesEarnedAmount);
-		$('#received_earned_amount').html(data.clientAllSalesPerformanceDetailDTO.allSalesReceivedEarnedAmount);
+		$('#current_received_earned_amount').html(data.clientAllSalesPerformanceDetailDTO.allSalesCurrentEarnedAmount);
 		$('#debt_earned_amount').html(data.clientAllSalesPerformanceDetailDTO.allSalesDebtEarnedAmount);
 		$('#consumed_amount').html(data.clientDetailDTO.allSalesConsumedAmount);
 		$('#consumed_earned_amount').html(data.clientDetailDTO.allSalesConsumedEarnedAmount);
