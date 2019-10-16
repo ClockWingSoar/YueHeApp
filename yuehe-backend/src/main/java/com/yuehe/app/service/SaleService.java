@@ -346,7 +346,10 @@ public class SaleService {
 			//获取该销售卡所属客户所属美容院的回款规则
 			Long tryoutEarnedAmount = 0l;//体验卡回款有时候不按美容院回扣折扣点计算，比如美之然680回款280
 			ShopRefundRuleDTO shopRefundRuleDTO = getShopRefundRuleDetail(saleId, createCardDateObj);
-			cosmeticShopDiscount = shopRefundRuleDTO.getCosmeticShopDiscount();
+			//如果有折扣更改，则用更改的折扣点，否则继续原有的折扣
+			float cosmeticShopDiscountChangedValue = shopRefundRuleDTO.getCosmeticShopDiscount();
+			if(cosmeticShopDiscountChangedValue > 0f)
+				cosmeticShopDiscount = shopRefundRuleDTO.getCosmeticShopDiscount();
 			tryoutEarnedAmount = shopRefundRuleDTO.getTryoutEarnedAmount();
 
 			Float shopPremium = Optional.ofNullable(saleClientItemSellerForDBDTO.getShopPremium()).orElse(new Float(0));
@@ -375,13 +378,13 @@ public class SaleService {
 			saleClientItemSellerDTO.setEmployeePremium(employeePremium);
 			saleClientItemSellerDTO.setItemNumber(itemNumber);
 			saleClientItemSellerDTO.setReceivedAmount(receivedAmount);
-			saleClientItemSellerDTO.setReceivedEarnedAmount(receivedEarnedAmount);
+			saleClientItemSellerDTO.setReceivedEarnedAmount(currentEarnedAmount.longValue());
 			saleClientItemSellerDTO.setCurrentEarnedAmount(currentEarnedAmount);
 			saleClientItemSellerDTO.setSaleId(saleId);
 			saleClientItemSellerDTO.setSellerName(saleClientItemSellerForDBDTO.getSellerName());
 			saleClientItemSellerDTO.setShopPremium(shopPremium);
 			saleClientItemSellerDTO.setUnpaidAmount(createCardTotalAmount - receivedAmount);
-			saleClientItemSellerDTO.setUnpaidEarnedAmount(earnedAmount - receivedEarnedAmount);
+			saleClientItemSellerDTO.setUnpaidEarnedAmount(earnedAmount - currentEarnedAmount);
 			
 			saleClientItemSellerDTOList.add(saleClientItemSellerDTO);
 		}
@@ -413,7 +416,10 @@ public class SaleService {
 			//获取该销售卡所属客户所属美容院的回款规则
 			Long tryoutEarnedAmount = 0l;//体验卡回款有时候不按美容院回扣折扣点计算，比如美之然680回款280
 			ShopRefundRuleDTO shopRefundRuleDTO = getShopRefundRuleDetail(saleId, createCardDateObj);
-			cosmeticShopDiscount = shopRefundRuleDTO.getCosmeticShopDiscount();
+			//如果有折扣更改，则用更改的折扣点，否则继续原有的折扣
+			float cosmeticShopDiscountChangedValue = shopRefundRuleDTO.getCosmeticShopDiscount();
+			if(cosmeticShopDiscountChangedValue > 0f)
+				cosmeticShopDiscount = shopRefundRuleDTO.getCosmeticShopDiscount();
 			tryoutEarnedAmount = shopRefundRuleDTO.getTryoutEarnedAmount();
 
 			//using Optional orElse to handle null value of employeePremium and shopPremium, if null, assign 0 to it to avoid nullpointerexception
@@ -445,12 +451,12 @@ public class SaleService {
 			saleClientItemSellerDTO.setItemNumber(itemNumber);
 			saleClientItemSellerDTO.setReceivedAmount(receivedAmount);
 			saleClientItemSellerDTO.setCurrentEarnedAmount(currentEarnedAmount);
-			saleClientItemSellerDTO.setReceivedEarnedAmount(receivedEarnedAmount);
+			saleClientItemSellerDTO.setReceivedEarnedAmount(currentEarnedAmount.longValue());
 			saleClientItemSellerDTO.setSaleId(saleId);
 			saleClientItemSellerDTO.setSellerName(sale.getEmployee().getName());
 			saleClientItemSellerDTO.setShopPremium(shopPremium);
 			saleClientItemSellerDTO.setUnpaidAmount(createCardTotalAmount - receivedAmount);
-			saleClientItemSellerDTO.setUnpaidEarnedAmount(earnedAmount - receivedEarnedAmount);
+			saleClientItemSellerDTO.setUnpaidEarnedAmount(earnedAmount - currentEarnedAmount);
 			
 			saleClientItemSellerDTOList.add(saleClientItemSellerDTO);
 		}
@@ -660,7 +666,10 @@ public class SaleService {
 		//获取该销售卡所属客户所属美容院的回款规则
 		long tryoutEarnedAmount = 0l;//体验卡回款有时候不按美容院回扣折扣点计算，比如美之然680回款280
 		ShopRefundRuleDTO shopRefundRuleDTO = getShopRefundRuleDetail(saleId, createCardDateObj);
-		cosmeticShopDiscount = shopRefundRuleDTO.getCosmeticShopDiscount();
+		//如果有折扣更改，则用更改的折扣点，否则继续原有的折扣
+		float cosmeticShopDiscountChangedValue = shopRefundRuleDTO.getCosmeticShopDiscount();
+		if(cosmeticShopDiscountChangedValue > 0f)
+			cosmeticShopDiscount = shopRefundRuleDTO.getCosmeticShopDiscount();
 		tryoutEarnedAmount = shopRefundRuleDTO.getTryoutEarnedAmount();
 
 		//计算开卡时的业绩，即首付款
@@ -718,7 +727,7 @@ public class SaleService {
 	
 			// } 
 		
-		Float origEmployeePremium = employeePremium.floatValue();
+		Float origEmployeePremium = 0f;//标识区别于开卡时手动输入的员工奖励
 		employeePremium = getEmployeePremium(origEmployeePremium,  receivedAmount,  shopRefundRuleDTO).longValue();
 		
 		currentEarnedAmount = new Double(receivedAmount*cosmeticShopDiscount).longValue() - employeePremium - shopPremium;//目前收到客户款应回款
