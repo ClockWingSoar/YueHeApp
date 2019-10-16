@@ -153,11 +153,11 @@ function filterTable(table, filter, index) {
               },
               employeePremium: {
                   number: true,
-                  min: 0
+                  // min: 0
               },
               shopPremium: {
                   number: true,
-                  min: 0
+                  // min: 0
               },
               seller: {
                   required: true
@@ -200,11 +200,11 @@ function filterTable(table, filter, index) {
                 number: "仅允许输入数字,禁止输入字母或空格"
               },
               employeePremium: {
-                min: "奖励应该大于等于0",
+                // min: "奖励应该大于等于0",
                 number: "仅允许输入数字,禁止输入字母或空格"
               },
               shopPremium: {
-                min: "奖励应该大于等于0",
+                // min: "奖励应该大于等于0",
                 number: "仅允许输入数字,禁止输入字母或空格"
               },
               seller: {

@@ -98,13 +98,13 @@ public class Sale implements Serializable {
 	private Float employeePremium;
 
 	@Column(name = "shop_premium")
-	@PositiveOrZero
+	// @PositiveOrZero
 	private Float shopPremium;
 
 	@Column(name = "create_card_date")
 	@NotBlank(message = "请选择开卡日期")
 	private String createCardDate;
-	@Size(min = 0, max = 250)
+	// @Size(min = 0, max = 1050)
 	private String description;
 	/**
 	 * use it to get the biggest id column of table sale 

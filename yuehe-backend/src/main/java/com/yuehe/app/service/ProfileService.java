@@ -118,7 +118,7 @@ public class ProfileService {
 		float employeePremium = 0f;
 		float shopPremium = 0f;
 		String createCardDate ="2016-01-01";
-		StringBuilder description = new StringBuilder("该销售卡存在补退款:");
+		StringBuilder description = new StringBuilder("该销售卡存在补退款:{");
 		Iterator<SalePerformanceDetailDTO> saleWithSaleAdjustPerformanceDetailDTOSetIterator = saleWithSaleAdjustPerformanceDetailDTOSet.iterator();
 		while(saleWithSaleAdjustPerformanceDetailDTOSetIterator.hasNext()){
 			SalePerformanceDetailDTO salePerformanceDetailDTO = saleWithSaleAdjustPerformanceDetailDTOSetIterator.next();
@@ -137,8 +137,9 @@ public class ProfileService {
 			employeePremium += salePerformanceDetailDTO.getEmployeePremium();
 			shopPremium += salePerformanceDetailDTO.getShopPremium();
 			description.append("{").append(createCardDateOrSaleAdjustDate).append(":")
-			.append(salePerformanceDetailDTO.getDescription()).append("||");
+			.append(salePerformanceDetailDTO.getDescription()).append("},");
 		}
+		description.append("}");
 		saleHasSaleAdjustmentPerformanceDTO.setCreateCardTotalAmount(createCardTotalAmount);
 		saleHasSaleAdjustmentPerformanceDTO.setCurrentEarnedAmount(currentEarnedAmount);
 		saleHasSaleAdjustmentPerformanceDTO.setDebtAmount(debtAmount);

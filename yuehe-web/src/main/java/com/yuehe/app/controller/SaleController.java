@@ -19,8 +19,10 @@ import com.yuehe.app.dto.DutyEmployeeRoleDTO;
 import com.yuehe.app.dto.SaleClientItemSellerForDBDTO;
 import com.yuehe.app.dto.SalePerformanceDetailDTO;
 import com.yuehe.app.dto.ShopAllSalesPerformanceDetailDTO;
+import com.yuehe.app.dto.ShopRefundRuleDTO;
 import com.yuehe.app.dto.YueHeAllSalesPerformanceDetailDTO;
 import com.yuehe.app.entity.BeautifySkinItem;
+import com.yuehe.app.entity.Client;
 import com.yuehe.app.entity.CosmeticShop;
 import com.yuehe.app.entity.Sale;
 import com.yuehe.app.property.BaseProperty;
@@ -235,6 +237,20 @@ public class SaleController {
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
+		Client client = yueHeCommonService.getClientById(sale.getClient().getId());
+		String cosmeticShopId = client.getCosmeticShop().getId();
+		BeautifySkinItem beautifySkinItem = yueHeCommonService.getBeautifySkinItemById(sale.getBeautifySkinItem().getId());
+		int beautifySkinItemPrice = beautifySkinItem.getPrice();
+		Date createCardDateObj = null;
+		String createCardDate = sale.getCreateCardDate();
+		try {
+			createCardDateObj = simpleDateFormat.parse(createCardDate);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		long receivedAmount = sale.getReceivedAmount();
+		Float employeePremium = getEmployeePremium(cosmeticShopId, beautifySkinItemPrice, createCardDateObj, sale.getEmployeePremium(), receivedAmount);
+		sale.setEmployeePremium(employeePremium);
 		if (sale != null) {
 			LOGGER.info("updated {}", saleService.create(sale));
 		}
@@ -317,14 +333,20 @@ public class SaleController {
 			@RequestParam(name = "description", required = false) String description, RedirectAttributes attr) {
 		String id = getSaleId();
 		Sale sale = new Sale();
+		Client client = yueHeCommonService.getClientById(clientId);
+		String cosmeticShopId = client.getCosmeticShop().getId();
+		BeautifySkinItem beautifySkinItem = yueHeCommonService.getBeautifySkinItemById(beautifySkinItemId);
+		int beautifySkinItemPrice = beautifySkinItem.getPrice();
+		employeePremium = getEmployeePremium(cosmeticShopId, beautifySkinItemPrice, createCardDate, employeePremium, receivedAmount);
 		sale.setId(id);
-		sale.setClient(yueHeCommonService.getClientById(clientId));
+		sale.setClient(client);
 		sale.setEmployee(yueHeCommonService.getEmployeeById(sellerId));
-		sale.setBeautifySkinItem(yueHeCommonService.getBeautifySkinItemById(beautifySkinItemId));
+		sale.setBeautifySkinItem(beautifySkinItem);
 		sale.setItemNumber(itemNumber);
 		sale.setCreateCardTotalAmount(createCardTotalAmount);
 		sale.setReceivedAmount(receivedAmount);
 		sale.setReceivedEarnedAmount(receivedEarnedAmount);
+
 		sale.setEmployeePremium(employeePremium);
 		sale.setShopPremium(shopPremium);
 		sale.setCreateCardDate(simpleDateFormat.format(createCardDate));
@@ -336,6 +358,12 @@ public class SaleController {
 		}
 		attr.addFlashAttribute("message", "销售卡-" + id + " 创建成功");
 		return "redirect:/sale/edit/"+id;
+	}
+	private Float getEmployeePremium(String cosmeticShopId, int beautifySkinItemPrice,
+												Date createCardDate, float origEmployeePremium, long receivedAmount){
+		ShopRefundRuleDTO shopRefundRuleDTO = saleService.getShopRefundRuleDetail(cosmeticShopId,beautifySkinItemPrice,createCardDate);
+		Float employeePremium = saleService.getEmployeePremium(origEmployeePremium,  receivedAmount,  shopRefundRuleDTO);
+		return employeePremium;
 	}
 	private String getSaleId(){
 		int idNums = saleService.getBiggestIdNumber();
