@@ -1,6 +1,7 @@
 
 $(function ($) {
 	$(document).ready(function($) {
+		$( "#adjustDate" ).datepicker();
 		$('form[id="saleCardAmountAdjust_edit_item"]').validate(saleCardAmountAdjustValidator);
 		$('#saleCardAmountAdjust_delete_btn').click(function(){
 			var actionPage = "/saleCardAmountAdjust/delete/"+$('#id').val();

@@ -35,6 +35,7 @@ public interface BaseProperty {
     public static final String REFUND_TYPE_AWARD_EMPLOYEE_PER_SALE = "awardEmployeePerSale";//每卖出一张销售卡，需给店里员工相应的奖励
     public static final String REFUND_TYPE_AWARD_EMPLOYEE_PER_TRYOUT = "awardEmployeePerTryout";//每卖出一张体验卡，需给店里员工相应的奖励
     public static final String REFUND_TYPE_EARNED_AMOUNT_PER_TRYOUT = "earnedAmountPerTryout";//每卖出一张体验卡，需给悦和回的款
+    public static final String REFUND_TYPE_MANUAL_REFUND_PER_SALE = "manualRefundPerSale";//针对一些回款方式复杂的店，每个销售卡可以手动填写回款数额，避免系统自动计算
     
 
 }

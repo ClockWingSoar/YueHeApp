@@ -49,6 +49,7 @@
 							<td  th:if="${shopRefundRule.adjustAction} == awardEmployeePerSale">销售卡奖励员工</td>
 							<td  th:if="${shopRefundRule.adjustAction} == awardEmployeePerTryout">体验卡奖励员工</td>
 							<td  th:if="${shopRefundRule.adjustAction} == earnedAmountPerTryout">体验卡回款悦和</td>
+							<td  th:if="${shopRefundRule.adjustAction} == manualRefundPerSale">手动填写回款数额</td>
 							<td data-th-text="${shopRefundRule.triggerPoint}">...</td>
 							<td data-th-text="${shopRefundRule.adjustAmount}">...</td>
 							<td data-th-text="${shopRefundRule.adjustDate}">...</td>
