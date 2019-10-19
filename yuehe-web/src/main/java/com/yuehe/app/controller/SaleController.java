@@ -249,8 +249,14 @@ public class SaleController {
 			e.printStackTrace();
 		}
 		long receivedAmount = sale.getReceivedAmount();
-		Float employeePremium = getEmployeePremium(cosmeticShopId, beautifySkinItemPrice, createCardDateObj, sale.getEmployeePremium(), receivedAmount);
+		ShopRefundRuleDTO shopRefundRuleDTO = getShopRefundRules(cosmeticShopId, beautifySkinItemPrice, createCardDateObj);
+		float cosmeticShopDiscount = shopRefundRuleDTO.getCosmeticShopDiscount();
+		Long receivedEarnedAmount = sale.getReceivedEarnedAmount();
+		if(cosmeticShopDiscount > 0f)
+			receivedEarnedAmount = new Float (receivedAmount * cosmeticShopDiscount).longValue();
+		Float employeePremium = getEmployeePremium(sale.getEmployeePremium(), receivedAmount, shopRefundRuleDTO);
 		sale.setEmployeePremium(employeePremium);
+		sale.setReceivedEarnedAmount(receivedEarnedAmount);
 		if (sale != null) {
 			LOGGER.info("updated {}", saleService.create(sale));
 		}
@@ -337,7 +343,11 @@ public class SaleController {
 		String cosmeticShopId = client.getCosmeticShop().getId();
 		BeautifySkinItem beautifySkinItem = yueHeCommonService.getBeautifySkinItemById(beautifySkinItemId);
 		int beautifySkinItemPrice = beautifySkinItem.getPrice();
-		employeePremium = getEmployeePremium(cosmeticShopId, beautifySkinItemPrice, createCardDate, employeePremium, receivedAmount);
+		ShopRefundRuleDTO shopRefundRuleDTO = getShopRefundRules(cosmeticShopId, beautifySkinItemPrice, createCardDate);
+		float cosmeticShopDiscount = shopRefundRuleDTO.getCosmeticShopDiscount();
+		if(cosmeticShopDiscount > 0f)
+			receivedEarnedAmount = new Float (receivedAmount * cosmeticShopDiscount).longValue();
+		employeePremium = getEmployeePremium(employeePremium, receivedAmount, shopRefundRuleDTO);
 		sale.setId(id);
 		sale.setClient(client);
 		sale.setEmployee(yueHeCommonService.getEmployeeById(sellerId));
@@ -359,11 +369,15 @@ public class SaleController {
 		attr.addFlashAttribute("message", "销售卡-" + id + " 创建成功");
 		return "redirect:/sale/edit/"+id;
 	}
-	private Float getEmployeePremium(String cosmeticShopId, int beautifySkinItemPrice,
-												Date createCardDate, float origEmployeePremium, long receivedAmount){
-		ShopRefundRuleDTO shopRefundRuleDTO = saleService.getShopRefundRuleDetail(cosmeticShopId,beautifySkinItemPrice,createCardDate);
+	private Float getEmployeePremium( float origEmployeePremium, long receivedAmount, ShopRefundRuleDTO shopRefundRuleDTO){
 		Float employeePremium = saleService.getEmployeePremium(origEmployeePremium,  receivedAmount,  shopRefundRuleDTO);
 		return employeePremium;
+	}
+	private ShopRefundRuleDTO getShopRefundRules(String cosmeticShopId, int beautifySkinItemPrice,
+												Date createCardDate){
+		ShopRefundRuleDTO shopRefundRuleDTO = saleService.getShopRefundRuleDetail(cosmeticShopId,beautifySkinItemPrice,createCardDate);
+	
+		return shopRefundRuleDTO;
 	}
 	private String getSaleId(){
 		int idNums = saleService.getBiggestIdNumber();

@@ -369,7 +369,8 @@ public class SaleService {
 			
 			if(tryoutEarnedAmount > 0l){//一般来说，体验卡都会收齐费用，所以开卡需汇款和实际需回款相等，也有送体验卡的行为，此时建卡的时候不会用该体验卡，而是用赠送项目，价值为0 
 				earnedAmount = tryoutEarnedAmount.floatValue();
-				currentEarnedAmount = tryoutEarnedAmount.floatValue();
+				if(receivedAmount > 0l)
+					currentEarnedAmount = tryoutEarnedAmount.floatValue();
 			 }
 
 			SaleClientItemSellerDTO saleClientItemSellerDTO = new SaleClientItemSellerDTO();
@@ -446,7 +447,8 @@ public class SaleService {
 			
 			if(tryoutEarnedAmount > 0l){//一般来说，体验卡都会收齐费用，所以开卡需汇款和实际需回款相等，也有送体验卡的行为，此时建卡的时候不会用该体验卡，而是用赠送项目，价值为0 
 				earnedAmount = tryoutEarnedAmount.floatValue();
-				currentEarnedAmount = tryoutEarnedAmount.floatValue();
+				if(receivedAmount > 0l)
+					currentEarnedAmount = tryoutEarnedAmount.floatValue();
 			 }
 
 
@@ -762,7 +764,8 @@ public class SaleService {
 
 		 if(tryoutEarnedAmount > 0l){//一般来说，体验卡都会收齐费用，所以开卡需汇款和实际需回款相等，也有送体验卡的行为，此时建卡的时候不会用该体验卡，而是用赠送项目，价值为0 
 			earnedAmount = tryoutEarnedAmount;
-			currentEarnedAmount = tryoutEarnedAmount;
+			if(receivedAmount > 0l)
+				currentEarnedAmount = tryoutEarnedAmount;
 			debtEarnedAmount = 0l;
 		 }
 
