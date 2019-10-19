@@ -2,11 +2,11 @@
 $(function ($) {
 	$(document).ready(function($) {
 		$( "#adjustDate" ).datepicker();
-		$('form[id="saleCardAmountAdjust_edit_item"]').validate(saleCardAmountAdjustValidator);
-		$('#saleCardAmountAdjust_delete_btn').click(function(){
-			var actionPage = "/saleCardAmountAdjust/delete/"+$('#id').val();
-			$('#saleCardAmountAdjust_edit_item').attr('method', 'get');
-			$('#saleCardAmountAdjust_edit_item').attr('action', actionPage);
+		$('form[id="shopRefundRule_edit_item"]').validate(shopRefundRuleValidator);
+		$('#shopRefundRule_delete_btn').click(function(){
+			var actionPage = "/shopRefundRule/delete/"+$('#id').val();
+			$('#shopRefundRule_edit_item').attr('method', 'get');
+			$('#shopRefundRule_edit_item').attr('action', actionPage);
 		});
 	  });
 	});
