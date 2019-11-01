@@ -16,11 +16,14 @@
  */
 package com.yuehe.app.service;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.stream.Collectors;
 
@@ -36,10 +39,10 @@ import com.yuehe.app.dto.SaleBeautifySkinItemForFilterDTO;
 import com.yuehe.app.dto.SaleDetailDTO;
 import com.yuehe.app.dto.SaleDetailForDBDTO;
 import com.yuehe.app.dto.ShopDetailDTO;
+import com.yuehe.app.dto.ShopRefundRuleDTO;
 import com.yuehe.app.dto.YueHeAllShopsDetailDTO;
 import com.yuehe.app.entity.CosmeticShop;
 import com.yuehe.app.entity.Operation;
-import com.yuehe.app.entity.SaleCardAmountAdjust;
 import com.yuehe.app.property.BaseProperty;
 import com.yuehe.app.repository.OperationRepository;
 import com.yuehe.app.specification.SpecificationsBuilder;
@@ -69,6 +72,7 @@ public class OperationService {
 	private final OperationRepository operationRepository;
 	Sort sort = null;
 	boolean sortByJPA = true;
+	SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
 	Comparator<OperationDetailDTO> comparator = null;
 	@Autowired
 	private final SaleService saleService;
@@ -412,29 +416,55 @@ public class OperationService {
 		SaleDetailDTO saleDetailDTO = new SaleDetailDTO();
 		String saleId = saleDetailForDBDTO.getSaleId();
 		float cosmeticShopDiscount = saleDetailForDBDTO.getCosmeticShopDiscount();
+		long createCardAmount = saleDetailForDBDTO.getCreateCardAmount();
 		long receivedAmount = saleDetailForDBDTO.getReceivedAmount();
 		long employeePremium = new Float(saleDetailForDBDTO.getEmployeePremium()).longValue();// 员工奖励
 		long shopPremium = new Float(saleDetailForDBDTO.getShopPremium()).longValue();// 美容院回扣
 		int itemNumber = saleDetailForDBDTO.getItemNumber();
+		String createCardDate = saleDetailForDBDTO.getCreateCardDate();
+		Date createCardDateObj = null;
+		
+		try {
+			createCardDateObj = sdf.parse(createCardDate);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		//获取该销售卡所属客户所属美容院的回款规则
+		long tryoutEarnedAmount = 0l;//体验卡回款有时候不按美容院回扣折扣点计算，比如美之然680回款280
+		ShopRefundRuleDTO shopRefundRuleDTO = saleService.getShopRefundRuleDetail(saleId, createCardDateObj);
+		//如果有折扣更改，则用更改的折扣点，否则继续原有的折扣
+		float cosmeticShopDiscountChangedValue = shopRefundRuleDTO.getCosmeticShopDiscount();
+		if(cosmeticShopDiscountChangedValue > 0f)
+			cosmeticShopDiscount = shopRefundRuleDTO.getCosmeticShopDiscount();
+		tryoutEarnedAmount = shopRefundRuleDTO.getTryoutEarnedAmount();
+		
 		// 应回给公司的回款计算方法为：实收金额 * 店家折扣点 - 给员工的奖励 - 给店家的回扣（柳叶需扣除业绩的1%）
-		long earnedAmount = new Double(receivedAmount * cosmeticShopDiscount).longValue() - employeePremium
+		long earnedAmount = new Double(createCardAmount * cosmeticShopDiscount).longValue() - employeePremium
 				- shopPremium;
 		long receivedEarnedAmount = saleDetailForDBDTO.getReceivedEarnedAmount();//实际回给公司的款
 		int operationNumber = 0;
-		// if(StringUtils.isEmpty(startDate) && StringUtils.isEmpty(endDate)){
+		if(tryoutEarnedAmount > 0l){//一般来说，体验卡都会收齐费用，所以开卡需汇款和实际需回款相等，也有送体验卡的行为，此时建卡的时候不会用该体验卡，而是用赠送项目，价值为0 
+			earnedAmount = tryoutEarnedAmount;
+			if(receivedAmount > 0l)
+				receivedEarnedAmount = tryoutEarnedAmount;
+		 }
+		 //如果某个美容院有手动计算回款的规则，则忽略现有的系统计算回款规则，取用建卡时存入数据库的回款数额
+		boolean isManualFilledRefund = shopRefundRuleDTO.isManualFilledRefund();
+		if(isManualFilledRefund)
+			earnedAmount = receivedEarnedAmount;
+		else
+			receivedEarnedAmount = new Double(receivedAmount*cosmeticShopDiscount).longValue() - employeePremium - shopPremium;//目前收到客户款应回款
 
-		// 	operationNumber =  getOperationNumberBySaleId(saleId);// 操作次数
-		// }else{
-			operationNumber = operationRepository.findOperationNumBySaleIdAndOperationDate(saleId, startDate, endDate);//用于计算一定时间内的消耗
-		// }
+		operationNumber = operationRepository.findOperationNumBySaleIdAndOperationDate(saleId, startDate, endDate);//用于计算一定时间内的消耗
 		float unitPrice = receivedAmount / itemNumber;// 美肤卡单次价格-按目前单张卡已收到的费用计算
 		int restItemNumber = itemNumber - getOperationNumberBySaleId(saleId);// 剩余次数
 		long consumedAmount = new Double(operationNumber * unitPrice).longValue();// 已消耗总数
 		long consumedEarnedAmount = new Double(consumedAmount * cosmeticShopDiscount).longValue();// 已消耗回款
-		long advancedEarnedAmount = earnedAmount - consumedEarnedAmount;// 预付款只计算回款的部分，不包括美容院的
+		long advancedEarnedAmount = receivedEarnedAmount - consumedEarnedAmount;// 预付款只计算回款的部分，不包括美容院的
 
 		saleDetailDTO.setSaleId(saleId);
-		saleDetailDTO.setCreateCardDate(saleDetailForDBDTO.getCreateCardDate());
+		saleDetailDTO.setCreateCardDate(createCardDate);
 		saleDetailDTO.setBeautifySkinItemName(saleDetailForDBDTO.getBeautifySkinItemName());
 		saleDetailDTO.setSellerName(saleDetailForDBDTO.getSellerName());
 		saleDetailDTO.setReceivedAmount(receivedAmount);

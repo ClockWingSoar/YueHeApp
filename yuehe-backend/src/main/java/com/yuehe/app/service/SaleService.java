@@ -364,6 +364,8 @@ public class SaleService {
 			boolean isManualFilledRefund = shopRefundRuleDTO.isManualFilledRefund();
 			if(isManualFilledRefund)
 				earnedAmount = currentEarnedAmount = receivedEarnedAmount.floatValue();
+			// else if(receivedEarnedAmount.floatValue() != receivedAmount*cosmeticShopDiscount)
+			// 	currentEarnedAmount =receivedEarnedAmount.floatValue();
 			else
 				currentEarnedAmount = receivedAmount*cosmeticShopDiscount - employeePremium - shopPremium;//目前收到客户款应回款
 			
@@ -442,6 +444,8 @@ public class SaleService {
 			boolean isManualFilledRefund = shopRefundRuleDTO.isManualFilledRefund();
 			if(isManualFilledRefund)
 				earnedAmount = currentEarnedAmount = receivedEarnedAmount.floatValue();
+			// else if(receivedEarnedAmount.floatValue() != receivedAmount*cosmeticShopDiscount)
+			// 	currentEarnedAmount =receivedEarnedAmount.floatValue();
 			else
 				currentEarnedAmount = receivedAmount*cosmeticShopDiscount - employeePremium - shopPremium;//目前收到客户款应回款
 			
@@ -749,8 +753,11 @@ public class SaleService {
 		 
 		//如果某个美容院有手动计算回款的规则，则忽略现有的系统计算回款规则，取用建卡时存入数据库的回款数额
 		boolean isManualFilledRefund = shopRefundRuleDTO.isManualFilledRefund();
+		Long currentEarnedAmountFromDB = salePerformanceDetailForDBDTO.getCurrentEarnedAmount();
 		if(isManualFilledRefund)
-			earnedAmount = currentEarnedAmount = salePerformanceDetailForDBDTO.getCurrentEarnedAmount();
+			earnedAmount = currentEarnedAmount = currentEarnedAmountFromDB;
+		// else if(currentEarnedAmountFromDB != receivedAmount*cosmeticShopDiscount)
+		// 	currentEarnedAmount =currentEarnedAmountFromDB;
 		else
 			currentEarnedAmount = new Double(receivedAmount*cosmeticShopDiscount).longValue() - employeePremium - shopPremium;//目前收到客户款应回款
 
@@ -786,7 +793,7 @@ public class SaleService {
 		 return salePerformanceDetail;
 	 }
 
-	 private ShopRefundRuleDTO getShopRefundRuleDetail(String saleId,  Date createCardDateObj){
+	 public ShopRefundRuleDTO getShopRefundRuleDetail(String saleId,  Date createCardDateObj){
 	
 		//获取该销售卡所属客户所属美容院的回款规则
 		Sale sale = getById(saleId);

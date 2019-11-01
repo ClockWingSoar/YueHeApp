@@ -24,6 +24,7 @@ public class SaleDetailForDBDTO{
 	private String createCardDate;//开卡日期
 	private String beautifySkinItemName;//美肤项目
 	private String sellerName;//售卡专家
+	private long createCardAmount;//实收金额
 	private long receivedAmount;//实收金额
 	private long receivedEarnedAmount;//实际回款金额
 	private int itemNumber;//开卡次数-疗程总次数
