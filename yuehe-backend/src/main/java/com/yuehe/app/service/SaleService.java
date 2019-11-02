@@ -745,7 +745,7 @@ public class SaleService {
 	
 			// } 
 		
-		Float origEmployeePremium = 0f;//标识区别于开卡时手动输入的员工奖励
+		Float origEmployeePremium = salePerformanceDetailForDBDTO.getEmployeePremium();//标识区别于开卡时手动输入的员工奖励
 		employeePremium = getEmployeePremium(origEmployeePremium,  receivedAmount,  shopRefundRuleDTO).longValue();
 		Long earnedAmount = 0l;
 		if(createCardTotalAmount != 0l)//开卡应回款不适用与补退款的情况
