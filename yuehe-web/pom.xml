@@ -17,7 +17,7 @@
     <parent>
         <artifactId>yuehewebsite</artifactId>
         <groupId>com.yuehe.app</groupId>
-        <version>1.0</version>
+        <version>2.0</version>
     </parent>
 
 	
@@ -28,12 +28,12 @@
 		 <dependency>
              <groupId>com.yuehe.app.backend</groupId>
 			  <artifactId>yuehe-backend</artifactId>
-			  <version>0.0.1-SNAPSHOT</version>
+			  <version>0.0.2-SNAPSHOT</version>
         </dependency>
 		 <dependency>
              <groupId>com.yuehe.app.common</groupId>
 			  <artifactId>yuehe-common</artifactId>
-			  <version>0.0.1-SNAPSHOT</version>
+			  <version>0.0.2-SNAPSHOT</version>
         </dependency>
    
 

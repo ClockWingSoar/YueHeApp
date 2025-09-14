@@ -5,7 +5,7 @@
 
 	<groupId>com.yuehe.app.common</groupId>
 	<artifactId>yuehe-common</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.0.2-SNAPSHOT</version>
 	<packaging>jar</packaging>
 	<name>yuehe-common</name>
 	<description>common utilities for yuehe app project</description>
@@ -13,32 +13,37 @@
     <parent>
         <artifactId>yuehewebsite</artifactId>
         <groupId>com.yuehe.app</groupId>
-        <version>1.0</version>
+        <version>2.0</version>
     </parent>
 	<properties>
 		<java.version>1.8</java.version>
 	</properties>
 
 	<dependencies>
-		<!-- <dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter</artifactId>
-		</dependency>
-
 		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-test</artifactId>
-			<scope>test</scope>
-		</dependency> -->
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<version>1.18.30</version>
+			<scope>provided</scope>
+		</dependency>
 	</dependencies>
 
-	<!-- <build>
-		<plugins>
-			<plugin>
-				<groupId>org.springframework.boot</groupId>
-				<artifactId>spring-boot-maven-plugin</artifactId>
-			</plugin>
-		</plugins>
-	</build> -->
+	<build>
+	<plugins>
+	        <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <configuration>
+        <annotationProcessorPaths>
+        <path>
+        <groupId>org.projectlombok</groupId>
+        <artifactId>lombok</artifactId>
+        <version>1.18.30</version>
+        </path>
+        </annotationProcessorPaths>
+        </configuration>
+        </plugin>
+    </plugins>
+	</build>
 
 </project>

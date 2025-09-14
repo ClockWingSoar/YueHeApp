@@ -38,8 +38,12 @@ public class ServiceUtil {
 			sort = request.getParameter("sort");
 		}
 		String[] sortStr = sort.split(",");
-		paginationAndSortModel.setSortProperty(sortStr[0]);
-		paginationAndSortModel.setSortDirection(Direction.fromString(sortStr[1]));
+		if (sortStr.length > 1) {
+			paginationAndSortModel.setSortProperty(sortStr[0]);
+			paginationAndSortModel.setSortDirection(Direction.fromString(sortStr[1]));
+		} else {
+			LOGGER.error("Invalid sort parameter: {}", sort);
+		}
 	}
 	public static void setBackSortOrderAfterDBQuerying(List<Sort.Order> sortOrders, Model model, String sortProperty,
 	Direction sortDirection) {
