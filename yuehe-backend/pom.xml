@@ -13,6 +13,9 @@
         <groupId>com.yuehe.app</groupId>
         <version>2.0</version>
     </parent>
+    <properties>
+        <java.version>1.8</java.version>
+    </properties>
     <dependencies>
         <dependency>
             <groupId>com.yuehe.app.common</groupId>
