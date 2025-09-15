@@ -1,0 +1,41 @@
+# 后端Dockerfile
+FROM eclipse-temurin:17-jdk-alpine AS base
+
+# 安装Maven
+FROM base AS maven
+RUN apk add --no-cache maven
+WORKDIR /app
+COPY pom.xml ./
+COPY yuehe-common/pom.xml ./yuehe-common/
+COPY yuehe-backend/pom.xml ./yuehe-backend/
+COPY yuehe-web/pom.xml ./yuehe-web/
+COPY yuehe-api/pom.xml ./yuehe-api/
+
+# 下载依赖
+RUN mvn dependency:go-offline -B
+
+# 构建应用
+FROM maven AS builder
+WORKDIR /app
+COPY . .
+RUN mvn clean package -DskipTests
+
+# 运行镜像
+FROM eclipse-temurin:17-jre-alpine AS runner
+WORKDIR /app
+
+# 安装必要的工具
+RUN apk add --no-cache curl
+
+# 复制jar文件
+COPY --from=builder /app/yuehe-backend/target/*.jar app.jar
+
+# 健康检查
+HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
+  CMD curl -f http://localhost:8080/actuator/health || exit 1
+
+EXPOSE 8080
+
+ENV JAVA_OPTS="-Xmx512m -Xms256m"
+
+ENTRYPOINT ["sh", "-c", "java $JAVA_OPTS -jar app.jar"]

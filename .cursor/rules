@@ -9,6 +9,7 @@ YueHeApp is a comprehensive beauty salon management system built with Spring Boo
 - **Core Entities**: Sale (销售), Client (客户), Operation (操作), Employee (员工), CosmeticShop (美容院), BeautifySkinItem (美容项目), Tool (仪器), User (用户), Role (角色)
 - **Architecture**: Multi-module Maven project (yuehe-common, yuehe-backend, yuehe-web)
 - **Technology Stack**: Spring Boot, Spring Data JPA, Spring Security, Thymeleaf, MySQL, Lombok
+- **Development Environment**: Docker containers run in WSL (Windows Subsystem for Linux), not in Windows directly
 
 ## Core Responsibilities
 
@@ -141,6 +142,13 @@ public class BusinessController {
 - Document **API endpoints** with proper descriptions
 - Maintain **README** files for setup and deployment
 - Use **meaningful variable and method names**
+
+### 11. Docker & Environment Configuration
+- **WSL Environment**: All Docker operations run in WSL (Windows Subsystem for Linux)
+- Use **WSL paths** when referencing file locations (e.g., `/mnt/f/Soveran-Projects/YueHeApp`)
+- Docker commands should be executed in WSL terminal, not Windows PowerShell
+- When providing Docker commands, ensure they work in Linux environment
+- Consider **WSL file system performance** when mounting volumes
 
 ## Specific Business Rules for YueHeApp
 
