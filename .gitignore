@@ -1,8 +1,9 @@
 # Compiled class file
 *.class
 
-# Log file
+# Log files (except .gitkeep)
 *.log
+!logs/.gitkeep
 
 # BlueJ files
 *.ctxt

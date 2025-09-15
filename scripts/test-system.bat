@@ -26,5 +26,16 @@ echo   管理员: admin / admin123
 echo   专家: expert / expert123  
 echo   操作员: operator / operator123
 echo.
+echo 日志文件位置：
+echo   后端API日志: logs\backend\api\
+echo   后端Web日志: logs\backend\web\
+echo   前端日志: logs\frontend\nextjs\
+echo   数据库日志: logs\database\
+echo.
+echo 日志工具：
+echo   查看日志: scripts\view-logs.bat
+echo   监控日志: scripts\monitor-logs.bat
+echo   清理日志: scripts\clean-logs.bat
+echo.
 echo 按任意键退出...
 pause > nul

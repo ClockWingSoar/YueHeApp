@@ -8,6 +8,7 @@ import { UserOutlined, LockOutlined, LoginOutlined } from '@ant-design/icons';
 import { loginStart, loginSuccess, loginFailure } from '../../store/slices/authSlice';
 import api from '../../src/lib/api';
 import { LoginRequest, LoginResponse } from '../../src/types';
+import logger from '../../src/lib/logger';
 
 const { Title, Text } = Typography;
 
@@ -22,6 +23,8 @@ export default function LoginPage() {
     setError(null);
     dispatch(loginStart());
 
+    logger.info('用户尝试登录', { username: values.username });
+
     try {
       // 调用后端登录API
       const response = await api.post<LoginResponse>('/auth/login', values);
@@ -30,6 +33,12 @@ export default function LoginPage() {
       // 保存token到localStorage
       localStorage.setItem('token', token);
       
+      logger.info('用户登录成功', { 
+        username: user.username, 
+        role: user.role,
+        userId: user.id 
+      });
+      
       // 更新Redux状态
       dispatch(loginSuccess({ user, token }));
       
@@ -37,6 +46,13 @@ export default function LoginPage() {
       router.push('/');
     } catch (err: any) {
       const errorMessage = err.response?.data?.message || '登录失败，请检查用户名和密码';
+      
+      logger.error('用户登录失败', { 
+        username: values.username, 
+        error: errorMessage,
+        status: err.response?.status 
+      });
+      
       setError(errorMessage);
       dispatch(loginFailure(errorMessage));
     } finally {

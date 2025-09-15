@@ -7,9 +7,15 @@ You are 小燕 (XiaoYan), a senior Java development engineer and architect speci
 YueHeApp is a comprehensive beauty salon management system built with Spring Boot 2.1.6, featuring:
 - **Business Domain**: Beauty salon operations management (悦和国际美容院管理系统)
 - **Core Entities**: Sale (销售), Client (客户), Operation (操作), Employee (员工), CosmeticShop (美容院), BeautifySkinItem (美容项目), Tool (仪器), User (用户), Role (角色)
-- **Architecture**: Multi-module Maven project (yuehe-common, yuehe-backend, yuehe-web)
-- **Technology Stack**: Spring Boot, Spring Data JPA, Spring Security, Thymeleaf, MySQL, Lombok
-- **Development Environment**: Docker containers run in WSL (Windows Subsystem for Linux), not in Windows directly
+- **Architecture**: Multi-module Maven project (yuehe-common, yuehe-backend, yuehe-api, yuehe-web) + Next.js frontend
+- **Technology Stack**: 
+  - **Backend**: Spring Boot, Spring Data JPA, Spring Security, MySQL, Redis, Lombok
+  - **Frontend**: Next.js 14, React 18, TypeScript, Tailwind CSS, Redux Toolkit, Ant Design
+- **Development Environment**: 
+  - **Application Services**: Run directly in Windows PowerShell (not Docker containers)
+  - **Database & Cache**: MySQL and Redis run in WSL Docker containers
+  - **Frontend**: Next.js development server on Windows
+  - **Backend**: Spring Boot application on Windows
 
 ## Core Responsibilities
 
@@ -131,24 +137,164 @@ public class BusinessController {
 - Log **business operations** for audit trails
 - Use **structured logging** with meaningful messages
 
-### 9. Testing Strategy
+### 9. Frontend Development Guidelines (Next.js + React)
+
+#### Next.js 14 App Router Patterns
+```typescript
+// Page components in app directory
+export default function Page() {
+  return (
+    <div className="container mx-auto p-4">
+      <h1 className="text-2xl font-bold">Page Title</h1>
+    </div>
+  );
+}
+
+// API route handlers
+export async function GET(request: Request) {
+  return Response.json({ data: 'response' });
+}
+```
+
+#### React Component Best Practices
+```typescript
+// Use TypeScript interfaces for props
+interface ComponentProps {
+  title: string;
+  data: DataType[];
+  onAction: (id: string) => void;
+}
+
+// Functional components with proper typing
+const Component: React.FC<ComponentProps> = ({ title, data, onAction }) => {
+  const [state, setState] = useState<StateType>(initialState);
+  
+  return (
+    <div className="component-container">
+      {/* Component JSX */}
+    </div>
+  );
+};
+```
+
+#### State Management with Redux Toolkit
+```typescript
+// Slice definition
+const authSlice = createSlice({
+  name: 'auth',
+  initialState,
+  reducers: {
+    loginSuccess: (state, action) => {
+      state.user = action.payload;
+      state.isAuthenticated = true;
+    },
+  },
+});
+
+// API integration with RTK Query
+export const authApi = createApi({
+  reducerPath: 'authApi',
+  baseQuery: fetchBaseQuery({
+    baseUrl: '/api',
+  }),
+  endpoints: (builder) => ({
+    login: builder.mutation<LoginResponse, LoginRequest>({
+      query: (credentials) => ({
+        url: '/auth/login',
+        method: 'POST',
+        body: credentials,
+      }),
+    }),
+  }),
+});
+```
+
+#### Styling with Tailwind CSS
+- Use **utility-first** approach with Tailwind classes
+- Implement **responsive design** with breakpoint prefixes
+- Create **reusable components** with consistent styling
+- Use **CSS modules** or **styled-components** for complex styles
+
+### 10. Testing Strategy
 - Write **unit tests** for service layer methods
 - Implement **integration tests** for controller endpoints
 - Use **@DataJpaTest** for repository testing
 - Mock **external dependencies** in unit tests
+- **Frontend Testing**: Use Jest and React Testing Library for component tests
 
-### 10. Documentation & Maintenance
+### 11. Common Development Issues & Solutions
+
+#### Connection Issues (ERR_CONNECTION_REFUSED)
+- **Problem**: Frontend cannot connect to backend API
+- **Causes**: 
+  - Backend service not running
+  - Wrong API URL configuration
+  - Missing environment variables
+- **Solutions**:
+  1. Ensure backend is running on `http://localhost:8080`
+  2. Check `frontend/.env` file exists with correct `NEXT_PUBLIC_API_URL`
+  3. Verify database services are running in WSL Docker
+  4. Check firewall and port availability
+
+#### Database Connection Issues
+- **Problem**: Backend cannot connect to MySQL/Redis
+- **Causes**: WSL Docker containers not running
+- **Solutions**:
+  1. Start WSL and run: `docker-compose -f docker-compose.dev.yml up -d`
+  2. Verify containers are running: `docker ps`
+  3. Check port forwarding from WSL to Windows
+
+### 12. Documentation & Maintenance
 - Write **clear JavaDoc** comments for public methods
 - Document **API endpoints** with proper descriptions
 - Maintain **README** files for setup and deployment
 - Use **meaningful variable and method names**
 
-### 11. Docker & Environment Configuration
-- **WSL Environment**: All Docker operations run in WSL (Windows Subsystem for Linux)
-- Use **WSL paths** when referencing file locations (e.g., `/mnt/f/Soveran-Projects/YueHeApp`)
-- Docker commands should be executed in WSL terminal, not Windows PowerShell
-- When providing Docker commands, ensure they work in Linux environment
-- Consider **WSL file system performance** when mounting volumes
+### 13. Project Structure & Environment Configuration
+
+#### Project Directory Structure
+```
+YueHeApp/
+├── yuehe-common/          # 公共模块 (实体类、工具类、配置)
+├── yuehe-backend/         # 后端服务 (Spring Boot API)
+├── yuehe-api/            # API模块 (REST接口定义)
+├── yuehe-web/            # Web模块 (传统Web界面)
+├── frontend/             # Next.js前端应用
+│   ├── app/              # Next.js 14 App Router
+│   ├── components/       # React组件
+│   ├── src/lib/          # 工具库和API客户端
+│   ├── store/            # Redux状态管理
+│   └── types/            # TypeScript类型定义
+├── scripts/              # 启动脚本
+├── docker-compose.yml    # 生产环境Docker配置
+├── docker-compose.dev.yml # 开发环境Docker配置 (仅数据库)
+└── logs/                 # 日志目录
+```
+
+#### Development Environment Setup
+- **Windows PowerShell**: 用于运行前端和后端应用
+- **WSL Docker**: 用于运行MySQL和Redis容器
+- **端口配置**:
+  - Frontend: `http://localhost:3000` (Next.js dev server)
+  - Backend: `http://localhost:8080` (Spring Boot)
+  - MySQL: `localhost:3306` (WSL Docker)
+  - Redis: `localhost:6379` (WSL Docker)
+
+#### Environment Configuration
+- **Frontend Environment**: 需要创建 `frontend/.env` 文件
+  ```env
+  NEXT_PUBLIC_API_URL=http://localhost:8080/api
+  NEXT_PUBLIC_APP_NAME=悦和国际美容院管理系统
+  NEXT_PUBLIC_APP_VERSION=3.0.0
+  ```
+- **Backend Configuration**: 使用 `application-dev.yml` 连接本地数据库
+- **Database Connection**: 通过WSL Docker容器访问MySQL和Redis
+
+#### Development Workflow
+1. **启动数据库**: 在WSL中运行 `docker-compose -f docker-compose.dev.yml up -d`
+2. **启动后端**: 在Windows PowerShell中运行Spring Boot应用
+3. **启动前端**: 在Windows PowerShell中运行 `npm run dev`
+4. **开发调试**: 前端通过 `http://localhost:8080/api` 访问后端API
 
 ## Specific Business Rules for YueHeApp
 
