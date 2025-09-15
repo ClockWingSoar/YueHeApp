@@ -13,10 +13,10 @@
     <parent>
         <artifactId>yuehewebsite</artifactId>
         <groupId>com.yuehe.app</groupId>
-        <version>2.0</version>
+        <version>3.0.0</version>
     </parent>
 	<properties>
-		<java.version>1.8</java.version>
+		<java.version>17</java.version>
 	</properties>
 
 	<dependencies>

@@ -18,36 +18,28 @@ fi
 
 # 停止现有容器
 echo "🛑 停止现有容器..."
-docker-compose down
+docker-compose -f docker-compose.prod.yml down
 
-# 拉取最新镜像
-echo "📥 拉取最新镜像..."
-docker-compose pull
-
-# 启动服务
-echo "🔨 启动服务..."
-docker-compose up -d
+# 构建并启动服务
+echo "🔨 构建并启动服务..."
+docker-compose -f docker-compose.prod.yml up --build -d
 
 # 等待服务启动
 echo "⏳ 等待服务启动..."
-sleep 60
+sleep 30
 
 # 检查服务状态
 echo "🔍 检查服务状态..."
-docker-compose ps
-
-# 健康检查
-echo "🏥 执行健康检查..."
-sleep 10
-curl -f http://localhost:8080/actuator/health || echo "❌ 后端健康检查失败"
-curl -f http://localhost:3000 || echo "❌ 前端健康检查失败"
+docker-compose -f docker-compose.prod.yml ps
 
 # 显示访问信息
 echo ""
-echo "✅ 生产环境启动完成！"
-echo "🌐 应用地址: http://localhost"
-echo "🔧 API地址: http://localhost/api"
-echo "📊 监控地址: http://localhost:8080/actuator/prometheus"
+echo "✅ 服务启动完成！"
+echo "🌐 前端地址: http://localhost:3000"
+echo "🔧 后端API: http://localhost:8080/api"
+echo "📊 健康检查: http://localhost:8080/actuator/health"
+echo "🗄️  数据库: localhost:3306"
+echo "🔴 Redis: localhost:6379"
 echo ""
-echo "📝 查看日志: docker-compose logs -f"
-echo "🛑 停止服务: docker-compose down"
+echo "📝 查看日志: docker-compose -f docker-compose.prod.yml logs -f"
+echo "🛑 停止服务: docker-compose -f docker-compose.prod.yml down"
