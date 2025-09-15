@@ -105,6 +105,10 @@ public class SaleService {
     public List<Sale> getAllSale() {
         return saleRepository.findAll();
     }
+    
+    public Page<Sale> getAllSales(Pageable pageable) {
+        return saleRepository.findAll(pageable);
+    }
     public List<SaleBeautifySkinItemForFilterDTO> getSalesByClientId(String clientId) {
     	return saleRepository.findByClientId(clientId);
     }

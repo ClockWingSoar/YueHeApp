@@ -61,6 +61,10 @@ public class ClientService {
     public List<Client> getAllClient() {
         return clientRepository.findAll();
     }
+    
+    public Page<Client> getAllClients(Pageable pageable) {
+        return clientRepository.findAll(pageable);
+    }
     public Client getById(String id) {
 		return clientRepository.findById(id)
 				.orElseThrow(() -> new IllegalArgumentException("Invalid client Id:" + id));
