@@ -80,6 +80,9 @@ echo.
 echo 🌐 服务访问地址：
 echo   前端应用: http://localhost:3010
 echo   后端API:  http://localhost:9091/api
+echo   客户管理: http://localhost:9091/api/clients
+echo   销售管理: http://localhost:9091/api/sales
+echo   员工管理: http://localhost:9091/api/employees
 echo   健康检查: http://localhost:9091/actuator/health
 echo   数据库:   localhost:3316 (root/root123)
 echo   Redis:    localhost:6389

@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2019  Yi Xiang Zhong
+    Copyright (C) 2019 Yi Xiang Zhong
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -14,38 +14,17 @@
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.yuehe.app.entity;
+package com.yuehe.app.repository;
 
-import java.util.Comparator;
+import com.yuehe.app.entity.ClientQuestionare;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
-
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import org.springframework.data.jpa.repository.JpaRepository;
 
 /**
  * @author Soveran Zhong
  */
-@Entity
-@Table(name = "user")
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
-public class User {
-	@Id
-	private String id;
-	private String username;
-	private String password;
-    private String role;
-    /**
-	 * use it to get the biggest id column of table user 
-	 * @param id
-	 */
-	public User(String id){
-		this.id = id;
-	}
-	public static Comparator<User> idComparator = Comparator.comparing(User::getId);
+public interface ClientQuestionareRepository extends JpaRepository<ClientQuestionare, Long> {
+ 
+    ClientQuestionare findByClientId(String clientId);
+
 }

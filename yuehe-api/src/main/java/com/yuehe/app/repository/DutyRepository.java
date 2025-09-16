@@ -18,21 +18,29 @@ package com.yuehe.app.repository;
 
 import java.util.List;
 
-import com.yuehe.app.entity.User;
+import com.yuehe.app.dto.DutyEmployeeRoleDTO;
+import com.yuehe.app.entity.Duty;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
 /**
- * @author yi xiang zhong
+ * @author Soveran Zhong
  */
-public interface UserRepository extends JpaRepository<User, Long> {
+public interface DutyRepository extends JpaRepository<Duty, String> {
+	
+	@Query("SELECT new com.yuehe.app.dto.DutyEmployeeRoleDTO(d.id,e.id,e.name, r.name,d.welfare, d.description) "
+			+ "FROM Duty d INNER JOIN d.employee e  INNER JOIN d.role r WHERE r.name=?1")
+    List<DutyEmployeeRoleDTO> findByRoleName(String name);
+	
+	@Query("SELECT new com.yuehe.app.dto.DutyEmployeeRoleDTO(d.id,e.id,e.name, r.name,d.welfare, d.description) "
+			+ "FROM Duty d INNER JOIN d.employee e  INNER JOIN d.role r")
+    List<DutyEmployeeRoleDTO> fetchDutyData();
 
-    User findByUsername(String username);
      /**
-	 * get all the ids from table user 
-	 * @return a list with all the user ids
+	 * get all the ids from table duty 
+	 * @return a list with all the duty ids
 	 */
-	@Query("select new User(u.id) from User u")
-    List<User> findAllIds();
+	@Query("select new Duty(d.id) from Duty d")
+    List<Duty> findAllIds();
 }

@@ -1,0 +1,66 @@
+package com.yuehe.app.entity;
+
+import java.io.Serializable;
+import java.util.Comparator;
+import java.util.Set;
+
+import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
+
+/**
+ * Tool entity. @author Soveran Zhong
+ */
+@Entity
+@Table(name = "tool")
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@ToString
+@EqualsAndHashCode 
+public class Tool implements Serializable {
+
+	// Fields
+	private static final long serialVersionUID = -6197995435047062728L;
+	@Id
+	private String id;
+	@JsonManagedReference
+	@OneToMany(targetEntity = Operation.class, mappedBy = "tool", orphanRemoval = false, fetch = FetchType.LAZY)
+	private Set<Operation> operations;
+	private String name;
+	private String major;
+	private int price;
+	// @Basic
+	// @Temporal(TemporalType.TIMESTAMP)
+	// @DateTimeFormat(pattern = "yyyy-MM-dd")
+	// private Date buyDate;
+	private String buyDate;
+	private String buyFrom;
+	private int operateExpense;
+	private String description;
+    /**
+	 * use it to get the biggest id column of table tool 
+	 * @param id
+	 */
+	public Tool(String id){
+		this.id = id;
+	}
+	@Override
+	public String toString() {
+		return "Tool [id=" + id + ", name=" + name +", major=" + major
+				+ ", price=" + price + ", buyDate=" + buyDate + ", buyFrom=" + buyFrom + ", operateExpense="
+				+ operateExpense + ", description=" + description + "]";
+				// ", operationNumber="+ Optional.ofNullable(operations).orElse(new HashSet<Operation>()).size() + 
+	}
+	public static Comparator<Tool> idComparator = Comparator.comparing(Tool::getId);
+}

@@ -18,21 +18,18 @@ package com.yuehe.app.repository;
 
 import java.util.List;
 
-import com.yuehe.app.entity.User;
+import com.yuehe.app.entity.SaleCardAmountAdjust;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
 /**
- * @author yi xiang zhong
+ * @author Soveran Zhong
  */
-public interface UserRepository extends JpaRepository<User, Long> {
+public interface SaleCardAmountAdjustRepository extends JpaRepository<SaleCardAmountAdjust, Long> {
+   @Query("select s from SaleCardAmountAdjust s where s.sale.id =?1")
+   List<SaleCardAmountAdjust> findBySaleId(String saleId);
+   @Query("select s from SaleCardAmountAdjust s where s.sale.id =?1 AND s.adjustDate >= ?2 AND s.adjustDate <= ?3")
+   List<SaleCardAmountAdjust> findBySaleIdAndAdjustDate(String saleId, String startDate, String endDate);
 
-    User findByUsername(String username);
-     /**
-	 * get all the ids from table user 
-	 * @return a list with all the user ids
-	 */
-	@Query("select new User(u.id) from User u")
-    List<User> findAllIds();
 }

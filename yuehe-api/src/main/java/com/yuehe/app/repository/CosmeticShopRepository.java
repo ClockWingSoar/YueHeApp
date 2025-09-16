@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2019  Yi Xiang Zhong
+    Copyright (C) 2018  Shazin Sadakath
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -14,38 +14,29 @@
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.yuehe.app.entity;
+package com.yuehe.app.repository;
 
-import java.util.Comparator;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import java.util.List;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import com.yuehe.app.entity.CosmeticShop;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 
 /**
  * @author Soveran Zhong
  */
-@Entity
-@Table(name = "user")
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
-public class User {
-	@Id
-	private String id;
-	private String username;
-	private String password;
-    private String role;
+public interface CosmeticShopRepository extends JpaRepository<CosmeticShop, String> {
+
+    CosmeticShop findByName(String name);
+    @Query("select new CosmeticShop(c.id,c.name) from CosmeticShop c")
+    List<CosmeticShop> findAllForFiltering();
+
     /**
-	 * use it to get the biggest id column of table user 
-	 * @param id
-	 */
-	public User(String id){
-		this.id = id;
-	}
-	public static Comparator<User> idComparator = Comparator.comparing(User::getId);
+    * get all the ids from table cosmeticShop 
+    * @return a list with all the cosmeticShop ids
+    */
+   @Query("select new CosmeticShop(c.id) from CosmeticShop c")
+   List<CosmeticShop> findAllIds();
 }
