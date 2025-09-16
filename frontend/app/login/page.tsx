@@ -28,10 +28,12 @@ export default function LoginPage() {
     try {
       // 调用后端登录API
       const response = await api.post<LoginResponse>('/auth/login', values);
-      const { token, user } = response.data;
+      console.log('登录API响应:', response.data);
+      const { token, user } = response.data.data;
 
       // 保存token到localStorage
       localStorage.setItem('token', token);
+      console.log('Token已保存到localStorage:', token);
       
       logger.info('用户登录成功', { 
         username: user.username, 
@@ -41,9 +43,13 @@ export default function LoginPage() {
       
       // 更新Redux状态
       dispatch(loginSuccess({ user, token }));
+      console.log('Redux状态已更新');
       
       // 跳转到首页
-      router.push('/');
+      console.log('准备跳转到首页...');
+      // 使用window.location.href确保跳转
+      window.location.href = '/';
+      console.log('window.location.href已调用');
     } catch (err: any) {
       const errorMessage = err.response?.data?.message || '登录失败，请检查用户名和密码';
       

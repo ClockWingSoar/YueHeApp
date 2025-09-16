@@ -13,8 +13,13 @@ export interface LoginRequest {
 }
 
 export interface LoginResponse {
-  token: string;
-  user: User;
+  code: number;
+  message: string;
+  data: {
+    token: string;
+    user: User;
+  };
+  timestamp: number;
 }
 
 // 客户相关类型

@@ -20,16 +20,16 @@ const nextConfig = {
     CUSTOM_KEY: process.env.CUSTOM_KEY,
   },
   
-  // 重定向配置
-  async redirects() {
-    return [
-      {
-        source: '/',
-        destination: '/login',
-        permanent: false,
-      },
-    ];
-  },
+  // 重定向配置 - 移除自动重定向到登录页
+  // async redirects() {
+  //   return [
+  //     {
+  //       source: '/',
+  //       destination: '/login',
+  //       permanent: false,
+  //     },
+  //   ];
+  // },
   
   // 自定义头部
   async headers() {

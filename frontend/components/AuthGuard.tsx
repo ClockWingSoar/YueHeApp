@@ -16,6 +16,8 @@ export default function AuthGuard({ children, requiredRoles = [] }: AuthGuardPro
   const router = useRouter();
   const [isChecking, setIsChecking] = useState(true);
 
+  console.log('AuthGuard状态:', { isAuthenticated, user, isLoading, isChecking });
+
   useEffect(() => {
     const checkAuth = async () => {
       // 检查是否有token
@@ -43,6 +45,13 @@ export default function AuthGuard({ children, requiredRoles = [] }: AuthGuardPro
 
     checkAuth();
   }, [user, router]);
+
+  // 添加一个effect来处理登录成功后的状态
+  useEffect(() => {
+    if (isAuthenticated && user && !isChecking) {
+      setIsChecking(false);
+    }
+  }, [isAuthenticated, user, isChecking]);
 
   useEffect(() => {
     if (!isChecking && isAuthenticated && user) {
