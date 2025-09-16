@@ -11,7 +11,7 @@
         <bootstrap.version>4.2.1</bootstrap.version>
         <!-- util -->
         <guava.version>31.1-jre</guava.version>
-        <lombok.version>1.18.30</lombok.version>
+        <lombok.version>1.18.34</lombok.version>
         <mysql.version>8.0.33</mysql.version>
         <redis.version>3.2.0</redis.version>
         <jwt.version>0.12.3</jwt.version>

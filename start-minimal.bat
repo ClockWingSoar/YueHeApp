@@ -1,19 +1,19 @@
 @echo off
-REM YueHeApp 启动脚本 - 简化版本
+REM YueHeApp 最小化启动脚本 - 只启动核心服务
 
 echo.
 echo ========================================
-echo 🚀 YueHeApp 启动脚本
+echo 🚀 YueHeApp 最小化启动
 echo ========================================
 echo.
 
 REM 设置编码为UTF-8
 chcp 65001 >nul 2>&1
 
-echo 📋 启动模式：混合开发模式
+echo 📋 启动模式：最小化模式
 echo   - 基础架构: WSL Docker容器 (MySQL + Redis)
 echo   - 后端服务: Windows本地 (Spring Boot)
-echo   - 前端服务: Windows本地 (Next.js)
+echo   - 前端服务: Windows本地 (Next.js) - 端口3010
 echo.
 
 REM 检查WSL Docker
@@ -75,30 +75,10 @@ echo ⏳ 等待后端服务启动 (约30秒)...
 timeout /t 30 /nobreak >nul
 
 echo.
-echo 🌐 启动Web服务 (Spring Boot)...
-cd yuehe-web
-echo 📝 Web服务将在新窗口中启动...
-start "YueHe Web - Spring Boot" cmd /k "echo 启动YueHe Web服务... && echo 端口: 8081 && echo. && mvn spring-boot:run -Dspring-boot.run.profiles=dev"
-cd ..
-
-echo ⏳ 等待Web服务启动 (约20秒)...
-timeout /t 20 /nobreak >nul
-
-echo.
-echo 🔌 启动API服务 (Spring Boot)...
-cd yuehe-api
-echo 📝 API服务将在新窗口中启动...
-start "YueHe API - Spring Boot" cmd /k "echo 启动YueHe API服务... && echo 端口: 8082 && echo. && mvn spring-boot:run -Dspring-boot.run.profiles=dev"
-cd ..
-
-echo ⏳ 等待API服务启动 (约20秒)...
-timeout /t 20 /nobreak >nul
-
-echo.
-echo 🌐 启动前端服务 (Next.js)...
+echo 🌐 启动前端服务 (Next.js) - 端口3010...
 cd frontend
 echo 📝 前端服务将在新窗口中启动...
-start "YueHe Frontend - Next.js" cmd /k "echo 启动YueHe前端服务... && echo API地址: http://localhost:8090/api && echo 端口: 3010 && echo. && npm run dev"
+start "YueHe Frontend - Next.js" cmd /k "echo 启动YueHe前端服务... && echo API地址: http://localhost:8090/api && echo 端口: 3010 && echo. && npm run dev -- -p 3010"
 cd ..
 
 echo ⏳ 等待前端服务启动 (约20秒)...
@@ -106,14 +86,12 @@ timeout /t 20 /nobreak >nul
 
 echo.
 echo ========================================
-echo ✅ YueHeApp 启动完成！
+echo ✅ YueHeApp 最小化启动完成！
 echo ========================================
 echo.
 echo 🌐 服务访问地址：
 echo   前端应用: http://localhost:3010
-echo   后端服务: http://localhost:8090/api
-echo   Web服务:  http://localhost:8081
-echo   API服务:  http://localhost:8082
+echo   后端API:  http://localhost:8090/api
 echo   健康检查: http://localhost:8090/actuator/health
 echo   数据库:   localhost:3316 (root/root123)
 echo   Redis:    localhost:6389
@@ -121,8 +99,6 @@ echo.
 echo 📝 服务说明：
 echo   - 基础架构 (MySQL/Redis): WSL Docker容器
 echo   - 后端服务: Windows本地 (Spring Boot) - 端口8090
-echo   - Web服务:  Windows本地 (Spring Boot) - 端口8081
-echo   - API服务:  Windows本地 (Spring Boot) - 端口8082
 echo   - 前端服务: Windows本地 (Next.js) - 端口3010
 echo.
 

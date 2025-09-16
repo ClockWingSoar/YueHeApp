@@ -3,6 +3,11 @@ const nextConfig = {
   reactStrictMode: true,
   swcMinify: true,
   
+  // 指定端口
+  server: {
+    port: 3010,
+  },
+  
   // 日志配置
   logging: {
     fetches: {

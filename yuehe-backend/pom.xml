@@ -30,13 +30,13 @@
 <dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
-			<version>1.18.30</version>
+			<version>1.18.34</version>
 			<scope>provided</scope>
 		</dependency>
         <!-- Use MySQL Connector-J -->
         <dependency>
-            <groupId>mysql</groupId>
-            <artifactId>mysql-connector-java</artifactId>
+            <groupId>com.mysql</groupId>
+            <artifactId>mysql-connector-j</artifactId>
             <version>${mysql.version}</version>
         </dependency>
         <!-- Hibernate is managed by Spring Boot -->
@@ -57,7 +57,7 @@
         <path>
         <groupId>org.projectlombok</groupId>
         <artifactId>lombok</artifactId>
-        <version>1.18.30</version>
+        <version>1.18.34</version>
         </path>
         </annotationProcessorPaths>
         </configuration>
