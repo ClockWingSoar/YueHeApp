@@ -54,9 +54,9 @@ wsl docker-compose -f docker-compose.dev.yml ps
 
 echo.
 echo 🔧 启动后端服务 (Spring Boot)...
-cd yuehe-backend
+cd yuehe-api
 echo 📝 后端服务将在新窗口中启动...
-start "YueHe Backend - Spring Boot" cmd /k "echo 启动YueHe后端服务... && echo 数据库: localhost:3316 && echo Redis: localhost:6389 && echo 端口: 8090 && echo. && mvn spring-boot:run -Dspring-boot.run.profiles=dev"
+start "YueHe Backend - Spring Boot" cmd /k "echo 启动YueHe后端服务... && echo 数据库: localhost:3316 && echo Redis: localhost:6389 && echo 端口: 9091 && echo. && mvn spring-boot:run -Dspring-boot.run.profiles=dev"
 cd ..
 
 echo ⏳ 等待后端服务启动 (约30秒)...
@@ -79,8 +79,8 @@ echo ========================================
 echo.
 echo 🌐 服务访问地址：
 echo   前端应用: http://localhost:3010
-echo   后端API:  http://localhost:8090/api
-echo   健康检查: http://localhost:8090/actuator/health
+echo   后端API:  http://localhost:9091/api
+echo   健康检查: http://localhost:9091/actuator/health
 echo   数据库:   localhost:3316 (root/root123)
 echo   Redis:    localhost:6389
 echo.

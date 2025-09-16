@@ -21,7 +21,7 @@
 | Redis | 6389 | WSL Docker容器 |
 | 后端服务 | 8090 | Spring Boot (yuehe-backend) |
 | Web服务 | 8081 | Spring Boot (yuehe-web) |
-| API服务 | 8082 | Spring Boot (yuehe-api) |
+| API服务 | 9091 | Spring Boot (yuehe-api) |
 | 前端服务 | 3010 | Next.js (frontend) |
 | Nginx | 90 | 反向代理 (Docker模式) |
 
@@ -63,7 +63,7 @@ start-docker-only.bat
 
 ### 完整服务
 - **Web服务**: http://localhost:8081
-- **API服务**: http://localhost:8082
+- **API服务**: http://localhost:9091
 
 ### 基础服务
 - **数据库**: localhost:3316
@@ -77,13 +77,13 @@ start-docker-only.bat
 netstat -ano | findstr :3010
 netstat -ano | findstr :8090
 netstat -ano | findstr :8081
-netstat -ano | findstr :8082
+netstat -ano | findstr :9091
 
 # 检查服务响应
 curl http://localhost:3010
 curl http://localhost:8090/actuator/health
 curl http://localhost:8081
-curl http://localhost:8082
+curl http://localhost:9091
 ```
 
 ### 检查Docker容器
@@ -101,7 +101,7 @@ wsl docker-compose -f docker-compose.dev.yml ps
 ### 后端配置
 - ✅ `yuehe-backend/src/main/resources/application-dev.yml` - 端口8090
 - ✅ `yuehe-web/src/main/resources/application.properties` - 端口8081
-- ✅ `yuehe-api/src/main/resources/application.properties` - 端口8082
+- ✅ `yuehe-api/src/main/resources/application.properties` - 端口9091
 
 ### Docker配置
 - ✅ `docker-compose.yml` - 端口映射
@@ -109,7 +109,7 @@ wsl docker-compose -f docker-compose.dev.yml ps
 
 ## ⚠️ 注意事项
 
-1. **端口冲突**: 确保端口3010、8090、8081、8082未被占用
+1. **端口冲突**: 确保端口3010、8090、8081、9091未被占用
 2. **编译问题**: yuehe-web和yuehe-api可能有编译问题
 3. **数据库连接**: 所有服务都连接到localhost:3316
 4. **Redis连接**: 所有服务都连接到localhost:6389

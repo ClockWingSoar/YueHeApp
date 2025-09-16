@@ -70,7 +70,8 @@ class Logger {
     
     try {
       // 发送到后端日志接口
-      fetch('/api/logs', {
+      const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:9091/api';
+      fetch(`${apiUrl}/logs`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
