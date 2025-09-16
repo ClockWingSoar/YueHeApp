@@ -9,7 +9,7 @@ services:
       MYSQL_USER: yuehe
       MYSQL_PASSWORD: yuehe123
     ports:
-      - "3306:3306"
+      - "3316:3306"
     volumes:
       - mysql_data:/var/lib/mysql
       - ./yuehe-prod-20190810.sql:/docker-entrypoint-initdb.d/init.sql
@@ -22,7 +22,7 @@ services:
     image: redis:7-alpine
     container_name: yuehe-redis
     ports:
-      - "6379:6379"
+      - "6389:6379"
     volumes:
       - redis_data:/data
     command: redis-server --appendonly yes
@@ -44,7 +44,7 @@ services:
       SPRING_REDIS_PORT: 6379
       SPRING_REDIS_PASSWORD: ""
     ports:
-      - "8080:8080"
+      - "8090:8080"
     depends_on:
       - mysql
       - redis
@@ -59,9 +59,9 @@ services:
       dockerfile: Dockerfile.frontend
     container_name: yuehe-frontend
     environment:
-      NEXT_PUBLIC_API_URL: http://localhost:8080/api
+      NEXT_PUBLIC_API_URL: http://localhost:8090/api
     ports:
-      - "3000:3000"
+      - "3010:3000"
     depends_on:
       - backend
     networks:
@@ -73,8 +73,8 @@ services:
     image: nginx:alpine
     container_name: yuehe-nginx
     ports:
-      - "80:80"
-      - "443:443"
+      - "90:80"
+      - "453:443"
     volumes:
       - ./nginx.conf:/etc/nginx/nginx.conf
       - ./ssl:/etc/nginx/ssl

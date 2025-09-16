@@ -9,7 +9,7 @@ services:
       MYSQL_USER: yuehe
       MYSQL_PASSWORD: yuehe123
     ports:
-      - "3306:3306"
+      - "3316:3306"
     volumes:
       - mysql_data_dev:/var/lib/mysql
       - ./Dump20200212.sql:/docker-entrypoint-initdb.d/init.sql
@@ -22,7 +22,7 @@ services:
     image: redis:7-alpine
     container_name: yuehe-redis-dev
     ports:
-      - "6379:6379"
+      - "6389:6379"
     volumes:
       - redis_data_dev:/data
     command: redis-server --appendonly yes

@@ -53,3 +53,4 @@ if exist "logs\database\sql.log" (
 
 echo.
 pause
+

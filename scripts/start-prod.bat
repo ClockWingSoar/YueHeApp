@@ -34,15 +34,15 @@ docker-compose ps
 REM 健康检查
 echo 🏥 执行健康检查...
 timeout /t 10 /nobreak >nul
-curl -f http://localhost:8080/actuator/health >nul 2>&1 || echo ❌ 后端健康检查失败
-curl -f http://localhost:3000 >nul 2>&1 || echo ❌ 前端健康检查失败
+curl -f http://localhost:8090/actuator/health >nul 2>&1 || echo ❌ 后端健康检查失败
+curl -f http://localhost:3010 >nul 2>&1 || echo ❌ 前端健康检查失败
 
 REM 显示访问信息
 echo.
 echo ✅ 生产环境启动完成！
-echo 🌐 应用地址: http://localhost
-echo 🔧 API地址: http://localhost/api
-echo 📊 监控地址: http://localhost:8080/actuator/prometheus
+echo 🌐 应用地址: http://localhost:90
+echo 🔧 API地址: http://localhost:90/api
+echo 📊 监控地址: http://localhost:8090/actuator/prometheus
 echo.
 echo 📝 查看日志: docker-compose logs -f
 echo 🛑 停止服务: docker-compose down

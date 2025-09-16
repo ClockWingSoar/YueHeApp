@@ -18,8 +18,8 @@ echo.
 echo 4. 系统启动完成！
 echo.
 echo 访问地址：
-echo   前端: http://localhost:3000
-echo   后端API: http://localhost:8080
+echo   前端: http://localhost:3010
+echo   后端API: http://localhost:8090
 echo.
 echo 测试账户：
 echo   管理员: admin / admin123

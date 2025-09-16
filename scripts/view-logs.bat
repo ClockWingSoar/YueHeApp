@@ -123,3 +123,4 @@ goto menu
 :exit
 echo 退出日志查看工具
 exit
+

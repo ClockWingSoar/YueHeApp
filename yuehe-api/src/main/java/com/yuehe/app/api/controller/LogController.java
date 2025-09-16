@@ -70,3 +70,4 @@ public class LogController {
         return ResponseEntity.ok(BaseResponse.success("Log service is running"));
     }
 }
+

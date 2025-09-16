@@ -30,11 +30,11 @@ docker-compose ps
 REM 显示访问信息
 echo.
 echo ✅ 服务启动完成！
-echo 🌐 前端地址: http://localhost:3000
-echo 🔧 后端API: http://localhost:8080/api
-echo 📊 健康检查: http://localhost:8080/actuator/health
-echo 🗄️  数据库: localhost:3306
-echo 🔴 Redis: localhost:6379
+echo 🌐 前端地址: http://localhost:3010
+echo 🔧 后端API: http://localhost:8090/api
+echo 📊 健康检查: http://localhost:8090/actuator/health
+echo 🗄️  数据库: localhost:3316
+echo 🔴 Redis: localhost:6389
 echo.
 echo 📝 查看日志: docker-compose logs -f
 echo 🛑 停止服务: docker-compose down
